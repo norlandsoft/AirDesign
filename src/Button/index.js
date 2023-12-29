@@ -3,3 +3,5 @@ const Button = props => {
         <div>abc</div>
     );
 }
+
+export default Button;
