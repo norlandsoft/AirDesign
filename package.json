@@ -1,16 +1,20 @@
 {
-  "name": "air-design",
-  "version": "0.0.1",
+  "name": "@norlandsoft/air-design",
+  "version": "1.0.0-beta.1",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npx tsc",
-    "package": "npx babel src --out-dir lib"
+    "build": "npx babel src --out-dir lib"
   },
   "author": "eric.chai",
   "license": "MIT",
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@ant-design/pro-components": "^2.6.43",
+    "@douyinfe/semi-ui": "^2.49.2",
+    "antd": "^5.12.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "rsuite-table": "^5.18.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.4",

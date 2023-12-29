@@ -1,0 +1,67 @@
+.container {
+  height: 35px;
+  overflow: hidden;
+  border-bottom: 1px solid #ddd;
+
+  .toolbar {
+    display: flex;
+    height: 30px;
+    padding-top: 3px;
+    padding-left: 8px;
+    line-height: 30px;
+    overflow-x: hidden;
+    background: white;
+
+    .button {
+      display: flex;
+      height: 29px;
+      padding: 0 8px;
+      font-weight: 450;
+      cursor: pointer;
+      font-size: 0.825rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      user-select: none;
+
+      div {
+        margin: 7px 4px;
+      }
+
+      &:hover {
+        background: #ddd;
+      }
+    }
+
+    .disabled {
+      display: flex;
+      height: 29px;
+      padding: 0 8px;
+      color: #aaa;
+      font-size: 0.825rem;
+      font-weight: 450;
+      cursor: default;
+      white-space: nowrap;
+      user-select: none;
+      div {
+        margin: 7px 4px;
+        svg {
+          stroke: #aaa!important;
+        }
+      }
+    }
+
+    .split {
+      display: flex;
+      height: 30px;
+      font-weight: 300;
+
+      div {
+        margin-top: 7px;
+        svg {
+          stroke: #aaa!important;
+          stroke-width: 1!important;
+        }
+      }
+    }
+  }
+}
