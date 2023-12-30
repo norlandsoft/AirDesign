@@ -1,14 +1,21 @@
-import React, { FC, ButtonHTMLAttributes } from 'react';
+import { FC, MouseEvent } from 'react';
 import './index.less';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
+interface ButtonProps {
+  children: React.ReactNode,
+  type?: string,
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button: FC<ButtonProps> = ({ label, ...restProps }) => {
+const Button: FC<ButtonProps> = ({children, onClick, type = 'default', ...restProps}) => {
   return (
-    <button className="my-button" {...restProps}>
-      {label}
+    <button
+      tabIndex={-1}
+      className={`container ${type}`}
+      onClick={onClick}
+      {...restProps}
+    >
+      {children}
     </button>
   );
 };
