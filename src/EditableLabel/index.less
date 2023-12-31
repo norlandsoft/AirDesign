@@ -1,0 +1,36 @@
+.container {
+  .editor {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+
+    div {
+      cursor: pointer;
+      margin: 0;
+    }
+
+    :global {
+      .air-form {
+        .air-form-item input {
+          border-radius: unset;
+        }
+      }
+    }
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+
+    div {
+      visibility: hidden;
+    }
+  }
+
+  .label:hover {
+    div {
+      visibility: visible;
+      cursor: pointer;
+    }
+  }
+}

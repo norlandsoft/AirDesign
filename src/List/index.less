@@ -1,0 +1,49 @@
+.container {
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .inner {
+
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      // 下边框
+      border-bottom: 1px solid #e8e8e8;
+      padding: 4px 0;
+
+      .left {
+        display: flex;
+        align-items: center;
+        .itemIcon {
+          // 居中
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          height: 36px;
+          width: 36px;
+          line-height: 36px;
+          margin-left: 4px;
+        }
+
+        .itemText {
+          // 禁止换行，超出部分用省略号代替
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin: 0 8px 0 0;
+        }
+      }
+
+      .right {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}

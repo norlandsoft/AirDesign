@@ -1,0 +1,96 @@
+.container {
+  width: 100%;
+
+  .rootButton {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    background: transparent;
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .tree {
+    .node_icon {
+      width: 22px;
+      height: 32px;
+      float: left;
+      // 上下居中
+      display: flex;
+      align-items: center;
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      line-height: 32px;
+      user-select: none;
+      span {
+        width: calc(100% - 32px);
+      }
+
+      Button {
+        border: none;
+        background-color: transparent;
+        width: 0;
+        height: 20px;
+        visibility: hidden;
+        padding: 0!important;
+        span {
+          width: 20px;
+        }
+        svg {
+          font-size: 11px;
+          color: transparent;
+        }
+      }
+
+      Button:hover {
+        svg {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .label:hover {
+      span {
+        width: calc(100% - 42px);
+      }
+      Button {
+        visibility: visible;
+        width: 20px;
+        span {
+          width: 20px;
+        }
+        svg {
+          color: gray;
+        }
+      }
+    }
+
+    :global {
+      .semi-tree-search-wrapper {
+        padding: 8px 12px 8px 40px;
+
+        .semi-tree-input {
+          border: 1px solid #ddd;
+        }
+      }
+      .semi-tree-option-list {
+        padding: 0;
+      }
+      .semi-tree-option-label-text .air-typography {
+        font-family: var(--font-family);
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+:global {
+  .semi-dropdown .semi-dropdown-content {
+    border-radius: 5px;
+  }
+}

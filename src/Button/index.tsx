@@ -11,7 +11,7 @@ const Button: FC<ButtonProps> = ({children, onClick, type = 'default', ...restPr
   return (
     <button
       tabIndex={-1}
-      className={`container ${type}`}
+      className={`air-button air-button-${type}`}
       onClick={onClick}
       {...restProps}
     >
