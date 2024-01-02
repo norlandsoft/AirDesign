@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {ConfigProvider} from 'antd';
 import ModalDialog from './ModalDialog';
 
@@ -38,7 +38,8 @@ const Dialog = props => {
   AirDlgDom.setAttribute('id', domId);
   document.body.appendChild(AirDlgDom);
 
-  ReactDOM.render(DialogContent, AirDlgDom);
+  const root = createRoot(AirDlgDom);
+  root.render(DialogContent);
 }
 
 export default Dialog;
