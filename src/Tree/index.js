@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Typography} from "antd";
 import {Button, Dropdown, Input, Tree} from '@douyinfe/semi-ui';
 import Icon from "../Icon";
-import styles from './index.less';
+import './index.less';
 
 const AirTree = props => {
 
@@ -82,8 +82,8 @@ const AirTree = props => {
 
   const renderLabel = (label, data) => {
     return (
-        <div className={styles.label}>
-          <div className={styles.node_icon}>
+        <div className={'air-tree-label'}>
+          <div style={{paddingRight: '4px'}}>
             {
               data.img ? <Icon name={data.img} size={16}/> :
                   <Icon name={data.type === 'group' ? folderIcon : itemIcon} size={16}/>
@@ -132,12 +132,12 @@ const AirTree = props => {
 
   return (
       <div
-          className={styles.container}
+          className={'air-tree-wrapper'}
           style={{height: height}}
       >
         {
           showFilter ? (
-              <Button className={styles.rootButton} onClick={handleRootButtonClick}>
+              <Button className={'air-tree-root-button'} onClick={handleRootButtonClick}>
                 <Icon name={'add'} size={20}/>
               </Button>
           ) : null
@@ -145,7 +145,7 @@ const AirTree = props => {
         <Tree
             {...props}
             treeData={data}
-            className={styles.tree}
+            className={'air-tree'}
             filterTreeNode={showFilter}
             showFilteredOnly={showFilter}
             renderLabel={renderLabel}

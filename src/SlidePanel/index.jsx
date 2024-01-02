@@ -2,7 +2,7 @@ import React from "react";
 import {Drawer} from 'antd';
 import Button from '../Button';
 import Icon from '../Icon';
-import styles from './index.less';
+import './index.less';
 
 const SlidePanel = props => {
 
@@ -101,17 +101,17 @@ const SlidePanel = props => {
       >
         {
           hasCloseButton || title ? (
-              <div className={styles.header}>
+              <div className={'air-slide-header'}>
                 {
                   title ? (
-                      <div className={styles.title}>
+                      <div className={'air-slide-header-title'}>
                         {title}
                       </div>
                   ) : null
                 }
                 {
                   hasCloseButton ? (
-                      <div className={styles.close} onClick={onClose}>
+                      <div className={'air-slide-header-close'} onClick={onClose}>
                         <Icon name={'close'} size={16}/>
                       </div>
                   ) : null
