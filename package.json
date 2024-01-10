@@ -1,11 +1,14 @@
 {
   "name": "@norlandsoft/air-design",
-  "version": "0.0.8",
+  "version": "0.0.12",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "author": "eric.chai",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
   },
   "license": "MIT",
   "dependencies": {

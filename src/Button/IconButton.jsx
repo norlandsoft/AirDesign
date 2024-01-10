@@ -1,7 +1,7 @@
 import React from "react";
 import {Popover} from '@douyinfe/semi-ui';
 import Icon from "../Icon";
-import './IconButton.less';
+import styles from './IconButton.module.less';
 
 const IconButton = props => {
 
@@ -21,7 +21,7 @@ const IconButton = props => {
   const iconSize = size - (isSmallIcon ? 18 : 14);
 
   const IconButtonContent = (
-      <div className={'air-icon-button'} style={{height: innerSize, width: innerSize, ...style}} onClick={onClick}>
+      <div className={styles.container} style={{height: innerSize, width: innerSize, ...style}} onClick={onClick}>
         <Icon name={name} size={iconSize} style={{padding: isSmallIcon ? '8px' : '6px'}}/>
       </div>
   );
