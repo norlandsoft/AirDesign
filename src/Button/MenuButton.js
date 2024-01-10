@@ -1,7 +1,7 @@
 import React from "react";
 import {Dropdown} from '@douyinfe/semi-ui';
 import Icon from "../Icon";
-import styles from './MenuButton.less';
+import './MenuButton.less';
 
 const MenuButton = props => {
 
@@ -39,7 +39,7 @@ const MenuButton = props => {
             </Dropdown.Menu>
           }
       >
-        <div className={styles.container} tabIndex={-1}
+        <div className={'air-menu-button'} tabIndex={-1}
              style={{width: size, height: size, lineHeight: size, margin: innerMargin}}
              onClick={e => {
                // 阻止事件冒泡
