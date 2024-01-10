@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useRef} from "react";
-import {Pagination} from 'antd';
+import {ConfigProvider, Pagination} from 'antd';
 import {Cell, Column, HeaderCell, Table} from 'rsuite-table';
 import 'rsuite-table/lib/less/index.less';
-import styles from './index.less';
+import './index.less';
 
 const AirTable = props => {
 
@@ -63,10 +63,13 @@ const AirTable = props => {
   }
 
   return (
-      <div className={styles.container} style={{minWidth: minWidth, padding: padding}} ref={contentRef}>
+    <ConfigProvider
+      prefixCls={"air"}
+    >
+      <div className={'air-table'} style={{minWidth: minWidth, padding: padding}} ref={contentRef}>
         {
           headerPanel ? (
-              <div className={styles.tableInfo} style={{
+              <div className={'air-table-info'} style={{
                 height: headerHeight - 1,
                 lineHeight: headerHeight - 1 + 'px',
                 maxHeight: headerHeight - 1,
@@ -99,7 +102,7 @@ const AirTable = props => {
 
         {
           pagination ? (
-              <div className={styles.pagination}>
+              <div className={'air-table-pagination'}>
                 <Pagination
                     showSizeChanger={false}
                     showTotal={(total) => `共 ${total} 条`}
@@ -112,6 +115,7 @@ const AirTable = props => {
           ) : null
         }
       </div>
+    </ConfigProvider>
   );
 }
 

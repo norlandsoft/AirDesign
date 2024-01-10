@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Input, Form} from 'antd';
 import Icon from '../Icon';
-import styles from './index.less';
+import './index.less';
 
 const EditableLabel = props => {
 
@@ -45,10 +45,10 @@ const EditableLabel = props => {
   }
 
   return (
-      <div className={styles.container} style={style}>
+      <div className={'air-editable-label'} style={style}>
         {
           editing ? (
-              <div className={styles.editor}>
+              <div className={'air-editable-label-editor'}>
                 <Form form={labelForm}>
                   <Form.Item
                       name={'label'}
@@ -71,7 +71,7 @@ const EditableLabel = props => {
                 </Form>
               </div>
           ) : (
-              <div className={styles.label}>
+              <div className={'air-editable-label-label'}>
                 {currentText}
                 <div onClick={() => {
                   labelForm.setFieldsValue({label: currentText});

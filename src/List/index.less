@@ -1,13 +1,13 @@
-.container {
+.air-list {
   overflow-x: hidden;
   overflow-y: auto;
 
-  .inner {
+  .air-list-inner {
 
     font-family: var(--font-family);
     font-size: 0.95rem;
 
-    .item {
+    .air-list-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -16,7 +16,7 @@
       border-bottom: 1px solid #e8e8e8;
       padding: 4px 0;
 
-      .left {
+      .air-list-item-left {
         display: flex;
         align-items: center;
         .itemIcon {
@@ -31,7 +31,7 @@
           margin-left: 4px;
         }
 
-        .itemText {
+        .air-list-item-text {
           // 禁止换行，超出部分用省略号代替
           white-space: nowrap;
           overflow: hidden;
@@ -40,7 +40,7 @@
         }
       }
 
-      .right {
+      .air-list-item-right {
         display: flex;
         align-items: center;
       }

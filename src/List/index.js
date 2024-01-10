@@ -3,7 +3,7 @@ import {Empty} from "antd";
 import MenuButton from "../Button/MenuButton";
 import Icon from '../Icon';
 import Help from '../Help';
-import styles from './index.less';
+import './index.less';
 
 const AirList = props => {
 
@@ -43,12 +43,12 @@ const AirList = props => {
   }
 
   return (
-      <div className={styles.container} style={{width: width, height: height}}>
-        <div className={styles.inner}>
+      <div className={'air-list'} style={{width: width, height: height}}>
+        <div className={'air-list-inner'}>
           {
             (data && data.length > 0) ? data.map((item, index) => {
               return (
-                  <div className={styles.item} key={index}
+                  <div className={'air-list-item'} key={index}
                        style={rowSelectable ? {...getRowStyle(item), cursor: 'pointer'} : null}
                        onClick={() => {
                          if (rowSelectable) {
@@ -57,7 +57,7 @@ const AirList = props => {
                          }
                        }}
                   >
-                    <div className={styles.left}>
+                    <div className={'air-list-item-left'}>
                       {
                         leftRender ? leftRender(item) : (
                             <div className={styles.itemIcon}>
@@ -65,7 +65,7 @@ const AirList = props => {
                             </div>
                         )
                       }
-                      <div className={styles.itemText} style={{maxWidth: labelMaxWidth}}>
+                      <div className={'air-list-item-text'} style={{maxWidth: labelMaxWidth}}>
                         {item.name}
                       </div>
                       <div>
@@ -77,7 +77,7 @@ const AirList = props => {
                       </div>
                     </div>
 
-                    <div className={styles.right}>
+                    <div className={'air-list-item-right'}>
                       {
                           tagRender && tagRender(item)
                       }
