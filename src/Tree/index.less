@@ -69,17 +69,19 @@
         }
       }
     }
+  }
 
-    :global {
+  :global {
+    .semi-tree-wrapper {
       .semi-tree-search-wrapper {
         padding: 8px 12px 8px 40px;
-
         .semi-tree-input {
           border: 1px solid #ddd;
         }
       }
       .semi-tree-option-list {
-        padding: 0;
+        padding: 0!important;
+        overflow: unset!important;
       }
       .semi-tree-option-label-text .air-typography {
         font-family: var(--font-family);
