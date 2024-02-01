@@ -80,7 +80,7 @@ const AirTree = props => {
     setKeys(keyArray);
   }
 
-  const renderLabel = (label, data) => {
+  const renderLabel = (_, data) => {
     return (
         <div className={'air-tree-label'}>
           <div style={{paddingRight: '4px'}}>
