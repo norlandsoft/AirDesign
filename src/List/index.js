@@ -60,7 +60,7 @@ const AirList = props => {
                     <div className={'air-list-item-left'}>
                       {
                         leftRender ? leftRender(item) : (
-                            <div className={styles.itemIcon}>
+                            <div className={'air-list-item-icon'}>
                               <Icon name={item.icon ? item.icon : itemIcon} size={16}/>
                             </div>
                         )

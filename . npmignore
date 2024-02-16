@@ -2,9 +2,9 @@
 .vscode
 /.gitignore
 dist/
-src/
+/src/
 
-node_modules/
+/node_modules/
 /package-lock.json
 /tsconfig.json
 /webpack.config.js
