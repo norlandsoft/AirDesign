@@ -1,7 +1,7 @@
 import React from 'react';
 import {Spin} from 'antd';
 import Button from '../Button';
-import Icon from '../Icon';
+import Icon from '../Icons';
 import './ModalDialog.less';
 
 class ModalDialog extends React.Component {
@@ -133,7 +133,7 @@ class ModalDialog extends React.Component {
                 width: width ? width : clientWidth / 3,
                 height: height ? height : 'unset',
                 marginLeft: pageX,
-                marginTop: pageY,
+                marginTop: pageY
               }}>
             <div className={'custom_modal_header'}>
               <div
@@ -141,13 +141,13 @@ class ModalDialog extends React.Component {
                   onMouseDown={this.onMouseDown}
                   onMouseUp={this.onMouseUp}
               >
-                {title ? title : 'AirTaaS'}
+                {title ? title : 'AirMachine'}
               </div>
 
               {
                 closable ? (
                     <div className={'custom_modal_header_close'} onClick={this.doCancel}>
-                      <Icon name="close" size={16} style={{margin:'4px'}}/>
+                      <Icon name="close" size={16}/>
                     </div>
                 ) : null
               }

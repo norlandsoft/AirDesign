@@ -1,21 +1,31 @@
-import { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import './index.less';
 
 interface ButtonProps {
-  children: React.ReactNode,
   type?: string,
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  style?: any;
 }
 
-const Button: FC<ButtonProps> = ({children, onClick, type = 'default', ...restProps}) => {
+const Button: FC<ButtonProps | any> = props => {
+
+  const {
+    children,
+    onClick,
+    type = 'default',
+    style = {},
+    ...restProps
+  } = props;
+
   return (
     <button
       tabIndex={-1}
       className={`air-button air-button-${type}`}
       onClick={onClick}
+      style={style}
       {...restProps}
     >
-      {children}
+      <span>{children}</span>
     </button>
   );
 };

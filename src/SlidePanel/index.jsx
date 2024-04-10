@@ -1,7 +1,7 @@
 import React from "react";
 import {Drawer} from 'antd';
 import Button from '../Button';
-import Icon from '../Icon';
+import Icon from '../Icons';
 import './index.less';
 
 const SlidePanel = props => {
@@ -19,7 +19,7 @@ const SlidePanel = props => {
     open,
     placement = 'right',
     title,
-    bodyPadding = 24,
+    bodyPadding = '24',
     type = 'default', /* small, default, large, huge, custom */
     width = 378
   } = props;

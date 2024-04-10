@@ -1,57 +1,46 @@
 import React from "react";
-import {Dropdown} from '@douyinfe/semi-ui';
-import Icon from "../Icon";
+import {Dropdown} from 'antd';
+import Icon from "../Icons";
 import './MenuButton.less';
 
 const MenuButton = props => {
 
   const {
     size,
-    menu,
-    data,
+    items,
     transClickEvent = false,
     innerMargin = 8,
-    icon = 'table-more'
+    style
   } = props;
 
+  const menu_id = `menu-button-${Math.random()}`;
+
+  const getContainer = () => {
+    return document.getElementById(menu_id);
+  };
+
   return (
-      <Dropdown
-          trigger={'click'}
-          position={'bottomLeft'}
-          stopPropagation={true}
-          clickToHide={true}
-          render={
-            <Dropdown.Menu style={{minWidth: '120px'}}>
-              {
-                menu ? (
-                    menu.map(item => {
-                      if (item) {
-                        if (item.type === 'divider') {
-                          return <Dropdown.Divider key={item.key}/>
-                        } else {
-                          return <Dropdown.Item key={item.key}
-                                                onClick={() => item.onClick ? item.onClick(data) : {}}>{item.label}</Dropdown.Item>
-                        }
-                      }
-                    })
-                ) : null
-              }
-            </Dropdown.Menu>
-          }
+    <Dropdown
+      menu={{items}}
+      trigger={['click']}
+      placement={'bottomRight'}
+      getPopupContainer={getContainer}
+      destroyPopupOnHide={true}
+      autoAdjustOverflow={true}
+    >
+      <div id={menu_id} className={'air-menu-button'} tabIndex={-1}
+           style={{width: size, height: size, lineHeight: size, margin: innerMargin, ...style}}
+           onClick={e => {
+             // 阻止事件冒泡
+             if (!transClickEvent) {
+               e.stopPropagation();
+               e.nativeEvent.stopImmediatePropagation();
+             }
+           }}
       >
-        <div className={'air-menu-button'} tabIndex={-1}
-             style={{width: size, height: size, lineHeight: size, margin: innerMargin}}
-             onClick={e => {
-               // 阻止事件冒泡
-               if (!transClickEvent) {
-                 e.stopPropagation();
-                 e.nativeEvent.stopImmediatePropagation();
-               }
-             }}
-        >
-          <Icon name={icon} size={16}/>
-        </div>
-      </Dropdown>
+        <Icon name={'more'} size={size}/>
+      </div>
+    </Dropdown>
   );
 }
 
