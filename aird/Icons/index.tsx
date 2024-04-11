@@ -1,4 +1,4 @@
-const path = require('path-browserify');
+import path from 'path';
 
 // 扩展 require 类型，以便在 TypeScript 中使用 require.context
 declare global {
