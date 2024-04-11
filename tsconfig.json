@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "declaration": true,
-    "outDir": "./lib"
+    "outDir": "./dist"
   },
-  "include": ["src/**/*", "module.d.ts"]
+  "include": ["dist/**/*", "module.d.ts"]
 }
