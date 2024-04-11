@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Typography} from "antd";
 import {Button, Dropdown, Input, Tree} from '@douyinfe/semi-ui';
-import Icon from "../Icon";
+import Icon from "../Icons";
 import './index.less';
 
 const AirTree = props => {

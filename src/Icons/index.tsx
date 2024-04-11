@@ -1,4 +1,4 @@
-import path from 'path';
+const path = require('path-browserify');
 
 // 扩展 require 类型，以便在 TypeScript 中使用 require.context
 declare global {
@@ -18,7 +18,7 @@ declare global {
 const req = require.context('./svg', false, /\.tsx$/);
 
 // 图标组件对象
-const iconComponents = {};
+const iconComponents = {} as { [key: string]: any };
 
 // 遍历每个文件
 req.keys().forEach(key => {

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Input, Form} from 'antd';
-import Icon from '../Icon';
+import Icon from '../Icons';
 import './index.less';
 
 const EditableLabel = props => {

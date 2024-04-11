@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Empty} from "antd";
 import MenuButton from "../Button/MenuButton";
-import Icon from '../Icon';
+import Icon from '../Icons';
 import Help from '../Help';
 import './index.less';
 
