@@ -11,5 +11,9 @@
     "declaration": true,
     "outDir": "./dist"
   },
-  "include": ["dist/**/*", "module.d.ts"]
+  "include": [
+    "lib/**/*",
+    "dist/**/*",
+    "module.d.ts"
+  ]
 }
