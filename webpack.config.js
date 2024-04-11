@@ -6,8 +6,8 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'lib'),
-    library: 'AirDesign',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'air-design',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
