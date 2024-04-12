@@ -8,14 +8,12 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/pro-components": "^2.7.0",
-    "@douyinfe/semi-ui": "^2.49.2",
     "antd": "^5.12.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-lifecycles-compat": "^3.0.4",
     "react-style-proptype": "^3.2.2",
-    "react-svg": "^16.1.32",
-    "rsuite-table": "^5.18.2"
+    "react-svg": "^16.1.32"
   },
   "devDependencies": {
     "@types/react": "^18.2.74",
