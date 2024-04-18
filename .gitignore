@@ -7,7 +7,6 @@
 .umi
 .umi-production
 dist
-lib
 
 node_modules
 package-lock.json
