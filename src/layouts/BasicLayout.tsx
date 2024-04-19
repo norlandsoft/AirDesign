@@ -3,7 +3,9 @@ import {Button} from 'aird';
 
 const BasicLayout: React.FC = () => {
   return (
-    <Button>测试</Button>
+    <Button type='primary'>
+      测试
+    </Button>
   );
 };
 

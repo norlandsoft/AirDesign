@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 /.gitignore
+/aird/
 /src/
 
 /node_modules/
