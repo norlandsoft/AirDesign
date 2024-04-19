@@ -1,8 +1,26 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@@/*": [
+        "src/.umi/*"
+      ],
+      "aird": [
+        "lib"
+      ],
+      "umi": [
+        "node_modules/umi"
+      ],
+      "umi/typings": [
+        "src/.umi/typings"
+      ]
+    },
     "module": "ES6",
     "allowJs": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
