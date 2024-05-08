@@ -25,6 +25,7 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
+        include: [/\/aird\//],
         exclude: [/\/node_modules\//, /\/src\//],
         use: {
           loader: 'babel-loader',
@@ -36,6 +37,7 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         use: 'ts-loader',
+        include: [/\/aird\//],
         exclude: [/\/node_modules\//, /\/src\//],
       },
       {
@@ -45,6 +47,7 @@ module.exports = {
       {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', 'less-loader'],
+        include: [/\/aird\//],
         exclude: [/\/node_modules\//, /\/src\//],
       },
     ],
@@ -52,5 +55,5 @@ module.exports = {
   externals: {
     react: 'react',
     'react-dom': 'react-dom',
-  },
+  }
 };

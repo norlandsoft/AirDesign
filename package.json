@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "scripts": {
     "start": "PORT=9999 max dev",
-    "build": "webpack --config webpack.config.js"
+    "pack": "webpack --config webpack.config.js"
   },
   "license": "MIT",
   "dependencies": {
