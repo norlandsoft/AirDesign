@@ -1,7 +1,7 @@
 import React from "react";
 import {Drawer} from 'antd';
 import Button from '../Button';
-import Icon from '../Icons';
+import Icons from '../Icons';
 import './index.less';
 
 const SlidePanel = props => {
@@ -112,7 +112,7 @@ const SlidePanel = props => {
                 {
                   hasCloseButton ? (
                       <div className={'air-slide-header-close'} onClick={onClose}>
-                        <Icon name={'close'} size={16}/>
+                        <Icons name={'close'} size={16}/>
                       </div>
                   ) : null
                 }
