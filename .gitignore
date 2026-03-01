@@ -1,0 +1,5 @@
+node_modules/
+dist/
+*.log
+src/Icon/icons-data.ts
+package-lock.json
