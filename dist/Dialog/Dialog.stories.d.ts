@@ -1,0 +1,14 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import ModalDialog from './ModalDialog';
+import './ModalDialog.less';
+declare const meta: Meta<typeof ModalDialog>;
+export default meta;
+type Story = StoryObj<typeof ModalDialog>;
+export declare const Basic: Story;
+export declare const CustomWidth: Story;
+export declare const WithoutFooter: Story;
+export declare const Loading: Story;
+export declare const WithoutMask: Story;
+export declare const CustomText: Story;
+export declare const OnlyConfirm: Story;
+export declare const OnlyClose: Story;

@@ -1,0 +1,11 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import ColorPicker, { CustomColorPickerProps } from './index';
+import './index.less';
+declare const meta: Meta<typeof ColorPicker>;
+export default meta;
+type Story = StoryObj<CustomColorPickerProps>;
+export declare const Basic: Story;
+export declare const HoverTrigger: Story;
+export declare const CustomWidth: Story;
+export declare const WithButton: Story;
+export declare const ColorPalette: Story;

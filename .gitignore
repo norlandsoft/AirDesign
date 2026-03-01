@@ -1,5 +1,5 @@
 node_modules/
-dist/
+# dist/  # 注释掉，Git 依赖方式需要包含构建产物
 *.log
 src/Icon/icons-data.ts
 package-lock.json

@@ -1,0 +1,12 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import './index.less';
+declare const meta: Meta;
+export default meta;
+export declare const Info: StoryObj;
+export declare const Success: StoryObj;
+export declare const Error: StoryObj;
+export declare const Warning: StoryObj;
+export declare const AllTypes: StoryObj;
+export declare const CustomDuration: StoryObj;
+export declare const WithCallback: StoryObj;
+export declare const Destroyable: StoryObj;
