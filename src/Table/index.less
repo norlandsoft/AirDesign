@@ -28,39 +28,39 @@
     .semi-table-body {
       overflow-y: auto !important;
       overflow-x: auto !important;
-      
+
       // Webkit浏览器滚动条样式
       &::-webkit-scrollbar {
         width: 8px !important;
         height: 8px !important;
         -webkit-appearance: none !important;
       }
-      
+
       &::-webkit-scrollbar-track {
         background: transparent !important;
         border-radius: 4px;
       }
-      
+
       &::-webkit-scrollbar-thumb {
         background: #c1c1c1 !important;
         border-radius: 4px;
-        -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.1) !important;
-        
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1) !important;
+
         &:hover {
           background: #a8a8a8 !important;
         }
       }
-      
+
       // 当有滚动内容时显示轨道
       &:hover::-webkit-scrollbar-track {
         background: #f1f1f1 !important;
-        -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.1) !important;
+        -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1) !important;
       }
-      
+
       // Firefox浏览器滚动条样式
       scrollbar-width: thin !important;
       scrollbar-color: #c1c1c1 transparent !important;
-      
+
       &:hover {
         scrollbar-color: #c1c1c1 #f1f1f1 !important;
       }

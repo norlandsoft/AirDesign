@@ -3,3 +3,6 @@ dist/
 *.log
 src/Icon/icons-data.ts
 package-lock.json
+.DS_Store
+*storybook.log
+storybook-static/

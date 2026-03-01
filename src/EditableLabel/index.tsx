@@ -1,7 +1,7 @@
-import React, {useEffect, useState, useRef} from "react";
-import {Input, Space} from 'antd';
-import Icon from '../Icon';
-import './index.less';
+import React, { useEffect, useState, useRef } from 'react'
+import { Input, Space } from 'antd'
+import Icon from '../Icon'
+import './index.less'
 
 /**
  * 可编辑标签组件
@@ -10,94 +10,90 @@ import './index.less';
  */
 interface EditableLabelProps {
   /** 标签文本内容 */
-  text: string;
+  text: string
   /** 保存回调函数，参数为修改后的文本 */
-  onSave?: (value: string) => void;
+  onSave?: (value: string) => void
   /** 自定义样式 */
-  style?: React.CSSProperties;
+  style?: React.CSSProperties
 }
 
-const EditableLabel: React.FC<EditableLabelProps> = props => {
-  const {
-    text,
-    onSave,
-    style
-  } = props;
+const EditableLabel: React.FC<EditableLabelProps> = (props) => {
+  const { text, onSave, style } = props
 
   // 编辑状态
-  const [editing, setEditing] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(false)
   // 当前显示的文本
-  const [currentText, setCurrentText] = useState<string>(text);
+  const [currentText, setCurrentText] = useState<string>(text)
   // 编辑时的输入值
-  const [inputValue, setInputValue] = useState<string>(text);
+  const [inputValue, setInputValue] = useState<string>(text)
   // Input 引用，用于自动聚焦
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<any>(null)
   // 标记是否正在点击操作按钮，用于防止 onBlur 触发
-  const isClickingButton = useRef<boolean>(false);
+  const isClickingButton = useRef<boolean>(false)
 
   // 当外部 text 属性变化时，更新当前文本
   useEffect(() => {
-    setCurrentText(text);
-    setInputValue(text);
+    setCurrentText(text)
+    setInputValue(text)
     // 如果正在编辑，则退出编辑状态
     if (editing) {
-      setEditing(false);
+      setEditing(false)
     }
-  }, [text]);
+  }, [text])
 
   // 进入编辑模式时，自动聚焦到输入框
   useEffect(() => {
     if (editing && inputRef.current) {
       // 使用 setTimeout 确保 DOM 已渲染
       setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.select();
-      }, 0);
+        inputRef.current?.focus()
+        inputRef.current?.select()
+      }, 0)
     }
-  }, [editing]);
+  }, [editing])
 
   /**
    * 处理编辑按钮点击
    * 进入编辑状态，并初始化输入框的值
    */
   const handleEditClick = (): void => {
-    setInputValue(currentText);
-    setEditing(true);
-  };
+    setInputValue(currentText)
+    setEditing(true)
+  }
 
   /**
    * 处理确定按钮点击
    * 保存修改后的文本
    */
   const handleConfirm = (): void => {
-    const trimmedValue = inputValue.trim();
+    const trimmedValue = inputValue.trim()
     // 如果值为空，不保存
     if (!trimmedValue) {
-      return;
+      return
     }
     // 如果值没有变化，直接退出编辑状态
     if (trimmedValue === currentText) {
-      setEditing(false);
-      return;
+      setEditing(false)
+      return
     }
     // 更新当前文本
-    setCurrentText(trimmedValue);
+    setCurrentText(trimmedValue)
     // 调用保存回调
     if (onSave) {
-      onSave(trimmedValue);
+      onSave(trimmedValue)
     }
     // 退出编辑状态
-    setEditing(false);
-  };
+    setEditing(false)
+  }
 
   /**
    * 处理取消按钮点击
    * 恢复原始文本，退出编辑状态
    */
   const handleCancel = (): void => {
-    setInputValue(currentText);
-    setEditing(false);
-  };
+    setInputValue(currentText)
+    setEditing(false)
+  }
 
   /**
    * 处理输入框失焦事件
@@ -106,11 +102,11 @@ const EditableLabel: React.FC<EditableLabelProps> = props => {
   const handleInputBlur = (): void => {
     // 如果正在点击按钮，不处理 blur
     if (isClickingButton.current) {
-      isClickingButton.current = false;
-      return;
+      isClickingButton.current = false
+      return
     }
-    handleCancel();
-  };
+    handleCancel()
+  }
 
   /**
    * 处理输入框回车键
@@ -118,13 +114,13 @@ const EditableLabel: React.FC<EditableLabelProps> = props => {
    */
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') {
-      e.preventDefault();
-      handleConfirm();
+      e.preventDefault()
+      handleConfirm()
     } else if (e.key === 'Escape') {
-      e.preventDefault();
-      handleCancel();
+      e.preventDefault()
+      handleCancel()
     }
-  };
+  }
 
   return (
     <div className={'air-editable-label'} style={style}>
@@ -143,24 +139,24 @@ const EditableLabel: React.FC<EditableLabelProps> = props => {
             <div
               className="air-editable-label-button air-editable-label-button-confirm"
               onMouseDown={(e) => {
-                e.preventDefault();
-                isClickingButton.current = true;
+                e.preventDefault()
+                isClickingButton.current = true
               }}
               onClick={handleConfirm}
               title="确定"
             >
-              <Icon name={'yes'} size={14}/>
+              <Icon name={'yes'} size={14} />
             </div>
             <div
               className="air-editable-label-button air-editable-label-button-cancel"
               onMouseDown={(e) => {
-                e.preventDefault();
-                isClickingButton.current = true;
+                e.preventDefault()
+                isClickingButton.current = true
               }}
               onClick={handleCancel}
               title="取消"
             >
-              <Icon name={'no'} size={12}/>
+              <Icon name={'no'} size={12} />
             </div>
           </Space.Compact>
         </div>
@@ -170,13 +166,13 @@ const EditableLabel: React.FC<EditableLabelProps> = props => {
           <span>{currentText}</span>
           <div onClick={handleEditClick}>
             <div className="air-editable-label-edit-icon">
-              <Icon name={'edit'} size={16}/>
+              <Icon name={'edit'} size={16} />
             </div>
           </div>
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default EditableLabel;
+export default EditableLabel

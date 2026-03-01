@@ -3,19 +3,19 @@
  * icon 支持 string（图标名，用 Icon 渲染）或 ReactNode
  * Created by ChaiMingxu
  */
-import React, { FC, MouseEvent, ReactNode } from 'react';
-import Icon from '../Icon';
-import './index.less';
+import React, { FC, MouseEvent, ReactNode } from 'react'
+import Icon from '../Icon'
+import './index.less'
 
 interface ButtonProps {
-  type?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  style?: React.CSSProperties;
-  disabled?: boolean;
-  icon?: ReactNode | string;
-  loading?: boolean;
-  children?: ReactNode;
-  [key: string]: unknown;
+  type?: string
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void
+  style?: React.CSSProperties
+  disabled?: boolean
+  icon?: ReactNode | string
+  loading?: boolean
+  children?: ReactNode
+  [key: string]: unknown
 }
 
 const Button: FC<ButtonProps> = (props) => {
@@ -28,11 +28,11 @@ const Button: FC<ButtonProps> = (props) => {
     icon = null,
     loading = false,
     ...restProps
-  } = props;
+  } = props
 
-  const isDisabled = disabled || loading;
+  const isDisabled = disabled || loading
   const iconNode =
-    icon == null ? null : typeof icon === 'string' ? <Icon name={icon} size={16} /> : icon;
+    icon == null ? null : typeof icon === 'string' ? <Icon name={icon} size={16} /> : icon
 
   return (
     <button
@@ -48,7 +48,7 @@ const Button: FC<ButtonProps> = (props) => {
         {children}
       </span>
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

@@ -1,25 +1,25 @@
-import React from 'react';
-import {Col, ColorPicker, Divider, Row} from 'antd';
-import {blue, green, presetPalettes, red, yellow} from '@ant-design/colors';
-import type {ColorPickerProps} from 'antd';
+import React from 'react'
+import { Col, ColorPicker, Divider, Row } from 'antd'
+import { blue, green, presetPalettes, red, yellow } from '@ant-design/colors'
+import type { ColorPickerProps } from 'antd'
 
-import './index.less';
+import './index.less'
 
 /**
  * 预设颜色类型
  */
-type Presets = Required<ColorPickerProps>['presets'][number];
+type Presets = Required<ColorPickerProps>['presets'][number]
 
 /**
  * 预设颜色配置接口
  */
 export interface PresetColorConfig {
-  red?: string[];
-  blue?: string[];
-  green?: string[];
-  primary?: string[];
-  yellow?: string[];
-  [key: string]: string[] | undefined;
+  red?: string[]
+  blue?: string[]
+  green?: string[]
+  primary?: string[]
+  yellow?: string[]
+  [key: string]: string[] | undefined
 }
 
 /**
@@ -37,7 +37,7 @@ function genPresets(
     // 只取前 maxColors 个颜色
     colors: colors.slice(0, maxColors),
     key: label,
-  }));
+  }))
 }
 
 /**
@@ -45,30 +45,30 @@ function genPresets(
  */
 export interface CustomColorPickerProps {
   /** 当前颜色值 */
-  value?: string | null;
+  value?: string | null
   /** 颜色变化完成时的回调函数 */
-  onChangeComplete?: (color: any) => void;
+  onChangeComplete?: (color: any) => void
   /** 触发方式，默认为 'click' */
-  trigger?: 'click' | 'hover';
+  trigger?: 'click' | 'hover'
   /** 自定义预设颜色配置 */
-  presetColors?: PresetColorConfig;
+  presetColors?: PresetColorConfig
   /** 弹窗宽度，默认 480px */
-  popupWidth?: number;
+  popupWidth?: number
   /** 触发元素 */
-  children: React.ReactNode;
+  children: React.ReactNode
   /** 其他 ColorPicker 属性 */
-  [key: string]: any;
+  [key: string]: any
 }
 
 /**
  * 自定义颜色选择器组件
- * 
+ *
  * 功能特点：
  * - 支持预设颜色配置
  * - 水平布局：左侧显示预设颜色，右侧显示颜色选择器
  * - 可自定义弹窗宽度
  * - 可自定义触发方式和回调函数
- * 
+ *
  * @example
  * ```tsx
  * <CustomColorPicker
@@ -95,25 +95,25 @@ const AirColorPicker: React.FC<CustomColorPickerProps> = ({
     red,
     blue,
     green,
-    yellow
-  };
+    yellow,
+  }
 
   // 合并用户自定义的预设颜色和默认预设颜色
-  const finalPresetColors = presetColors || defaultPresetColors;
+  const finalPresetColors = presetColors || defaultPresetColors
 
   // 过滤掉 undefined 值，确保类型匹配
   const validPresetColors: Record<string, string[]> = Object.entries(finalPresetColors).reduce(
     (acc, [key, value]) => {
       if (value !== undefined) {
-        acc[key] = value;
+        acc[key] = value
       }
-      return acc;
+      return acc
     },
     {} as Record<string, string[]>
-  );
+  )
 
   // 生成预设颜色数组
-  const presets = genPresets(validPresetColors);
+  const presets = genPresets(validPresetColors)
 
   /**
    * 自定义颜色选择器面板布局
@@ -121,21 +121,26 @@ const AirColorPicker: React.FC<CustomColorPickerProps> = ({
    */
   const customPanelRender: ColorPickerProps['panelRender'] = (
     _,
-    {components: {Picker, Presets}},
+    { components: { Picker, Presets } }
   ) => (
     <Row justify="space-between" wrap={false}>
       <Col flex="auto">
         <Picker />
       </Col>
-      <Divider type="vertical" style={{height: 'auto'}} />
+      <Divider type="vertical" style={{ height: 'auto' }} />
       <Col span={12}>
         <Presets />
-        <div className="air-color-picker-no-colors" onClick={() => {
-          onChangeComplete?.({toHexString: () => '#ffffff'});
-        }}>无背景色</div>
+        <div
+          className="air-color-picker-no-colors"
+          onClick={() => {
+            onChangeComplete?.({ toHexString: () => '#ffffff' })
+          }}
+        >
+          无背景色
+        </div>
       </Col>
     </Row>
-  );
+  )
 
   return (
     <ColorPicker
@@ -143,14 +148,13 @@ const AirColorPicker: React.FC<CustomColorPickerProps> = ({
       value={value || undefined}
       presets={presets}
       panelRender={customPanelRender}
-      styles={{popupOverlayInner: {width: popupWidth}}}
+      styles={{ popupOverlayInner: { width: popupWidth } }}
       onChangeComplete={onChangeComplete}
       {...otherProps}
     >
       {children}
     </ColorPicker>
-  );
-};
+  )
+}
 
-export default AirColorPicker;
-
+export default AirColorPicker
