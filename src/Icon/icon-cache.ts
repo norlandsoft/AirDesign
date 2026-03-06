@@ -8,16 +8,17 @@ const svgCache = new Map<string, string | null>()
 export function getCachedSvg(
   name: string,
   size: number,
+  color: string,
   thickness: number,
-  parser: (name: string, size: number, thickness: number) => string | null
+  parser: (name: string, size: number, color: string, thickness: number) => string | null
 ): string | null {
-  const cacheKey = `${name}:${size}:${thickness}`
+  const cacheKey = `${name}:${size}:${color}:${thickness}`
 
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey)!
   }
 
-  const result = parser(name, size, thickness)
+  const result = parser(name, size, color, thickness)
   svgCache.set(cacheKey, result)
   return result
 }

@@ -16,9 +16,9 @@ interface IconsProps {
 }
 
 /**
- * 纯函数：解析 SVG 字符串，设置尺寸和描边粗细
+ * 纯函数：解析 SVG 字符串，设置尺寸、颜色和描边粗细
  */
-function parseSvg(name: string, size: number, thickness: number): string | null {
+function parseSvg(name: string, size: number, color: string, thickness: number): string | null {
   let raw = iconData[name]
   if (!raw) {
     raw =
@@ -39,14 +39,36 @@ function parseSvg(name: string, size: number, thickness: number): string | null 
 
   svgElement.setAttribute('height', size.toString())
   svgElement.setAttribute('width', size.toString())
+
+  // 处理所有图形元素，设置颜色和描边粗细
   const allElements = svgElement.querySelectorAll(
-    'g, path, circle, rect, line, polyline, polygon'
+    'g, path, circle, rect, line, polyline, polygon, ellipse'
   )
   allElements.forEach((element) => {
+    // 设置描边粗细
     if (element.hasAttribute('stroke-width')) {
       element.setAttribute('stroke-width', thickness.toString())
     }
+    // 替换 stroke 颜色
+    if (element.hasAttribute('stroke')) {
+      element.setAttribute('stroke', color)
+    }
+    // 替换 fill 颜色（如果 fill 不是 none）
+    const fill = element.getAttribute('fill')
+    if (fill && fill !== 'none' && fill !== 'transparent') {
+      element.setAttribute('fill', color)
+    }
   })
+
+  // 处理 svg 根元素上的 fill 和 stroke
+  if (svgElement.hasAttribute('stroke')) {
+    svgElement.setAttribute('stroke', color)
+  }
+  const svgFill = svgElement.getAttribute('fill')
+  if (svgFill && svgFill !== 'none' && svgFill !== 'transparent') {
+    svgElement.setAttribute('fill', color)
+  }
+
   return svgElement.outerHTML
 }
 
@@ -55,8 +77,8 @@ const Icon: React.FC<IconsProps> = (props) => {
 
   const svgContent = useMemo(() => {
     if (!name) return null
-    return getCachedSvg(name, size, thickness, parseSvg)
-  }, [name, size, thickness])
+    return getCachedSvg(name, size, color, thickness, parseSvg)
+  }, [name, size, color, thickness])
 
   if (!name) {
     return <div className={className} style={{ width: size, height: size }} />

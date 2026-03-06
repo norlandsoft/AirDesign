@@ -34,7 +34,6 @@ const iconData = {
     'apm': `<svg viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>   <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>   <g id="SVGRepo_iconCarrier">     <path         d="M22 11.8201C22 9.84228 21.4135 7.90885 20.3147 6.26436C19.2159 4.61987 17.6542 3.33813 15.8269 2.58126C13.9996 1.82438 11.9889 1.62637 10.0491 2.01223C8.10927 2.39808 6.32748 3.35052 4.92896 4.74904C3.53043 6.14757 2.578 7.92935 2.19214 9.86916C1.80629 11.809 2.00436 13.8197 2.76123 15.6469C3.51811 17.4742 4.79985 19.036 6.44434 20.1348C8.08883 21.2336 10.0222 21.8201 12 21.8201"         stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>     <path d="M2 11.8201H22" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>     <path         d="M12 21.8201C10.07 21.8201 8.5 17.3401 8.5 11.8201C8.5 6.30007 10.07 1.82007 12 1.82007C13.93 1.82007 15.5 6.30007 15.5 11.8201"         stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>     <path         d="M18.3691 21.6901C20.3021 21.6901 21.8691 20.1231 21.8691 18.1901C21.8691 16.2571 20.3021 14.6901 18.3691 14.6901C16.4361 14.6901 14.8691 16.2571 14.8691 18.1901C14.8691 20.1231 16.4361 21.6901 18.3691 21.6901Z"         stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>     <path d="M22.9998 22.8202L20.8398 20.6702" stroke="#000000" stroke-width="1.5" stroke-linecap="round"           stroke-linejoin="round"></path>   </g> </svg>`,
     'apps': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">   <g>     <path         d="M14 17.5C14 16.0955 14 15.3933 14.3371 14.8889C14.483 14.6705 14.6705 14.483 14.8889 14.3371C15.3933 14 16.0955 14 17.5 14V14V14C18.9045 14 19.6067 14 20.1111 14.3371C20.3295 14.483 20.517 14.6705 20.6629 14.8889C21 15.3933 21 16.0955 21 17.5V17.5V17.5C21 18.9045 21 19.6067 20.6629 20.1111C20.517 20.3295 20.3295 20.517 20.1111 20.6629C19.6067 21 18.9045 21 17.5 21V21V21C16.0955 21 15.3933 21 14.8889 20.6629C14.6705 20.517 14.483 20.3295 14.3371 20.1111C14 19.6067 14 18.9045 14 17.5V17.5V17.5Z"         stroke="#123F68" stroke-width="2"/>     <path         d="M3 17.5C3 16.0955 3 15.3933 3.33706 14.8889C3.48298 14.6705 3.67048 14.483 3.88886 14.3371C4.39331 14 5.09554 14 6.5 14V14V14C7.90446 14 8.60669 14 9.11114 14.3371C9.32952 14.483 9.51702 14.6705 9.66294 14.8889C10 15.3933 10 16.0955 10 17.5V17.5V17.5C10 18.9045 10 19.6067 9.66294 20.1111C9.51702 20.3295 9.32952 20.517 9.11114 20.6629C8.60669 21 7.90446 21 6.5 21V21V21C5.09554 21 4.39331 21 3.88886 20.6629C3.67048 20.517 3.48298 20.3295 3.33706 20.1111C3 19.6067 3 18.9045 3 17.5V17.5V17.5Z"         stroke="#123F68" stroke-width="2"/>     <path         d="M3 6.5C3 5.09554 3 4.39331 3.33706 3.88886C3.48298 3.67048 3.67048 3.48298 3.88886 3.33706C4.39331 3 5.09554 3 6.5 3V3V3C7.90446 3 8.60669 3 9.11114 3.33706C9.32952 3.48298 9.51702 3.67048 9.66294 3.88886C10 4.39331 10 5.09554 10 6.5V6.5V6.5C10 7.90446 10 8.60669 9.66294 9.11114C9.51702 9.32952 9.32952 9.51702 9.11114 9.66294C8.60669 10 7.90446 10 6.5 10V10V10C5.09554 10 4.39331 10 3.88886 9.66294C3.67048 9.51702 3.48298 9.32952 3.33706 9.11114C3 8.60669 3 7.90446 3 6.5V6.5V6.5Z"         stroke="#123F68" stroke-width="2"/>     <path d="M14 6.5H21" stroke="#123F68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>     <path d="M17.5 3V10" stroke="#123F68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>   </g> </svg>`,
     'arrow_down': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">   <g>     <path d="M6 9L12 15L18 9" stroke="#123F68" stroke-width="1.5" stroke-linecap="round"           stroke-linejoin="round"/>   </g> </svg>`,
-    'attach': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">   <g>     <path         d="M8.10692 17.4174L15.4868 10.3512C15.9348 9.92215 16.1589 9.70764 16.2759 9.47485C16.4856 9.0579 16.4856 8.5722 16.2759 8.15525C16.1589 7.92246 15.9348 7.70794 15.4868 7.27892C15.0387 6.8499 14.8147 6.63538 14.5715 6.52328C14.1361 6.32249 13.6288 6.32248 13.1934 6.52328C12.9502 6.63538 12.7262 6.8499 12.2781 7.27892L4.95178 14.2939C3.85303 15.3459 3.30366 15.872 3.11183 16.4836C2.96272 16.9591 2.96272 17.466 3.11183 17.9414C3.30366 18.5531 3.85303 19.0791 4.95178 20.1312C6.05053 21.1832 6.5999 21.7092 7.2387 21.8929C7.73526 22.0357 8.26468 22.0357 8.76124 21.8929C9.40004 21.7092 9.94941 21.1832 11.0482 20.1312L18.4815 13.0138C19.5258 12.0138 20.048 11.5138 20.3617 10.9937C21.2128 9.58216 21.2128 7.84311 20.3617 6.43161C20.048 5.91147 19.5258 5.41147 18.4815 4.41148C17.4371 3.4115 16.9149 2.9115 16.3717 2.6112C14.8975 1.79627 13.0813 1.79627 11.6071 2.6112C11.0639 2.9115 10.5417 3.4115 9.49733 4.41148L3.5079 10.1464"         stroke="#123F68" stroke-width="1.5" stroke-linecap="round"/>   </g> </svg>`,
     'attachment': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">   <g>     <path         d="M8.10684 17.4174L15.4867 10.3512C15.9347 9.92215 16.1588 9.70764 16.2759 9.47485C16.4856 9.0579 16.4856 8.5722 16.2759 8.15525C16.1588 7.92246 15.9347 7.70794 15.4867 7.27892M3.50781 10.1464L9.49724 4.41148C10.5416 3.4115 11.0638 2.9115 11.607 2.6112C13.0812 1.79627 14.8974 1.79627 16.3716 2.6112C16.9148 2.9115 17.437 3.4115 18.4814 4.41148"         stroke="#123F68" stroke-width="1.5" stroke-linecap="round"/>     <path d="M18.4815 13.0144L17.9628 12.4727L18.4815 13.0144ZM11.0482 20.1318L10.5295 19.5901L11.0482 20.1318ZM4.95178 14.2945L4.43308 13.7528L4.95178 14.2945ZM12.2781 7.27954L11.7594 6.73783L12.2781 7.27954ZM14.5715 6.5239L14.2575 7.20498L14.2575 7.20499L14.5715 6.5239ZM13.1934 6.5239L12.8793 5.84282L13.1934 6.5239ZM4.95178 20.1318L4.43308 20.6735L4.95178 20.1318ZM3.11183 17.9421L3.82747 17.7176L3.82747 17.7176L3.11183 17.9421ZM3.11183 16.4842L2.3962 16.2598L3.11183 16.4842ZM8.76124 21.8935L8.96849 22.6143H8.96849L8.76124 21.8935ZM7.2387 21.8935L7.44595 21.1727L7.44595 21.1727L7.2387 21.8935ZM19.0002 3.87039C18.701 3.58393 18.2262 3.59423 17.9398 3.89342C17.6533 4.1926 17.6636 4.66736 17.9628 4.95383L19.0002 3.87039ZM20.3617 6.43223L21.0039 6.04496V6.04495L20.3617 6.43223ZM20.3617 10.9943L21.0039 11.3816L20.3617 10.9943ZM17.9628 12.4727L10.5295 19.5901L11.5669 20.6735L19.0002 13.5561L17.9628 12.4727ZM5.47047 14.8362L12.7968 7.82126L11.7594 6.73783L4.43308 13.7528L5.47047 14.8362ZM16.0055 6.73783C15.6012 6.35079 15.2712 6.02064 14.8856 5.84282L14.2575 7.20499C14.3581 7.25138 14.4761 7.35025 14.9681 7.82126L16.0055 6.73783ZM12.7968 7.82126C13.2887 7.35025 13.4068 7.25138 13.5074 7.20498L12.8793 5.84282C12.4937 6.02064 12.1637 6.35079 11.7594 6.73783L12.7968 7.82126ZM14.8856 5.84282C14.2508 5.55014 13.5141 5.55014 12.8793 5.84282L13.5074 7.20498C13.7436 7.09608 14.0213 7.09608 14.2575 7.20498L14.8856 5.84282ZM5.47047 19.5901C4.91163 19.055 4.52727 18.6861 4.2548 18.3764C3.98794 18.0731 3.87862 17.8808 3.82747 17.7176L2.3962 18.1665C2.53687 18.615 2.79815 18.9916 3.12862 19.3672C3.45347 19.7364 3.89317 20.1566 4.43308 20.6735L5.47047 19.5901ZM4.43308 13.7528C3.89317 14.2698 3.45347 14.6899 3.12862 15.0591C2.79815 15.4347 2.53687 15.8113 2.3962 16.2598L3.82747 16.7087C3.87862 16.5456 3.98794 16.3533 4.2548 16.0499C4.52727 15.7402 4.91163 15.3713 5.47047 14.8362L4.43308 13.7528ZM3.82747 17.7176C3.72418 17.3883 3.72418 17.038 3.82747 16.7087L2.3962 16.2598C2.20127 16.8814 2.20127 17.5449 2.3962 18.1665L3.82747 17.7176ZM10.5295 19.5901C9.97082 20.125 9.58528 20.4933 9.26135 20.7545C8.94539 21.0094 8.7384 21.1197 8.55399 21.1727L8.96849 22.6143C9.42288 22.4837 9.80998 22.2392 10.2031 21.9221C10.5882 21.6114 11.0268 21.1907 11.5669 20.6735L10.5295 19.5901ZM4.43308 20.6735C4.97318 21.1907 5.41171 21.6114 5.79685 21.9221C6.18996 22.2392 6.57706 22.4837 7.03145 22.6143L7.44595 21.1727C7.26154 21.1197 7.05455 21.0094 6.73859 20.7545C6.41466 20.4933 6.02912 20.125 5.47047 19.5901L4.43308 20.6735ZM8.55399 21.1727C8.19285 21.2766 7.80709 21.2766 7.44595 21.1727L7.03145 22.6143C7.66343 22.796 8.3365 22.7961 8.96849 22.6143L8.55399 21.1727ZM17.9628 4.95383C19.0429 5.98805 19.4703 6.40647 19.7194 6.81951L21.0039 6.04495C20.6257 5.41771 20.0088 4.83615 19.0002 3.87039L17.9628 4.95383ZM19.0002 13.5561C20.0088 12.5904 20.6257 12.0088 21.0039 11.3816L19.7194 10.607C19.4703 11.0201 19.0429 11.4385 17.9628 12.4727L19.0002 13.5561ZM19.7194 6.81951C20.4269 7.99281 20.4269 9.43372 19.7194 10.607L21.0039 11.3816C21.9987 9.73185 21.9987 7.69467 21.0039 6.04496L19.7194 6.81951Z"           fill="#123F68"/>   </g> </svg>`,
     'auto': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">   <g id="SVGRepo_bgCarrier" stroke-width="0"></g>   <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>   <g id="SVGRepo_iconCarrier">     <path         d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"         stroke="#123F68" stroke-width="1.5"></path>     <path d="M21.5 8H2.5M7 8L10.5 2.5M13.5 8L17 2.5" stroke="#123F68" stroke-width="1.5"           stroke-linecap="round"></path>     <path         d="M15 14.5C15 13.8666 14.338 13.4395 13.014 12.5852C11.6719 11.7193 11.0008 11.2863 10.5004 11.6042C10 11.9221 10 12.7814 10 14.5C10 16.2186 10 17.0779 10.5004 17.3958C11.0008 17.7137 11.6719 17.2807 13.014 16.4148C14.338 15.5605 15 15.1334 15 14.5Z"         stroke="#123F68" stroke-width="1.5" stroke-linecap="round"></path>   </g> </svg>`,
     'back': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">   <g id="SVGRepo_iconCarrier">     <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z" stroke="#123F68"           stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>     <path         d="M9.00002 15.3802H13.92C15.62 15.3802 17 14.0002 17 12.3002C17 10.6002 15.62 9.22021 13.92 9.22021H7.15002"         stroke="#123F68" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"         stroke-linejoin="round"></path>     <path d="M8.57 10.7701L7 9.19012L8.57 7.62012" stroke="#123F68" stroke-width="1.5" stroke-linecap="round"           stroke-linejoin="round"></path>   </g> </svg>`,
@@ -253,12 +252,12 @@ const iconData = {
  * Created by ChaiMingxu
  */
 const svgCache = new Map();
-function getCachedSvg(name, size, thickness, parser) {
-    const cacheKey = `${name}:${size}:${thickness}`;
+function getCachedSvg(name, size, color, thickness, parser) {
+    const cacheKey = `${name}:${size}:${color}:${thickness}`;
     if (svgCache.has(cacheKey)) {
         return svgCache.get(cacheKey);
     }
-    const result = parser(name, size, thickness);
+    const result = parser(name, size, color, thickness);
     svgCache.set(cacheKey, result);
     return result;
 }
@@ -267,9 +266,9 @@ function clearIconCache() {
 }
 
 /**
- * 纯函数：解析 SVG 字符串，设置尺寸和描边粗细
+ * 纯函数：解析 SVG 字符串，设置尺寸、颜色和描边粗细
  */
-function parseSvg(name, size, thickness) {
+function parseSvg(name, size, color, thickness) {
     let raw = iconData[name];
     if (!raw) {
         raw =
@@ -288,12 +287,31 @@ function parseSvg(name, size, thickness) {
     }
     svgElement.setAttribute('height', size.toString());
     svgElement.setAttribute('width', size.toString());
-    const allElements = svgElement.querySelectorAll('g, path, circle, rect, line, polyline, polygon');
+    // 处理所有图形元素，设置颜色和描边粗细
+    const allElements = svgElement.querySelectorAll('g, path, circle, rect, line, polyline, polygon, ellipse');
     allElements.forEach((element) => {
+        // 设置描边粗细
         if (element.hasAttribute('stroke-width')) {
             element.setAttribute('stroke-width', thickness.toString());
         }
+        // 替换 stroke 颜色
+        if (element.hasAttribute('stroke')) {
+            element.setAttribute('stroke', color);
+        }
+        // 替换 fill 颜色（如果 fill 不是 none）
+        const fill = element.getAttribute('fill');
+        if (fill && fill !== 'none' && fill !== 'transparent') {
+            element.setAttribute('fill', color);
+        }
     });
+    // 处理 svg 根元素上的 fill 和 stroke
+    if (svgElement.hasAttribute('stroke')) {
+        svgElement.setAttribute('stroke', color);
+    }
+    const svgFill = svgElement.getAttribute('fill');
+    if (svgFill && svgFill !== 'none' && svgFill !== 'transparent') {
+        svgElement.setAttribute('fill', color);
+    }
     return svgElement.outerHTML;
 }
 const Icon$1 = (props) => {
@@ -301,8 +319,8 @@ const Icon$1 = (props) => {
     const svgContent = useMemo(() => {
         if (!name)
             return null;
-        return getCachedSvg(name, size, thickness, parseSvg);
-    }, [name, size, thickness]);
+        return getCachedSvg(name, size, color, thickness, parseSvg);
+    }, [name, size, color, thickness]);
     if (!name) {
         return jsx("div", { className: className, style: { width: size, height: size } });
     }
@@ -321,7 +339,9 @@ const Icon$1 = (props) => {
 const Button = (props) => {
     const { children, onClick, type = 'default', style = {}, disabled = false, icon = null, loading = false, ...restProps } = props;
     const isDisabled = disabled || loading;
-    const iconNode = icon == null ? null : typeof icon === 'string' ? jsx(Icon$1, { name: icon, size: 16 }) : icon;
+    // primary 和 danger 类型使用白色图标
+    const iconColor = type === 'primary' || type === 'danger' ? '#fff' : '#123F68';
+    const iconNode = icon == null ? null : typeof icon === 'string' ? jsx(Icon$1, { name: icon, size: 16, color: iconColor }) : icon;
     return (jsx("button", { tabIndex: -1, className: isDisabled ? 'air-button' : `air-button air-button-${type}`, onClick: onClick, style: style, disabled: isDisabled, ...restProps, children: jsxs("span", { children: [iconNode, children] }) }));
 };
 

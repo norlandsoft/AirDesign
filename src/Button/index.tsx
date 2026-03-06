@@ -31,8 +31,10 @@ const Button: FC<ButtonProps> = (props) => {
   } = props
 
   const isDisabled = disabled || loading
+  // primary 和 danger 类型使用白色图标
+  const iconColor = type === 'primary' || type === 'danger' ? '#fff' : '#123F68'
   const iconNode =
-    icon == null ? null : typeof icon === 'string' ? <Icon name={icon} size={16} /> : icon
+    icon == null ? null : typeof icon === 'string' ? <Icon name={icon} size={16} color={iconColor} /> : icon
 
   return (
     <button
