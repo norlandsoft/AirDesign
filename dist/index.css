@@ -110,6 +110,21 @@ body {
 * {
   box-sizing: border-box;
 }
+.airToggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: inherit;
+}
+.airToggleButton:hover {
+  background-color: #eee !important;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
+}
 .air-icon-button {
   display: flex;
   align-items: center;
@@ -269,74 +284,6 @@ body {
 .air-menu-button .air-dropdown .air-dropdown-menu .air-dropdown-menu-item {
   padding: 8px 16px;
 }
-/* 自定义颜色选择器样式 */
-/* ColorPicker 样式统一管理 */
-.air-color-picker-color-block,
-.air-color-picker-presets-color,
-.air-color-picker-presets-color-bright {
-  width: 18px !important;
-  height: 18px !important;
-}
-.air-color-picker .air-color-picker-inner .air-color-picker-presets-items .air-color-picker-presets-color::before {
-  width: 22px !important;
-  height: 22px !important;
-}
-.air-color-picker .air-color-picker-inner .air-color-picker-presets .air-collapse-item > .air-collapse-header {
-  display: none !important;
-}
-.air-color-picker .air-color-picker-inner .air-color-picker-panel .air-color-picker-select .air-color-picker-palette {
-  min-height: 120px !important;
-}
-.air-color-picker-no-colors {
-  text-align: center;
-  padding: 4px 0;
-  color: #999;
-  cursor: pointer;
-  border: 1px solid #e0e0e0;
-  user-select: none;
-  margin-top: 8px;
-}
-.air-color-picker-no-colors:hover {
-  color: #666;
-  background-color: #f5f5f5;
-}
-.airGroupSplitterContainer {
-  display: flex;
-  align-content: center;
-  width: 100%;
-  background: var(--color-100);
-  margin: 24px 0 12px 0;
-  border-radius: 4px;
-}
-.airGroupSplitterContainer .airGroupSplitterLeftHr {
-  border-left: 4px solid var(--primary-color);
-  border-radius: 4px;
-  margin-right: 12px;
-}
-.airGroupSplitterContainer .airGroupSplitterTitle {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  user-select: none;
-  font-family: var(--font-family);
-  font-size: 0.9rem;
-  font-weight: bold;
-}
-.airToggleButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-  background-color: transparent;
-  color: inherit;
-}
-.airToggleButton:hover {
-  background-color: #eee !important;
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
-}
 /**
  * Message 轻提示样式
  * 用于页面顶部居中的 info / success / error / warning 提示
@@ -403,6 +350,91 @@ body {
     transform: translateY(0) scale(1);
   }
 }
+/* 自定义颜色选择器样式 */
+/* ColorPicker 样式统一管理 */
+.air-color-picker-color-block,
+.air-color-picker-presets-color,
+.air-color-picker-presets-color-bright {
+  width: 18px !important;
+  height: 18px !important;
+}
+.air-color-picker .air-color-picker-inner .air-color-picker-presets-items .air-color-picker-presets-color::before {
+  width: 22px !important;
+  height: 22px !important;
+}
+.air-color-picker .air-color-picker-inner .air-color-picker-presets .air-collapse-item > .air-collapse-header {
+  display: none !important;
+}
+.air-color-picker .air-color-picker-inner .air-color-picker-panel .air-color-picker-select .air-color-picker-palette {
+  min-height: 120px !important;
+}
+.air-color-picker-no-colors {
+  text-align: center;
+  padding: 4px 0;
+  color: #999;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  user-select: none;
+  margin-top: 8px;
+}
+.air-color-picker-no-colors:hover {
+  color: #666;
+  background-color: #f5f5f5;
+}
+.air-editable-label .air-editable-label-editor {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+.air-editable-label .air-editable-label-editor div {
+  cursor: pointer;
+  margin: 0;
+}
+.air-editable-label .air-editable-label-editor :global .ant-form .ant-form-item input {
+  border-radius: unset;
+}
+.air-editable-label .air-editable-label-editor .air-editable-label-compact {
+  width: 100%;
+}
+.air-editable-label .air-editable-label-editor .air-editable-label-compact .air-editable-label-input {
+  flex: 1;
+}
+.air-editable-label .air-editable-label-editor .air-editable-label-compact .air-editable-label-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 38px;
+  cursor: pointer;
+  background-color: #fafafa;
+  border: 1px solid #d9d9d9;
+  border-left: none;
+}
+.air-editable-label .air-editable-label-editor .air-editable-label-compact input {
+  border-radius: 3px 0 0 3px;
+}
+.air-editable-label .air-editable-label-editor .air-editable-label-compact input:focus {
+  border-color: var(--primary-color);
+}
+.air-editable-label .air-editable-label-editor .air-editable-label-compact .air-editable-label-button-cancel {
+  border-radius: 0 6px 6px 0;
+}
+.air-editable-label .air-editable-label-label {
+  display: flex;
+  align-items: center;
+}
+.air-editable-label .air-editable-label-label div {
+  visibility: hidden;
+}
+.air-editable-label .air-editable-label-label .air-editable-label-edit-icon {
+  display: flex;
+  align-items: center;
+  margin: 2px 0 0 4px;
+}
+.air-editable-label .air-editable-label-label:hover div {
+  visibility: visible;
+  cursor: pointer;
+}
 .ant-notification {
   top: 3px !important;
   margin-right: 3px !important;
@@ -426,6 +458,28 @@ body {
   font-size: 0.95rem;
   font-family: var(--font-family);
   padding-right: 16px;
+}
+.airGroupSplitterContainer {
+  display: flex;
+  align-content: center;
+  width: 100%;
+  background: var(--color-100);
+  margin: 24px 0 12px 0;
+  border-radius: 4px;
+}
+.airGroupSplitterContainer .airGroupSplitterLeftHr {
+  border-left: 4px solid var(--primary-color);
+  border-radius: 4px;
+  margin-right: 12px;
+}
+.airGroupSplitterContainer .airGroupSplitterTitle {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  user-select: none;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 .Pane.vertical.Pane1 {
   z-index: 20;
@@ -481,59 +535,29 @@ body {
 .Resizer.disabled:hover {
   border-color: transparent;
 }
-.air-editable-label .air-editable-label-editor {
-  display: flex;
-  align-items: center;
-  justify-items: center;
-}
-.air-editable-label .air-editable-label-editor div {
-  cursor: pointer;
-  margin: 0;
-}
-.air-editable-label .air-editable-label-editor :global .ant-form .ant-form-item input {
-  border-radius: unset;
-}
-.air-editable-label .air-editable-label-editor .air-editable-label-compact {
-  width: 100%;
-}
-.air-editable-label .air-editable-label-editor .air-editable-label-compact .air-editable-label-input {
-  flex: 1;
-}
-.air-editable-label .air-editable-label-editor .air-editable-label-compact .air-editable-label-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 38px;
-  cursor: pointer;
-  background-color: #fafafa;
-  border: 1px solid #d9d9d9;
+.toggle-container {
+  position: absolute;
+  left: 0;
+  width: 10px;
+  height: 30px;
+  z-index: 9999;
+  border: 1px solid #ccc;
   border-left: none;
-}
-.air-editable-label .air-editable-label-editor .air-editable-label-compact input {
-  border-radius: 3px 0 0 3px;
-}
-.air-editable-label .air-editable-label-editor .air-editable-label-compact input:focus {
-  border-color: var(--primary-color);
-}
-.air-editable-label .air-editable-label-editor .air-editable-label-compact .air-editable-label-button-cancel {
-  border-radius: 0 6px 6px 0;
-}
-.air-editable-label .air-editable-label-label {
-  display: flex;
-  align-items: center;
-}
-.air-editable-label .air-editable-label-label div {
-  visibility: hidden;
-}
-.air-editable-label .air-editable-label-label .air-editable-label-edit-icon {
-  display: flex;
-  align-items: center;
-  margin: 2px 0 0 4px;
-}
-.air-editable-label .air-editable-label-label:hover div {
-  visibility: visible;
+  border-radius: 0 3px 3px 0;
+  background: #fff;
   cursor: pointer;
+}
+.toggle-container:hover {
+  background: #ddd;
+}
+.toggle-container .toggle-icon {
+  position: relative;
+  width: 12px;
+  height: 30px;
+}
+.toggle-container .toggle-icon svg {
+  width: 20px;
+  height: 30px;
 }
 .air-slide-header {
   position: absolute;
@@ -683,131 +707,6 @@ body {
 }
 .air-tab-panel .air-tabs-card .air-tabs-nav .air-tabs-tab-active .air-tabs-tab-btn {
   color: var(--primary-color);
-}
-.air-tree-wrapper {
-  position: relative;
-  width: 100%;
-}
-.air-tree-wrapper .air-tree-root-button {
-  position: absolute;
-  top: 12px;
-  height: 36px;
-  background: transparent;
-}
-.air-tree-wrapper .air-tree-root-button:hover {
-  background: transparent;
-}
-.air-tree-wrapper .air-tree .air-tree-node-icon {
-  width: 22px;
-  height: 18px;
-  line-height: 18px;
-  float: left;
-  display: flex;
-  align-items: center;
-}
-.air-tree-wrapper .air-tree .air-tree-label {
-  display: flex;
-  align-items: center;
-  height: 36px;
-  line-height: 36px;
-  user-select: none;
-}
-.air-tree-wrapper .air-tree .air-tree-label span {
-  width: calc(100% - 36px);
-  font-family: var(--font-family);
-  font-size: 0.95rem;
-}
-.air-tree-wrapper .air-tree .air-tree-label Button {
-  border: none;
-  background-color: transparent;
-  width: 0;
-  height: 20px;
-  visibility: hidden;
-  padding: 0 !important;
-}
-.air-tree-wrapper .air-tree .air-tree-label Button span {
-  width: 20px;
-}
-.air-tree-wrapper .air-tree .air-tree-label Button svg {
-  font-size: 11px;
-  color: transparent;
-}
-.air-tree-wrapper .air-tree .air-tree-label Button:hover svg {
-  background-color: transparent;
-}
-.air-tree-wrapper .air-tree .air-tree-label-with-button:hover span {
-  width: calc(100% - 50px);
-}
-.air-tree-wrapper .air-tree .air-tree-label-with-button:hover Button {
-  visibility: visible;
-  width: 20px;
-  background: #e1e2e3;
-}
-.air-tree-wrapper .air-tree .air-tree-label-with-button:hover Button span {
-  width: 20px;
-}
-.air-tree-wrapper .air-tree .air-tree-label-with-button:hover Button svg {
-  color: gray;
-}
-.air-tree-wrapper .air-tree .semi-tree-search-wrapper {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  padding-right: 12px;
-  box-sizing: border-box;
-}
-.air-tree-wrapper .air-tree .semi-tree-search-wrapper .semi-tree-input {
-  border: 1px solid #ddd;
-  height: 38px;
-}
-.air-tree-wrapper .air-tree .semi-tree-option-list {
-  padding: 0;
-  overflow: hidden;
-}
-:global .semi-dropdown .semi-dropdown-content {
-  border-radius: 5px;
-}
-.toggle-container {
-  position: absolute;
-  left: 0;
-  width: 10px;
-  height: 30px;
-  z-index: 9999;
-  border: 1px solid #ccc;
-  border-left: none;
-  border-radius: 0 3px 3px 0;
-  background: #fff;
-  cursor: pointer;
-}
-.toggle-container:hover {
-  background: #ddd;
-}
-.toggle-container .toggle-icon {
-  position: relative;
-  width: 12px;
-  height: 30px;
-}
-.toggle-container .toggle-icon svg {
-  width: 20px;
-  height: 30px;
-}
-.air-loading-panel {
-  position: absolute;
-  z-index: 10000;
-}
-.air-loading-panel .air-loading-panel-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  padding: 36px 72px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  z-index: 10010;
 }
 .air-table-container {
   border: none;
@@ -1004,6 +903,107 @@ body {
 }
 .air-list .air-list-inner .air-list-item:hover .air-list-item-left .air-list-item-text {
   width: calc(100% - 65px);
+}
+.air-loading-panel {
+  position: absolute;
+  z-index: 10000;
+}
+.air-loading-panel .air-loading-panel-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 36px 72px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  z-index: 10010;
+}
+.air-tree-wrapper {
+  position: relative;
+  width: 100%;
+}
+.air-tree-wrapper .air-tree-root-button {
+  position: absolute;
+  top: 12px;
+  height: 36px;
+  background: transparent;
+}
+.air-tree-wrapper .air-tree-root-button:hover {
+  background: transparent;
+}
+.air-tree-wrapper .air-tree .air-tree-node-icon {
+  width: 22px;
+  height: 18px;
+  line-height: 18px;
+  float: left;
+  display: flex;
+  align-items: center;
+}
+.air-tree-wrapper .air-tree .air-tree-label {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  line-height: 36px;
+  user-select: none;
+}
+.air-tree-wrapper .air-tree .air-tree-label span {
+  width: calc(100% - 36px);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+}
+.air-tree-wrapper .air-tree .air-tree-label Button {
+  border: none;
+  background-color: transparent;
+  width: 0;
+  height: 20px;
+  visibility: hidden;
+  padding: 0 !important;
+}
+.air-tree-wrapper .air-tree .air-tree-label Button span {
+  width: 20px;
+}
+.air-tree-wrapper .air-tree .air-tree-label Button svg {
+  font-size: 11px;
+  color: transparent;
+}
+.air-tree-wrapper .air-tree .air-tree-label Button:hover svg {
+  background-color: transparent;
+}
+.air-tree-wrapper .air-tree .air-tree-label-with-button:hover span {
+  width: calc(100% - 50px);
+}
+.air-tree-wrapper .air-tree .air-tree-label-with-button:hover Button {
+  visibility: visible;
+  width: 20px;
+  background: #e1e2e3;
+}
+.air-tree-wrapper .air-tree .air-tree-label-with-button:hover Button span {
+  width: 20px;
+}
+.air-tree-wrapper .air-tree .air-tree-label-with-button:hover Button svg {
+  color: gray;
+}
+.air-tree-wrapper .air-tree .semi-tree-search-wrapper {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+.air-tree-wrapper .air-tree .semi-tree-search-wrapper .semi-tree-input {
+  border: 1px solid #ddd;
+  height: 38px;
+}
+.air-tree-wrapper .air-tree .semi-tree-option-list {
+  padding: 0;
+  overflow: hidden;
+}
+:global .semi-dropdown .semi-dropdown-content {
+  border-radius: 5px;
 }
 .custom_modal_mask {
   position: fixed;
