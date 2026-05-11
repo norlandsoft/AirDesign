@@ -9,7 +9,7 @@ import './UploadModalDialog.less'
 const { Dragger } = Upload
 
 const UploadModalDialog = (props) => {
-  const dialogRef = useRef<any>()
+  const dialogRef = useRef<any>(null)
   const [fileList, setFileList] = useState<RcFile[]>([])
   const [uploading, setUploading] = useState(false)
 
