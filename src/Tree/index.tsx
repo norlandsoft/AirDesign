@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Typography } from 'antd'
-import { Button, Dropdown, Input, Tree } from '@douyinfe/semi-ui'
+import React, { useState } from 'react'
+import { Button, Dropdown, Input, Tree, Typography } from 'antd'
 import Icon from '../Icon'
 import './index.less'
 
@@ -41,7 +40,6 @@ const AirTree: React.FC<TreeProps> = (props) => {
     rootButtonClick,
     menuItemClick,
     onSelect,
-    onChange,
     value,
     defaultValue,
     defaultExpandedKeys = [],
@@ -56,6 +54,8 @@ const AirTree: React.FC<TreeProps> = (props) => {
   } = props
 
   const [internalKeys, setInternalKeys] = useState(defaultExpandedKeys)
+  const [searchValue, setSearchValue] = useState('')
+
   const keys = controlledExpandedKeys !== undefined ? controlledExpandedKeys : internalKeys
   const setKeys = (newKeys: string[]) => {
     if (controlledExpandedKeys === undefined) {
@@ -64,102 +64,112 @@ const AirTree: React.FC<TreeProps> = (props) => {
     onExpandCallback?.(newKeys)
   }
 
-  useEffect(() => {
-    // 查找 .semi-tree-search-wrapper 元素
-    const searchWrapper = document.querySelector('.semi-tree-search-wrapper')
-    if (searchWrapper && searchWrapper instanceof HTMLElement) {
-      // 设置 .semi-tree-search-wrapper 的样式
-      searchWrapper.style.padding = rootButtonClick ? '0 12px 0 40px' : '0 12px'
-    }
-  }, [])
-
-  const randomString = (len: number) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    let r = ''
-    const charactersLength = characters.length
-    for (let i = 0; i < len; i++) {
-      r += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
-
-    return r
-  }
-
   const handleRootButtonClick = () => {
-    if (rootButtonClick) {
-      rootButtonClick()
+    rootButtonClick?.()
+  }
+
+  const handleMenuItemClick = (info: any, nodeData: any) => {
+    menuItemClick?.(info, nodeData)
+  }
+
+  const buildMenuItems = (menu: any[], nodeData: any) => {
+    return menu.map((item) => {
+      if (item.type === 'divider') {
+        return { key: `divider-${item.key}`, type: 'divider' as const }
+      }
+      return {
+        key: item.key,
+        label: item.label,
+        style: { minWidth: '100px' },
+        onClick: () => handleMenuItemClick(item, nodeData),
+      }
+    })
+  }
+
+  const handleSelect = (selectedKeys: React.Key[], info: any) => {
+    const key = selectedKeys[0] as string
+    const node = info.node
+    if (!clickToCollapse) {
+      const found = keys.find((item) => item === key)
+      if (!found && node.children) {
+        setKeys(keys.concat([key]))
+      }
     }
+    onSelect?.(node)
   }
 
-  const handleMenuItemClick = (info, data) => {
-    if (menuItemClick) {
-      menuItemClick(info, data)
+  const handleExpand = (expandedKeys: React.Key[]) => {
+    setKeys(expandedKeys as string[])
+  }
+
+  const getParentKeys = (key: string, tree: any[]): string[] => {
+    const parents: string[] = []
+    const find = (nodes: any[], path: string[]): boolean => {
+      for (const node of nodes) {
+        if (node.key === key) {
+          parents.push(...path)
+          return true
+        }
+        if (node.children && find(node.children, [...path, node.key])) {
+          return true
+        }
+      }
+      return false
     }
+    find(tree, [])
+    return parents
   }
 
-  const renderMenuBar = (data, menu) => {
-    return menu ? (
-      <Dropdown.Menu>
-        {menu.map((item) => {
-          return item.type === 'divider' ? (
-            <Dropdown.Divider key={randomString(12)} />
-          ) : (
-            <Dropdown.Item
-              style={{ minWidth: '100px' }}
-              key={item.key}
-              onClick={(e) => handleMenuItemClick(item, data)}
-            >
-              {item.label}
-            </Dropdown.Item>
-          )
-        })}
-      </Dropdown.Menu>
-    ) : null
-  }
-
-  const itemSelect = (key, _, node) => {
-    !clickToCollapse
-      ? (() => {
-          const f = keys.find((item) => item === key)
-          if (!f && node.children) {
-            // 展开
-            const newKeys = keys.concat([key])
-            setKeys(newKeys)
+  const handleSearch = (val: string) => {
+    setSearchValue(val)
+    if (val) {
+      const matchedKeys: string[] = []
+      const findMatches = (nodes: any[]) => {
+        for (const node of nodes) {
+          if (node.label?.toLowerCase().includes(val.toLowerCase())) {
+            matchedKeys.push(node.key)
           }
-        })()
-      : null
-
-    // 事件响应
-    if (onSelect) {
-      onSelect(node)
-    }
-  }
-
-  const itemExpand = (keyArray: string[]) => {
-    setKeys(keyArray)
-  }
-
-  const renderLabel = (label, data) => {
-    // 自定义点击事件
-    const handleLabelClick = (e) => {
-      e.stopPropagation()
-      // 如果是禁用节点，执行自定义逻辑
-      if (data.disabled) {
-        // 如果为group，则展开
-        if (data.type === 'group') {
-          setKeys(keys.concat([data.key]))
-        } else {
-          // 如果为item，则打开菜单
-          if (data.menu) {
-            setKeys(keys.concat([data.key]))
+          if (node.children) {
+            findMatches(node.children)
           }
         }
       }
+      findMatches(data)
+      const expandKeys = new Set(keys)
+      matchedKeys.forEach((key) => {
+        getParentKeys(key, data).forEach((pk) => expandKeys.add(pk))
+      })
+      setKeys(Array.from(expandKeys))
     }
+  }
 
+  const titleRender = (nodeData: any) => {
+    const data = nodeData
     const hasMenu =
       (data.type === 'group' && (data.menu || groupMenu)) ||
       (data.type === 'item' && (data.menu || itemMenu)) ||
       (data.type !== 'group' && data.type !== 'item' && itemMenu)
+
+    const handleLabelClick = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      if (data.disabled) {
+        if (data.type === 'group') {
+          setKeys(keys.concat([data.key]))
+        } else if (data.menu) {
+          setKeys(keys.concat([data.key]))
+        }
+      }
+    }
+
+    const menuData = data.menu
+      ? buildMenuItems(data.menu, data)
+      : data.type === 'group'
+        ? groupMenu
+          ? buildMenuItems(groupMenu, data)
+          : null
+        : itemMenu
+          ? buildMenuItems(itemMenu, data)
+          : null
 
     return (
       <div
@@ -174,24 +184,11 @@ const AirTree: React.FC<TreeProps> = (props) => {
           )}
         </div>
         <Typography.Text ellipsis={{ tooltip: data.label }}>{data.label}</Typography.Text>
-        {hasMenu ? (
-          <Dropdown
-            trigger={'click'}
-            position={'bottomRight'}
-            zIndex={100}
-            render={
-              data.menu
-                ? renderMenuBar(data, data.menu)
-                : data.type === 'group'
-                  ? renderMenuBar(data, groupMenu)
-                  : renderMenuBar(data, itemMenu)
-            }
-            clickToHide={true}
-            stopPropagation={stopMenuEventPropagation}
-          >
+        {hasMenu && menuData ? (
+          <Dropdown trigger={['click']} placement="bottomRight" menu={{ items: menuData }}>
             <Button
+              type="text"
               onClick={(e) => {
-                // 阻止事件冒泡
                 if (stopMenuEventPropagation) {
                   e.stopPropagation()
                   e.nativeEvent.stopImmediatePropagation()
@@ -206,41 +203,41 @@ const AirTree: React.FC<TreeProps> = (props) => {
     )
   }
 
-  const searchRender = (props) => {
-    return <Input {...props} />
-  }
-
   return (
     <div className={'air-tree-wrapper'} style={{ height: height }}>
       {showFilter && rootButtonClick ? (
-        <Button className={'air-tree-root-button'} onClick={handleRootButtonClick}>
+        <Button className={'air-tree-root-button'} type="text" onClick={handleRootButtonClick}>
           <Icon name={'add'} size={20} thickness={2} />
         </Button>
       ) : null}
+      {showFilter && (
+        <div className={'air-tree-search-wrapper'} style={{ paddingLeft: rootButtonClick ? '40px' : '12px' }}>
+          <Input
+            placeholder="搜索..."
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+            allowClear
+          />
+        </div>
+      )}
       <Tree
-        {...props}
         treeData={data}
         className={'air-tree'}
-        filterTreeNode={showFilter}
-        showFilteredOnly={showFilter}
-        renderLabel={renderLabel}
-        searchRender={searchRender}
-        onSelect={itemSelect}
-        onChange={onChange}
-        onExpand={itemExpand}
+        fieldNames={{ title: 'label', key: 'key', children: 'children' }}
+        titleRender={titleRender}
+        onSelect={handleSelect}
+        onExpand={handleExpand}
         expandedKeys={keys}
         expandAction={clickToCollapse ? 'click' : undefined}
-        disableStrictly={true}
-        emptyContent={' '}
         draggable={draggable}
         onDrop={onDrop}
+        checkable={checkable}
         multiple={checkable}
-        defaultValue={defaultValue}
-        virtualize={{
-          height: showFilter ? height - 60 : height,
-          itemSize: 36,
-        }}
+        defaultSelectedKeys={defaultValue ? (Array.isArray(defaultValue) ? defaultValue : [defaultValue]) : undefined}
+        virtual
+        height={showFilter ? height - 60 : height}
         autoExpandParent={autoExpandParent}
+        selectedKeys={value ? [value] : undefined}
       />
     </div>
   )

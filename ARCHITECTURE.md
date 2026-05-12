@@ -11,7 +11,7 @@
 - **样式**：Less，与现有前端一致，变量与风格（如毛玻璃）可延续。
 - **构建**：Rollup。原因：需同时处理 TS、Less，产出 ESM + CJS 及独立 CSS；Rollup 插件生态支持 Less 输出为单独 CSS 文件，便于使用方按需引入样式。
 - **React**：以 peerDependencies 形式声明，由使用方提供版本，避免重复打包与多实例问题。
-- **外部 UI**：antd、@douyinfe/semi-ui 以 peerDependencies 声明，由使用方提供，本库不打包。CodeEditor 因 Monaco 需 monaco-editor-webpack-plugin 配置，保留在前端。
+- **外部 UI**：antd 以 peerDependencies 声明，由使用方提供，本库不打包。CodeEditor 因 Monaco 需 monaco-editor-webpack-plugin 配置，保留在前端。
 - **字体**：Space Grotesk（界面）、JetBrains Mono（代码）通过 @fontsource 嵌入，构建时复制 woff2 到 dist/fonts，base.less 使用 @font-face 引用，无需 HTTP 请求。
 - **全局样式**：base.less 提供 :root 设计令牌（--primary-color、--color-*、--font-family、--border-radius、--text-*、--font-size-form 等）、html 根字号、body 与 * 基础样式，组件直接使用变量定义样式。
 
@@ -40,7 +40,7 @@
 |------|------|
 | Button | 毛玻璃风格按钮 |
 | IconButton | 图标按钮，支持 Dropdown、Tooltip |
-| MenuButton | 菜单按钮（semi Dropdown） |
+| MenuButton | 菜单按钮（antd Dropdown） |
 | ToggleButton | 切换按钮 |
 | Icon | 按 name 渲染 SVG 图标 |
 | ColorPicker | 颜色选择器（antd） |

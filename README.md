@@ -7,7 +7,7 @@ AirDesign 是 AirMachine 体系下的前端 React 组件库，提供一套常用
 - React 18 + TypeScript
 - Less 样式
 - Rollup 构建（ESM + CJS，Less 输出为独立 CSS）
-- 依赖 antd、@douyinfe/semi-ui（peerDependencies）
+- 依赖 antd（peerDependencies）
 - 内置字体：Space Grotesk（界面）、JetBrains Mono（代码），字体文件内置于 dist/fonts，无需 HTTP 请求
 - 全局设计令牌：base.less 提供 :root 变量（--primary-color、--font-family、--border-radius、--text-* 等），html/body 基础样式
 
@@ -82,7 +82,7 @@ npm run build
 
 ## Peer 依赖
 
-使用方需提供：`react`、`react-dom`、`antd`、`@douyinfe/semi-ui`。
+使用方需提供：`react`、`react-dom`、`antd`。
 
 ## 规范与作者
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Pagination, Table } from '@douyinfe/semi-ui'
+import { Table } from 'antd'
 import './index.less'
 
 const Grid: React.FC<any> = (props) => {
@@ -42,25 +42,21 @@ const Grid: React.FC<any> = (props) => {
       }
     })
 
-    const tableContainer = tableRef.current.querySelector('.semi-table-container')
+    const tableContainer = tableRef.current.querySelector('.ant-table-container')
     if (tableContainer) {
       resizeObserver.observe(tableContainer)
     }
 
-    // 设置滚动条样式，只在有滚动内容时显示
     const setupScrollbarStyle = () => {
-      const tableBody = tableRef.current?.querySelector('.semi-table-body')
+      const tableBody = tableRef.current?.querySelector('.ant-table-body')
       if (tableBody) {
-        // 设置overflow-y为auto，只在需要时显示滚动条
         ;(tableBody as HTMLElement).style.overflowY = 'auto'
         ;(tableBody as HTMLElement).style.overflowX = 'auto'
       }
     }
 
-    // 立即执行一次
     setupScrollbarStyle()
 
-    // 使用MutationObserver监听DOM变化，确保滚动条设置持续生效
     const observer = new MutationObserver(() => {
       setupScrollbarStyle()
     })
@@ -79,25 +75,6 @@ const Grid: React.FC<any> = (props) => {
       observer.disconnect()
     }
   }, [])
-
-  const renderPagination = (paginationProps: any) => {
-    const { total, pageSize, currentPage, onChange } = paginationProps
-    return (
-      <div
-        className="air-table-pagination"
-        style={{
-          width: innerWidth,
-          backgroundColor: '#f5f5f5',
-          borderTop: '1px solid #ddd',
-          display: 'flex',
-          justifyContent: 'end',
-          alignItems: 'center',
-        }}
-      >
-        <Pagination total={total} pageSize={pageSize} showTotal onChange={onChange}></Pagination>
-      </div>
-    )
-  }
 
   const renderEmpty = () => {
     return showEmpty ? (
@@ -129,36 +106,36 @@ const Grid: React.FC<any> = (props) => {
           dataSource={data}
           columns={columns}
           scroll={{ y: scrollY }}
-          {...props}
           title={headerPanel}
-          bordered={false} // 去掉表格自身边框
-          empty={renderEmpty()}
+          bordered={false}
+          locale={{ emptyText: renderEmpty() }}
           showHeader={showHeader}
-          onHeaderRow={() => {
-            return {
-              height: headerHeight + 'px',
-            }
-          }}
+          onHeaderRow={() => ({
+            style: { height: headerHeight + 'px' },
+          })}
           style={{
-            // 如果无border但显示header，则只设置上边框；否则无边框
             borderTop: !bordered && showHeader ? '1px solid #ddd' : undefined,
             boxSizing: 'border-box',
           }}
-          onRow={(record, _) => {
-            return {
-              onClick: (event) => {
-                onItemClick && onItemClick(record, event)
-              },
-              onMouseEnter: (event) => {},
-              onMouseLeave: (event) => {},
-              className: '',
-              style: {
-                cursor: onItemClick ? 'pointer' : 'default',
-                height: rowHeight + 'px',
-              },
-            }
-          }}
-          renderPagination={(paginationProps) => renderPagination(paginationProps)}
+          onRow={(record, _) => ({
+            onClick: (event) => {
+              onItemClick && onItemClick(record, event)
+            },
+            style: {
+              cursor: onItemClick ? 'pointer' : 'default',
+              height: rowHeight + 'px',
+            },
+          })}
+          pagination={
+            pagination
+              ? typeof pagination === 'object'
+                ? pagination
+                : {
+                    size: 'small',
+                    showTotal: (total: number) => `共 ${total} 条`,
+                  }
+              : false
+          }
         />
       </div>
     </div>
