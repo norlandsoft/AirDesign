@@ -1,14 +1,19 @@
 /**
- * 构建时将 @fontsource 字体文件复制到 dist/fonts，供 base.less 的 @font-face 引用
+ * 构建时将 @fontsource 字体文件复制到 public/fonts，供 base.less 的 @font-face 引用
+ * 同时复制到 lib/fonts 供 npm 包使用
  * Created by ChaiMingxu
  */
 const fs = require('fs');
 const path = require('path');
 
-const distFonts = path.join(__dirname, '../dist/fonts');
-if (!fs.existsSync(distFonts)) {
-  fs.mkdirSync(distFonts, { recursive: true });
-}
+const publicFonts = path.join(__dirname, '../public/fonts');
+const libFonts = path.join(__dirname, '../lib/fonts');
+
+[publicFonts, libFonts].forEach((dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
 
 const copies = [
   ['@fontsource/space-grotesk/files', 'space-grotesk-latin-400-normal.woff2'],
@@ -21,9 +26,9 @@ const copies = [
 
 copies.forEach(([pkg, file]) => {
   const src = path.join(__dirname, '../node_modules', pkg, file);
-  const dest = path.join(distFonts, file);
   if (fs.existsSync(src)) {
-    fs.copyFileSync(src, dest);
+    fs.copyFileSync(src, path.join(publicFonts, file));
+    fs.copyFileSync(src, path.join(libFonts, file));
     console.log('Copied', file);
   } else {
     console.warn('Skip (not found):', src);

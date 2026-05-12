@@ -5,9 +5,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const svgDir = path.join(__dirname, '../src/Icon/svg');
-const splitterDir = path.join(__dirname, '../src/Splitter');
-const outFile = path.join(__dirname, '../src/Icon/icons-data.ts');
+const svgDir = path.join(__dirname, '../src/components/AirDesign/Icon/svg');
+const splitterDir = path.join(__dirname, '../src/components/AirDesign/Splitter');
+const outFile = path.join(__dirname, '../src/components/AirDesign/Icon/icons-data.ts');
 
 const icons = {};
 

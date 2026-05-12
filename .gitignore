@@ -1,8 +1,9 @@
 node_modules/
-# dist/  # 注释掉，Git 依赖方式需要包含构建产物
+dist/
+lib/
 *.log
-src/Icon/icons-data.ts
+src/components/AirDesign/Icon/icons-data.ts
 package-lock.json
 .DS_Store
-*storybook.log
-storybook-static/
+.umi/
+.umi-production/
