@@ -1,16 +1,21 @@
 /**
  * 图标数据：构建时自动加载 svg 目录下所有 SVG 文件
- * 使用 require.context 动态导入，无需手动维护
- * Created by ChaiMingXu
+ * 使用 Vite 的 import.meta.glob 动态导入，无需手动维护
+ *
+ * @author ChaiMingXu, on 2026/05/14
  */
 
-// 构建时自动加载 svg 目录下所有 .svg 文件
-const svgContext = require.context('./svg', false, /\.svg$/)
+const svgModules = import.meta.glob('./svg/*.svg', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+}) as Record<string, string>
+
 const iconData: Record<string, string> = {}
 
-svgContext.keys().forEach((key) => {
-  const name = key.replace(/^\.\/(.+)\.svg$/, '$1')
-  iconData[name] = svgContext(key)
-})
+for (const [path, content] of Object.entries(svgModules)) {
+  const name = path.replace(/^\.\/svg\/(.+)\.svg$/, '$1')
+  iconData[name] = content
+}
 
 export {iconData}

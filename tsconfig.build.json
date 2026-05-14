@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "air-design": ["src/components/AirDesign"]
+    },
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist"
+  },
+  "include": [
+    "src/components/**/*",
+    "src/index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/.umi",
+    "src/.umi-production",
+    "src/pages",
+    "src/layouts",
+    "src/models"
+  ]
+}

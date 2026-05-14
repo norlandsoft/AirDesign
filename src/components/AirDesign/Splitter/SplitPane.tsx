@@ -2,8 +2,8 @@ import React from 'react'
 import {polyfill} from 'react-lifecycles-compat'
 import Pane from './Pane'
 import Resizer, {RESIZER_DEFAULT_CLASSNAME} from './Resizer'
-import {ReactComponent as ExpandIcon} from './icon_expand.svg';
-import {ReactComponent as CollapseIcon} from './icon_collapse.svg';
+import ExpandIcon from './icon_expand.svg?react'
+import CollapseIcon from './icon_collapse.svg?react'
 
 import './toggle.less'
 
