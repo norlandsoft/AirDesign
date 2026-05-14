@@ -1,26 +1,48 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
-    "declaration": true,
-    "declarationDir": "lib",
-    "outDir": "lib",
-    "strict": true,
-    "noImplicitAny": false,
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": false,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": [
+        "src/*"
+      ],
+      "@@/*": [
+        "src/.umi/*"
+      ],
+      "umi": [
+        "node_modules/umi"
+      ],
+      "umi/typings": [
+        "src/.umi/typings"
+      ],
+      "air-design": [
+        "src/components/AirDesign"
+      ]
+    },
+    "module": "ES2022",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "importHelpers": false,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "strictNullChecks": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "noEmitOnError": false,
+    "noImplicitAny": false
   },
-  "include": ["src/**/*", ".umirc.ts", "config/**/*"],
-  "exclude": ["node_modules", "dist", "lib", "**/*.less"]
+  "include": [
+    "node_modules/antd/lib/**/*",
+    "src/**/*",
+    "**/*.svg",
+    ".umirc.ts",
+    "module.d.ts",
+    "typings.d.ts"
+  ],
+  "types": ["estree"]
 }

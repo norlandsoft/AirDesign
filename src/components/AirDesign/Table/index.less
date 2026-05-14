@@ -2,7 +2,7 @@
   border: none;
   overflow: hidden;
 
-  .ant-table-title {
+  .semi-table-title {
     height: 50px;
     display: flex;
     align-items: center;
@@ -13,21 +13,23 @@
     background-color: #f5f5f5;
   }
 
-  .ant-table-header {
+  .semi-table-header {
     background: #f5f5f5;
     overflow: hidden !important;
     border-radius: 2px 2px 0 0;
   }
 
-  .ant-table-wrapper {
+  .semi-table-wrapper {
     font-family: var(--font-family);
     font-size: 0.925rem;
     height: 100%;
 
-    .ant-table-body {
+    // 设置滚动条样式，只在有滚动内容时显示
+    .semi-table-body {
       overflow-y: auto !important;
       overflow-x: auto !important;
 
+      // Webkit浏览器滚动条样式
       &::-webkit-scrollbar {
         width: 8px !important;
         height: 8px !important;
@@ -49,11 +51,13 @@
         }
       }
 
+      // 当有滚动内容时显示轨道
       &:hover::-webkit-scrollbar-track {
         background: #f1f1f1 !important;
         -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.1) !important;
       }
 
+      // Firefox浏览器滚动条样式
       scrollbar-width: thin !important;
       scrollbar-color: #c1c1c1 transparent !important;
 
@@ -62,19 +66,19 @@
       }
     }
 
-    .ant-spin-nested-loading {
+    .semi-spin-block.semi-spin {
       height: 100%;
 
-      .ant-spin-container {
+      .semi-spin-children {
         height: 100%;
 
-        .ant-table-container {
+        .semi-table-fixed-header {
           height: 100%;
         }
       }
     }
 
-    .ant-table-thead {
+    .semi-table-thead {
       th {
         color: #222;
         background-color: #f5f5f5;
@@ -83,19 +87,26 @@
       }
     }
 
-    .ant-table-tbody {
+    .semi-table-tbody {
       td {
         padding: 0 8px;
         font-size: 0.9rem;
       }
+
+      //最后一行
+      //tr:last-child {
+      //  td {
+      //    border-bottom: none;
+      //  }
+      //}
     }
 
-    .ant-table-placeholder {
+    .semi-table-placeholder {
       padding: 60px;
       border: none;
     }
 
-    .ant-table-pagination {
+    .semi-table-pagination-outer {
       position: absolute;
       min-height: unset;
       bottom: 0;
@@ -129,26 +140,20 @@
   align-items: center;
   justify-content: center;
 
-  .ant-pagination span {
+  .semi-page span {
     font-family: var(--font-family);
   }
 
-  .ant-pagination .ant-pagination-item {
+  .semi-page .semi-page-item {
     font-family: var(--font-family);
     border: 1px solid transparent;
-    min-width: 24px;
+    width: 24px;
     height: 24px;
 
-    a {
-      color: inherit;
-    }
-  }
-
-  .ant-pagination .ant-pagination-item-active {
-    a {
+    &-active {
       color: var(--primary-color);
+      background-color: #ddd;
+      border: 1px solid #ccc;
     }
-    background-color: #ddd;
-    border: 1px solid #ccc;
   }
 }

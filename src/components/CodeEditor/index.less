@@ -1,0 +1,28 @@
+.air-code-editor {
+  .monaco-editor {
+    .margin {
+      width: 67px !important;
+      border-right: 1px solid #ddd;
+    }
+
+    .overflow-guard {
+      .margin .margin-view-overlays {
+        div .current-line {
+          background: #f4f8ff;
+          border: none;
+        }
+      }
+
+      .monaco-scrollable-element .lines-content {
+        .view-overlays div .current-line {
+          background-color: #f4f8ff;
+          border: none;
+        }
+      }
+
+      .minimap {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}

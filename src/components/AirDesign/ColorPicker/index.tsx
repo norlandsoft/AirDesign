@@ -1,7 +1,7 @@
 import React from 'react'
-import { Col, ColorPicker, Divider, Row } from 'antd'
-import { blue, green, presetPalettes, red, yellow } from '@ant-design/colors'
-import type { ColorPickerProps } from 'antd'
+import type {ColorPickerProps} from 'antd'
+import {Col, ColorPicker, Divider, Row} from 'antd'
+import {blue, green, presetPalettes, red, yellow} from '@ant-design/colors'
 
 import './index.less'
 
@@ -19,6 +19,7 @@ export interface PresetColorConfig {
   green?: string[]
   primary?: string[]
   yellow?: string[]
+
   [key: string]: string[] | undefined
 }
 
@@ -29,8 +30,8 @@ export interface PresetColorConfig {
  * @returns 预设颜色数组
  */
 function genPresets(
-  presets: Record<string, string[]> = presetPalettes,
-  maxColors: number = 8
+    presets: Record<string, string[]> = presetPalettes,
+    maxColors: number = 8
 ): Presets[] {
   return Object.entries(presets).map<Presets>(([label, colors]) => ({
     label,
@@ -56,6 +57,7 @@ export interface CustomColorPickerProps {
   popupWidth?: number
   /** 触发元素 */
   children: React.ReactNode
+
   /** 其他 ColorPicker 属性 */
   [key: string]: any
 }
@@ -82,14 +84,14 @@ export interface CustomColorPickerProps {
  * ```
  */
 const AirColorPicker: React.FC<CustomColorPickerProps> = ({
-  value,
-  onChangeComplete,
-  trigger = 'click',
-  presetColors,
-  popupWidth = 375,
-  children,
-  ...otherProps
-}) => {
+                                                            value,
+                                                            onChangeComplete,
+                                                            trigger = 'click',
+                                                            presetColors,
+                                                            popupWidth = 375,
+                                                            children,
+                                                            ...otherProps
+                                                          }) => {
   // 默认预设颜色：红色、蓝色、绿色、青色
   const defaultPresetColors: PresetColorConfig = {
     red,
@@ -103,13 +105,13 @@ const AirColorPicker: React.FC<CustomColorPickerProps> = ({
 
   // 过滤掉 undefined 值，确保类型匹配
   const validPresetColors: Record<string, string[]> = Object.entries(finalPresetColors).reduce(
-    (acc, [key, value]) => {
-      if (value !== undefined) {
-        acc[key] = value
-      }
-      return acc
-    },
-    {} as Record<string, string[]>
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = value
+        }
+        return acc
+      },
+      {} as Record<string, string[]>
   )
 
   // 生成预设颜色数组
@@ -120,40 +122,40 @@ const AirColorPicker: React.FC<CustomColorPickerProps> = ({
    * 使用水平布局：左侧显示预设颜色，右侧显示颜色选择器，中间用分隔线分隔
    */
   const customPanelRender: ColorPickerProps['panelRender'] = (
-    _,
-    { components: { Picker, Presets } }
+      _,
+      {components: {Picker, Presets}}
   ) => (
-    <Row justify="space-between" wrap={false}>
-      <Col flex="auto">
-        <Picker />
-      </Col>
-      <Divider type="vertical" style={{ height: 'auto' }} />
-      <Col span={12}>
-        <Presets />
-        <div
-          className="air-color-picker-no-colors"
-          onClick={() => {
-            onChangeComplete?.({ toHexString: () => '#ffffff' })
-          }}
-        >
-          无背景色
-        </div>
-      </Col>
-    </Row>
+      <Row justify="space-between" wrap={false}>
+        <Col flex="auto">
+          <Picker/>
+        </Col>
+        <Divider type="vertical" style={{height: 'auto'}}/>
+        <Col span={12}>
+          <Presets/>
+          <div
+              className="air-color-picker-no-colors"
+              onClick={() => {
+                onChangeComplete?.({toHexString: () => '#ffffff'})
+              }}
+          >
+            无背景色
+          </div>
+        </Col>
+      </Row>
   )
 
   return (
-    <ColorPicker
-      trigger={trigger}
-      value={value || undefined}
-      presets={presets}
-      panelRender={customPanelRender}
-      styles={{ popupOverlayInner: { width: popupWidth } }}
-      onChangeComplete={onChangeComplete}
-      {...otherProps}
-    >
-      {children}
-    </ColorPicker>
+      <ColorPicker
+          trigger={trigger}
+          value={value || undefined}
+          presets={presets}
+          panelRender={customPanelRender}
+          styles={{popupOverlayInner: {width: popupWidth}}}
+          onChangeComplete={onChangeComplete}
+          {...otherProps}
+      >
+        {children}
+      </ColorPicker>
   )
 }
 

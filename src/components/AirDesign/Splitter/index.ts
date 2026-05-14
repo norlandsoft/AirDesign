@@ -3,4 +3,4 @@ import Pane from './Pane'
 import './index.less'
 
 export default SplitPane
-export { Pane }
+export {Pane}

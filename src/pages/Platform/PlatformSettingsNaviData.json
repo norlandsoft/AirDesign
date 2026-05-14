@@ -1,0 +1,82 @@
+[
+  {
+    "key": "platform-group",
+    "label": "平台管理",
+    "type": "group",
+    "children": [
+      {
+        "key": "user",
+        "label": "用户管理",
+        "type": "item"
+      }
+    ]
+  },
+  {
+    "key": "model-group",
+    "label": "模型服务",
+    "type": "group",
+    "children": [
+      {
+        "key": "llm",
+        "label": "模型设置",
+        "type": "item"
+      },
+      {
+        "key": "llm-prompt",
+        "label": "提示词管理",
+        "type": "item"
+      }
+    ]
+  },
+  {
+    "key": "agent-group",
+    "label": "智能体管理",
+    "type": "group",
+    "children": [
+      {
+        "key": "agent",
+        "label": "智能体",
+        "type": "item"
+      },
+      {
+        "key": "agent-model",
+        "label": "智能体模型",
+        "type": "item"
+      },
+      {
+        "key": "cron",
+        "label": "定时任务",
+        "type": "item"
+      }
+    ]
+  },
+  {
+    "key": "tool-group",
+    "label": "工具管理",
+    "type": "group",
+    "children": [
+      {
+        "key": "crawl",
+        "label": "内容采集",
+        "type": "item"
+      }
+    ]
+  },
+  {
+    "key": "data-group",
+    "label": "数据管理",
+    "type": "group",
+    "children": [
+      {
+        "key": "data-dictionary",
+        "label": "数据字典",
+        "type": "item"
+      },
+      {
+        "key": "data-backup",
+        "label": "数据备份",
+        "type": "item"
+      }
+    ]
+  }
+]

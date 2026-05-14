@@ -1,6 +1,0 @@
-node_modules/
-dist/
-*.log
-storybook-static/
-package-lock.json
-src/Icon/icons-data.ts

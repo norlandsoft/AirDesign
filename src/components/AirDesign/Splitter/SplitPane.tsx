@@ -1,8 +1,9 @@
 import React from 'react'
-import { polyfill } from 'react-lifecycles-compat'
+import {polyfill} from 'react-lifecycles-compat'
 import Pane from './Pane'
-import Resizer, { RESIZER_DEFAULT_CLASSNAME } from './Resizer'
-import Icon from '../Icon'
+import Resizer, {RESIZER_DEFAULT_CLASSNAME} from './Resizer'
+import {ReactComponent as ExpandIcon} from './icon_expand.svg';
+import {ReactComponent as CollapseIcon} from './icon_collapse.svg';
 
 import './toggle.less'
 
@@ -52,14 +53,15 @@ interface SplitPaneState {
 function unFocus(document: Document, window: Window): void {
   try {
     window.getSelection()?.removeAllRanges()
-  } catch (e) {}
+  } catch (e) {
+  }
 }
 
 function getDefaultSize(
-  defaultSize: string | number | undefined,
-  minSize: string | number | undefined,
-  maxSize: string | number | undefined,
-  draggedSize: number | undefined
+    defaultSize: string | number | undefined,
+    minSize: string | number | undefined,
+    maxSize: string | number | undefined,
+    draggedSize: number | undefined
 ): number {
   if (typeof draggedSize === 'number') {
     const min = typeof minSize === 'number' ? minSize : 0
@@ -96,10 +98,10 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
   constructor(props: SplitPaneProps) {
     super(props)
 
-    const { size, defaultSize, minSize, maxSize, primary } = props
+    const {size, defaultSize, minSize, maxSize, primary} = props
 
     const initialSize =
-      size !== undefined ? size : getDefaultSize(defaultSize, minSize, maxSize, undefined)
+        size !== undefined ? size : getDefaultSize(defaultSize, minSize, maxSize, undefined)
 
     this.state = {
       active: false,
@@ -134,7 +136,7 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
   }
 
   onMouseDown = (event: React.MouseEvent) => {
-    const touch = { clientX: event.clientX, clientY: event.clientY }
+    const touch = {clientX: event.clientX, clientY: event.clientY}
     this.onTouchStart({
       touches: [touch],
       changedTouches: [touch],
@@ -143,7 +145,7 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
   }
 
   onTouchStart = (event: React.TouchEvent) => {
-    const { allowResize, onDragStarted, split } = this.props
+    const {allowResize, onDragStarted, split} = this.props
     if (allowResize) {
       unFocus(document, window)
       const position = split === 'vertical' ? event.touches[0].clientX : event.touches[0].clientY
@@ -160,25 +162,25 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
 
   private onMouseMove = (event: MouseEvent) => {
     const eventWithTouches = {
-      touches: [{ clientX: event.clientX, clientY: event.clientY }],
+      touches: [{clientX: event.clientX, clientY: event.clientY}],
     }
     this.onTouchMove(eventWithTouches as any)
   }
 
   private onMouseUp = () => {
-    const { allowResize, onDragFinished } = this.props
-    const { active, draggedSize } = this.state
+    const {allowResize, onDragFinished} = this.props
+    const {active, draggedSize} = this.state
     if (allowResize && active) {
       if (typeof onDragFinished === 'function' && draggedSize !== undefined) {
         onDragFinished(draggedSize)
       }
-      this.setState({ active: false })
+      this.setState({active: false})
     }
   }
 
   private onTouchMove = (event: TouchEvent | React.TouchEvent) => {
-    const { allowResize, maxSize, minSize, onChange, onResize, split, step } = this.props
-    const { active, position } = this.state
+    const {allowResize, maxSize, minSize, onChange, onResize, split, step} = this.props
+    const {active, position} = this.state
 
     if (allowResize && active && position !== undefined) {
       unFocus(document, window)
@@ -229,7 +231,7 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
           const minSizeAsNumber = typeof minSize === 'string' ? parseFloat(minSize) : minSize || 0
 
           const newMaxSizeAsNumber =
-            typeof newMaxSize === 'string' ? parseFloat(newMaxSize) : (newMaxSize ?? Infinity)
+              typeof newMaxSize === 'string' ? parseFloat(newMaxSize) : (newMaxSize ?? Infinity)
 
           if (newSize < minSizeAsNumber) {
             newSize = minSizeAsNumber
@@ -261,16 +263,16 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
 
   static getSizeUpdate(props: SplitPaneProps, state: SplitPaneState) {
     const newState: Partial<SplitPaneState> = {}
-    const { instanceProps } = state
+    const {instanceProps} = state
 
     if (instanceProps.size === props.size && props.size !== undefined) {
       return {}
     }
 
     const newSize =
-      props.size !== undefined
-        ? props.size
-        : getDefaultSize(props.defaultSize, props.minSize, props.maxSize, state.draggedSize)
+        props.size !== undefined
+            ? props.size
+            : getDefaultSize(props.defaultSize, props.minSize, props.maxSize, state.draggedSize)
 
     if (props.size !== undefined) {
       newState.draggedSize = typeof newSize === 'string' ? parseFloat(newSize) : newSize
@@ -282,7 +284,7 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
     newState[isPanel1Primary ? 'pane1Size' : 'pane2Size'] = newSizeAsNumber
     newState[isPanel1Primary ? 'pane2Size' : 'pane1Size'] = undefined
 
-    newState.instanceProps = { size: props.size }
+    newState.instanceProps = {size: props.size}
 
     return newState
   }
@@ -308,12 +310,12 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
       togglePosition,
     } = this.props
 
-    const { pane1Size, pane2Size, collapsed } = this.state
+    const {pane1Size, pane2Size, collapsed} = this.state
 
     const disabledClass = allowResize ? '' : 'disabled'
     const resizerClassNamesIncludingDefault = resizerClassName
-      ? `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}`
-      : resizerClassName
+        ? `${resizerClassName} ${RESIZER_DEFAULT_CLASSNAME}`
+        : resizerClassName
 
     const notNullChildren = removeNullChildren(children)
 
@@ -348,85 +350,81 @@ class SplitPane extends React.Component<SplitPaneProps, SplitPaneState> {
 
     const classes = ['SplitPane', className, split, disabledClass]
 
-    const pane1Style = { ...paneStyle, ...pane1StyleProps }
-    const pane2Style = { ...paneStyle, ...pane2StyleProps }
+    const pane1Style = {...paneStyle, ...pane1StyleProps}
+    const pane2Style = {...paneStyle, ...pane2StyleProps}
 
     const pane1Classes = ['Pane1', paneClassName, pane1ClassName].join(' ')
     const pane2Classes = ['Pane2', paneClassName, pane2ClassName].join(' ')
 
     return (
-      <div
-        className={classes.join(' ')}
-        ref={(node) => {
-          this.splitPane = node
-        }}
-        style={style}
-      >
-        <Pane
-          className={pane1Classes}
-          key="pane1"
-          eleRef={(node) => {
-            this.pane1 = node
-          }}
-          size={collapsed ? 0 : pane1Size}
-          split={split}
-          style={pane1Style}
+        <div
+            className={classes.join(' ')}
+            ref={(node) => {
+              this.splitPane = node
+            }}
+            style={style}
         >
-          <div style={{ display: collapsed ? 'none' : 'block' }}>{notNullChildren[0]}</div>
-        </Pane>
-        {!collapsed && (
-          <Resizer
-            className={disabledClass}
-            onClick={onResizerClick}
-            onDoubleClick={onResizerDoubleClick}
-            onMouseDown={this.onMouseDown}
-            onTouchStart={this.onTouchStart}
-            onTouchEnd={this.onMouseUp}
-            key="resizer"
-            resizerClassName={resizerClassNamesIncludingDefault}
-            split={split}
-            style={resizerStyle || {}}
-          />
-        )}
-        <Pane
-          className={pane2Classes}
-          key="pane2"
-          eleRef={(node) => {
-            this.pane2 = node
-          }}
-          size={pane2Size}
-          split={split}
-          style={pane2Style}
-        >
-          {notNullChildren[1]}
-          {collapsible && split === 'vertical' && (
-            <div
-              className="toggle-container"
-              style={{ bottom: `${togglePosition}px` }}
-              onClick={() => {
-                const newCollapsed = !this.state.collapsed
-                this.setState({
-                  collapsed: newCollapsed,
-                })
-                if (this.props.onResize) {
-                  this.props.onResize(newCollapsed ? 0 : this.state.pane1Size || 0, newCollapsed)
-                }
-                if (this.props.onChange) {
-                  this.props.onChange(newCollapsed ? -1 : this.state.pane1Size || 0)
-                }
+          <Pane
+              className={pane1Classes}
+              key="pane1"
+              eleRef={(node) => {
+                this.pane1 = node
               }}
-            >
-              <div className="toggle-icon" style={{ left: collapsed ? '-4px' : '-6px' }}>
-                {collapsed ? (
-                  <Icon name="icon_expand" size={16} />
-                ) : (
-                  <Icon name="icon_collapse" size={16} />
-                )}
-              </div>
-            </div>
+              size={collapsed ? 0 : pane1Size}
+              split={split}
+              style={pane1Style}
+          >
+            <div style={{display: collapsed ? 'none' : 'block'}}>{notNullChildren[0]}</div>
+          </Pane>
+          {!collapsed && (
+              <Resizer
+                  className={disabledClass}
+                  onClick={onResizerClick}
+                  onDoubleClick={onResizerDoubleClick}
+                  onMouseDown={this.onMouseDown}
+                  onTouchStart={this.onTouchStart}
+                  onTouchEnd={this.onMouseUp}
+                  key="resizer"
+                  resizerClassName={resizerClassNamesIncludingDefault}
+                  split={split}
+                  style={resizerStyle || {}}
+              />
           )}
-        </Pane>
-      </div>
+          <Pane
+              className={pane2Classes}
+              key="pane2"
+              eleRef={(node) => {
+                this.pane2 = node
+              }}
+              size={pane2Size}
+              split={split}
+              style={pane2Style}
+          >
+            {notNullChildren[1]}
+            {collapsible && split === 'vertical' && (
+                <div
+                    className="toggle-container"
+                    style={{bottom: `${togglePosition}px`}}
+                    onClick={() => {
+                      const newCollapsed = !this.state.collapsed
+                      this.setState({
+                        collapsed: newCollapsed,
+                      })
+                      if (this.props.onResize) {
+                        this.props.onResize(newCollapsed ? 0 : this.state.pane1Size || 0, newCollapsed)
+                      }
+                      if (this.props.onChange) {
+                        this.props.onChange(newCollapsed ? -1 : this.state.pane1Size || 0)
+                      }
+                    }}
+                >
+                  <div className="toggle-icon" style={{left: collapsed ? '-5px' : '-7px'}}>
+                    {collapsed ? <ExpandIcon/> : <CollapseIcon/>}
+                  </div>
+                </div>
+            )}
+          </Pane>
+        </div>
     )
   }
 }

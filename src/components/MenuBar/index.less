@@ -1,0 +1,56 @@
+.air-menu-bar {
+  width: 60px;
+  box-sizing: border-box;
+  background-color: rgb(250, 250, 250);
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+
+  // 菜单项区域占满高度，方便将返回按钮推到底部
+  .air-menu-items {
+    flex: 1;
+  }
+
+  .air-menu-item {
+    height: 50px;
+    margin: 4px;
+    box-sizing: border-box;
+
+    .air-menu-item-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      height: 50px;
+
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
+
+      svg {
+        padding-top: 4px;
+      }
+
+      span {
+        // 字体间距
+        padding-top: 2px;
+        padding-left: 2px;
+        height: 24px;
+        line-height: 22px;
+        font-size: 0.75rem
+      }
+
+      &:hover {
+        background-color: rgb(235, 235, 235, 0.3);
+      }
+    }
+  }
+
+  // 返回按钮单独控制上边距，确保停靠在底部
+  .air-menu-item-back {
+    height: 55px;
+    margin-top: auto;
+  }
+
+}

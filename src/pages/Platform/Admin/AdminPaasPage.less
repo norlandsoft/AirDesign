@@ -1,0 +1,27 @@
+/**
+ * 基础设施管理页面样式
+ *
+ * 单层左右布局：左侧导航（220px）+ 右侧配置面板
+ *
+ * Created by ChaiMingXu, on 2026/04/04
+ */
+
+.air-admin-paas {
+  display: flex;
+  flex-direction: row;
+  font-family: var(--font-family) !important;
+  box-sizing: border-box;
+
+  /* 右侧内容区 */
+  .air-admin-paas-content {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+  }
+
+  /* 配置面板 */
+  .air-admin-paas-panel {
+    flex: 1;
+    overflow: auto;
+  }
+}

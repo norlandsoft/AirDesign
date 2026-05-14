@@ -1,0 +1,132 @@
+/**
+ * ChatInput组件样式文件
+ *
+ * 功能说明：
+ * - 定义ChatInput组件的布局和样式
+ * - 采用上下排列布局：上方为输入区域，下方为工具栏（含发送按钮）
+ *
+ * @author ChaiMingXu
+ * @date 2026/04/27
+ */
+
+.chatInputWrapper {
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  z-index: 100;
+  user-select: none;
+  overflow: hidden;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+
+  .chatInputArea {
+    padding: 10px 16px 4px 16px;
+  }
+
+  .chatInput {
+    resize: none;
+    border: none;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    line-height: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    background: #fafafa;
+
+    &:focus {
+      outline: none;
+    }
+
+    // 滚动条样式设置
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  // 工具栏：左侧工具按钮区域 + 右侧发送按钮
+  .chatToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px 8px 12px;
+  }
+
+  // 工具栏左侧区域，预留扩展（附件、语音等按钮）
+  .chatToolbarLeft {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  // 工具栏通用按钮样式
+  .chatToolbarBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #e8e8e8;
+    }
+
+    // 上传中状态：旋转动画 + 不可点击
+    &.uploading {
+      cursor: not-allowed;
+      opacity: 0.5;
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .chatInputSubmit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding-left: 2px;
+    background: #e8e8e8;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #d5d5d5;
+    }
+  }
+
+  .chatInputDisabled {
+    opacity: 0.3;
+    background: #e8e8e8 !important;
+    cursor: not-allowed;
+
+    &:hover {
+      background: #e8e8e8 !important;
+    }
+  }
+}

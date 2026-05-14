@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { Input, Space } from 'antd'
+import React, {useEffect, useRef, useState} from 'react'
+import {Input, Space} from 'antd'
 import Icon from '../Icon'
 import './index.less'
 
 /**
  * 可编辑标签组件
  * 功能：当鼠标悬停在标签上时显示编辑按钮，点击后可以编辑标签内容
- * 作者：ChaiMingxu
+ * 作者：ChaiMingXu
  */
 interface EditableLabelProps {
   /** 标签文本内容 */
@@ -18,7 +18,7 @@ interface EditableLabelProps {
 }
 
 const EditableLabel: React.FC<EditableLabelProps> = (props) => {
-  const { text, onSave, style } = props
+  const {text, onSave, style} = props
 
   // 编辑状态
   const [editing, setEditing] = useState<boolean>(false)
@@ -123,55 +123,55 @@ const EditableLabel: React.FC<EditableLabelProps> = (props) => {
   }
 
   return (
-    <div className={'air-editable-label'} style={style}>
-      {editing ? (
-        // 编辑状态：显示输入框和操作按钮
-        <div className={'air-editable-label-editor'}>
-          <Space.Compact className="air-editable-label-compact">
-            <Input
-              ref={inputRef}
-              className="air-editable-label-input"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleInputKeyDown}
-              onBlur={handleInputBlur}
-            />
-            <div
-              className="air-editable-label-button air-editable-label-button-confirm"
-              onMouseDown={(e) => {
-                e.preventDefault()
-                isClickingButton.current = true
-              }}
-              onClick={handleConfirm}
-              title="确定"
-            >
-              <Icon name={'yes'} size={14} />
+      <div className={'air-editable-label'} style={style}>
+        {editing ? (
+            // 编辑状态：显示输入框和操作按钮
+            <div className={'air-editable-label-editor'}>
+              <Space.Compact className="air-editable-label-compact">
+                <Input
+                    ref={inputRef}
+                    className="air-editable-label-input"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleInputKeyDown}
+                    onBlur={handleInputBlur}
+                />
+                <div
+                    className="air-editable-label-button air-editable-label-button-confirm"
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      isClickingButton.current = true
+                    }}
+                    onClick={handleConfirm}
+                    title="确定"
+                >
+                  <Icon name={'yes'} size={14}/>
+                </div>
+                <div
+                    className="air-editable-label-button air-editable-label-button-cancel"
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      isClickingButton.current = true
+                    }}
+                    onClick={handleCancel}
+                    title="取消"
+                >
+                  <Icon name={'no'} size={12}/>
+                </div>
+              </Space.Compact>
             </div>
-            <div
-              className="air-editable-label-button air-editable-label-button-cancel"
-              onMouseDown={(e) => {
-                e.preventDefault()
-                isClickingButton.current = true
-              }}
-              onClick={handleCancel}
-              title="取消"
-            >
-              <Icon name={'no'} size={12} />
+        ) : (
+            // 显示状态：显示文本和编辑按钮（悬停时显示）
+            <div className={'air-editable-label-label'}>
+              <span>{currentText}</span>
+              <div onClick={handleEditClick}>
+                <div className="air-editable-label-edit-icon">
+                  <Icon name={'edit'} size={16}/>
+                </div>
+              </div>
             </div>
-          </Space.Compact>
-        </div>
-      ) : (
-        // 显示状态：显示文本和编辑按钮（悬停时显示）
-        <div className={'air-editable-label-label'}>
-          <span>{currentText}</span>
-          <div onClick={handleEditClick}>
-            <div className="air-editable-label-edit-icon">
-              <Icon name={'edit'} size={16} />
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
   )
 }
 

@@ -1,0 +1,207 @@
+// CaseActionPanel 样式文件
+.elseif-form {
+  padding: 0;
+
+  .form-header {
+    .header-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .form-description {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+  }
+
+  .form-content {
+    min-height: 200px;
+
+    .empty-state {
+      text-align: center;
+      color: #999;
+      padding: 20px;
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+    }
+
+    .list-container {
+      background-color: #fff;
+      border-radius: 6px;
+      border: 1px solid #f0f0f0;
+      padding: 8px;
+    }
+
+    // ELSE说明样式 - 与列表项保持一致
+    .else-description {
+      margin-top: 8px;
+      padding: 0 16px;
+      background-color: #fafafa;
+      border: 1px solid #d9d9d9;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      min-height: 60px;
+
+      .else-label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #666;
+        margin-right: 16px;
+        min-width: 40px;
+        text-align: center;
+        background-color: #e6f7ff;
+        border: 1px solid #91d5ff;
+        border-radius: 4px;
+        padding: 4px 8px;
+      }
+
+      .else-text {
+        font-size: 14px;
+        color: #666;
+        flex: 1;
+      }
+    }
+  }
+}
+
+// 可拖拽列表项样式
+.draggable-list-item {
+  padding: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: #fafafa;
+  cursor: move;
+  transition: all 0.2s ease;
+
+  &.dragging {
+    opacity: 0.5;
+    transform: rotate(2deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #f0f0f0;
+  }
+
+  &.drag-over {
+    background-color: #e6f7ff;
+  }
+
+  .item-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+
+    .drag-handle {
+      color: #999;
+      cursor: move;
+      font-size: 16px;
+    }
+
+    .item-index {
+      min-width: 24px;
+      text-align: center;
+      font-family: var(--font-family-code);
+      font-weight: bold;
+      color: #666;
+      margin-top: 12px;
+
+      &:first-child {
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        padding: 4px 8px;
+        background-color: #e6f7ff;
+        min-width: 40px;
+      }
+    }
+
+    .form-item {
+      margin: 0;
+      min-width: 120px;
+
+      .ant-input,
+      .ant-select {
+        margin-right: 8px;
+      }
+
+      // 参数变量字段 - 更宽
+      &:nth-child(3) {
+        flex: 2;
+        min-width: 200px;
+      }
+
+      // 条件操作符字段 - 较窄
+      &:nth-child(4) {
+        flex: 1;
+        min-width: 100px;
+      }
+
+      // 数值字段
+      &:nth-child(5) {
+        flex: 1.5;
+        min-width: 100px;
+      }
+
+      // 标签字段
+      &:nth-child(6) {
+        flex: 1.5;
+        min-width: 100px;
+      }
+    }
+
+    .delete-button {
+      flex-shrink: 0;
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 1200px) {
+  .draggable-list-item {
+    .item-content {
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .form-item {
+        min-width: 100px;
+        flex: 1 1 100px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .draggable-list-item {
+    .item-content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+
+      .form-item {
+        margin-bottom: 8px;
+        min-width: auto;
+        flex: 1;
+      }
+
+      .delete-button {
+        align-self: flex-end;
+      }
+    }
+
+    // IF项特殊样式
+    .if-item {
+      background-color: #f0f9ff;
+      border: 2px solid #1890ff;
+      border-radius: 8px;
+
+      .item-index {
+        background-color: #1890ff;
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -1,15 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { Upload } from 'antd'
-import { RcFile } from 'antd/lib/upload'
+import React, {useEffect, useRef, useState} from 'react'
+import {Upload} from 'antd'
+import {RcFile} from 'antd/lib/upload'
 import Icon from '../Icon'
 import ModalDialog from './ModalDialog'
-import { error, info, success } from '../Notification'
+import {error, info, success} from '../Notification'
 import './UploadModalDialog.less'
 
-const { Dragger } = Upload
+const {Dragger} = Upload
 
 const UploadModalDialog = (props) => {
-  const dialogRef = useRef<any>(null)
+  const dialogRef = useRef<any>()
   const [fileList, setFileList] = useState<RcFile[]>([])
   const [uploading, setUploading] = useState(false)
 
@@ -61,31 +61,31 @@ const UploadModalDialog = (props) => {
       },
       body: formData,
     })
-      .then((response) => response.json())
-      .then((resp) => {
-        if (resp.success) {
-          setFileList([])
-          setUploading(false)
-          success({
-            message: '文件上传成功',
-          })
-          if (onFileSaved) onFileSaved(resp)
-          // 关闭对话框
-          dialogRef.current?.doCancel()
-        } else {
+        .then((response) => response.json())
+        .then((resp) => {
+          if (resp.success) {
+            setFileList([])
+            setUploading(false)
+            success({
+              message: '文件上传成功',
+            })
+            if (onFileSaved) onFileSaved(resp)
+            // 关闭对话框
+            dialogRef.current?.doCancel()
+          } else {
+            setUploading(false)
+            error({
+              title: '无法上传文件',
+              message: resp.message,
+            })
+          }
+        })
+        .catch((err) => {
           setUploading(false)
           error({
-            title: '无法上传文件',
-            message: resp.message,
+            message: '文件上传失败',
           })
-        }
-      })
-      .catch((err) => {
-        setUploading(false)
-        error({
-          message: '文件上传失败',
         })
-      })
   }
 
   const uploadProps = {
@@ -114,23 +114,23 @@ const UploadModalDialog = (props) => {
   }
 
   return (
-    <ModalDialog
-      ref={dialogRef}
-      visible={true}
-      title="文件上传"
-      width={600}
-      onOk={confirmUpload}
-      domId={'air-upload-dialog'}
-      mask={true}
-      loading={uploading}
-    >
-      <Dragger {...uploadProps}>
-        <div className={'ant-upload-drag-container-content'}>
-          <Icon name={'upload'} size={22} color={'var(--primary-color)'} />
-          <p className={'ant-upload-drag-container-content-text'}>点击或将文件拖拽到此处上传</p>
-        </div>
-      </Dragger>
-    </ModalDialog>
+      <ModalDialog
+          ref={dialogRef}
+          visible={true}
+          title="文件上传"
+          width={600}
+          onOk={confirmUpload}
+          domId={'air-upload-dialog'}
+          mask={true}
+          loading={uploading}
+      >
+        <Dragger {...uploadProps}>
+          <div className={'ant-upload-drag-container-content'}>
+            <Icon name={'upload'} size={22} color={'var(--primary-color)'}/>
+            <p className={'ant-upload-drag-container-content-text'}>点击或将文件拖拽到此处上传</p>
+          </div>
+        </Dragger>
+      </ModalDialog>
   )
 }
 

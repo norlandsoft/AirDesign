@@ -1,0 +1,40 @@
+.agent-list {
+  padding: 6px 12px;
+  margin: 4px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .agent-name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .agent-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: #999;
+    gap: 8px;
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+  }
+}

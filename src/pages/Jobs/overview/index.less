@@ -1,0 +1,710 @@
+/**
+ * 智能任务概览页样式
+ *
+ * 参考项目管理功能布局设计，扁平化、现代风格
+ * 优化：减小边框宽度，美化运行中卡片
+ *
+ * @author ChaiMingXu, on 2026/3/29
+ */
+.studio-home {
+  padding: 24px;
+  background: #f5f5f5;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+
+  // CodeEditor 覆盖暗色主题，使用浅色背景
+  .monaco-editor,
+  .monaco-editor-background,
+  .monaco-editor .inputarea.ime-input {
+    background-color: #ffffff !important;
+  }
+
+  .monaco-editor .margin {
+    background-color: #fafafa !important;
+  }
+
+  .monaco-editor .view-lines {
+    background-color: #ffffff !important;
+  }
+
+  .monaco-editor .current-line {
+    background-color: #f5f5f5 !important;
+  }
+
+  .monaco-editor .line-numbers {
+    color: #999999 !important;
+  }
+
+  .monaco-editor .cursors-cursor {
+    background-color: #000000 !important;
+    border-color: #000000 !important;
+  }
+
+  // 通用卡片样式：减小边框宽度
+  .ant-card {
+    border-width: 0.5px;
+    border-color: rgba(0, 0, 0, 0.06);
+
+    .ant-card-body {
+      padding: 16px;
+    }
+  }
+
+  // 主布局：左右分栏
+  .job-layout {
+    display: flex;
+    gap: 24px;
+    height: 100%;
+
+    // 左侧主内容区
+    .job-main-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    // 右侧快捷操作区
+    .job-sidebar {
+      width: 280px;
+      flex-shrink: 0;
+    }
+  }
+
+  // 概览区域
+  .job-overview {
+    margin-bottom: 24px;
+  }
+
+  // 统计卡片区域
+  .job-statistics {
+    margin-bottom: 0;
+
+    .stat-card {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.3s ease;
+      height: 100%;
+
+      &:hover {
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-content {
+        .stat-info {
+          font-family: var(--font-family);
+
+          .stat-title {
+            color: #595959;
+            font-size: 15px;
+            margin-bottom: 12px;
+            user-select: none;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            opacity: 0.8;
+          }
+
+          .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1f1f1f;
+            margin-bottom: 8px;
+            line-height: 1.1;
+            letter-spacing: 1px;
+          }
+
+          .stat-desc {
+            color: #8c8c8c;
+            font-size: 12px;
+            margin-top: 0;
+            line-height: 1.4;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+          }
+        }
+      }
+
+      // 统一卡片样式：左侧色条变窄
+      &.stat-card-total,
+      &.stat-card-pending,
+      &.stat-card-running,
+      &.stat-card-completed {
+        background: #ffffff;
+        border-left: 3px solid #d9d9d9;
+      }
+
+      // 不同状态的卡片使用不同边框颜色
+      &.stat-card-pending {
+        border-left-color: #faad14;
+      }
+
+      &.stat-card-running {
+        border-left-color: #1890ff;
+      }
+
+      &.stat-card-completed {
+        border-left-color: #52c41a;
+      }
+    }
+  }
+
+  // 工作列表卡片
+  .job-list-card {
+    border-radius: 10px;
+    border: 0.5px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+    // 工作列：两行显示（标题 + 描述）
+    .job-list-plan-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      min-height: 72px;
+      padding: 8px 0;
+
+      .job-list-plan-title {
+        font-weight: 500;
+        color: #262626;
+        font-size: 14px;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .job-list-plan-desc {
+        font-size: 12px;
+        color: #8c8c8c;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    // 附件数量列：单元格居中
+    .job-list-attach-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 72px;
+      padding: 8px 0;
+    }
+
+    // 附件数量徽标：边框 + 居中
+    .job-list-attach-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 24px;
+      padding: 0 8px;
+      color: #595959;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+      background: #fafafa;
+      box-sizing: border-box;
+    }
+
+    .job-list-search {
+      margin-bottom: 16px;
+      text-align: left;
+
+      .ant-input-affix-wrapper {
+        border-radius: 6px;
+        border-color: #d0d7de;
+
+        &:hover {
+          border-color: #8c959f;
+        }
+
+        &:focus,
+        &.ant-input-affix-wrapper-focused {
+          border-color: #0969da;
+          box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.12);
+        }
+      }
+    }
+  }
+
+  // 快捷操作卡片
+  .quick-actions-card {
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    border: 0.5px solid rgba(0, 0, 0, 0.06);
+
+    .quick-actions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quick-action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 0.5px solid transparent;
+
+      &:hover {
+        background: #f0f0f0;
+        border-color: rgba(0, 0, 0, 0.08);
+      }
+
+      .quick-action-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #595959;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+      }
+
+      &:hover .quick-action-icon {
+        background: #e6f7ff;
+        color: #1890ff;
+      }
+
+      .quick-action-content {
+        flex: 1;
+        min-width: 0;
+
+        .quick-action-title {
+          font-size: 14px;
+          font-weight: 500;
+          color: #262626;
+          margin-bottom: 4px;
+          line-height: 1.4;
+        }
+
+        .quick-action-desc {
+          font-size: 12px;
+          color: #8c8c8c;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  // 运行中 Session 列表
+  .running-status-card {
+    border-radius: 10px;
+    margin-top: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    border: 0.5px solid rgba(0, 0, 0, 0.06);
+
+    .running-status-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
+
+      .running-status-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1f1f1f;
+        letter-spacing: 0.02em;
+      }
+
+      .running-status-count {
+        font-size: 11px;
+        color: #8c8c8c;
+        background: #f5f5f5;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 500;
+        min-width: 20px;
+        text-align: center;
+      }
+    }
+
+    .running-status-empty {
+      padding: 20px 12px;
+      font-size: 12px;
+      color: #bfbfbf;
+      text-align: center;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+
+    .running-status-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .running-status-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      border: 0.5px solid #e8e8e8;
+      background: #ffffff;
+
+      &:hover {
+        background: #f8f9fa;
+        border-color: #d9d9d9;
+      }
+
+      .running-status-item-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+
+        &--title {
+          line-height: 1.4;
+          justify-content: space-between;
+          gap: 8px;
+        }
+
+        &--phase {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 2px;
+        }
+
+        &--meta {
+          line-height: 1.4;
+        }
+
+        &--actions {
+          justify-content: flex-end;
+        }
+      }
+
+      .running-status-item-phase {
+        font-size: 11px;
+        color: #1677ff;
+        line-height: 1.4;
+      }
+
+      .running-status-item-message {
+        font-size: 11px;
+        color: #8c8c8c;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
+      }
+
+      .running-status-item-title {
+        flex: 1;
+        min-width: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: #262626;
+        line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .running-status-item-meta {
+        font-size: 11px;
+        color: #8c8c8c;
+        line-height: 1.4;
+      }
+
+      .running-status-item-badge {
+        flex-shrink: 0;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 12px;
+        line-height: 1.35;
+
+        &[data-status='RUNNING'] {
+          background: #e6f4ff;
+          color: #1677ff;
+        }
+
+        &[data-status='PAUSED'] {
+          background: #fffbe6;
+          color: #d48806;
+        }
+
+        &[data-status='COMPLETED'] {
+          background: #f6ffed;
+          color: #52c41a;
+        }
+
+        &[data-status='FAILED'] {
+          background: #fff2f0;
+          color: #ff4d4f;
+        }
+
+        &[data-status='CANCELLED'] {
+          background: #f5f5f5;
+          color: #8c8c8c;
+        }
+
+        &[data-status='PENDING'] {
+          background: #fff7e6;
+          color: #fa8c16;
+        }
+      }
+
+      .running-status-item-stop {
+        flex-shrink: 0;
+        font-size: 11px !important;
+        height: 24px !important;
+        padding: 0 10px !important;
+        border-radius: 4px !important;
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  // 失败工作提示卡片
+  .failed-notice-card {
+    border-radius: 10px;
+    margin-top: 12px;
+    border-left: 3px solid #ff4d4f;
+    border-width: 0.5px;
+    border-left-width: 3px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+    .failed-notice-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+
+      .failed-notice-icon {
+        color: #ff4d4f;
+        flex-shrink: 0;
+      }
+
+      .failed-notice-text {
+        flex: 1;
+
+        .failed-notice-title {
+          font-size: 14px;
+          font-weight: 500;
+          color: #ff4d4f;
+          margin-bottom: 4px;
+        }
+
+        .failed-notice-desc {
+          font-size: 12px;
+          color: #8c8c8c;
+        }
+      }
+    }
+  }
+}
+
+/* 工作日志面板 */
+.job-log-panel {
+  .job-log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .job-log-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 6px;
+
+    .job-log-level {
+      flex-shrink: 0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+
+      &.level-info {
+        background-color: #dbeafe;
+        color: #1e40af;
+      }
+
+      &.level-warn {
+        background-color: #fef3c7;
+        color: #92400e;
+      }
+
+      &.level-error {
+        background-color: #fee2e2;
+        color: #991b1b;
+      }
+    }
+
+    .job-log-text {
+      flex: 1;
+      font-size: 0.875rem;
+      color: #374151;
+      word-break: break-word;
+    }
+
+    .job-log-time {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+  }
+
+  .job-log-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: #9ca3af;
+  }
+}
+
+/* 计划表单附件区域 */
+.job-attach-upload {
+  .ant-upload-drag {
+    height: 80px !important;
+    min-height: 80px !important;
+    padding: 0 !important;
+    border-radius: 6px;
+  }
+
+  .ant-upload-drag-container {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 80px !important;
+    padding: 0 16px !important;
+  }
+}
+
+.job-attach-upload-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+
+  .job-attach-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #e6f7ff;
+    color: #1890ff;
+  }
+
+  .job-attach-text {
+    flex-shrink: 0;
+
+    .job-attach-main {
+      font-size: 14px;
+      color: #262626;
+    }
+  }
+}
+
+.job-attach-list {
+  margin-top: 12px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background: #fafafa;
+  overflow: hidden;
+
+  .job-attach-list-title {
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #8c8c8c;
+    background: #f5f5f5;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .job-attach-list-body {
+    max-height: 160px;
+    overflow-y: auto;
+  }
+
+  .job-attach-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: #f5f5f5;
+    }
+
+    .job-attach-item-icon {
+      flex-shrink: 0;
+      color: #8c8c8c;
+    }
+
+    .job-attach-item-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      a {
+        color: #1890ff;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .job-attach-item-remove {
+      flex-shrink: 0;
+      padding: 2px;
+      cursor: pointer;
+      color: #bfbfbf;
+      border-radius: 4px;
+
+      &:hover {
+        color: #ff4d4f;
+        background: #fff2f0;
+      }
+    }
+  }
+
+  .job-attach-item-pending {
+    .job-attach-item-name {
+      color: #595959;
+    }
+  }
+}

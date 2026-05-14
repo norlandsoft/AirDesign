@@ -34,32 +34,32 @@ class Resizer extends React.Component<ResizerProps> {
     const classes = [resizerClassName, split, className]
 
     return (
-      <span
-        role="presentation"
-        className={classes.join(' ')}
-        style={style}
-        onMouseDown={(event) => onMouseDown(event)}
-        onTouchStart={(event) => {
-          event.preventDefault()
-          onTouchStart(event)
-        }}
-        onTouchEnd={(event) => {
-          event.preventDefault()
-          onTouchEnd(event)
-        }}
-        onClick={(event) => {
-          if (onClick) {
-            event.preventDefault()
-            onClick(event)
-          }
-        }}
-        onDoubleClick={(event) => {
-          if (onDoubleClick) {
-            event.preventDefault()
-            onDoubleClick(event)
-          }
-        }}
-      />
+        <span
+            role="presentation"
+            className={classes.join(' ')}
+            style={style}
+            onMouseDown={(event) => onMouseDown(event)}
+            onTouchStart={(event) => {
+              event.preventDefault()
+              onTouchStart(event)
+            }}
+            onTouchEnd={(event) => {
+              event.preventDefault()
+              onTouchEnd(event)
+            }}
+            onClick={(event) => {
+              if (onClick) {
+                event.preventDefault()
+                onClick(event)
+              }
+            }}
+            onDoubleClick={(event) => {
+              if (onDoubleClick) {
+                event.preventDefault()
+                onDoubleClick(event)
+              }
+            }}
+        />
     )
   }
 }

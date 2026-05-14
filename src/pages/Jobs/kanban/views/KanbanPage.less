@@ -1,0 +1,618 @@
+/**
+ * 任务看板页面样式
+ *
+ * 看板占满父容器；任务查看侧边栏采用卡片分区与时间线，布局现代简洁。
+ *
+ * @author ChaiMingXu
+ */
+.kanban-page {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  min-height: 0;
+  box-sizing: border-box;
+  background: #f5f5f5;
+  padding: 0;
+  gap: 0;
+}
+
+/* 左侧：PlanSession 列表，固定 220px，参考 Claude Tasks SESSIONS 风格 */
+.kanban-page__session-list {
+  flex-shrink: 0;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 0;
+  border-right: 1px solid #eee;
+  overflow: hidden;
+}
+
+/* 左中右三部分顶层 header 固定高度 50px */
+.kanban-page__panel-header {
+  flex-shrink: 0;
+  height: 50px;
+  box-sizing: border-box;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #1a1a1a;
+}
+
+/* 带折叠按钮的 header，标题与按钮两端对齐 */
+.kanban-page__panel-header--with-toolbar {
+  justify-content: space-between;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-family);
+  }
+}
+
+.kanban-page__session-list-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #52c41a;
+  background: #f6ffed;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* 折叠态：提升层级，使右侧 border 不被中间看板遮挡；右侧边框加深 */
+.kanban-page__session-list--collapsed {
+  position: relative;
+  z-index: 1;
+  border-right: 1px solid #ddd;
+}
+
+/* 左侧运行栏折叠态：40px 宽，垂直文字，点击任意位置展开 */
+.kanban-page__session-list-collapsed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fefefe;
+  box-sizing: border-box;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  span {
+    white-space: nowrap;
+    user-select: none;
+    transform: rotate(-90deg);
+    font-size: 0.95rem;
+    letter-spacing: 0.2rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    font-family: var(--font-family);
+  }
+
+  &:hover {
+    background: #eee;
+  }
+}
+
+.kanban-page__session-list-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.kanban-page__session-list-empty {
+  padding: 24px 14px;
+  font-size: 13px;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.kanban-page__session-list-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.kanban-page__session-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s;
+}
+
+.kanban-page__session-item:hover {
+  background: #fafafa;
+}
+
+.kanban-page__session-item--active {
+  background: #f0f7ff;
+  border-left-color: #1677ff;
+}
+
+.kanban-page__session-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kanban-page__session-item-id {
+  flex: 1;
+  font-size: 12px;
+  color: #262626;
+  word-break: break-all;
+}
+
+.kanban-page__session-item-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: #8c8c8c;
+}
+
+.kanban-page__session-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.kanban-page__session-item-more {
+  opacity: 0;
+  transition: opacity 0.15s;
+  color: #8c8c8c;
+  flex-shrink: 0;
+
+  &:hover {
+    color: #1890ff;
+  }
+}
+
+.kanban-page__session-item:hover .kanban-page__session-item-more {
+  opacity: 1;
+}
+
+.kanban-page__session-item-time {
+  font-size: 11px;
+  color: #8c8c8c;
+  display: block;
+  margin-top: 2px;
+}
+
+/* 中间：看板区域，标题与看板上下排列、同级别 */
+.kanban-page__board {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.kanban-page__board-title {
+  flex-shrink: 0;
+  height: 50px;
+  box-sizing: border-box;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #1a1a1a;
+}
+
+.kanban-page__board-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+/* 右侧整体：Splitter 包裹「任务看板」与「任务日志」 */
+.kanban-page__right-side {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Splitter 左侧：看板容器 */
+.kanban-page__board-wrap {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Splitter 右侧：任务日志容器 */
+.kanban-page__log-panel-wrap {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+
+.kanban-page__right-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.kanban-page__right-panel-tabs {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.kanban-page__right-panel-tab {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8c8c8c;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.kanban-page__right-panel-tab:hover {
+  color: #262626;
+}
+
+.kanban-page__right-panel-tab--active {
+  color: #1677ff;
+  border-bottom-color: #1677ff;
+}
+
+.kanban-page__detail-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.kanban-page__detail-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.kanban-page__detail-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.kanban-page__detail-panel-close {
+  width: 24px;
+  height: 24px;
+  font-size: 18px;
+  line-height: 1;
+  color: #8c8c8c;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0;
+}
+
+.kanban-page__detail-panel-close:hover {
+  color: #262626;
+  background: #f5f5f5;
+}
+
+.kanban-page__detail-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.kanban-page__detail-panel-empty {
+  padding: 32px 16px;
+  font-size: 13px;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.kanban-page__detail-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* 右侧：运行日志面板（Tab 内容） */
+.kanban-page__log-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.kanban-page__log-panel-title {
+  flex-shrink: 0;
+  height: 50px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #1a1a1a;
+  border-bottom: 1px solid #eee;
+}
+
+.kanban-page__log-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.kanban-page__log-panel-empty {
+  padding: 24px 14px;
+  font-size: 13px;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.kanban-page__log-list {
+  margin: 0;
+  padding: 0 12px;
+  list-style: none;
+}
+
+.kanban-page__log-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 12px;
+}
+
+.kanban-page__log-item:last-child {
+  border-bottom: none;
+}
+
+.kanban-page__log-item--error .kanban-page__log-content {
+  color: #cf1322;
+}
+
+.kanban-page__log-item--warn .kanban-page__log-content {
+  color: #d46b08;
+}
+
+.kanban-page__log-content {
+  display: block;
+  color: #262626;
+  word-break: break-word;
+  line-height: 1.45;
+}
+
+.kanban-page__log-time {
+  display: block;
+  font-size: 11px;
+  color: #8c8c8c;
+  margin-top: 2px;
+}
+
+/* 任务侧边栏查看模式：卡片分区布局，上方留 24px */
+.kanban-page__task-view {
+  padding: 24px 8px 16px 8px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.kanban-page__view-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eee;
+}
+
+.kanban-page__view-card--basic {
+  padding: 20px 24px;
+}
+
+.kanban-page__view-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  letter-spacing: 0.02em;
+}
+
+.kanban-page__view-field {
+  margin-bottom: 14px;
+}
+
+.kanban-page__view-field:last-child {
+  margin-bottom: 0;
+}
+
+.kanban-page__view-field--no-label {
+  margin-bottom: 16px;
+}
+
+.kanban-page__view-field--no-label:first-child {
+  margin-bottom: 14px;
+}
+
+.kanban-page__view-value {
+  font-size: 14px;
+  color: #262626;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.kanban-page__view-value--main-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  display: block;
+  line-height: 1.4;
+}
+
+.kanban-page__view-value--block {
+  display: block;
+  white-space: pre-wrap;
+  min-height: 1em;
+  font-size: 13px;
+  color: #595959;
+  line-height: 1.55;
+}
+
+/* 后几项：label 与内容左右分布 */
+.kanban-page__view-meta {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.kanban-page__view-meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+  min-height: 22px;
+}
+
+.kanban-page__view-meta-row:last-child {
+  margin-bottom: 0;
+}
+
+.kanban-page__view-meta-label {
+  flex-shrink: 0;
+  min-width: 64px;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.kanban-page__view-meta-value {
+  flex: 1;
+  font-size: 13px;
+  color: #262626;
+  word-break: break-word;
+}
+
+/* 当前状态：标签、状态内容、变更按钮同一行，按钮靠右 */
+.kanban-page__view-card--status-row {
+  padding: 12px 16px;
+}
+
+.kanban-page__status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.kanban-page__status-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #262626;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.kanban-page__view-value--status {
+  display: inline-block;
+  padding: 5px 12px;
+  background: #fafafa;
+  color: #262626;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* 仅用于布局：包裹层靠右，不作用在 Button 上 */
+.kanban-page__status-btn-wrap {
+  margin-left: auto;
+}
+
+.kanban-page__view-empty,
+.kanban-page__status-timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kanban-page__view-empty {
+  font-size: 13px;
+  color: #8c8c8c;
+  padding: 8px 0;
+}
+
+/* 状态变更时间线 */
+.kanban-page__status-timeline-item {
+  position: relative;
+  padding-left: 20px;
+  padding-bottom: 14px;
+}
+
+.kanban-page__status-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.kanban-page__status-timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1677ff;
+}
+
+.kanban-page__status-timeline-content {
+  font-size: 13px;
+  color: #262626;
+}
+
+.kanban-page__status-timeline-change {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.kanban-page__status-timeline-reason {
+  margin: 4px 0 2px 0;
+  color: #595959;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.kanban-page__status-timeline-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.kanban-page__status-timeline-operator {
+  font-size: 11px;
+  color: #595959;
+}
+
+.kanban-page__status-timeline-time {
+  font-size: 11px;
+  color: #8c8c8c;
+}

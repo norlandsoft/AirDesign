@@ -11,7 +11,7 @@ interface PaneProps {
 
 class Pane extends React.PureComponent<PaneProps> {
   render() {
-    const { children, className, split, style: styleProps, size, eleRef } = this.props
+    const {children, className, split, style: styleProps, size, eleRef} = this.props
 
     const classes = ['Pane', split, className]
 
@@ -34,9 +34,9 @@ class Pane extends React.PureComponent<PaneProps> {
     style = Object.assign({}, style, styleProps || {})
 
     return (
-      <div ref={eleRef} className={classes.join(' ')} style={style}>
-        {children}
-      </div>
+        <div ref={eleRef} className={classes.join(' ')} style={style}>
+          {children}
+        </div>
     )
   }
 }

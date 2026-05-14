@@ -1,0 +1,316 @@
+/**
+ * 数字工作室 - 资产页样式
+ *
+ * 首页布局参考测试管理问题页：顶部工具栏 + 表格；选中仓库后为顶部栏 + 左侧文件树 + 右侧内容。
+ *
+ * Created by ChaiMingXu, on 2026-02-10
+ */
+.studio-assets {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #f6f8fa;
+  box-sizing: border-box;
+
+  /* 首页布局（与测试管理问题页一致） */
+
+  &.studio-assets-home {
+    padding: 0 16px;
+    background: #ffffff;
+  }
+
+  .github-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 4px;
+    gap: 12px;
+    flex-shrink: 0;
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .studio-assets-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: #fff;
+    border-bottom: 1px solid #d0d7de;
+
+    .studio-assets-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .studio-assets-header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .studio-assets-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1f2328;
+      flex-shrink: 0;
+    }
+
+    .studio-assets-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .studio-assets-repo-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .studio-assets-repo-name {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #1f2328;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .studio-assets-branch-select {
+      padding: 4px 8px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      background: #fff;
+      color: #1f2328;
+      min-width: 120px;
+    }
+  }
+
+  .studio-assets-body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .studio-assets-repo-list {
+    flex: 1;
+    overflow: auto;
+    padding: 24px;
+  }
+
+  /* 首页表格区样式（与问题页一致） */
+
+  :global {
+    .studio-assets-home .air-table-container {
+      .semi-table-wrapper {
+        border: none !important;
+      }
+
+      .semi-table-tbody tr {
+        border-bottom: 1px solid #d0d7de;
+        transition: background 0.1s ease;
+
+        &:hover {
+          background: #f6f8fa;
+        }
+
+        td {
+          padding: 16px !important;
+          border: none !important;
+          vertical-align: top;
+        }
+      }
+    }
+  }
+
+  .studio-assets-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 200px;
+    color: #6e7781;
+    font-size: 0.875rem;
+
+    p {
+      margin-top: 12px;
+      max-width: 360px;
+      text-align: center;
+    }
+  }
+
+  .studio-assets-repo-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .studio-assets-repo-card {
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:hover {
+      border-color: #0969da;
+      box-shadow: 0 2px 8px rgba(9, 105, 218, 0.12);
+    }
+
+    .studio-assets-repo-card-name {
+      font-weight: 600;
+      color: #0969da;
+      font-size: 0.9375rem;
+    }
+
+    .studio-assets-repo-card-desc {
+      margin-top: 6px;
+      font-size: 0.8125rem;
+      color: #6e7781;
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .studio-assets-tree-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .studio-assets-breadcrumb {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.8125rem;
+    color: #6e7781;
+    border-bottom: 1px solid #d0d7de;
+    background: #f6f8fa;
+
+    .studio-assets-breadcrumb-item {
+      color: #0969da;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .studio-assets-breadcrumb-sep {
+      margin: 0 4px;
+      color: #6e7781;
+    }
+  }
+
+  .studio-assets-tree-list {
+    flex: 1;
+    overflow: auto;
+    padding: 8px 0;
+  }
+
+  .studio-assets-tree-loading {
+    padding: 16px;
+    font-size: 0.875rem;
+    color: #6e7781;
+  }
+
+  .studio-assets-tree-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    color: #1f2328;
+    cursor: pointer;
+
+    &:hover {
+      background: #f6f8fa;
+    }
+  }
+
+  .studio-assets-content-panel {
+    flex: 1;
+    min-width: 0;
+    overflow: auto;
+    background: #fff;
+  }
+
+  .studio-assets-file-content {
+    height: 100%;
+    box-sizing: border-box;
+
+    .studio-assets-file-pre {
+      margin: 0;
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-all;
+      font-family: ui-monospace, monospace;
+    }
+  }
+
+  .studio-assets-binary-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #6e7781;
+    font-size: 0.875rem;
+  }
+
+  .studio-assets-content-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #0969da;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .studio-assets-empty-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 120px;
+    color: #6e7781;
+    font-size: 0.875rem;
+  }
+}

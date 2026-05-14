@@ -35,19 +35,19 @@ const ToggleButton: React.FC<ToggleButtonProps> = (props) => {
   }
 
   return (
-    <div
-      className={styles.airToggleButton}
-      style={{
-        height: size,
-        width: size,
-        border: selected ? '1px solid #888' : borderStyle,
-        borderRadius: borderRadius,
-        backgroundColor: selected ? selectedColor : unselectedColor,
-      }}
-      onClick={handleButtonClick}
-    >
-      <Icon name={icon} size={size - 12} />
-    </div>
+      <div
+          className={styles.airToggleButton}
+          style={{
+            height: size,
+            width: size,
+            border: selected ? '1px solid #888' : borderStyle,
+            borderRadius: borderRadius,
+            backgroundColor: selected ? selectedColor : unselectedColor,
+          }}
+          onClick={handleButtonClick}
+      >
+        <Icon name={icon} size={size - 12}/>
+      </div>
   )
 }
 

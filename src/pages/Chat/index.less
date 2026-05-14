@@ -1,0 +1,142 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  font-family: var(--font-family) !important;
+
+  .topic {
+    overflow: auto;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  // 中间内容区域：自动填充剩余高度
+  .body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  // 新建对话欢迎区域：垂直水平居中
+  .welcome {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 欢迎区域内容容器
+  .welcomeContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 680px;
+    padding: 0 20px;
+  }
+
+  // 欢迎页面输入框区域
+  .welcomeInput {
+    width: 100%;
+  }
+
+  // 欢迎语
+  .welcomeTitle {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 0.5px;
+  }
+
+  // 模式切换组件：圆角胶囊按钮组
+  .welcomeModeToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef1f5;
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+
+    .modeBtn {
+      padding: 4px 16px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: #8c8c8c;
+      font-size: 12px;
+      font-weight: 450;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      line-height: 20px;
+      letter-spacing: 0.3px;
+
+      &:hover {
+        color: #555;
+      }
+
+      &.active {
+        background: #fff;
+        color: #1a5632;
+        font-weight: 600;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+      }
+    }
+  }
+
+  .toggle {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+
+    .toggleInner {
+      width: 18px;
+      height: 32px;
+      cursor: pointer;
+      transition-delay: 0.5s;
+    }
+  }
+}
+
+.docListButton {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #123F68;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+  svg path {
+    stroke: #fff;
+  }
+
+  &:hover {
+    background: #e8e8e8;
+    transition: all 0.3s;
+    svg path {
+      stroke: #000;
+    }
+  }
+}

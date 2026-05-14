@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConfigProvider, Tabs, Tooltip } from 'antd'
+import {ConfigProvider, Tabs, Tooltip} from 'antd'
 import Icon from '../Icon'
 import './index.less'
 
@@ -53,26 +53,27 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
   const tabItems: any[] = []
   items.map((tab) => {
     const title = (
-      <Tooltip
-        placement="top"
-        title={tab.label.length > MAX_TAB_LENGTH ? tab.label : null}
-        arrow={false}
-        autoAdjustOverflow={false}
-        styles={{
-          root: { maxWidth: 'unset', whiteSpace: 'nowrap', borderRadius: '2px' },
-        }}
-      >
-        <div className={'air-tabs-button'}>
-          {/*<div className={'air-tabs-button-split'}></div>*/}
-          {tab.icon ? <Icon name={tab.icon} size={18} /> : null}
-          {tab.label.length > MAX_TAB_LENGTH
-            ? `${tab.label.substring(0, MAX_TAB_LENGTH)}...`
-            : tab.label}
-        </div>
-      </Tooltip>
+        <Tooltip
+            placement="top"
+            title={tab.label.length > MAX_TAB_LENGTH ? tab.label : null}
+            arrow={false}
+            autoAdjustOverflow={false}
+            styles={{
+              root: {maxWidth: 'unset'},
+              body: {whiteSpace: 'nowrap', borderRadius: '2px'},
+            }}
+        >
+          <div className={'air-tabs-button'}>
+            {/*<div className={'air-tabs-button-split'}></div>*/}
+            {tab.icon ? <Icon name={tab.icon} size={18}/> : null}
+            {tab.label.length > MAX_TAB_LENGTH
+                ? `${tab.label.substring(0, MAX_TAB_LENGTH)}...`
+                : tab.label}
+          </div>
+        </Tooltip>
     )
 
-    tabItems.push({ label: title, key: tab.key, closable: tab.closable, icon: undefined })
+    tabItems.push({label: title, key: tab.key, closable: tab.closable, icon: undefined})
   })
 
   const handleChangeTab = (key) => {
@@ -84,32 +85,32 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
   }
 
   return (
-    <ConfigProvider prefixCls="air">
-      <div className={'air-tab-panel'} style={{ height, width }}>
-        <div style={{ height: tabHeight, boxSizing: 'border-box' }}>
-          {items.length > 0 && (
-            <Tabs
-              hideAdd
-              type="editable-card"
-              items={tabItems}
-              activeKey={currentKey}
-              onChange={handleChangeTab}
-              onEdit={(key, action) => {
-                if (action === 'remove') {
-                  const tab = items.find((tab) => tab.key === key)
-                  if (onRemoveTab) {
-                    onRemoveTab(tab)
-                  }
-                }
-              }}
-            />
-          )}
+      <ConfigProvider prefixCls="air">
+        <div className={'air-tab-panel'} style={{height, width}}>
+          <div style={{height: tabHeight, boxSizing: 'border-box'}}>
+            {items.length > 0 && (
+                <Tabs
+                    hideAdd
+                    type="editable-card"
+                    items={tabItems}
+                    activeKey={currentKey}
+                    onChange={handleChangeTab}
+                    onEdit={(key, action) => {
+                      if (action === 'remove') {
+                        const tab = items.find((tab) => tab.key === key)
+                        if (onRemoveTab) {
+                          onRemoveTab(tab)
+                        }
+                      }
+                    }}
+                />
+            )}
+          </div>
+          <div style={{height: height - tabHeight, boxSizing: 'border-box'}}>
+            {items.find((item) => item.key === currentKey)?.children}
+          </div>
         </div>
-        <div style={{ height: height - tabHeight, boxSizing: 'border-box' }}>
-          {items.find((item) => item.key === currentKey)?.children}
-        </div>
-      </div>
-    </ConfigProvider>
+      </ConfigProvider>
   )
 }
 

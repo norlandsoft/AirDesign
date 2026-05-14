@@ -1,10 +1,10 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client'
-import { ConfigProvider } from 'antd'
+import {createRoot} from 'react-dom/client'
+import {ConfigProvider} from 'antd'
 import ModalDialog from './ModalDialog'
 
 const Dialog = (props) => {
-  const { title, content, width, message, onConfirm, onInit } = props
+  const {title, content, width, message, onConfirm, onInit} = props
 
   const domId = 'air-modal-dialog'
   const dialogRef = React.createRef()
@@ -16,12 +16,12 @@ const Dialog = (props) => {
   }
 
   const DialogContent = (
-    <ConfigProvider prefixCls={'air'}>
-      <ModalDialog {...props} ref={dialogRef} visible={true} domId={domId} onOk={handleConfirm}>
-        <>{message}</>
-        <>{content}</>
-      </ModalDialog>
-    </ConfigProvider>
+      <ConfigProvider prefixCls={'air'}>
+        <ModalDialog {...props} ref={dialogRef} visible={true} domId={domId} onOk={handleConfirm}>
+          <>{message}</>
+          <>{content}</>
+        </ModalDialog>
+      </ConfigProvider>
   )
 
   // 在id为root的DOM上创建

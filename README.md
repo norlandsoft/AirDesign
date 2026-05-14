@@ -1,58 +1,60 @@
-# AirDesign
+# AirDirector 前端项目
 
-AirDesign 是基于 `@umijs/max` 的前端应用 + React 组件库，提供毛玻璃（glassmorphism）风格 UI 组件，支持场景模拟展示与 npm 包发布双模式。
+测试管理平台前端应用，基于 UmiJS Max + React + TypeScript + Ant Design 开发。
 
 ## 技术栈
 
-- `@umijs/max` 框架 + React 19 + TypeScript
-- antd 6 UI 库
-- Less 样式
-- Rollup 构建 npm 包（ESM + CJS，Less 输出为独立 CSS）
-- 内置字体：Space Grotesk（界面）、JetBrains Mono（代码）
+- **框架**: UmiJS Max 4.x
+- **UI组件库**: Ant Design 5.x
+- **开发语言**: TypeScript
+- **构建工具**: UmiJS
 
-## 快速开始
+## 项目结构
+
+```
+frontend/
+├── src/
+│   ├── pages/          # 页面组件
+│   │   ├── Home/       # 首页
+│   │   └── User/       # 用户管理
+│   ├── layouts/        # 布局组件
+│   ├── app.tsx         # 应用配置
+│   └── typings.d.ts    # 类型定义
+├── .umirc.ts          # UmiJS配置文件
+├── tsconfig.json       # TypeScript配置
+└── package.json        # 项目依赖
+```
+
+## 开发
+
+### 安装依赖
 
 ```bash
 npm install
-npm run dev          # 启动 Umi 开发服务器 → http://localhost:8000
-npm run build        # 构建 Umi 应用（产物 → dist/）
-npm run build:lib    # 构建 npm 包（产物 → lib/）
 ```
 
-## 场景页面
+### 启动开发服务器
 
-| 路由 | 说明 |
-|------|------|
-| `/` | 首页 — 组件分类概览 |
-| `/table` | 表格场景 — Table + TableRowMenu + Pagination |
-| `/tree` | 树形场景 — Tree + 搜索 + 右键菜单 + 拖拽 |
-| `/form` | 表单场景 — Button + EditableLabel + ColorPicker + Dialog + Notification |
-| `/layout` | 布局场景 — Splitter + SlidePanel + TabPanel + GroupSplitter |
-
-## 作为 npm 包使用
-
-```ts
-import { Button, Icon, Dialog } from 'air-design';
-import 'air-design/lib/index.css';
+```bash
+npm run dev
 ```
 
-`package.json` 引用：
+访问 http://localhost:8000
 
-```json
-"air-design": "file:../AirDesign"
+### 构建生产版本
+
+```bash
+npm run build
 ```
 
-## 已包含组件
+## 功能模块
 
-- **Button 系**：Button、IconButton、MenuButton、ToggleButton
-- **基础**：Icon、ColorPicker、Message、Notification、EditableLabel、Help、LoadingPanel
-- **布局/容器**：Dialog、UploadDialog、SlidePanel、Splitter（含 Pane）、GroupSplitter、TabPanel
-- **数据展示**：Table、TableRowMenu、Tree、List
+- 首页：展示平台概览信息
+- 用户管理：用户的增删改查功能
 
-## Peer 依赖
+## 配置说明
 
-使用方需提供：`react`、`react-dom`。
+- 代理配置：开发环境已配置代理到后端服务 `http://localhost:8080`
+- 路由配置：在 `.umirc.ts` 中配置
+- 主题配置：Ant Design 主题在 `.umirc.ts` 中配置
 
-## 作者
-
-ChaiMingxu

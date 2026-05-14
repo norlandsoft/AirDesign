@@ -1,32 +1,32 @@
-import React, { ReactNode } from 'react'
-import { ConfigProvider, Dropdown, Tooltip } from 'antd'
+import React, {ReactNode} from 'react'
+import {ConfigProvider, Dropdown, Tooltip} from 'antd'
 import Icon from '../Icon'
 import './IconButton.less'
 
 type DropdownPlacement =
-  | 'top'
-  | 'topLeft'
-  | 'topRight'
-  | 'bottom'
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'left'
-  | 'leftTop'
-  | 'leftBottom'
-  | 'right'
-  | 'rightTop'
-  | 'rightBottom'
+    | 'top'
+    | 'topLeft'
+    | 'topRight'
+    | 'bottom'
+    | 'bottomLeft'
+    | 'bottomRight'
+    | 'left'
+    | 'leftTop'
+    | 'leftBottom'
+    | 'right'
+    | 'rightTop'
+    | 'rightBottom'
 
 /** Ant Design Dropdown 仅声明了部分 placement，实际 rc-trigger 支持 left/right 等 */
 type AntdDropdownPlacement =
-  | 'top'
-  | 'topLeft'
-  | 'topRight'
-  | 'bottom'
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topCenter'
-  | 'bottomCenter'
+    | 'top'
+    | 'topLeft'
+    | 'topRight'
+    | 'bottom'
+    | 'bottomLeft'
+    | 'bottomRight'
+    | 'topCenter'
+    | 'bottomCenter'
 
 interface IconButtonProps {
   icon?: string
@@ -69,60 +69,60 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
 
   // 如果提供了自定义图标，使用自定义图标；否则使用 Icon 组件
   const iconElement = customIcon ? (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      {customIcon}
-    </div>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        {customIcon}
+      </div>
   ) : icon ? (
-    <Icon name={icon} size={iconSize} />
+      <Icon name={icon} size={iconSize}/>
   ) : null
 
   const buttonContent = (
-    <div
-      className={`air-icon-button ${disabled ? 'disabled' : ''}`}
-      style={{
-        height: size,
-        lineHeight: `${size}px`,
-        width: size,
-        border: bordered ? '1px solid #ddd' : 'none',
-        borderRadius: borderRadius,
-        ...style,
-      }}
-      onClick={disabled ? undefined : onClick}
-      id={buttonId}
-    >
-      {iconElement}
-    </div>
+      <div
+          className={`air-icon-button ${disabled ? 'disabled' : ''}`}
+          style={{
+            height: size,
+            lineHeight: `${size}px`,
+            width: size,
+            border: bordered ? '1px solid #ddd' : 'none',
+            borderRadius: borderRadius,
+            ...style,
+          }}
+          onClick={disabled ? undefined : onClick}
+          id={buttonId}
+      >
+        {iconElement}
+      </div>
   )
 
   const wrappedButton = items ? (
-    <Dropdown
-      menu={{ items }}
-      trigger={['click']}
-      destroyOnHidden={true}
-      placement={dropdownPlacement as AntdDropdownPlacement}
-      getPopupContainer={() => document.body}
-      overlayClassName="air-icon-button-dropdown"
-    >
-      {buttonContent}
-    </Dropdown>
+      <Dropdown
+          menu={{items}}
+          trigger={['click']}
+          destroyOnHidden={true}
+          placement={dropdownPlacement as AntdDropdownPlacement}
+          getPopupContainer={() => document.body}
+          overlayClassName="air-icon-button-dropdown"
+      >
+        {buttonContent}
+      </Dropdown>
   ) : (
-    buttonContent
+      buttonContent
   )
 
   return tooltip ? (
-    <ConfigProvider
-      theme={{
-        token: {
-          borderRadius: 0,
-        },
-      }}
-    >
-      <Tooltip title={tooltip} placement={placement} destroyOnHidden={true} mouseEnterDelay={0.8}>
-        {wrappedButton}
-      </Tooltip>
-    </ConfigProvider>
+      <ConfigProvider
+          theme={{
+            token: {
+              borderRadius: 0,
+            },
+          }}
+      >
+        <Tooltip title={tooltip} placement={placement} destroyOnHidden={true} mouseEnterDelay={0.8}>
+          {wrappedButton}
+        </Tooltip>
+      </ConfigProvider>
   ) : (
-    <>{wrappedButton}</>
+      <>{wrappedButton}</>
   )
 }
 
