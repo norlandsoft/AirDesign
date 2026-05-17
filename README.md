@@ -335,7 +335,7 @@ npm run build
 
 | 业务组件 | 需要安装的依赖 |
 |----------|----------------|
-| CodeEditor | `react-monaco-editor`, `monaco-editor` |
+| CodeEditor | `@monaco-editor/react`（Monaco 从 CDN 自动加载，无需额外配置） |
 | RichEditor | `@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/pm` 等 TipTap 扩展 |
 | Markdown | `react-markdown`, `react-syntax-highlighter`, `remark-gfm`, `rehype-katex` |
 | Kanban | `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` |

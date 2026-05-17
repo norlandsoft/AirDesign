@@ -56,7 +56,7 @@ export default defineConfig({
         // DnD Kit
         if (id.startsWith('@dnd-kit/')) return true
         // Monaco Editor
-        if (id === 'react-monaco-editor' || id.startsWith('react-monaco-editor/') || id === 'monaco-editor' || id.startsWith('monaco-editor/')) return true
+        if (id === '@monaco-editor/react' || id.startsWith('@monaco-editor/react/') || id === 'monaco-editor' || id.startsWith('monaco-editor/')) return true
         // Markdown / 代码高亮
         if (id === 'react-markdown' || id.startsWith('react-markdown/') || id === 'react-syntax-highlighter' || id.startsWith('react-syntax-highlighter/')) return true
         // 其他
