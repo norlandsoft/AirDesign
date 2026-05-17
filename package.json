@@ -21,9 +21,7 @@
     "**/*.less"
   ],
   "scripts": {
-    "start": "cross-env PORT=6600 max dev",
-    "build": "max build",
-    "build:lib": "vite build"
+    "build": "vite build"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -57,8 +55,6 @@
     "@tiptap/react": "^3.15.3",
     "@tiptap/starter-kit": "^3.15.3",
     "@tiptap/suggestion": "^3.15.3",
-    "@xterm/addon-fit": "^0.11.0",
-    "@xterm/xterm": "^6.0.0",
     "@xyflow/react": "^12.10.0",
     "antd": "^5.29.1",
     "katex": "^0.16.0",
@@ -79,13 +75,9 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-syntax-highlighter": "^15.5.13",
-    "@umijs/max": "^4.6.7",
     "@vitejs/plugin-react": "^4.3.0",
-    "ajv": "^8.20.0",
-    "cross-env": "^7.0.3",
     "less": "^4.2.0",
     "monaco-editor": "^0.52.2",
-    "monaco-editor-webpack-plugin": "^7.1.1",
     "typescript": "^5.9.3",
     "vite": "^6.3.0",
     "vite-plugin-dts": "^4.5.0",

@@ -15,39 +15,35 @@
 ```
 src/
 ├── index.ts                        # 组件库主入口
-├── components/
-│   ├── AirDesign/                  # 核心 UI 组件
-│   │   ├── index.ts                # 核心组件统一导出
-│   │   ├── base.less               # 全局样式、字体、CSS 变量
-│   │   ├── Button/                 # 按钮（Button / IconButton / MenuButton / ToggleButton）
-│   │   ├── Icon/                   # 图标
-│   │   ├── ColorPicker/            # 颜色选择器
-│   │   ├── Message/                # 消息提示
-│   │   ├── Notification/           # 通知提示
-│   │   ├── Dialog/                 # 对话框（Dialog / UploadDialog）
-│   │   ├── EditableLabel/          # 可编辑标签
-│   │   ├── GroupSplitter/          # 分组分隔器
-│   │   ├── Help/                   # 帮助组件
-│   │   ├── SlidePanel/             # 滑动面板
-│   │   ├── Splitter/               # 分割面板（Splitter / Pane）
-│   │   ├── TabPanel/               # 标签页面板
-│   │   ├── Tree/                   # 树组件
-│   │   ├── List/                   # 列表组件
-│   │   ├── Table/                  # 表格（Table / TableRowMenu）
-│   │   ├── LoadingPanel/           # 加载面板
-│   │   ├── Spin/                   # 加载旋转
-│   │   └── fonts/                  # 字体文件（Space Grotesk / JetBrains Mono）
-│   ├── CodeEditor/                 # 代码编辑器（Monaco Editor）
-│   ├── RichEditor/                 # 富文本编辑器（TipTap）
-│   ├── Markdown/                   # Markdown 渲染
-│   ├── Kanban/                     # 看板（dnd-kit）
-│   ├── MindPanel/                  # 思维导图（XYFlow）
-│   ├── MenuBar/                    # 菜单栏
-│   ├── Toolbar/                    # 工具栏
-│   ├── PropertiesNaviBar/          # 属性导航栏
-│   ├── WebClient/                  # Web 客户端
-│   └── WebShell/                   # Web 终端（xterm.js）
-└── vite.config.ts                  # Vite 构建配置
+├── typings.d.ts                    # 全局类型声明
+├── style/
+│   ├── base.less                   # 全局样式、字体、CSS 变量
+│   └── fonts/                      # 字体文件（Space Grotesk / JetBrains Mono）
+├── Button/                         # 按钮（Button / IconButton / MenuButton / ToggleButton）
+├── Icon/                           # 图标
+├── ColorPicker/                    # 颜色选择器
+├── Message/                        # 消息提示
+├── Notification/                   # 通知提示
+├── Dialog/                         # 对话框（Dialog / UploadDialog）
+├── EditableLabel/                  # 可编辑标签
+├── GroupSplitter/                  # 分组分隔器
+├── Help/                           # 帮助组件
+├── SlidePanel/                     # 滑动面板
+├── Splitter/                       # 分割面板（Splitter / Pane）
+├── TabPanel/                       # 标签页面板
+├── Tree/                           # 树组件
+├── List/                           # 列表组件
+├── Table/                          # 表格（Table / TableRowMenu）
+├── LoadingPanel/                   # 加载面板
+├── Spin/                           # 加载旋转
+├── CodeEditor/                     # 代码编辑器（Monaco Editor）
+├── RichEditor/                     # 富文本编辑器（TipTap）
+├── Markdown/                       # Markdown 渲染
+├── Kanban/                         # 看板（dnd-kit）
+├── MindPanel/                      # 思维导图（XYFlow）
+├── MenuBar/                        # 菜单栏
+├── PropertiesNaviBar/              # 属性导航栏
+└── WebClient/                      # Web 客户端
 ```
 
 ## 构建
@@ -66,7 +62,7 @@ npm install
 ### 构建组件库
 
 ```bash
-npm run build:lib
+npm run build
 ```
 
 构建产物输出到 `dist/` 目录：
@@ -97,14 +93,6 @@ dist/
 - 开启 `preserveModules` 保留模块结构，消费者项目可按需加载
 - 所有 `.less` 文件自动作为 CSS Modules 处理，编译为 `style.css`
 
-### 开发模式（预览文档站）
-
-```bash
-npm run start
-```
-
-访问 http://localhost:6600
-
 ## 在项目中引用
 
 以下所有方式在代码中的使用方法一致：
@@ -117,7 +105,7 @@ import 'air-design/style.css'
 import { Button, Table, CodeEditor } from 'air-design'
 
 // 引入类型
-import type { CodeEditorRef, WebShellConnectOptions } from 'air-design'
+import type { CodeEditorRef, RichEditorRef } from 'air-design'
 ```
 
 由于构建产物保留了模块结构并开启了 `sideEffects` 标记，打包工具（Webpack / Vite）会自动进行 tree-shaking，未使用的组件不会被打包。
@@ -145,13 +133,13 @@ npm install file:../AirDesign
 
 **注意事项：**
 
-- 安装前需先在 AirDesign 目录执行 `npm run build:lib` 生成 `dist/` 产物
+- 安装前需先在 AirDesign 目录执行 `npm run build` 生成 `dist/` 产物
 - 修改组件库代码后，需重新构建并重新安装：
 
 ```bash
 # 组件库目录
 cd AirDesign
-npm run build:lib
+npm run build
 
 # 业务项目目录（重新安装以同步最新产物）
 cd ../your-project
@@ -172,7 +160,7 @@ npm install air-design
 ```bash
 cd /opt/AirDesign
 npm install
-npm run build:lib
+npm run build
 npm link
 ```
 
@@ -191,7 +179,7 @@ npm link air-design
 
 ```bash
 # 在 AirDesign 目录
-npm run build:lib
+npm run build
 # 业务项目无需任何操作，刷新页面即可看到变更
 ```
 
@@ -237,7 +225,7 @@ resolve: {
 ```json
 {
   "scripts": {
-    "postinstall": "npm run build:lib"
+    "postinstall": "npm run build"
   }
 }
 ```
@@ -277,18 +265,6 @@ npm install git+ssh://git@github.com:your-org/AirDesign.git#04330d7
 
 不在组件库中配置 postinstall，而是在业务项目的构建脚本中显式处理：
 
-```json
-{
-  "scripts": {
-    "build": "npm run build:lib && npm run build:app",
-    "build:lib": "cd node_modules/air-design && npm run build:lib",
-    "build:app": "vite build"
-  }
-}
-```
-
-或者更简洁的方式——先将组件库作为 devDependency 安装源码，在构建流水线中处理：
-
 ```bash
 # 1. 安装依赖（会 clone Git 仓库到 node_modules/air-design）
 npm install
@@ -296,7 +272,7 @@ npm install
 # 2. 进入组件库目录安装依赖并构建
 cd node_modules/air-design
 npm install
-npm run build:lib
+npm run build
 cd ../..
 
 # 3. 构建业务项目
@@ -340,11 +316,9 @@ npm run build
 | Markdown | `Markdown` | Markdown 渲染 | react-markdown |
 | Kanban | `Kanban` | 看板 | dnd-kit |
 | MindPanel | `MindPanel` | 思维导图 | XYFlow |
-| MenuBar | `MenuBar` | 菜单栏 | — |
-| Toolbar | `Toolbar` | 工具栏 | — |
-| PropertiesNaviBar | `PropertiesNaviBar` | 属性导航栏 | — |
-| WebClient | `WebClient` | Web 客户端 | — |
-| WebShell | `WebShell` | Web 终端 | xterm.js |
+| MenuBar | `MenuBar` | 菜单栏 | -- |
+| PropertiesNaviBar | `PropertiesNaviBar` | 属性导航栏 | -- |
+| WebClient | `WebClient` | Web 客户端 | -- |
 
 ## 对等依赖
 
@@ -366,7 +340,6 @@ npm run build
 | Markdown | `react-markdown`, `react-syntax-highlighter`, `remark-gfm`, `rehype-katex` |
 | Kanban | `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` |
 | MindPanel | `@xyflow/react` |
-| WebShell | `@xterm/xterm`, `@xterm/addon-fit` |
 
 > 核心 UI 组件（Button、Table、Tree 等）仅依赖 `antd` 和 `@ant-design/icons`，无额外安装要求。
 
@@ -376,8 +349,8 @@ npm run build
 
 ```tsx
 import { CodeEditor, CodeEditorRef } from 'air-design'
-import { WebShell, WebShellConnectOptions } from 'air-design'
-import type { ToolbarItem } from 'air-design'
+import { RichEditor, RichEditorRef } from 'air-design'
+import type { KanbanProps, ActionStatus } from 'air-design'
 ```
 
 ## 浏览器兼容性

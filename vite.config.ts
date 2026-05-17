@@ -62,18 +62,11 @@ export default defineConfig({
     svgr(),
     lessAsCSSModules(),
     dts({
-      include: ['src/components/**/*', 'src/index.ts'],
+      include: ['src/**/*'],
       outDir: 'dist',
       tsconfigPath: './tsconfig.build.json',
     }),
   ],
-
-  resolve: {
-    alias: {
-      // 构建时将 air-design 引用解析到源码，Rollup 内联处理
-      'air-design': resolve(__dirname, 'src/components/AirDesign/index.ts'),
-    },
-  },
 
   css: {
     modules: {
@@ -134,8 +127,6 @@ export default defineConfig({
         '@dnd-kit/core',
         '@dnd-kit/sortable',
         '@dnd-kit/utilities',
-        '@xterm/xterm',
-        '@xterm/addon-fit',
         'react-monaco-editor',
         'monaco-editor',
         'react-markdown',

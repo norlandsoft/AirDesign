@@ -7,33 +7,51 @@
  * @author ChaiMingXu, on 2026/05/14
  */
 
-// AirDesign 核心组件库（含 base.less）
-export * from './components/AirDesign'
+import './style/base.less'
+
+// 核心 UI 组件
+export {default as Button} from './Button'
+export {default as IconButton} from './Button/IconButton'
+export {default as MenuButton} from './Button/MenuButton'
+export {default as ToggleButton} from './Button/ToggleButton'
+export {default as Icon} from './Icon'
+export {default as ColorPicker} from './ColorPicker'
+export {default as Message} from './Message'
+export {success, warn, warning, error, info} from './Notification'
+export {default as Dialog} from './Dialog'
+export {default as UploadDialog} from './Dialog/UploadDialog'
+export {default as EditableLabel} from './EditableLabel'
+export {default as GroupSplitter} from './GroupSplitter'
+export {default as Help} from './Help'
+export {default as SlidePanel} from './SlidePanel'
+export {default as Splitter} from './Splitter'
+export {Pane} from './Splitter'
+export {default as TabPanel} from './TabPanel'
+export {default as Tree} from './Tree'
+export {default as List} from './List'
+export {default as LoadingPanel} from './LoadingPanel'
+export {default as Spin} from './Spin'
+export {default as Table} from './Table'
+export {default as TableRowMenu} from './Table/TableRowMenu'
 
 // 业务组件
-export {default as CodeEditor} from './components/CodeEditor'
-export type {CodeEditorRef} from './components/CodeEditor'
+export {default as CodeEditor} from './CodeEditor'
+export type {CodeEditorRef} from './CodeEditor'
 
-export {default as Kanban} from './components/Kanban'
+export {default as Kanban} from './Kanban'
 
-export {default as Markdown} from './components/Markdown'
+export {default as Markdown} from './Markdown'
 
-export {default as MenuBar} from './components/MenuBar'
+export {default as MenuBar} from './MenuBar'
 
-export {default as MindPanel} from './components/MindPanel'
+export {default as MindPanel} from './MindPanel'
 
-export {default as PropertiesNaviBar} from './components/PropertiesNaviBar'
+export {default as PropertiesNaviBar} from './PropertiesNaviBar'
 
-export {default as RichEditor} from './components/RichEditor'
-export type {RichEditorRef} from './components/RichEditor'
+export {default as RichEditor} from './RichEditor'
+export type {RichEditorRef} from './RichEditor'
 
-export {default as Toolbar} from './components/Toolbar'
-export type {ToolbarItem, ToolbarProps} from './components/Toolbar'
-
-export {default as WebClient} from './components/WebClient'
-
-export {default as WebShell} from './components/WebShell'
-export type {WebShellConnectOptions, WebShellProps} from './components/WebShell'
+export {default as WebClient} from './WebClient'
 
 // 看板类型导出
-export type {ActionProps, ActionStatus} from './components/Kanban/KanbanProps'
+export type {ActionProps, ActionStatus} from './Kanban/KanbanProps'
