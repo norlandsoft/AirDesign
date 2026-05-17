@@ -18,7 +18,7 @@ import {Indent} from './extensions/extension-ident';
 import {Image} from './extensions/extension-image';
 import {TableExtensions} from './extensions/extension-table';
 
-import {lowlight} from 'lowlight'
+import {createLowlight, common} from 'lowlight'
 
 import EditorMenu from './EditorMenu';
 import TableBubbleMenu from './components/TableBubbleMenu';
@@ -89,7 +89,7 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
       underline: false,
     }),
     CodeBlockLowlight.configure({
-      lowlight: lowlight,
+      lowlight: createLowlight(common),
       defaultLanguage: 'javascript',
     }),
     Color,

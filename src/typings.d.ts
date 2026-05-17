@@ -1,39 +1,25 @@
 /**
  * 全局类型定义文件
  *
- * @author AirDirector Team
+ * @author ChaiMingXu, on 2026/05/17
  */
 
 declare module '*.css';
-declare module '*.less';
+declare module '*.less' {
+  const classes: { [key: string]: string }
+  export default classes
+}
 declare module '*.scss';
 declare module '*.sass';
-declare module '*.svg';
+declare module '*.svg' {
+  const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>
+  export {ReactComponent}
+  const src: string
+  export default src
+}
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
-
-/**
- * require.context 类型声明（Webpack 特有 API）
- */
-interface RequireContext {
-  keys(): string[];
-  (id: string): string;
-  <T>(id: string): T;
-  resolve(id: string): string;
-  id: string;
-}
-
-declare namespace NodeJS {
-  interface Require {
-    context(
-      directory: string,
-      useSubdirectories?: boolean,
-      regExp?: RegExp,
-    ): RequireContext;
-  }
-}
-

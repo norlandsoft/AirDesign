@@ -1,22 +1,5 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        "src/.umi/*"
-      ],
-      "umi": [
-        "node_modules/umi"
-      ],
-      "umi/typings": [
-        "src/.umi/typings"
-      ],
-      "air-design": [
-        "src/components/AirDesign"
-      ]
-    },
     "module": "ES2022",
     "allowJs": true,
     "skipLibCheck": true,
@@ -37,12 +20,8 @@
     "noImplicitAny": false
   },
   "include": [
-    "node_modules/antd/lib/**/*",
     "src/**/*",
-    "**/*.svg",
-    ".umirc.ts",
-    "module.d.ts",
-    "typings.d.ts"
+    "src/typings.d.ts"
   ],
   "types": ["estree"]
 }
