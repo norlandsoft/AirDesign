@@ -89,59 +89,30 @@ export default defineConfig({
     },
 
     rollupOptions: {
-      // 第三方包不打包进产物
-      external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        'antd',
-        '@ant-design/icons',
-        '@ant-design/colors',
-        '@douyinfe/semi-ui',
+      // 第三方包不打包进产物（使用函数匹配所有子路径，避免 Vite CJS polyfill 将源码打包进来）
+      external: (id: string) => {
+        if (id.startsWith('\0')) return false
+        // React 全家桶（含 scheduler）
+        if (id === 'react' || id.startsWith('react/') || id === 'react-dom' || id.startsWith('react-dom/') || id === 'scheduler' || id.startsWith('scheduler/')) return true
+        // Ant Design
+        if (id === 'antd' || id.startsWith('antd/') || id === '@ant-design/icons' || id.startsWith('@ant-design/icons/') || id === '@ant-design/colors' || id.startsWith('@ant-design/colors/')) return true
+        // Semi UI
+        if (id === '@douyinfe/semi-ui' || id.startsWith('@douyinfe/semi-ui/')) return true
         // Tiptap
-        '@tiptap/react',
-        '@tiptap/core',
-        '@tiptap/pm',
-        '@tiptap/pm/state',
-        '@tiptap/starter-kit',
-        '@tiptap/extension-blockquote',
-        '@tiptap/extension-bubble-menu',
-        '@tiptap/extension-code-block-lowlight',
-        '@tiptap/extension-color',
-        '@tiptap/extension-highlight',
-        '@tiptap/extension-image',
-        '@tiptap/extension-placeholder',
-        '@tiptap/extension-table',
-        '@tiptap/extension-table-cell',
-        '@tiptap/extension-table-header',
-        '@tiptap/extension-table-row',
-        '@tiptap/extension-task-item',
-        '@tiptap/extension-task-list',
-        '@tiptap/extension-text-align',
-        '@tiptap/extension-text-style',
-        '@tiptap/extension-underline',
-        '@tiptap/markdown',
-        '@tiptap/suggestion',
-        // 其他第三方包
-        '@xyflow/react',
-        '@dnd-kit/core',
-        '@dnd-kit/sortable',
-        '@dnd-kit/utilities',
-        'react-monaco-editor',
-        'monaco-editor',
-        'react-markdown',
-        'react-syntax-highlighter',
-        'react-textarea-autosize',
-        'lowlight',
-        'mermaid',
-        'tippy.js',
-        'remark-gfm',
-        'remark-math',
-        'rehype-raw',
-        'rehype-katex',
-        'katex',
-        'react-lifecycles-compat',
-      ],
+        if (id.startsWith('@tiptap/')) return true
+        // XYFlow
+        if (id === '@xyflow/react' || id.startsWith('@xyflow/react/')) return true
+        // DnD Kit
+        if (id.startsWith('@dnd-kit/')) return true
+        // Monaco Editor
+        if (id === 'react-monaco-editor' || id.startsWith('react-monaco-editor/') || id === 'monaco-editor' || id.startsWith('monaco-editor/')) return true
+        // Markdown / 代码高亮
+        if (id === 'react-markdown' || id.startsWith('react-markdown/') || id === 'react-syntax-highlighter' || id.startsWith('react-syntax-highlighter/')) return true
+        // 其他
+        const others = ['react-textarea-autosize', 'lowlight', 'mermaid', 'tippy.js', 'remark-gfm', 'remark-math', 'rehype-raw', 'rehype-katex', 'katex', 'react-lifecycles-compat']
+        if (others.some(o => id === o || id.startsWith(o + '/'))) return true
+        return false
+      },
 
       output: {
         // 保留模块结构，支持消费者 tree-shaking

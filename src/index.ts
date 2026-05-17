@@ -45,6 +45,7 @@ export {default as Markdown} from './Markdown'
 export {default as MenuBar} from './MenuBar'
 
 export {default as MindPanel} from './MindPanel'
+export type {MindData, MindNodeData} from './MindPanel/data/MindData'
 
 export {default as PropertiesNaviBar} from './PropertiesNaviBar'
 
