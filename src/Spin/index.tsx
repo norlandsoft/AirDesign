@@ -5,7 +5,7 @@
  * Created by ChaiMingXu 2026/05/02
  */
 
-import styles from './index.less'
+import './index.less'
 
 interface SpinProps {
   /** 是否显示加载状态，默认 true */
@@ -20,13 +20,13 @@ const Spin = ({loading = true, label}: SpinProps) => {
   }
 
   return (
-      <div className={styles['air-spin']}>
-        <div className={styles['air-spin-dots']}>
-          <span className={styles['air-spin-dot']}/>
-          <span className={styles['air-spin-dot']}/>
-          <span className={styles['air-spin-dot']}/>
+      <div className="air-spin">
+        <div className="air-spin-dots">
+          <span className="air-spin-dot"/>
+          <span className="air-spin-dot"/>
+          <span className="air-spin-dot"/>
         </div>
-        {label && <div className={styles['air-spin-label']}>{label}</div>}
+        {label && <div className="air-spin-label">{label}</div>}
       </div>
   )
 }

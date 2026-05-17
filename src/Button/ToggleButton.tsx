@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '../Icon'
-import styles from './ToggleButton.less'
+import './ToggleButton.less'
 
 interface ToggleButtonProps {
   icon: string
@@ -36,7 +36,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = (props) => {
 
   return (
       <div
-          className={styles.airToggleButton}
+          className="airToggleButton"
           style={{
             height: size,
             width: size,
