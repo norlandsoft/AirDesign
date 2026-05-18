@@ -88,7 +88,7 @@ const SlidePanel = (props) => {
           onClose={onClose}
           open={open}
           afterOpenChange={onOpenChange}
-          height={type === 'full' ? '100%' : getPanelHeight()}
+          size={type === 'full' ? '100%' : getPanelWidth()}
           placement={type === 'full' ? 'top' : placement}
           footer={hasButtonBar ? footerContent : null}
           title={hasCloseButton || title ? ' ' : null}
@@ -118,7 +118,6 @@ const SlidePanel = (props) => {
               boxSizing: 'border-box',
             },
           }}
-          width={getPanelWidth()}
           push={{distance: innerDrawerWidth - 32}}
           destroyOnHidden={true}
       >
@@ -135,7 +134,7 @@ const SlidePanel = (props) => {
         <div className="air-slide-body">{children}</div>
         {innerDrawer && (
             <Drawer
-                width={innerDrawerWidth}
+                size={innerDrawerWidth}
                 open={showInnerDrawer}
                 destroyOnHidden={true}
                 maskClosable={true}

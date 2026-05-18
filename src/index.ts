@@ -21,8 +21,9 @@ export {
   Layout, Row, Col, Divider, Space,
   Menu, Dropdown, Breadcrumb, Steps, Pagination, Tabs, Anchor,
   Radio, AutoComplete, Watermark, FloatButton, ConfigProvider, App,
-  message, notification, theme,
+  notification, theme,
   Button as AntdButton, Table as AntdTable, Spin as AntdSpin,
+  message as AntdMessage,
 } from 'antd'
 export type {
   FormProps, FormInstance, FormItemProps, InputProps, SelectProps, DatePickerProps, TimeRangePickerProps,
@@ -53,6 +54,7 @@ export {default as ToggleButton} from './Button/ToggleButton'
 export {default as Icon} from './Icon'
 export {default as ColorPicker} from './ColorPicker'
 export {default as Message} from './Message'
+export {default as message} from './Message'
 export {success, warn, warning, error, info} from './Notification'
 export {default as Dialog} from './Dialog'
 export {default as UploadDialog} from './Dialog/UploadDialog'
