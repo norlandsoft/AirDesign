@@ -13,7 +13,7 @@ interface NotificationOptions {
 
 const notice = (options: NotificationOptions) => {
   notification.open({
-    message: options.title,
+    title: options.title,
     description: options.message,
     duration: options.duration || 2,
     type: options.type || 'info',
