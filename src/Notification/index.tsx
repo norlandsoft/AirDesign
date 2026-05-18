@@ -156,7 +156,7 @@ const close = (id: number) => {
 
 const open = (options: NotificationOptions) => {
   const id = ++uid
-  const position = options.position || 'topRight'
+  const position = options.position || 'bottomRight'
   items = [...items, {
     id,
     type: options.type || 'info',
