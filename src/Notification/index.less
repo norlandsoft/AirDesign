@@ -1,17 +1,39 @@
 /**
  * Notification 通知样式
  *
- * 右上角弹出，与 Message 组件风格统一：
- * 白底、6px 圆角、浅色边框、柔和阴影、图标按类型着色。
+ * 四角定位：topLeft / topRight / bottomLeft / bottomRight。
+ * 与 Message 组件风格统一。
  */
+
+/* ------------------------------------------------------------------ */
+/*  容器定位                                                           */
+/* ------------------------------------------------------------------ */
 
 .air-notification-root {
   position: fixed;
-  top: 16px;
-  right: 16px;
   z-index: 9999;
   pointer-events: none;
   font-family: var(--font-family);
+
+  &--topLeft {
+    top: 16px;
+    left: 16px;
+  }
+
+  &--topRight {
+    top: 16px;
+    right: 16px;
+  }
+
+  &--bottomLeft {
+    bottom: 16px;
+    left: 16px;
+  }
+
+  &--bottomRight {
+    bottom: 16px;
+    right: 16px;
+  }
 }
 
 .air-notification-list {
@@ -30,7 +52,7 @@
   align-items: flex-start;
   gap: 8px;
   width: 320px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
   background: #fff;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -38,11 +60,21 @@
     0 6px 16px rgba(0, 0, 0, 0.08),
     0 3px 6px -4px rgba(0, 0, 0, 0.12);
   user-select: none;
-  animation: air-notification-in 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: air-notification-in-right 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
   position: relative;
 
   &--leave {
-    animation: air-notification-out 0.26s ease forwards;
+    animation: air-notification-out-right 0.26s ease forwards;
+  }
+
+  /* 左侧位置从左滑入 */
+  .air-notification-root--topLeft &,
+  .air-notification-root--bottomLeft & {
+    animation-name: air-notification-in-left;
+
+    &.air-notification-item--leave {
+      animation-name: air-notification-out-left;
+    }
   }
 }
 
@@ -124,10 +156,10 @@
 }
 
 /* ------------------------------------------------------------------ */
-/*  动画                                                               */
+/*  动画 — 右侧                                                        */
 /* ------------------------------------------------------------------ */
 
-@keyframes air-notification-in {
+@keyframes air-notification-in-right {
   from {
     opacity: 0;
     transform: translateX(40px);
@@ -138,7 +170,7 @@
   }
 }
 
-@keyframes air-notification-out {
+@keyframes air-notification-out-right {
   from {
     opacity: 1;
     transform: translateX(0);
@@ -146,5 +178,31 @@
   to {
     opacity: 0;
     transform: translateX(40px);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  动画 — 左侧                                                        */
+/* ------------------------------------------------------------------ */
+
+@keyframes air-notification-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes air-notification-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-40px);
   }
 }
