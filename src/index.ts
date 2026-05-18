@@ -13,7 +13,7 @@ import './style/semi.less'
 import './style/tide.less'
 import './style/layout.less'
 
-// Ant Design 组件转发（Button、Table、Spin 由 AirDesign 自有组件提供）
+// Ant Design 组件转发（Button、Table、Spin 由 AirDesign 自有组件提供，antd 原生版加 Antd 前缀）
 export {
   Form, Input, Select, DatePicker, TimePicker, InputNumber, Checkbox, Switch, Slider, Rate, Upload, Cascader, TreeSelect,
   Card, Tag, Statistic, Avatar, Badge, Timeline, Tooltip, Popover, Popconfirm, Empty, Typography, Image, Calendar, Descriptions,
@@ -22,6 +22,7 @@ export {
   Menu, Dropdown, Breadcrumb, Steps, Pagination, Tabs, Anchor,
   Radio, AutoComplete, Watermark, FloatButton, ConfigProvider, App,
   message, notification, theme,
+  Button as AntdButton, Table as AntdTable, Spin as AntdSpin,
 } from 'antd'
 export type {
   FormProps, FormInstance, FormItemProps, InputProps, SelectProps, DatePickerProps, TimeRangePickerProps,
