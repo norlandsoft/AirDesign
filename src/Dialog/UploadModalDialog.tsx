@@ -3,7 +3,7 @@ import {Upload} from 'antd'
 import {RcFile} from 'antd/lib/upload'
 import Icon from '../Icon'
 import ModalDialog from './ModalDialog'
-import {error, info, success} from '../Notification'
+import Notice from '../Notice'
 import './UploadModalDialog.less'
 
 const {Dragger} = Upload
@@ -46,9 +46,7 @@ const UploadModalDialog = (props) => {
     formData.append('ownerId', ownerId)
 
     if (fileList.length === 0) {
-      info({
-        message: '请选择要上传的文件',
-      })
+      Notice.info('', '请选择要上传的文件')
       return
     }
 
@@ -66,25 +64,18 @@ const UploadModalDialog = (props) => {
           if (resp.success) {
             setFileList([])
             setUploading(false)
-            success({
-              message: '文件上传成功',
-            })
+            Notice.success('', '文件上传成功')
             if (onFileSaved) onFileSaved(resp)
             // 关闭对话框
             dialogRef.current?.doCancel()
           } else {
             setUploading(false)
-            error({
-              title: '无法上传文件',
-              message: resp.message,
-            })
+            Notice.error('无法上传文件', resp.message)
           }
         })
         .catch((err) => {
           setUploading(false)
-          error({
-            message: '文件上传失败',
-          })
+          Notice.error('', '文件上传失败')
         })
   }
 

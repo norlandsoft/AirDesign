@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useCurrentEditor} from '@tiptap/react';
 
 import ColorPicker from '../ColorPicker';
-import {error} from '../Notification';
+import Notice from '../Notice';
 import Icon from '../Icon';
 import type {MenuProps} from 'antd';
 import {Dropdown, Upload} from 'antd';
@@ -170,10 +170,7 @@ const EditorMenu = (props: any) => {
         };
       });
     } catch (e) {
-      error({
-        title: '图片上传失败',
-        message: '请检查网络连接或重新上传'
-      });
+      Notice.error('图片上传失败', '请检查网络连接或重新上传');
     }
   };
 

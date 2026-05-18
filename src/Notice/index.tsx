@@ -1,14 +1,15 @@
 /**
- * Notification 通知组件
+ * Notice 通知组件
  *
- * 支持四个角落弹出：topLeft / topRight / bottomLeft / bottomRight（默认 topRight）。
+ * 支持四个角落弹出：topLeft / topRight / bottomLeft / bottomRight（默认 bottomRight）。
  * 纯 SVG 图标，零外部依赖；支持堆叠、自动消失和手动关闭。
  * 与 Message 组件风格统一，适合需要标题+内容详情的场景。
  *
  * 用法：
- *   import { error, success } from 'air-design'
- *   error({ title: '操作失败', message: '请检查网络连接' })
- *   success({ title: '保存成功', position: 'bottomRight' })
+ *   import { Notice } from 'air-design'
+ *   Notice.success('操作成功')
+ *   Notice.error('操作失败', '请检查网络连接')
+ *   Notice.warning('警告', '数据可能不完整', 6)
  *
  * @author ChaiMingXu, on 2026/05/18
  */
@@ -19,15 +20,6 @@ import './index.less'
 type NoticeType = 'info' | 'success' | 'error' | 'warning'
 type NoticePosition = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight'
 
-interface NotificationOptions {
-  title?: string
-  message: string
-  type?: NoticeType
-  duration?: number
-  position?: NoticePosition
-  onClose?: () => void
-}
-
 interface NoticeItem {
   id: number
   type: NoticeType
@@ -37,6 +29,10 @@ interface NoticeItem {
   position: NoticePosition
   onClose?: () => void
   leaving: boolean
+}
+
+interface NoticeRef {
+  destroy: () => void
 }
 
 /* ------------------------------------------------------------------ */
@@ -97,13 +93,11 @@ const ensureContainer = (pos: NoticePosition) => {
   c.root = createRoot(c.el)
 }
 
-const getItemsByPos = (pos: NoticePosition) => items.filter(m => m.position === pos)
-
 const renderAll = () => {
   for (const pos of POSITIONS) {
     const c = containers[pos]
     if (!c.root) continue
-    const posItems = getItemsByPos(pos)
+    const posItems = items.filter(m => m.position === pos)
     if (posItems.length === 0) {
       c.root.unmount()
       c.el?.remove()
@@ -154,35 +148,42 @@ const close = (id: number) => {
   }, 260)
 }
 
-const open = (options: NotificationOptions) => {
+const open = (
+  type: NoticeType,
+  title: string,
+  content = '',
+  duration = 4,
+  position: NoticePosition = 'bottomRight',
+  onClose?: () => void,
+): NoticeRef => {
   const id = ++uid
-  const position = options.position || 'bottomRight'
-  items = [...items, {
-    id,
-    type: options.type || 'info',
-    title: options.title || '',
-    content: options.message || '',
-    duration: options.duration ?? 4,
-    position,
-    onClose: options.onClose,
-    leaving: false,
-  }]
+  items = [...items, {id, type, title, content, duration, position, onClose, leaving: false}]
   ensureContainer(position)
   renderAll()
 
-  if ((options.duration ?? 4) > 0) {
-    setTimeout(() => close(id), (options.duration ?? 4) * 1000)
+  if (duration > 0) {
+    setTimeout(() => close(id), duration * 1000)
   }
+
+  return {destroy: () => close(id)}
 }
 
 /* ------------------------------------------------------------------ */
 /*  对外 API                                                           */
 /* ------------------------------------------------------------------ */
 
-const info = (options: NotificationOptions) => open({...options, type: 'info'})
-const success = (options: NotificationOptions) => open({...options, type: 'success'})
-const warn = (options: NotificationOptions) => open({...options, type: 'warning'})
-const warning = (options: NotificationOptions) => open({...options, type: 'warning'})
-const error = (options: NotificationOptions) => open({...options, type: 'error'})
+const Notice = {
+  info:    (title: string, content?: string, duration?: number, position?: NoticePosition, onClose?: () => void) => open('info', title, content, duration, position, onClose),
+  success: (title: string, content?: string, duration?: number, position?: NoticePosition, onClose?: () => void) => open('success', title, content, duration, position, onClose),
+  error:   (title: string, content?: string, duration?: number, position?: NoticePosition, onClose?: () => void) => open('error', title, content, duration, position, onClose),
+  warning: (title: string, content?: string, duration?: number, position?: NoticePosition, onClose?: () => void) => open('warning', title, content, duration, position, onClose),
+  destroyAll: () => {
+    items = []
+    for (const pos of POSITIONS) {
+      const c = containers[pos]
+      if (c.root) { c.root.unmount(); c.el?.remove(); c.el = null; c.root = null }
+    }
+  },
+}
 
-export {info, success, warn, warning, error}
+export default Notice
