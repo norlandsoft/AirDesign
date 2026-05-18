@@ -1,0 +1,132 @@
+/**
+ * Notice 轻提示样式
+ *
+ * 顶部居中弹出，图标 + (标题 + 内容) 布局。
+ * 每种类型通过独立选择器设置图标颜色，无硬边框。
+ */
+
+.air-notice-toast-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: var(--font-family);
+}
+
+.air-notice-toast-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+  gap: 10px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  单条消息                                                           */
+/* ------------------------------------------------------------------ */
+
+.air-notice-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 380px;
+  padding: 10px 18px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.04);
+  user-select: none;
+  animation: air-notice-in 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
+
+  &--leave {
+    animation: air-notice-out 0.26s ease forwards;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  图标                                                               */
+/* ------------------------------------------------------------------ */
+
+.air-notice-toast__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  font-size: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.air-notice-toast--info    .air-notice-toast__icon { color: #1677ff; }
+.air-notice-toast--success .air-notice-toast__icon { color: #52c41a; }
+.air-notice-toast--error   .air-notice-toast__icon { color: #ff4d4f; }
+.air-notice-toast--warning .air-notice-toast__icon { color: #faad14; }
+
+/* ------------------------------------------------------------------ */
+/*  标题 & 内容                                                        */
+/* ------------------------------------------------------------------ */
+
+.air-notice-toast__body {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.air-notice-toast__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.88);
+  word-break: break-word;
+}
+
+.air-notice-toast__content {
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.55);
+  margin-top: 2px;
+  word-break: break-word;
+}
+
+/* 只有 content 没有 title 时，content 使用标题样式 */
+.air-notice-toast__title:empty + .air-notice-toast__content,
+.air-notice-toast:not(:has(.air-notice-toast__title:not(:empty))) .air-notice-toast__content {
+  margin-top: 0;
+  font-size: 0.875rem;
+  font-weight: 450;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* ------------------------------------------------------------------ */
+/*  动画                                                               */
+/* ------------------------------------------------------------------ */
+
+@keyframes air-notice-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes air-notice-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
