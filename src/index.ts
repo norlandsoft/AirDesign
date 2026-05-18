@@ -34,6 +34,17 @@ export type {
   RadioProps, RadioChangeEvent, ConfigProviderProps,
 } from 'antd'
 
+// Semi Design 组件转发
+export {
+  Button as SemiButton, Checkbox as SemiCheckbox, Dropdown as SemiDropdown,
+  Input as SemiInput, Modal as SemiModal, Popover as SemiPopover,
+  Select as SemiSelect, Table as SemiTable, Tabs as SemiTabs,
+  Tag as SemiTag, Tree as SemiTree, TreeSelect as SemiTreeSelect,
+  Typography as SemiTypography, RadioGroup as SemiRadioGroup,
+  Switch as SemiSwitch, Slider as SemiSlider, Toast as SemiToast,
+  Notification as SemiNotification,
+} from '@douyinfe/semi-ui'
+
 // 核心 UI 组件
 export {default as Button} from './Button'
 export {default as IconButton} from './Button/IconButton'
