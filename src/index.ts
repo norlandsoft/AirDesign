@@ -42,7 +42,7 @@ export {
   Tag as SemiTag, Tree as SemiTree, TreeSelect as SemiTreeSelect,
   Typography as SemiTypography, RadioGroup as SemiRadioGroup,
   Switch as SemiSwitch, Slider as SemiSlider, Toast as SemiToast,
-  Notification as SemiNotification,
+  Notification as SemiNotification, Breadcrumb as SemiBreadcrumb,
 } from '@douyinfe/semi-ui'
 
 // 核心 UI 组件
