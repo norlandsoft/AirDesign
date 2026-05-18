@@ -13,6 +13,26 @@ import './style/semi.less'
 import './style/tide.less'
 import './style/layout.less'
 
+// Ant Design 组件转发（Button、Table、Spin 由 AirDesign 自有组件提供）
+export {
+  Form, Input, Select, DatePicker, TimePicker, InputNumber, Checkbox, Switch, Slider, Rate, Upload, Cascader, TreeSelect,
+  Card, Tag, Statistic, Avatar, Badge, Timeline, Tooltip, Popover, Popconfirm, Empty, Typography, Image, Calendar, Descriptions,
+  Modal, Drawer, Alert, Progress, Result, Skeleton,
+  Layout, Row, Col, Divider, Space,
+  Menu, Dropdown, Breadcrumb, Steps, Pagination, Tabs, Anchor,
+  Radio, AutoComplete, Watermark, FloatButton, ConfigProvider, App,
+  message, notification, theme,
+} from 'antd'
+export type {
+  FormProps, FormInstance, FormItemProps, InputProps, SelectProps, DatePickerProps, TimeRangePickerProps,
+  InputNumberProps, CheckboxProps, SwitchProps, UploadProps,
+  CardProps, TagProps, StatisticProps, AvatarProps, BadgeProps, TooltipProps, PopoverProps, PopconfirmProps, TypographyProps,
+  ModalProps, DrawerProps, AlertProps,
+  LayoutProps, RowProps, ColProps,
+  MenuProps, DropdownProps, BreadcrumbProps, PaginationProps, TabsProps,
+  RadioProps, RadioChangeEvent, ConfigProviderProps,
+} from 'antd'
+
 // 核心 UI 组件
 export {default as Button} from './Button'
 export {default as IconButton} from './Button/IconButton'
