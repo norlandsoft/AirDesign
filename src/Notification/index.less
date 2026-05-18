@@ -1,29 +1,150 @@
-.ant-notification {
-  top: 3px !important;
-  margin-right: 3px !important;
+/**
+ * Notification 通知样式
+ *
+ * 右上角弹出，与 Message 组件风格统一：
+ * 白底、6px 圆角、浅色边框、柔和阴影、图标按类型着色。
+ */
 
-  .ant-notification-notice-wrapper {
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.air-notification-root {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  pointer-events: none;
+  font-family: var(--font-family);
+}
 
-    .ant-notification-notice {
-      padding: 18px;
+.air-notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-      .ant-notification-notice-close {
-        top: 16px;
-        right: 12px;
-      }
+/* ------------------------------------------------------------------ */
+/*  单条通知                                                           */
+/* ------------------------------------------------------------------ */
 
-      .ant-notification-notice-message {
-        font-size: 1rem;
-        font-weight: bold;
-      }
+.air-notification-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 320px;
+  padding: 10px 10px 10px 10px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  user-select: none;
+  animation: air-notification-in 0.3s cubic-bezier(0.23, 1, 0.32, 1) both;
+  position: relative;
 
-      .ant-notification-notice-description {
-        font-size: 0.95rem;
-        font-family: var(--font-family);
-        padding-right: 16px;
-      }
-    }
+  &--leave {
+    animation: air-notification-out 0.26s ease forwards;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  图标                                                               */
+/* ------------------------------------------------------------------ */
+
+.air-notification-item__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  font-size: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.air-notification-item--info    .air-notification-item__icon { color: #1677ff; }
+.air-notification-item--success .air-notification-item__icon { color: #52c41a; }
+.air-notification-item--error   .air-notification-item__icon { color: #ff4d4f; }
+.air-notification-item--warning .air-notification-item__icon { color: #faad14; }
+
+/* ------------------------------------------------------------------ */
+/*  标题 & 内容                                                        */
+/* ------------------------------------------------------------------ */
+
+.air-notification-item__body {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.air-notification-item__title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.88);
+  word-break: break-word;
+}
+
+.air-notification-item__content {
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.55);
+  margin-top: 2px;
+  word-break: break-word;
+}
+
+/* ------------------------------------------------------------------ */
+/*  关闭按钮                                                           */
+/* ------------------------------------------------------------------ */
+
+.air-notification-item__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s;
+
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  动画                                                               */
+/* ------------------------------------------------------------------ */
+
+@keyframes air-notification-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes air-notification-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(40px);
   }
 }
