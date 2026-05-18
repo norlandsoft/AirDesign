@@ -1,0 +1,840 @@
+/**
+ * Ant Design / AirDesign 组件全局样式覆盖
+ *
+ * 统一覆盖 Ant Design 原生组件和 AirDesign 封装组件（air- 前缀）的默认样式，
+ * 使所有项目引用组件库后无需再单独维护全局覆盖文件。
+ *
+ * @author ChaiMingXu, on 2026/05/18
+ */
+
+/* ============================================================
+ * 菜单导航
+ * ============================================================ */
+
+// 主页面导航菜单
+.air-menu-dark {
+  font-weight: 450;
+  background: transparent;
+
+  .air-menu-inline {
+    background: transparent !important;
+  }
+
+  .air-menu-item {
+    margin: 0 !important;
+    user-select: none;
+    font-size: var(--font-size);
+    font-weight: 450;
+    width: 100%;
+  }
+
+  .air-menu-submenu {
+    .air-menu-submenu-title {
+      margin: 0;
+      padding-left: 6px !important;
+      align-items: unset !important;
+      user-select: none;
+      font-weight: 450;
+      width: 100%;
+
+      .air-menu-title-content {
+        margin-inline-start: 12px !important;
+      }
+    }
+
+    ul {
+      padding: 0 14px 0 10px !important;
+
+      li {
+        padding-left: 41px !important;
+        border-radius: 3px !important;
+      }
+    }
+  }
+
+  .air-menu-submenu-selected {
+    .air-menu-submenu-title {
+      padding-left: 6px !important;
+    }
+  }
+}
+
+.air-menu-submenu-popup {
+  left: 50px !important;
+  border: 1px solid #ddd;
+  border-left: 1px solid #385f8f;
+  background: var(--primary-color);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  padding-inline-start: 0;
+
+  .air-menu-vertical.air-menu-sub {
+    min-width: 150px;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    background: var(--primary-color);
+
+    .air-menu-item {
+      padding-left: 35px;
+      width: 100%;
+      border-radius: 0;
+    }
+  }
+}
+
+// tab 页签右侧下拉菜单
+.air-tabs-dropdown .air-tabs-dropdown-menu {
+  border-radius: 3px;
+  min-width: 300px;
+  max-width: 300px;
+  border: 1px solid #ddd;
+  padding: 0;
+
+  li {
+    span div {
+      user-select: none;
+      height: 35px;
+      line-height: 35px;
+      width: 235px;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    button {
+      margin-left: 0;
+    }
+  }
+}
+
+/* ============================================================
+ * 表单
+ * ============================================================ */
+
+.ant-form, .air-form {
+  .ant-space-compact, .air-space-compact {
+    display: flex;
+    align-items: center;
+    height: 35px;
+    line-height: 35px;
+    margin: 12px 0;
+
+    .air-form-item {
+      margin: 0;
+      height: 35px;
+      line-height: 35px;
+    }
+  }
+
+  .ant-form-item, .air-form-item {
+    margin: 12px 0;
+
+    .ant-row, .air-row {
+      &:has(> .air-col.air-form-item-label-left) {
+        display: flex;
+        align-items: center;
+        flex-direction: row !important;
+      }
+
+      &:has(> .ant-col.ant-form-item-label-left) {
+        display: flex;
+        align-items: center;
+        flex-direction: row !important;
+      }
+
+      .ant-col, .air-col {
+        .air-form-item-control-input {
+          min-height: 35px !important;
+        }
+
+        .air-form-item-additional .air-form-item-explain-error {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .ant-form-item-label, .air-form-item-label {
+    height: 35px;
+    line-height: 35px;
+
+    label {
+      font-family: var(--font-family);
+      font-size: var(--font-size-form);
+      font-weight: 500;
+      height: 35px;
+
+      &::before {
+        position: absolute;
+        visibility: hidden;
+      }
+    }
+  }
+
+  .air-form-item-horizontal {
+    .air-row {
+      align-items: start !important;
+    }
+  }
+
+  .air-form-item-vertical {
+    margin: 0;
+
+    &:not(:first-child) {
+      margin-top: 12px;
+    }
+
+    .air-form-item-row {
+      padding: 0;
+
+      .air-form-item-label {
+        padding: 0;
+      }
+    }
+  }
+
+  // 表单控件区域
+  .ant-form-item-control-input-content, .air-form-item-control-input-content {
+    font-family: var(--font-family);
+
+    .ant-input-group-addon, .air-input-group-addon {
+      font-family: var(--font-family);
+    }
+
+    input {
+      font-family: var(--font-family);
+      border-color: var(--color-300);
+      border-radius: 3px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+
+      &:focus {
+        border-color: var(--primary-color);
+        box-shadow: unset;
+      }
+
+      &:disabled {
+        color: #222;
+        border-color: var(--color-300);
+      }
+    }
+
+    // Select 选择器
+    .ant-select, .air-select {
+      font-family: var(--font-family);
+      min-height: 35px;
+
+      .ant-select-selector, .air-select-selector {
+        border-radius: 3px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        border-color: var(--color-300);
+
+        &:hover {
+          border-color: var(--color-300) !important;
+          box-shadow: unset !important;
+        }
+      }
+
+      &.ant-select-disabled, &.air-select-disabled {
+        .ant-select-selector, .air-select-selector {
+          color: #222 !important;
+          background: #f5f5f5 !important;
+        }
+        .ant-select-selection-item, .air-select-selection-item {
+          color: #222 !important;
+        }
+      }
+
+      &.ant-select-status-error, &.air-select-status-error {
+        .air-select-selector {
+          border-color: #ff4d4f !important;
+        }
+      }
+    }
+
+    .ant-select-focused .ant-select-selector, .air-select-focused .air-select-selector {
+      border-color: var(--color-300) !important;
+      box-shadow: unset !important;
+    }
+
+    textarea {
+      font-family: var(--font-family);
+      border-color: var(--color-300);
+      border-radius: 3px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      color: unset !important;
+
+      &:focus {
+        border-color: var(--primary-color);
+        box-shadow: unset;
+      }
+    }
+
+    .ant-input-affix-wrapper-focused, .air-input-affix-wrapper-focused {
+      border-color: var(--primary-color) !important;
+      box-shadow: unset;
+    }
+
+    .ant-input-affix-wrapper, .air-input-affix-wrapper {
+      border-color: var(--color-300);
+      border-radius: 3px;
+      padding: 0 12px;
+      height: 40px;
+
+      input {
+        height: 35px;
+      }
+    }
+
+    .ant-input-number, .air-input-number {
+      border-color: var(--color-300);
+      border-radius: 3px;
+      width: unset;
+
+      input {
+        height: 35px;
+      }
+    }
+
+    // DatePicker 日期选择
+    .ant-picker, .air-picker {
+      border-color: var(--color-300);
+      border-radius: 3px;
+      width: unset;
+      height: 35px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+      .ant-picker-input, .air-picker-input {
+        input {
+          height: 30px;
+          line-height: 30px;
+          font-family: var(--font-family);
+          font-size: var(--font-size-form);
+        }
+      }
+
+      &:hover {
+        border-color: var(--color-300) !important;
+      }
+
+      &:focus, &.ant-picker-focused, &.air-picker-focused {
+        border-color: var(--primary-color) !important;
+        box-shadow: unset !important;
+      }
+    }
+
+    .ant-input-number-focused, .air-input-number-focused {
+      border-color: var(--primary-color);
+      box-shadow: unset;
+    }
+
+    // Radio 单选
+    .ant-radio-group, .air-radio-group {
+      label {
+        height: 35px;
+        line-height: 35px;
+      }
+
+      .air-radio-wrapper-checked {
+        .air-radio-checked .air-radio-inner {
+          border-color: var(--primary-color);
+          background-color: var(--primary-color);
+        }
+      }
+
+      .air-radio-wrapper-disabled {
+        span {
+          color: #000;
+        }
+      }
+    }
+
+    // Checkbox 复选
+    .ant-checkbox-wrapper, .air-checkbox-wrapper {
+      height: 35px;
+      line-height: 35px;
+
+      .ant-checkbox-checked .ant-checkbox-inner, .air-checkbox-checked .air-checkbox-inner {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 2px;
+      }
+
+      .ant-checkbox-inner, .air-checkbox-inner {
+        border-radius: 2px;
+        background-color: #eee;
+        border-color: #aaa;
+      }
+    }
+
+    // Switch 开关
+    .ant-switch, .air-switch {
+      height: 20px;
+      min-width: 40px;
+
+      .ant-switch-handle, .air-switch-handle {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    // Slider 滑块
+    .ant-slider, .air-slider {
+      .ant-slider-track, .air-slider-track {
+        background-color: var(--color-300);
+      }
+
+      .ant-slider-handle::after, .air-slider-handle::after {
+        box-shadow: 0 0 0 2px var(--color-300);
+      }
+    }
+  }
+
+  // Input Group 带前后缀
+  .ant-input-group-wrapper, .air-input-group-wrapper {
+    .ant-input-group-addon, .air-input-group-addon {
+      border-radius: 2px 0 0 2px;
+
+      .ant-select-selection-item, .air-select-selection-item {
+        font-size: 0.95rem;
+        font-weight: 450;
+      }
+
+      .ant-select, .air-select {
+        font-family: var(--font-family);
+      }
+
+      .air-btn {
+        height: 35px;
+        border: 1px solid var(--color-300);
+        border-radius: 0 3px 3px 0;
+      }
+    }
+
+    .ant-input, .air-input {
+      border-radius: 0 3px 3px 0;
+    }
+  }
+
+  input {
+    font-family: var(--font-family);
+    font-size: var(--font-size-form);
+    height: 35px;
+  }
+
+  .ant-row, .air-row {
+    .ant-col, .air-col {
+      .air-form-item {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+}
+
+/* ============================================================
+ * Radio Button 单选按钮组
+ * ============================================================ */
+
+.ant-radio-button-wrapper, .air-radio-button-wrapper {
+  border-radius: 3px !important;
+
+  &:first-child {
+    border-radius: 3px 0 0 3px !important;
+  }
+
+  &:last-child {
+    border-radius: 0 3px 3px 0 !important;
+  }
+
+  &.ant-radio-button-wrapper-checked, &.air-radio-button-wrapper-checked {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+
+    &:hover {
+      background-color: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+      color: #fff !important;
+    }
+  }
+}
+
+/* ============================================================
+ * Select 下拉选择
+ * ============================================================ */
+
+.ant-select-dropdown, .air-select-dropdown {
+  box-shadow: none;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 2px;
+  padding: 0;
+  font-family: var(--font-family);
+  z-index: 9999;
+
+  .ant-select-item, .air-select-item {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 12px;
+    font-family: var(--font-family);
+  }
+}
+
+/* ============================================================
+ * Dropdown 下拉菜单
+ * ============================================================ */
+
+.ant-dropdown, .air-dropdown {
+  box-sizing: border-box;
+
+  .ant-dropdown-menu, .air-dropdown-menu {
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    padding: 0;
+    min-width: 85px !important;
+
+    .air-dropdown-menu-item {
+      display: flex;
+      align-items: center;
+      padding: 4px 12px !important;
+      min-height: 35px;
+
+      span {
+        font-size: 0.85rem;
+        user-select: none;
+      }
+    }
+
+    li {
+      border-radius: 3px !important;
+      height: 35px;
+      line-height: 35px;
+      font-family: var(--font-family);
+
+      span {
+        font-size: var(--font-size-form);
+      }
+    }
+
+    .ant-dropdown-menu-item-disabled,
+    .air-dropdown-menu-item-disabled {
+      cursor: default;
+      opacity: 0.5;
+      color: rgba(0, 0, 0, 0.25);
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+/* ============================================================
+ * Table 表格
+ * ============================================================ */
+
+.air-table {
+  .air-table-row-expand-icon {
+    border-radius: 3px;
+  }
+
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-form) !important;
+}
+
+.ant-table {
+  font-family: var(--font-family);
+  font-size: var(--font-size-form);
+
+  .ant-table-thead > tr > th {
+    font-weight: 600;
+    background: #fafafa;
+  }
+
+  .ant-table-tbody > tr > td {
+    padding: 10px 16px;
+  }
+
+  .ant-table-tbody > tr:hover > td {
+    background: #f5f5f5;
+  }
+}
+
+/* ============================================================
+ * Message 提示框
+ * ============================================================ */
+
+.air-notice-wrapper .air-notice .air-notice-content {
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  user-select: none;
+
+  .air-info {
+    gap: 4px;
+  }
+}
+
+.ant-message {
+  .ant-message-notice-content {
+    border-radius: 4px;
+    padding: 8px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ============================================================
+ * Tooltip 工具提示
+ * ============================================================ */
+
+.air-tooltip {
+  .air-tooltip-content {
+    border-radius: 2px;
+
+    .air-tooltip-inner {
+      border-radius: 2px;
+      user-select: none;
+      min-height: unset;
+      padding: 2px 6px;
+    }
+  }
+}
+
+/* ============================================================
+ * Drawer 抽屉
+ * ============================================================ */
+
+.air-drawer {
+  z-index: 1060;
+}
+
+/* ============================================================
+ * Tag 标签
+ * ============================================================ */
+
+.air-tag {
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-weight: 450;
+  font-family: var(--font-family);
+}
+
+.ant-tag {
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  font-family: var(--font-family);
+}
+
+/* ============================================================
+ * Statistic 统计
+ * ============================================================ */
+
+.ant-statistic {
+  .ant-statistic-title {
+    font-size: var(--font-size-form);
+    color: #666;
+  }
+
+  .ant-statistic-content {
+    font-size: 1.6rem;
+    font-family: var(--font-family);
+  }
+}
+
+/* ============================================================
+ * Pagination 分页
+ * ============================================================ */
+
+.ant-pagination {
+  font-family: var(--font-family);
+
+  .ant-pagination-item {
+    border-radius: var(--border-radius);
+    border-color: var(--color-300);
+
+    &.ant-pagination-item-active {
+      border-color: var(--primary-color);
+
+      a {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+/* ============================================================
+ * Button 按钮
+ * ============================================================ */
+
+.ant-btn {
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+
+  &.ant-btn-primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+
+    &:hover {
+      background: #333;
+      border-color: #333;
+    }
+
+    &:active {
+      background: #000;
+      border-color: #000;
+    }
+  }
+}
+
+/* ============================================================
+ * Modal 弹窗
+ * ============================================================ */
+
+.ant-modal {
+  .ant-modal-content {
+    border-radius: 4px;
+
+    .ant-modal-header {
+      border-radius: 4px 4px 0 0;
+      padding: 12px 24px;
+    }
+
+    .ant-modal-body {
+      padding: 20px 24px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .ant-modal-footer {
+      padding: 10px 24px;
+      border-top: 1px solid #f0f0f0;
+    }
+  }
+}
+
+/* ============================================================
+ * Card 卡片
+ * ============================================================ */
+
+.ant-card {
+  border-radius: 4px;
+  border: 1px solid #f0f0f0;
+
+  .ant-card-body {
+    padding: 20px;
+  }
+}
+
+/* ============================================================
+ * Popover / Popconfirm 气泡卡片
+ * ============================================================ */
+
+.ant-popover {
+  .ant-popover-inner {
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ============================================================
+ * Layout 布局
+ * ============================================================ */
+
+.ant-layout-sider {
+  .ant-layout-sider-children {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* ============================================================
+ * Menu 菜单
+ * ============================================================ */
+
+.ant-menu {
+  font-family: var(--font-family);
+
+  .ant-menu-item {
+    height: 40px;
+    line-height: 40px;
+    margin: 2px 0;
+    border-radius: 0;
+
+    &.ant-menu-item-selected {
+      font-weight: 500;
+    }
+  }
+}
+
+/* ============================================================
+ * 全局输入框 / 下拉（不在表单内也生效）
+ * ============================================================ */
+
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input:not([type]) {
+  height: 35px;
+  border-radius: 3px;
+  border-color: var(--color-300);
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: none;
+  }
+
+  &:disabled {
+    color: #222;
+    background: #f5f5f5;
+  }
+}
+
+textarea {
+  border-radius: 3px;
+  border-color: var(--color-300);
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: none;
+  }
+}
+
+// 全局 Select（非表单内）
+.ant-select, .air-select {
+  .ant-select-selector, .air-select-selector {
+    min-height: 35px !important;
+    border-radius: 3px !important;
+    border-color: var(--color-300) !important;
+  }
+
+  &.air-select-disabled, &.ant-select-disabled {
+    .air-select-selector, .ant-select-selector {
+      color: #222 !important;
+      background: #f5f5f5 !important;
+    }
+    .air-select-selection-item, .ant-select-selection-item {
+      color: #222 !important;
+    }
+  }
+}
+
+// 伪输入框（展示用）
+.air-fake-input {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

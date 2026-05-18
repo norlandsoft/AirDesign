@@ -116,18 +116,46 @@ html {
   font-size: var(--effective-base);
 }
 
+/* 全屏布局：html/body/root 撑满视窗 */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* 所有加载 AirDesign 的前端，body 默认样式 */
 body {
+  width: 100%;
+  overflow: hidden;
   font-family: var(--font-family);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  margin: 0;
-  padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+
+  &:hover {
+    background: #a1a1a1;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
 }
