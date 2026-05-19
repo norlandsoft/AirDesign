@@ -21,9 +21,7 @@ export {
   Layout, Row, Col, Divider, Space,
   Menu, Dropdown, Breadcrumb, Steps, Pagination, Tabs, Anchor,
   Radio, AutoComplete, Watermark, FloatButton, ConfigProvider, App,
-  notification, theme,
-  Button as AntdButton, Table as AntdTable, Spin as AntdSpin,
-  message as AntdMessage,
+  notification, theme
 } from 'antd'
 export type {
   FormProps, FormInstance, FormItemProps, InputProps, SelectProps, DatePickerProps, TimeRangePickerProps,
@@ -34,17 +32,6 @@ export type {
   MenuProps, DropdownProps, BreadcrumbProps, PaginationProps, TabsProps,
   RadioProps, RadioChangeEvent, ConfigProviderProps,
 } from 'antd'
-
-// Semi Design 组件转发
-export {
-  Button as SemiButton, Checkbox as SemiCheckbox, Dropdown as SemiDropdown,
-  Input as SemiInput, Modal as SemiModal, Popover as SemiPopover,
-  Select as SemiSelect, Table as SemiTable, Tabs as SemiTabs,
-  Tag as SemiTag, Tree as SemiTree, TreeSelect as SemiTreeSelect,
-  Typography as SemiTypography, RadioGroup as SemiRadioGroup,
-  Switch as SemiSwitch, Slider as SemiSlider, Toast as SemiToast,
-  Notification as SemiNotification, Breadcrumb as SemiBreadcrumb,
-} from '@douyinfe/semi-ui'
 
 // 核心 UI 组件
 export {default as Button} from './Button'
