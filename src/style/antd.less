@@ -745,15 +745,154 @@ textarea {
   }
 }
 
-// 伪输入框（展示用）
-.air-fake-input {
-  height: 40px;
-  line-height: 40px;
-  padding-left: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 0.95rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* ============================================================
+ * Select 下拉选择（antd v6 DOM 结构）
+ * 同时支持默认前缀 ant- 和自定义前缀 air-
+ * ============================================================ */
+
+// --- antd CSS-in-JS 变量覆盖（三重 class，优先级 0,3,0）---
+// 默认前缀
+.ant-select.ant-select-outlined {
+  --ant-select-border-color: var(--color-300);
+  --ant-select-hover-border-color: var(--primary-color);
+  --ant-select-active-border-color: var(--primary-color);
+  --ant-select-active-box-shadow: none;
+  --ant-select-disabled-color: #222;
+  --ant-select-disabled-bg: #f5f5f5;
+}
+
+// 自定义前缀（prefixCls="air"）
+.air-select.air-select-outlined {
+  --air-select-border-color: var(--color-300);
+  --air-select-hover-border-color: var(--primary-color);
+  --air-select-active-border-color: var(--primary-color);
+  --air-select-active-box-shadow: none;
+  --air-select-disabled-color: #222;
+  --air-select-disabled-bg: #f5f5f5;
+}
+
+// --- 选择器本体 ---
+.ant-select,
+.air-select {
+  height: 35px !important;
+  border-radius: 3px !important;
+  padding: 0 11px !important;
+  font-family: var(--font-family);
+  font-size: var(--font-size-form);
+
+  // 内容区域垂直居中
+  .ant-select-content,
+  .air-select-content {
+    height: 33px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+  }
+
+  // 选中项 / 占位文字
+  .ant-select-selection-item,
+  .air-select-selection-item,
+  .ant-select-selection-placeholder,
+  .air-select-selection-placeholder {
+    line-height: 33px !important;
+  }
+
+  // 搜索输入框
+  .ant-select-selection-search-input,
+  .air-select-selection-search-input {
+    height: 33px !important;
+  }
+
+  // 聚焦无阴影
+  &.ant-select-focused,
+  &.air-select-focused {
+    box-shadow: none !important;
+  }
+
+  // 禁用状态
+  &.ant-select-disabled,
+  &.air-select-disabled {
+    cursor: not-allowed;
+
+    .ant-select-selection-item,
+    .air-select-selection-item {
+      color: #222 !important;
+    }
+
+    .ant-select-arrow,
+    .air-select-arrow {
+      color: rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  // 箭头图标
+  .ant-select-arrow,
+  .air-select-arrow {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  // 清除按钮
+  .ant-select-clear,
+  .air-select-clear {
+    background: transparent;
+  }
+
+  // 多选标签
+  &.ant-select-multiple,
+  &.air-select-multiple {
+    height: auto !important;
+    min-height: 35px !important;
+
+    .ant-select-selection-item,
+    .air-select-selection-item {
+      height: 24px;
+      line-height: 24px;
+      border-radius: 3px;
+      background: var(--color-100);
+      border-color: var(--color-300);
+    }
+  }
+}
+
+// --- 下拉面板 ---
+.ant-select-dropdown,
+.air-select-dropdown {
+  border: 1px solid #ddd !important;
+  background: #fafafa !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  font-family: var(--font-family);
+  font-size: var(--font-size-form);
+
+  .rc-virtual-list-holder-inner {
+    padding: 0 !important;
+  }
+
+  .ant-select-item,
+  .air-select-item {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 12px;
+    border-radius: 0;
+  }
+
+  .ant-select-item-option-selected,
+  .air-select-item-option-selected {
+    background: var(--color-100) !important;
+    font-weight: 500;
+  }
+
+  .ant-select-item-option-active,
+  .air-select-item-option-active {
+    background: var(--color-100) !important;
+  }
+
+  .ant-select-item-group,
+  .air-select-item-group {
+    color: var(--color-600);
+    font-size: 0.8rem;
+    font-weight: 600;
+    height: 28px;
+    line-height: 28px;
+  }
 }

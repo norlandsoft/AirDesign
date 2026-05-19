@@ -13,9 +13,9 @@ import './style/semi.less'
 import './style/tide.less'
 import './style/layout.less'
 
-// Ant Design 组件转发（Button、Table、Spin、Select 由 AirDesign 自有组件提供，antd 原生版加 Antd 前缀）
+// Ant Design 组件转发（Button、Table、Spin 由 AirDesign 自有组件提供，antd 原生版加 Antd 前缀）
 export {
-  Form, Input, DatePicker, TimePicker, InputNumber, Checkbox, Switch, Slider, Rate, Upload, Cascader, TreeSelect,
+  Form, Input, Select, DatePicker, TimePicker, InputNumber, Checkbox, Switch, Slider, Rate, Upload, Cascader, TreeSelect,
   Card, Tag, Statistic, Avatar, Badge, Timeline, Tooltip, Popover, Popconfirm, Empty, Typography, Image, Calendar, Descriptions,
   Modal, Drawer, Alert, Progress, Result, Skeleton,
   Layout, Row, Col, Divider, Space,
@@ -24,7 +24,7 @@ export {
   notification, theme
 } from 'antd'
 export type {
-  FormProps, FormInstance, FormItemProps, InputProps, DatePickerProps, TimeRangePickerProps,
+  FormProps, FormInstance, FormItemProps, InputProps, SelectProps, DatePickerProps, TimeRangePickerProps,
   InputNumberProps, CheckboxProps, SwitchProps, UploadProps,
   CardProps, TagProps, StatisticProps, AvatarProps, BadgeProps, TooltipProps, PopoverProps, PopconfirmProps, TypographyProps,
   ModalProps, DrawerProps, AlertProps,
@@ -38,7 +38,6 @@ export {default as Button} from './Button'
 export {default as IconButton} from './Button/IconButton'
 export {default as MenuButton} from './Button/MenuButton'
 export {default as ToggleButton} from './Button/ToggleButton'
-export {default as Select} from './Select'
 export {default as Icon} from './Icon'
 export {default as ColorPicker} from './ColorPicker'
 export {default as Message} from './Message'
