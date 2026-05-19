@@ -1,0 +1,125 @@
+/**
+ * Select 组件样式
+ *
+ * 使 Select 外观与 Input 组件保持一致：
+ * 高度 35px、圆角 3px、边框色 color-300、聚焦主色、禁用灰色背景
+ *
+ * @author ChaiMingXu, on 2026/05/19
+ */
+
+/* 选择器本体 */
+.air-select {
+  &:not(.ant-select-customize-input) {
+    .ant-select-selector {
+      height: 35px !important;
+      min-height: 35px !important;
+      border-color: var(--color-300) !important;
+      border-radius: 3px !important;
+      padding: 0 11px !important;
+      font-family: var(--font-family);
+      font-size: var(--font-size-form);
+    }
+
+    /* 选中项 / 占位文字垂直居中 */
+    .ant-select-selection-item,
+    .ant-select-selection-placeholder {
+      line-height: 33px !important;
+    }
+
+    /* 搜索输入框高度 */
+    .ant-select-selection-search-input {
+      height: 33px !important;
+    }
+  }
+
+  /* 悬停边框变为主色 */
+  &:hover:not(.ant-select-disabled):not(.ant-select-focused) {
+    .ant-select-selector {
+      border-color: var(--primary-color) !important;
+    }
+  }
+
+  /* 聚焦边框变为主色，无阴影 */
+  &.ant-select-focused {
+    .ant-select-selector {
+      border-color: var(--primary-color) !important;
+      box-shadow: none !important;
+    }
+  }
+
+  /* 禁用状态 */
+  &.ant-select-disabled {
+    .ant-select-selector {
+      color: #222 !important;
+      background: #f5f5f5 !important;
+      border-color: var(--color-300) !important;
+      cursor: not-allowed;
+    }
+
+    .ant-select-selection-item {
+      color: #222 !important;
+    }
+
+    .ant-select-arrow {
+      color: rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  /* 箭头图标尺寸 */
+  .ant-select-arrow {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  /* 清除按钮 */
+  .ant-select-clear {
+    background: transparent;
+  }
+
+  /* 多选标签样式 */
+  &.ant-select-multiple {
+    .ant-select-selection-item {
+      height: 24px;
+      line-height: 24px;
+      border-radius: 3px;
+      background: var(--color-100);
+      border-color: var(--color-300);
+    }
+  }
+}
+
+/* 下拉面板 */
+.air-select-dropdown {
+  border: 1px solid #ddd !important;
+  background: #fafafa !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  font-family: var(--font-family);
+  font-size: var(--font-size-form);
+
+  .ant-select-item {
+    height: 35px;
+    line-height: 35px;
+    padding: 0 12px;
+    border-radius: 3px;
+  }
+
+  /* 选中项 */
+  .ant-select-item-option-selected {
+    background: var(--color-100) !important;
+    font-weight: 500;
+  }
+
+  /* 悬停项 */
+  .ant-select-item-option-active {
+    background: var(--color-100) !important;
+  }
+
+  /* 分组标题 */
+  .ant-select-item-group {
+    color: var(--color-600);
+    font-size: 0.8rem;
+    font-weight: 600;
+    height: 28px;
+    line-height: 28px;
+  }
+}
