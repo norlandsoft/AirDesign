@@ -9,7 +9,7 @@
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,

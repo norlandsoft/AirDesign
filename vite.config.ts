@@ -32,6 +32,9 @@ export default defineConfig({
   },
 
   build: {
+    // 关闭 CSS 压缩避免 lightningcss 对 CSS Modules :global 伪类报错
+    // 组件库产物由消费者项目负责压缩
+    cssMinify: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],

@@ -751,7 +751,7 @@ const MindEditor: React.FC<MindProps> = props => {
   }, []);
 
   // viewport 变化的防抖处理（用于画布移动、缩放）
-  const viewportChangeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const viewportChangeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 保存方法：将当前 mapData 和 viewport 保存
   // changeType: 'node' - 节点变化（新增、删除、内容改变、拖动位置）

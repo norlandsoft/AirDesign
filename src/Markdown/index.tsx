@@ -92,7 +92,7 @@ const MermaidDiagram: React.FC<{ code: string; darkMode: boolean }> = ({code, da
   const [isRendering, setIsRendering] = useState(true);
   const mermaidInstanceRef = useRef<any>(null);
   const lastRenderedCodeRef = useRef<string>('');
-  const renderTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const renderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let isMounted = true;

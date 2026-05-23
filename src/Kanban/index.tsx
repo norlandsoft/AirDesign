@@ -84,12 +84,13 @@ const Kanban: React.FC<KanbanProps> = props => {
     }
     // 任务拖拽
     let sourceCol: TaskStatus | undefined, destCol: TaskStatus | undefined, task: TaskProps | undefined;
-    data.forEach(col => {
-      if (col.tasks.find(t => t.id === active.id)) {
+    data.forEach((col: TaskStatus) => {
+      const found = col.tasks.find((t: TaskProps) => t.id === active.id);
+      if (found) {
         sourceCol = col;
-        task = col.tasks.find(t => t.id === active.id);
+        task = found;
       }
-      if (col.tasks.find(t => t.id === over.id)) {
+      if (col.tasks.find((t: TaskProps) => t.id === over.id)) {
         destCol = col;
       }
     });

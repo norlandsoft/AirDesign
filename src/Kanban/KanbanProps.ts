@@ -110,3 +110,7 @@ interface KanbanProps {
 }
 
 export type {ActionProps, ActionStatus, KanbanProps};
+
+// 兼容别名：外部组件可能使用 TaskProps / TaskStatus 命名
+export type TaskProps = ActionProps;
+export type TaskStatus = ActionStatus;

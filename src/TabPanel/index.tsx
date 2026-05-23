@@ -60,7 +60,6 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
             autoAdjustOverflow={false}
             styles={{
               root: {maxWidth: 'unset'},
-              body: {whiteSpace: 'nowrap', borderRadius: '2px'},
             }}
         >
           <div className={'air-tabs-button'}>
