@@ -242,7 +242,7 @@ const EditorMenu = (props: any) => {
               popupRender={renderTextStyleDropdown}
               destroyOnHidden={true}
               placement="bottomLeft"
-              overlayClassName="air-editor-toolbar-dropdown-menu"
+              classNames={{ root: 'air-editor-toolbar-dropdown-menu' }}
           >
             <div className="air-editor-toolbar-item-dropdown">
               {textStyle.label}

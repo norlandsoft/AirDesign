@@ -101,7 +101,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
           destroyOnHidden={true}
           placement={dropdownPlacement as AntdDropdownPlacement}
           getPopupContainer={() => document.body}
-          overlayClassName="air-icon-button-dropdown"
+          classNames={{ root: 'air-icon-button-dropdown' }}
       >
         {buttonContent}
       </Dropdown>
