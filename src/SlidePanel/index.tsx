@@ -18,7 +18,7 @@ const SlidePanel = (props) => {
     open,
     placement = 'right',
     title,
-    bodyPadding = '24',
+    bodyPadding = '16',
     bodyBackgroundColor = '#fff',
     type = 'default' /* small, default, large, huge, custom */,
     width = 378,
@@ -101,7 +101,7 @@ const SlidePanel = (props) => {
               padding: 0,
             },
             body: {
-              paddingTop: 0,
+              paddingTop: bodyPadding,
               paddingBottom: 0,
               paddingLeft: bodyPadding,
               paddingRight: bodyPadding,
