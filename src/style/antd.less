@@ -746,6 +746,34 @@ textarea {
   }
 }
 
+/* 独立的 air-input-affix-wrapper 样式
+ * 与表单上下文中的输入组件保持一致：
+ * 高度35px、圆角3px、边框颜色、hover 和 focus 状态。
+ * 适用于 Dialog、SlidePanel 等非表单场景中使用带 allowClear 的 Input。 */
+.ant-input-affix-wrapper,
+.air-input-affix-wrapper {
+  border-color: var(--color-300);
+  border-radius: 3px;
+  padding: 0 12px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    border-color: var(--primary-color);
+  }
+
+  &.ant-input-affix-wrapper-focused,
+  &.air-input-affix-wrapper-focused {
+    border-color: var(--primary-color) !important;
+    box-shadow: unset;
+  }
+
+  input {
+    height: auto;
+  }
+}
+
 /* ============================================================
  * Select 下拉选择（antd v6 DOM 结构）
  * 同时支持默认前缀 ant- 和自定义前缀 air-
