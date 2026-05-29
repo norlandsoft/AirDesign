@@ -21,8 +21,6 @@ interface ButtonProps {
   className?: string
   danger?: boolean
   children?: ReactNode
-
-  [key: string]: unknown
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
@@ -39,7 +37,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     size,
     className,
     danger,
-    ...restProps
   } = props
 
   // danger 属性为 true 时，按钮类型切换为 danger 样式
@@ -65,7 +62,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
           onClick={onClick}
           style={style}
           disabled={isDisabled}
-          {...restProps}
       >
       <span>
         {iconNode}
