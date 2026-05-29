@@ -24,6 +24,10 @@ interface ModalDialogProps {
   headerBgColor?: string
   contentBgColor?: string
   footerBgColor?: string
+  /** 内容区域内边距，默认 24px */
+  contentPadding?: number | string
+  /** 内容垂直对齐方式：top(靠上) / middle(居中，默认) / bottom(靠下) */
+  contentAlign?: 'top' | 'middle' | 'bottom'
   mask?: boolean
   loading?: boolean
 }
@@ -181,6 +185,8 @@ class ModalDialog extends React.Component<ModalDialogProps, ModalDialogState> {
       headerBgColor = '#f8f8f8',
       contentBgColor = '#fff',
       footerBgColor = '#fff',
+      contentPadding = 24,
+      contentAlign = 'middle',
     } = this.props
     const {visible, clientWidth, clientHeight, pageX, pageY} = this.state
     const modal = (
@@ -214,7 +220,11 @@ class ModalDialog extends React.Component<ModalDialogProps, ModalDialogState> {
                   </div>
               ) : null}
             </div>
-            <div className={'custom_modal_content'} style={{backgroundColor: contentBgColor}}>
+            <div className={'custom_modal_content'} style={{
+              backgroundColor: contentBgColor,
+              padding: typeof contentPadding === 'number' ? `${contentPadding}px` : contentPadding,
+              justifyContent: contentAlign === 'top' ? 'flex-start' : contentAlign === 'bottom' ? 'flex-end' : 'center',
+            }}>
               <div className={'loading_mask'} style={{visibility: loading ? 'visible' : 'hidden'}}>
                 <Spin size="large"/>
               </div>
