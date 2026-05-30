@@ -82,8 +82,8 @@ const SlidePanel = (props) => {
 
   return (
       <Drawer
-          extra={<div>&nbsp;</div>}
-          closable={false}
+          closable={hasCloseButton}
+          closeIcon={hasCloseButton ? <Icon name={'close'} size={16}/> : undefined}
           maskClosable={maskClosable}
           onClose={onClose}
           open={open}
@@ -91,25 +91,29 @@ const SlidePanel = (props) => {
           size={type === 'full' ? '100%' : getPanelWidth()}
           placement={type === 'full' ? 'top' : placement}
           footer={hasButtonBar ? footerContent : null}
-          title={hasCloseButton || title ? ' ' : null}
-          style={{overflow: 'hidden'}}
+          title={title || null}
           styles={{
+            content: {
+              display: 'flex',
+              flexDirection: 'column',
+            },
             header: {
               height: '40px',
               lineHeight: '40px',
-              margin: 0,
-              padding: 0,
+              flexShrink: 0,
+              padding: '0 16px',
+              background: '#fafafa',
             },
             body: {
-              paddingTop: bodyPadding,
-              paddingBottom: 0,
-              paddingLeft: bodyPadding,
-              paddingRight: bodyPadding,
+              flex: 1,
+              overflow: 'auto',
+              padding: `${bodyPadding}px`,
               background: bodyBackgroundColor,
             },
             footer: {
               height: '50px',
               lineHeight: '50px',
+              flexShrink: 0,
               borderTop: 'var(--panel-border)',
               background: '#fafafa',
               textAlign: type === 'full' ? 'right' : 'left',
@@ -121,16 +125,6 @@ const SlidePanel = (props) => {
           push={{distance: innerDrawerWidth - 32}}
           destroyOnHidden={true}
       >
-        {hasCloseButton || title ? (
-            <div className={'air-slide-header'}>
-              {title ? <div className={'air-slide-header-title'}>{title}</div> : null}
-              {hasCloseButton ? (
-                  <div className={'air-slide-header-close'} onClick={onClose}>
-                    <Icon name={'close'} size={16}/>
-                  </div>
-              ) : null}
-            </div>
-        ) : null}
         <div className="air-slide-body">{children}</div>
         {innerDrawer && (
             <Drawer
