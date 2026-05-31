@@ -93,7 +93,7 @@ const SlidePanel = (props) => {
           footer={hasButtonBar ? footerContent : null}
           title={title || null}
           styles={{
-            content: {
+            section: {
               display: 'flex',
               flexDirection: 'column',
             },
