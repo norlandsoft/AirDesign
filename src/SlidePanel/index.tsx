@@ -76,10 +76,6 @@ const SlidePanel = (props) => {
     }
   }
 
-  const getPanelHeight = () => {
-    return 255
-  }
-
   return (
       <Drawer
           closable={hasCloseButton}
@@ -125,7 +121,7 @@ const SlidePanel = (props) => {
           push={{distance: innerDrawerWidth - 32}}
           destroyOnHidden={true}
       >
-        <div className="air-slide-body">{children}</div>
+        <div className="air-slide-body" style={type === 'full' ? {height: '100%'} : undefined}>{children}</div>
         {innerDrawer && (
             <Drawer
                 size={innerDrawerWidth}
