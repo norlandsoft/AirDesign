@@ -1,5 +1,5 @@
 import React from 'react'
-import {Spin} from 'antd'
+import Spin from '../Spin'
 import Button from '../Button'
 import Icon from '../Icon'
 import './ModalDialog.less'

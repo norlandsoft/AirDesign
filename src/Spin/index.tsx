@@ -10,11 +10,14 @@
  */
 
 import React, {useState, useEffect, useRef, ReactNode} from 'react'
+import ReactDOM from 'react-dom'
 import './index.less'
 
 interface SpinProps {
   /** 是否显示加载状态，默认 true */
   loading?: boolean
+  /** 兼容 antd 的 spinning 属性，与 loading 功能相同 */
+  spinning?: boolean
   /** 加载提示文字 */
   label?: string
   /** 加载描述文字（与 label 功能相同，兼容 antd 命名） */
@@ -25,6 +28,8 @@ interface SpinProps {
   indicator?: ReactNode
   /** 延迟显示加载效果的时间（毫秒），用于防止加载闪烁 */
   delay?: number
+  /** 是否以全屏遮罩模式显示，覆盖整个视口 */
+  fullscreen?: boolean
   /** 被包裹的内容 */
   children?: ReactNode
   /** 自定义容器样式 */
@@ -45,19 +50,24 @@ const DefaultIndicator = ({size}: { size: string }) => (
 )
 
 const Spin: React.FC<SpinProps> = ({
-  loading = true,
+  loading,
+  spinning: spinningProp,
   label,
   description,
   size = 'default',
   indicator,
   delay,
+  fullscreen = false,
   children,
   style,
   className,
 }) => {
+  // 兼容 antd 的 spinning 属性，loading 优先
+  const isLoading = loading ?? spinningProp ?? true
+
   /** 延迟控制：实际是否显示加载动画，初始值需要同步 loading 状态 */
   const [spinning, setSpinning] = useState(() => {
-    if (!loading) return false
+    if (!isLoading) return false
     return !delay
   })
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -69,7 +79,7 @@ const Spin: React.FC<SpinProps> = ({
       timerRef.current = null
     }
 
-    if (loading) {
+    if (isLoading) {
       if (delay) {
         // loading=true 且设置了 delay：先不显示，延迟后再显示
         setSpinning(false)
@@ -87,12 +97,28 @@ const Spin: React.FC<SpinProps> = ({
         clearTimeout(timerRef.current)
       }
     }
-  }, [loading, delay])
+  }, [isLoading, delay])
 
   // 描述文字，优先使用 description，兼容 label
   const desc = description ?? label
   // 渲染的指示器
   const spinIndicator = indicator ?? <DefaultIndicator size={size}/>
+
+  // 全屏模式：使用 React.createPortal 渲染到 body，覆盖整个视口
+  if (fullscreen) {
+    if (!spinning) return null
+    return ReactDOM.createPortal(
+      <div className={`air-spin-fullscreen ${className || ''}`} style={style}>
+        <div className="air-spin-fullscreen-content">
+          <div className={`air-spin air-spin-${size}`}>
+            {spinIndicator}
+            {desc && <div className="air-spin-label">{desc}</div>}
+          </div>
+        </div>
+      </div>,
+      document.body
+    )
+  }
 
   // 无 children：仅显示加载动画
   if (!children) {
