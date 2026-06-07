@@ -287,7 +287,7 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
                       formData.append('ownerId', docId || '');
 
                       // 发送请求保存图片信息到数据库
-                      fetch('/rest/file/upload', {
+                      fetch('/rest/platform/storage/upload', {
                         method: 'POST',
                         headers: {
                           Authorization: 'Bearer ' + sessionStorage.getItem('air-machine-token'),

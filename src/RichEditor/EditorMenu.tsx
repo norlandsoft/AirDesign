@@ -155,9 +155,8 @@ const EditorMenu = (props: any) => {
                 if (resp.success) {
                   const item = resp.data[0];
                   const blobUrl = item?.blobUrl;
-                  const imageUrl = blobUrl || (item?.hashcode ? `http://localhost:8000/image/wiki/${item.hashcode}` : '');
-                  if (imageUrl) {
-                    editor?.chain().focus().insertContent(`<img src="${imageUrl}" style="width: ${width}px; height: ${height}px;" alt=''>`).run();
+                  if (blobUrl) {
+                    editor?.chain().focus().insertContent(`<img src="${blobUrl}" style="width: ${width}px; height: ${height}px;" alt=''>`).run();
                   }
                 }
 
@@ -188,7 +187,7 @@ const EditorMenu = (props: any) => {
     formData.append('height', dimensions.height.toString());
 
     // 发送请求保存图片信息到数据库
-    const res = await fetch('/rest/file/upload', {
+    const res = await fetch('/rest/platform/storage/upload', {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + sessionStorage.getItem('air-machine-token'),
