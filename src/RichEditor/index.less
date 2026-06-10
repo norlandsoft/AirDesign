@@ -57,6 +57,45 @@
     overflow: auto;
     border-radius: 3px;
 
+    // 自动增高模式：外层不滚动，由编辑区容器在达到 maxHeight 后滚动
+    &.air-rich-editor-auto-grow {
+      overflow: visible;
+
+      .ProseMirror {
+        height: auto;
+        overflow: visible;
+      }
+
+      // maxHeight 生效时，滚动条出现在编辑区容器上
+      .air-rich-editor-content-scroll {
+        .air-rich-editor-scrollbar();
+      }
+    }
+
+    // 滚动条样式 mixin，供 ProseMirror 与编辑区容器复用
+    .air-rich-editor-scrollbar() {
+      &::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #fafafa;
+        border: 1px solid #f1f2f3;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+        border: 1px solid #e0e0e0;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    }
+
     .ProseMirror {
       line-height: 1.8;
       height: 100%;
@@ -207,26 +246,7 @@
       }
 
       // 设置滚动条样式
-      &::-webkit-scrollbar {
-        width: 10px; // 垂直滚动条宽度
-        height: 10px; // 水平滚动条高度
-      }
-
-      &::-webkit-scrollbar-track {
-        background: #fafafa;
-        border: 1px solid #f1f2f3; // 滚动条轨道边框颜色
-        border-radius: 4px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: #ccc;
-        border-radius: 4px;
-        border: 1px solid #e0e0e0; // 滚动条滑块边框颜色
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
+      .air-rich-editor-scrollbar();
     }
   }
 }

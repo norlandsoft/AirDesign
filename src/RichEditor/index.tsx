@@ -1,3 +1,14 @@
+/**
+ * RichEditor 富文本编辑器组件
+ *
+ * 基于 TipTap 封装，支持固定高度与自动增高两种布局模式：
+ * - fixedHeight 或显式传入 height：整体高度固定，内容区内部滚动
+ * - 未设置 height 且非 fixedHeight：编辑区随内容自动增高；若同时传入 maxHeight 且处于编辑态，增高上限为 maxHeight 并显示垂直滚动条
+ *
+ * @author ChaiMingXu
+ * @date 2026/06/09
+ */
+
 import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
 
 import {Input} from 'antd';
@@ -47,6 +58,8 @@ interface RichEditorProps {
   docId?: string;
   width?: number;
   height?: number;
+  /** 编辑区最大高度（px）；仅在未设置 height、非 fixedHeight 且处于编辑态时生效，超出后显示垂直滚动条 */
+  maxHeight?: number;
   minHeight?: number;
   padding?: number;
   contentPadding?: number;
@@ -66,7 +79,8 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
     title,
     content,
     docId,
-    height = 400,
+    height,
+    maxHeight,
     width,
     minHeight = 200,
     padding = 0,
@@ -126,9 +140,18 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
   // 保存 editable 状态
   const [editable, setEditable] = React.useState<boolean>(true);
 
-  const editorHeight = height - padding * 2;
+  // fixedHeight 未传 height 时沿用 400 默认值，保证固定高度模式向后兼容
+  const resolvedHeight = height ?? (fixedHeight ? 400 : undefined);
+  // 未设置 height 且非固定高度：编辑区随内容自动增高
+  const isAutoHeightMode = !fixedHeight && resolvedHeight === undefined;
+  // 自动增高模式下，编辑态且设置了 maxHeight 时限制编辑区高度并启用滚动
+  const shouldApplyMaxHeight = isAutoHeightMode && editable && maxHeight != null;
+
+  const editorHeight = resolvedHeight != null ? resolvedHeight - padding * 2 : undefined;
   // 整体高度 - 工具栏高度 - 标题高度
-  const contentHeight = editorHeight - (editable ? 40 : 0) - (simpleMode || !hasTitle ? 0 : 70) - 2;
+  const contentHeight = editorHeight != null
+      ? editorHeight - (editable ? 40 : 0) - (simpleMode || !hasTitle ? 0 : 70) - 2
+      : undefined;
 
   // 格式化 content
   const formatContent = (content: any) => {
@@ -249,17 +272,24 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
 
   return (
       <div className="air-rich-editor-wrapper" id={id} style={{padding: `${padding}px`}}>
-        <div className="air-rich-editor" style={{
-          height: fixedHeight ? `${editorHeight}px` : 'auto',
-          boxSizing: 'border-box',
-          border: bordered ? '1px solid #e0e0e0' : 'none'
-        }}>
+        <div
+            className={`air-rich-editor${isAutoHeightMode ? ' air-rich-editor-auto-grow' : ''}`}
+            style={{
+              height: fixedHeight && editorHeight != null ? `${editorHeight}px` : 'auto',
+              boxSizing: 'border-box',
+              border: bordered ? '1px solid #e0e0e0' : 'none'
+            }}>
           <EditorProvider
               editorContainerProps={{
+                className: shouldApplyMaxHeight ? 'air-rich-editor-content-scroll' : undefined,
                 style: {
                   boxSizing: 'border-box',
-                  height: fixedHeight ? `${contentHeight}px` : 'unset',
+                  height: fixedHeight && contentHeight != null ? `${contentHeight}px` : 'unset',
                   minHeight: `${minHeight}px`,
+                  ...(shouldApplyMaxHeight ? {
+                    maxHeight: `${maxHeight}px`,
+                    overflowY: 'auto',
+                  } : {}),
                   width: width ? `${editable ? width + 15 : width}px` : 'auto'
                 }
               }}
