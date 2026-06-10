@@ -80,7 +80,7 @@ const SlidePanel = (props) => {
       <Drawer
           closable={hasCloseButton}
           closeIcon={hasCloseButton ? <Icon name={'close'} size={16}/> : undefined}
-          maskClosable={maskClosable}
+          mask={{closable: maskClosable}}
           onClose={onClose}
           open={open}
           afterOpenChange={onOpenChange}
@@ -127,7 +127,7 @@ const SlidePanel = (props) => {
                 size={innerDrawerWidth}
                 open={showInnerDrawer}
                 destroyOnHidden={true}
-                maskClosable={true}
+                mask={{closable: true}}
                 onClose={onInnerClose}
                 closable={false}
                 styles={{
