@@ -24,6 +24,14 @@ function isFixedFill(fill: string): boolean {
 }
 
 /**
+ * 判断元素是否处于固定描边粗细区域（不应被 thickness prop 覆盖）
+ * 约定：元素自身或祖先带 air-icon-fixed-stroke 类名时，保留 SVG 源文件中的 stroke-width
+ */
+function isInFixedStrokeWidthScope(element: Element): boolean {
+  return element.closest('.air-icon-fixed-stroke') !== null
+}
+
+/**
  * 纯函数：解析 SVG 字符串，设置尺寸、颜色和描边粗细
  */
 function parseSvg(name: string, size: number, color: string, thickness: number): string | null {
@@ -53,8 +61,8 @@ function parseSvg(name: string, size: number, color: string, thickness: number):
       'g, path, circle, rect, line, polyline, polygon, ellipse'
   )
   allElements.forEach((element) => {
-    // 设置描边粗细
-    if (element.hasAttribute('stroke-width')) {
+    // 设置描边粗细（固定区域保留源文件 stroke-width，用于角标等缩放子图）
+    if (element.hasAttribute('stroke-width') && !isInFixedStrokeWidthScope(element)) {
       element.setAttribute('stroke-width', thickness.toString())
     }
     // 替换 stroke 颜色
