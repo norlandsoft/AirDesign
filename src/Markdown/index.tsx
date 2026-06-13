@@ -24,6 +24,8 @@ interface MarkdownProps {
   className?: string;
   /** 代码复制回调函数，传入代码内容 */
   onCopyCode?: (code: string) => void;
+  /** 流式输出中：对未闭合代码围栏做临时闭合，减少解析抖动 */
+  streaming?: boolean;
 }
 
 /**
@@ -279,8 +281,20 @@ const ThinkBlock: React.FC<ThinkBlockProps> = ({children}) => {
   );
 };
 
+/**
+ * 流式 Markdown 预处理：临时闭合未完成的代码围栏，避免 react-markdown 解析崩溃
+ */
+const prepareStreamingMarkdown = (content: string): string => {
+  if (!content) return content;
+  const fenceCount = (content.match(/```/g) || []).length;
+  if (fenceCount % 2 !== 0) {
+    return `${content}\n\`\`\``;
+  }
+  return content;
+};
+
 const Markdown: React.FC<MarkdownProps> = (props) => {
-  const {content, darkMode = false, className, onCopyCode} = props;
+  const {content, darkMode = false, className, onCopyCode, streaming = false} = props;
 
   /**
    * 预处理内容，将 <think> 和 </think> 标签替换为单独一行的 ::think 标记
@@ -288,8 +302,9 @@ const Markdown: React.FC<MarkdownProps> = (props) => {
    */
   const processedContent = useMemo(() => {
     if (!content) return content;
+    const source = streaming ? prepareStreamingMarkdown(content) : content;
 
-    let processed = content;
+    let processed = source;
     let hasReplacement = false;
 
     // 将开始标签 <think> 或 <think> 替换为单独一行的 ::think
@@ -318,7 +333,7 @@ const Markdown: React.FC<MarkdownProps> = (props) => {
     }
 
     return processed;
-  }, [content]);
+  }, [content, streaming]);
 
   /**
    * 将内容分割为普通内容和思考块
@@ -479,7 +494,7 @@ const Markdown: React.FC<MarkdownProps> = (props) => {
   }), [CodeBlock]);
 
   return (
-      <div className={`markdown-container ${className || ''}`}>
+      <div className={`markdown-container ${streaming ? 'markdown-streaming' : ''} ${className || ''}`}>
         {contentParts.map((part, index) => {
           if (part.type === 'think') {
             // 对于思考块，单独渲染并用特殊样式包裹
