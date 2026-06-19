@@ -19,10 +19,11 @@
 {
   "react": "^18.3.1",
   "react-dom": "^18.3.1",
-  "umi": ">=4",
   "air-design": ">=2.0.0"
 }
 ```
+
+> 状态管理基于 **Zustand**（随 air-sdk 自动安装），不依赖 Umi/DVA。
 
 ## 构建
 
@@ -86,23 +87,30 @@ defineSdkConfig({
 | `appTagline` | string? | 登录页副标题 |
 | `theme` | `'blue' \| 'teal' \| 'amber'`? | 登录页主题色，默认 teal |
 
-### 2. 注册 Model
+### 2. 用户状态（Zustand）
 
-```typescript
-// src/models/user.ts
-export { UserModel as default } from 'air-sdk';
+air-sdk 内置 `useUserStore`，无需注册 DVA Model：
+
+```tsx
+import { useUserStore } from 'air-sdk'
+
+// 精确订阅（推荐）
+const currentUser = useUserStore((s) => s.currentUser)
+const login = useUserStore((s) => s.login)
+await login({ id, password })
+
+// 或在非组件代码中直接访问
+useUserStore.getState().logout()
 ```
 
-`UserModel` 提供 effects：
-
-| Effect | 说明 |
+| Action | 说明 |
 |--------|------|
-| `user/login` | 登录（密码 SHA256 后提交） |
-| `user/logout` | 登出并清除 session |
-| `user/validateToken` | 校验当前 Token |
-| `user/changePassword` | 修改密码 |
-| `user/fetchUserSettings` | 获取用户设置 |
-| `user/updateUserSettings` | 更新用户设置 |
+| `login` | 登录（密码 SHA256 后提交） |
+| `logout` | 登出并清除 session |
+| `validateToken` | 校验当前 Token |
+| `changePassword` | 修改密码 |
+| `updateUserInfo` | 更新用户信息 |
+| `fetchUserSettings` / `updateUserSettings` | 获取 / 更新用户设置 |
 
 ### 3. 布局
 
@@ -168,7 +176,7 @@ import {
 |------|------|
 | `air-sdk` | 主入口 |
 | `air-sdk/config` | 配置模块 |
-| `air-sdk/models/user` | UserModel |
+| `air-sdk/models/user` | useUserStore（Zustand） |
 | `air-sdk/layouts/SecurityLayout` | 安全布局 |
 | `air-sdk/pages/Login` | 登录页 |
 | `air-sdk/utils/HttpRequest` | HTTP 封装 |
@@ -202,7 +210,7 @@ air-sdk 2.0 随 air-design 2.0 一起完成底层重构，**不保留旧 API 兼
 
 - **登录页**：移除 antd `Form` / `Input` / `ConfigProvider`，改为原生受控表单 + 手动校验。Canvas 星野动画保持不变。
 - **用户设置**：`BasicInfo` / `DisplaySettings` / `ChangePassword` 的 antd `Form` / `Radio` / `Input.Password` 改为原生 input / radio-button-group，`Avatar` 改用 air-design 的 Radix Avatar 原语。
-- **AppSwitcher**：antd `Dropdown` 改用 air-design 的 `DropdownMenu` 原语。
-- **umi/DVA**：保留（`connect` / `useDispatch` / `useSelector`），仅替换 UI 层。
+- **AppSwitcher**：antd `Dropdown` 改用 air-design 的 `DropdownMenu` 原语；`layoutSize` 改为 props 传入（默认值）。
+- **状态管理**：去 Umi/DVA，改用 **Zustand** `useUserStore`；`connect`/`useDispatch`/`useSelector` 全部移除。纯 React 与 Umi 应用均可使用。
 - 表单校验由各组件内部手动完成（`Notice` 提示），不再依赖 antd Form 的 `rules`/`validateFields`。
 

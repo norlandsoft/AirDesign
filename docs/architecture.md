@@ -207,16 +207,16 @@ packages/air-design/dist/
 
 ## 八、air-sdk 业务脚手架设计
 
-air-sdk 保留 **UmiJS 4 + DVA** 依赖（`connect` / `useDispatch` / `useSelector`），耦合很浅，便于 JettoAuthor / AirMachine 等 Umi 应用即插即用。
+air-sdk 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`），不依赖任何宿主框架 —— 纯 React 应用与 Umi 应用均可即插即用。
 
 ### 核心模块
 
 - **config**：`defineSdkConfig` 在应用入口注入 `storagePrefix` / `appName` / `appTagline` / `theme`
-- **UserModel**（namespace `user`）：`login` / `logout` / `validateToken` / `changePassword` / `updateUserInfo` / `fetchUserSettings` / `updateUserSettings`；密码 SHA256；通过 `auth-state-changed` CustomEvent 与非 DVA 代码通信
+- **useUserStore**（Zustand）：`login` / `logout` / `validateToken` / `changePassword` / `updateUserInfo` / `fetchUserSettings` / `updateUserSettings`；密码 SHA256；通过 `auth-state-changed` CustomEvent 与非 React 代码（HttpRequest 等）通信
 - **SecurityLayout**：未登录渲染 Login；URL 含 `transferToken` 自动兑换 SSO；校验中全屏 Spin
-- **Login**：Canvas 星野动画 + 原生受控表单（2.0 去除 antd Form/Input/ConfigProvider）
+- **Login**：Canvas 星野动画 + 原生受控表单
 - **UserSettings**：基本信息 / 显示设置 / 修改密码 三子页，原生表单
-- **AppSwitcher**：跨应用免登切换，基于 DropdownMenu 原语
+- **AppSwitcher**：跨应用免登切换，基于 DropdownMenu 原语；`layoutSize` 经 props 传入（默认值，无需宿主全局 store）
 - **HttpRequest**：fetch 封装，自动注入 Authorization / X-User-Id 头，401 清理 session；含 SSE_POST 流式请求
 
 ### 后端契约

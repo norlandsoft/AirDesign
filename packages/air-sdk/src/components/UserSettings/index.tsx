@@ -7,14 +7,13 @@
  * Author: ChaiMingXu, 2026/05/28
  */
 import React, {useEffect, useRef, useState} from 'react';
-import {connect} from 'umi';
-import {Avatar, AvatarImage, Button} from 'air-design';
+import {Avatar, AvatarImage, Button, SlidePanel} from 'air-design';
 import type {UserResponse} from '../../types/user';
 import {getAvatarUrl} from '../../utils/IconUtils';
+import {useUserStore} from '../../models/user';
 import BasicInfo, {type BasicInfoRef} from './BasicInfo';
 import DisplaySettings, {type DisplaySettingsRef} from './DisplaySettings';
 import ChangePassword, {type ChangePasswordRef} from './ChangePassword';
-import {SlidePanel} from 'air-design';
 import './index.css';
 
 export interface UserSettingsProps {
@@ -29,11 +28,8 @@ interface SettingsPageConfig {
   label: string;
 }
 
-const UserSettings: React.FC<UserSettingsProps & { currentUser: UserResponse | null; dispatch: any }> = ({
-  visible,
-  onClose,
-  currentUser,
-}) => {
+const UserSettings: React.FC<UserSettingsProps> = ({visible, onClose}) => {
+  const currentUser = useUserStore((s) => s.currentUser);
   const [activeTab, setActiveTab] = useState<SettingsTab>('basic');
   const [loading, setLoading] = useState(false);
   const [childLoading, setChildLoading] = useState(false);
@@ -186,6 +182,4 @@ const UserSettings: React.FC<UserSettingsProps & { currentUser: UserResponse | n
   );
 };
 
-export default connect(({user}: any) => ({
-  currentUser: user.currentUser,
-}))(UserSettings);
+export default UserSettings;

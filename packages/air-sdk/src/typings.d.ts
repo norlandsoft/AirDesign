@@ -5,9 +5,3 @@
  */
 
 declare module '*.css';
-
-declare module 'umi' {
-  export function connect(mapStateToProps: any): (Component: React.ComponentType<any>) => React.ComponentType<any>
-  export function useDispatch(): any
-  export function useSelector(selector: (state: any) => any): any
-}

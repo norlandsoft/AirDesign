@@ -280,7 +280,7 @@ import { MindPanel } from 'air-design'
 
 ## 四、业务脚手架 air-sdk
 
-> air-sdk 仅服务于自有 UmiJS 应用。保留 umi/DVA 依赖（`connect`/`useDispatch`/`useSelector`）。
+> air-sdk 仅服务于自有应用。已**去 Umi/DVA**，状态管理基于 Zustand，纯 React 与 Umi 应用均可使用。
 
 ### 1. 配置
 
@@ -296,14 +296,20 @@ defineSdkConfig({
 })
 ```
 
-### 2. 注册 Model
+### 2. 用户状态（Zustand）
+
+air-sdk 内置 `useUserStore`，无需注册 DVA Model。直接使用：
 
 ```tsx
-// src/models/user.ts
-export { UserModel as default } from 'air-sdk'
+import { useUserStore } from 'air-sdk'
+
+const { currentUser, isAuthenticated, login, logout } = useUserStore()
+// 精确订阅（推荐，避免多余渲染）：
+const currentUser = useUserStore((s) => s.currentUser)
+await useUserStore.getState().login({ id, password })
 ```
 
-`UserModel`（namespace `user`）effects：`login` / `logout` / `validateToken` / `changePassword` / `updateUserInfo` / `fetchUserSettings` / `updateUserSettings`。
+actions：`login` / `logout` / `validateToken` / `changePassword` / `updateUserInfo` / `fetchUserSettings` / `updateUserSettings` / `setUser` / `clearUser`。
 
 ### 3. 布局
 
@@ -351,7 +357,7 @@ await SSE_POST('/api/v1/stream', { prompt: '...' }, chunk => console.log(chunk))
 | 分类 | 导出 |
 |------|------|
 | 配置 | `defineSdkConfig` / `getSdkConfig` / `storageKey` |
-| Model | `UserModel` |
+| Store | `useUserStore`（`UserModel` 别名兼容）/ `UserState` |
 | 布局 | `SecurityLayout` |
 | 页面 | `Login` |
 | 组件 | `AppSwitcher` / `UserSettings` |

@@ -1,8 +1,9 @@
 /**
  * Vite 业务 SDK 构建配置
  *
- * 构建 air-sdk 业务组件框架，输出 ESM 格式并保留模块结构以支持 tree-shaking。
+ * 构建 air-sdk 业务脚手架，输出 ESM 格式并保留模块结构以支持 tree-shaking。
  * 样式合并为 dist/air-sdk.css，供宿主应用统一引入。
+ * 状态管理基于 Zustand（已去 DVA/Umi）。
  *
  * @author ChaiMingXu, 2026/06/19
  */
@@ -20,14 +21,6 @@ export default defineConfig({
       tsconfigPath: './tsconfig.json',
     }),
   ],
-
-  css: {
-    preprocessorOptions: {
-      less: {
-        javascriptEnabled: true,
-      },
-    },
-  },
 
   resolve: {
     alias: {
@@ -48,7 +41,7 @@ export default defineConfig({
       external: (id: string) => {
         if (id.startsWith('\0')) return false
         if (id === 'react' || id.startsWith('react/') || id === 'react-dom' || id.startsWith('react-dom/')) return true
-        if (id === 'umi' || id.startsWith('umi/')) return true
+        if (id === 'zustand' || id.startsWith('zustand/')) return true
         if (id === 'air-design' || id.startsWith('air-design/')) return true
         if (id === 'crypto-js' || id.startsWith('crypto-js/')) return true
         return false

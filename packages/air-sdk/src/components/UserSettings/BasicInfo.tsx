@@ -10,9 +10,7 @@ import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react
 import {Avatar, AvatarImage, Notice} from 'air-design'
 import type {UserResponse} from '../../types/user'
 import {getAvatarUrl, extractAvatarId} from '../../utils/IconUtils'
-
-// @ts-ignore
-import {useDispatch} from 'umi'
+import {useUserStore} from '../../models/user'
 
 interface BasicInfoProps {
   currentUser: UserResponse | null
@@ -33,7 +31,7 @@ interface BasicInfoForm {
 
 const BasicInfo = forwardRef<BasicInfoRef, BasicInfoProps>((props, ref) => {
   const {currentUser} = props
-  const dispatch = useDispatch()
+  const updateUserInfo = useUserStore((s) => s.updateUserInfo)
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState<BasicInfoForm>({id: '', name: '', email: '', phone: '', avatar: 'u01'})
 
@@ -74,23 +72,22 @@ const BasicInfo = forwardRef<BasicInfoRef, BasicInfoProps>((props, ref) => {
       return
     }
     setLoading(true)
-    dispatch({
-      type: 'user/updateUserInfo',
-      payload: {
+    await updateUserInfo(
+      {
         id: currentUser.id,
         email: form.email || '',
         phone: form.phone || '',
         avatar: form.avatar || 'u01',
       },
-      callback: (resp: any) => {
+      (resp: any) => {
         setLoading(false)
         if (resp?.success) {
           Notice.success('保存成功')
         } else {
           Notice.error(resp?.message || '保存失败')
         }
-      },
-    })
+      }
+    )
   }
 
   useImperativeHandle(ref, () => ({

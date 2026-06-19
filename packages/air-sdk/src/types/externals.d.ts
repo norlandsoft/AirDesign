@@ -24,7 +24,3 @@ declare module 'air-design' {
   export const DropdownMenuTrigger: any
   export const DropdownMenuContent: any
 }
-
-declare module 'umi' {
-  export function connect(mapStateToProps: any): (Component: React.ComponentType<any>) => React.ComponentType<any>
-}

@@ -9,9 +9,7 @@
 import React, {forwardRef, useImperativeHandle, useState} from 'react'
 import {Notice} from 'air-design'
 import type {UserResponse} from '../../types/user'
-
-// @ts-ignore
-import {useDispatch} from 'umi'
+import {useUserStore} from '../../models/user'
 
 export interface ChangePasswordRef {
   handleSave: () => Promise<void>
@@ -27,7 +25,7 @@ const ChangePassword = forwardRef<ChangePasswordRef, ChangePasswordProps>((props
   const [loading, setLoading] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const dispatch = useDispatch()
+  const changePassword = useUserStore((s) => s.changePassword)
 
   const handleSavePassword = async (): Promise<void> => {
     if (!newPassword) {
@@ -48,21 +46,20 @@ const ChangePassword = forwardRef<ChangePasswordRef, ChangePasswordProps>((props
     }
 
     setLoading(true)
-    dispatch({
-      type: 'user/changePassword',
-      payload: {
+    await changePassword(
+      {
         id: currentUser?.id,
         password: newPassword,
       },
-      callback: (resp: any) => {
+      (resp: any) => {
         setLoading(false)
         if (resp?.success) {
           Notice.success('密码修改成功，请重新登录')
         } else {
           Notice.error(resp?.message || '密码修改失败')
         }
-      },
-    })
+      }
+    )
   }
 
   useImperativeHandle(ref, () => ({

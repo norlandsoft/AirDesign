@@ -10,7 +10,6 @@
  * Author: ChaiMingXu, 2026/05/27
  */
 import React, {useCallback, useState} from 'react';
-import {connect} from 'umi';
 import {Icon, Spin, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent} from 'air-design';
 import {POST} from '../../utils/HttpRequest';
 import icons from './icons';
@@ -49,7 +48,15 @@ const resolveIcon = (iconKey: string): { type: 'svg'; svg: string } | { type: 'i
   return { type: 'icon', name: 'app' };
 };
 
-const AppSwitcher: React.FC<any> = ({ layoutSize }) => {
+/** 默认布局尺寸（与历史 global.layoutSize 一致） */
+const DEFAULT_LAYOUT_SIZE = {headerHeight: 40, menuWidth: 40}
+
+interface AppSwitcherProps {
+  /** 布局尺寸，宿主可覆盖；默认 {headerHeight:40, menuWidth:40} */
+  layoutSize?: {headerHeight: number; menuWidth: number}
+}
+
+const AppSwitcher: React.FC<AppSwitcherProps> = ({layoutSize = DEFAULT_LAYOUT_SIZE}) => {
   const [services, setServices] = useState<ServiceInfo[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -173,6 +180,4 @@ const AppSwitcher: React.FC<any> = ({ layoutSize }) => {
   )
 }
 
-export default connect(({ global }: any) => ({
-  layoutSize: global.layoutSize,
-}))(AppSwitcher);
+export default AppSwitcher;

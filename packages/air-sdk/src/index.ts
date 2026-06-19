@@ -1,9 +1,10 @@
 /**
- * AirSDK 业务前端框架入口
+ * AirSDK 业务前端脚手架入口
  *
  * 为接口测试平台、测试管理平台、数据治理平台等企业应用提供统一的
- * 登录页、安全布局、用户设置、跨应用切换等业务组件与 DVA Model。
+ * 登录页、安全布局、用户设置、跨应用切换等业务组件与用户 Store。
  * 依赖 air-design 通用 UI 组件库，实现布局与样式一致性。
+ * 状态管理基于 Zustand（已去 DVA/Umi 依赖）。
  *
  * @author ChaiMingXu, 2026/06/19
  */
@@ -15,8 +16,9 @@ export {defineSdkConfig as defineAuthConfig} from './config'
 /** @deprecated 使用 getSdkConfig */
 export {getSdkConfig as getAuthConfig} from './config'
 
-// DVA Model
-export {default as UserModel} from './models/user'
+// 用户 Store（Zustand，取代 DVA UserModel）
+export {default as useUserStore, UserModel} from './models/user'
+export type {UserState} from './models/user'
 
 // 布局组件
 export {default as SecurityLayout} from './layouts/SecurityLayout'

@@ -15,7 +15,7 @@
  * @author ChaiMingXu, 2026/05/27
  */
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'umi';
+import { useUserStore } from '../../models/user';
 import { POST } from '../../utils/HttpRequest';
 import { storageKey, getSdkConfig } from '../../config';
 import './index.css';
@@ -63,8 +63,10 @@ const themeColors = {
   },
 };
 
-const Login: React.FC<any> = props => {
-  const { dispatch, loading } = props;
+const Login: React.FC = () => {
+  const loading = useUserStore((s) => s.loading);
+  const login = useUserStore((s) => s.login);
+  const setUser = useUserStore((s) => s.setUser);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // 受控表单状态（替代 antd Form）
   const [formValues, setFormValues] = useState<{ id: string; password: string }>({ id: '', password: '' });
@@ -83,12 +85,12 @@ const Login: React.FC<any> = props => {
         sessionStorage.setItem(storageKey('token'), token);
         if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id));
         if (user?.loginId) sessionStorage.setItem(storageKey('user'), String(user.loginId));
-        dispatch({ type: 'user/setUser', payload: user });
+        setUser(user);
         window.dispatchEvent(new CustomEvent('auth-state-changed', { detail: { authenticated: true } }));
         window.location.href = '/';
       }
     });
-  }, [dispatch]);
+  }, [setUser]);
 
   // 星野背景动画
   useEffect(() => {
@@ -287,12 +289,9 @@ const Login: React.FC<any> = props => {
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    dispatch({
-      type: 'user/login',
-      payload: {
-        id: formValues.id,
-        password: formValues.password,
-      },
+    login({
+      id: formValues.id,
+      password: formValues.password,
     });
   };
 
@@ -344,7 +343,4 @@ const Login: React.FC<any> = props => {
   );
 };
 
-export default connect(({ user }: any) => ({
-  loading: user.loading,
-  isAuthenticated: user.isAuthenticated,
-}))(Login);
+export default Login;

@@ -10,9 +10,7 @@ import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react
 import {Notice} from 'air-design'
 import type {UserResponse} from '../../types/user'
 import type {DisplaySettings as DisplaySettingsType, UserSettingsResponse} from '../../types/userSettings'
-
-// @ts-ignore
-import {useDispatch, useSelector} from 'umi'
+import {useUserStore} from '../../models/user'
 
 export interface DisplaySettingsRef {
   handleSave: () => Promise<void>
@@ -31,18 +29,19 @@ const FONT_OPTIONS = [
 
 const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((props, ref) => {
   const {currentUser} = props
-  const dispatch = useDispatch()
-  const userSettings: UserSettingsResponse | null = useSelector((state: any) => state.user.userSettings)
-  const userSettingsLoading: boolean = useSelector((state: any) => state.user.userSettingsLoading)
+  const userSettings: UserSettingsResponse | null = useUserStore((s) => s.userSettings)
+  const userSettingsLoading: boolean = useUserStore((s) => s.userSettingsLoading)
+  const fetchUserSettings = useUserStore((s) => s.fetchUserSettings)
+  const updateUserSettings = useUserStore((s) => s.updateUserSettings)
   const [loading, setLoading] = useState(false)
   const [fontSize, setFontSize] = useState<number>(15)
 
   // 加载用户设置
   useEffect(() => {
     if (currentUser?.id) {
-      dispatch({type: 'user/fetchUserSettings', payload: {userId: currentUser.id}})
+      fetchUserSettings({userId: currentUser.id})
     }
-  }, [currentUser?.id, dispatch])
+  }, [currentUser?.id, fetchUserSettings])
 
   // 设置加载完成后回填
   useEffect(() => {
@@ -67,21 +66,20 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
     }
     setLoading(true)
     const displaySettings: DisplaySettingsType = {fontSize}
-    dispatch({
-      type: 'user/updateUserSettings',
-      payload: {
+    await updateUserSettings(
+      {
         userId: currentUser.id,
         settings: JSON.stringify(displaySettings),
       },
-      callback: (resp: any) => {
+      (resp: any) => {
         setLoading(false)
         if (resp.success) {
           Notice.success('保存成功')
         } else {
           Notice.error(resp.message || '保存显示设置失败')
         }
-      },
-    })
+      }
+    )
   }
 
   useImperativeHandle(ref, () => ({
