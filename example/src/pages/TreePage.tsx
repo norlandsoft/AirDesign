@@ -21,7 +21,7 @@ const DATA: TreeNode[] = [
         children: [
           {key: '1-1-1', label: 'main.ts', type: 'item'},
           {key: '1-1-2', label: 'App.tsx', type: 'item'},
-          {key: '1-1-3', label: 'index.css', type: 'item'},
+          {key: '1-1-3', label: 'index.css', type: 'item', image: 'tag'},
         ],
       },
       {
@@ -40,26 +40,35 @@ const DATA: TreeNode[] = [
 
 const TreePage: React.FC = () => {
   return (
-    <PageContainer title="Tree 树" description="基于 react-arborist，支持搜索过滤、节点菜单、展开折叠。">
+    <PageContainer title="Tree 树" description="基于 react-arborist：搜索过滤、展开折叠（默认只展开）、节点拖拽、自定义图标、group/item 分类菜单。">
       <div className="demo-block">
+        <div className="mb-3 text-xs text-muted-foreground">
+          点击节点仅展开（不折叠）；点击左侧三角箭头切换展开/折叠；拖拽 item 可跨位置/层级移动；hover 节点显示「更多」菜单
+        </div>
         <Tree
           data={DATA}
-          height={400}
+          height={420}
           showFilter
+          draggable
           rootButtonClick={() => alert('新增节点')}
           folderIcon="folder"
           itemIcon="document"
+          clickToCollapse={false}
           groupMenu={[
-            {label: '新增子项', onClick: () => alert('新增子项')},
-            {label: '重命名', onClick: () => alert('重命名')},
-            {label: '删除', onClick: () => alert('删除')},
+            {label: '新增子项', icon: 'add', onClick: (i, n) => alert(`在「${n.label}」下新增子项`)},
+            {label: '重命名', icon: 'edit', onClick: (i, n) => alert(`重命名「${n.label}」`)},
+            {type: 'divider'},
+            {label: '删除', icon: 'delete', onClick: (i, n) => alert(`删除「${n.label}」`)},
           ]}
           itemMenu={[
-            {label: '打开', onClick: () => alert('打开')},
-            {label: '删除', onClick: () => alert('删除')},
+            {label: '打开', icon: 'document', onClick: (i, n) => alert(`打开「${n.label}」`)},
+            {label: '复制', icon: 'copy', onClick: (i, n) => alert(`复制「${n.label}」`)},
+            {type: 'divider'},
+            {label: '删除', icon: 'delete', onClick: (i, n) => alert(`删除「${n.label}」`)},
           ]}
           defaultExpandedKeys={['1', '1-1']}
           onSelect={(node) => console.log('selected', node)}
+          onDrop={(info) => console.log('drop', info)}
         />
       </div>
     </PageContainer>
