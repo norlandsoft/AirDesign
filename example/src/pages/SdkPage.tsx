@@ -69,7 +69,7 @@ const SdkPage: React.FC = () => {
             <h3 className="demo-section-title !mb-0 !border-0 !pb-0">Login 登录页（Canvas 星野动画）</h3>
             <Button size="sm" onClick={() => setShowLogin(false)}>收起</Button>
           </div>
-          <div style={{height: 520, overflow: 'hidden', borderRadius: 8, border: '1px solid var(--color-border)'}}>
+          <div className="air-login-demo-frame">
             <Login/>
           </div>
         </div>
