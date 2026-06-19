@@ -1,0 +1,123 @@
+/*
+ * Tree 树样式（复刻旧版 Semi Tree 视觉）
+ *
+ * 节点行 36px，图标 18px，字号 0.95rem；菜单按钮默认隐藏、hover 显示；
+ * 文字超长省略，无水平滚动条。
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+
+.air-tree-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 根节点新增按钮（搜索栏左侧，绝对定位覆盖） */
+.air-tree-root-button {
+  position: absolute;
+  top: 12px;
+  height: 36px;
+  background: transparent;
+  z-index: 2;
+}
+
+.air-tree-root-button:hover {
+  background: transparent !important;
+}
+
+/* 节点行 */
+.air-tree-row {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  line-height: 36px;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* 展开/折叠箭头 */
+.air-tree-toggle {
+  width: 16px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+}
+
+.air-tree-toggle.air-tree-toggle-leaf {
+  cursor: default;
+  visibility: hidden;
+}
+
+.air-tree-toggle-icon {
+  transition: transform 0.15s ease;
+}
+
+.air-tree-toggle-icon.air-tree-toggle-open {
+  transform: rotate(90deg);
+}
+
+/* 节点图标 */
+.air-tree-node-icon {
+  width: 22px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* 节点文字：省略号，无水平滚动 */
+.air-tree-node-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+}
+
+/* 菜单按钮：默认隐藏，hover 显示 */
+.air-tree-menu-button {
+  width: 0;
+  height: 20px;
+  visibility: hidden;
+  border: none;
+  background-color: transparent;
+  padding: 0 !important;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.air-tree-row:hover .air-tree-menu-button {
+  visibility: visible;
+  width: 20px;
+  background: var(--color-accent);
+}
+
+.air-tree-menu-button .air-tree-menu-icon {
+  color: var(--color-muted-foreground);
+}
+
+/* 搜索栏 */
+.air-tree-search {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  gap: 8px;
+}
+
+/* 隐藏 react-arborist 容器的水平滚动 */
+.air-tree-wrapper .air-tree-list,
+.air-tree-wrapper .air-tree-list > div {
+  overflow-x: hidden !important;
+}
