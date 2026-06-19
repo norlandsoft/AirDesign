@@ -91,26 +91,30 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
 
   useImperativeHandle(ref, () => ({doCancel, open: () => setOpen(true)}), [])
 
-  // 拖拽定位（保留旧版交互）
+  // 拖拽定位：统一使用视口坐标（clientX/Y、innerWidth/Height），与 position:fixed 对齐
   const [pos, setPos] = useState<{x: number; y: number} | null>(null)
   const dragRef = useRef<{moving: boolean; diffX: number; diffY: number}>({moving: false, diffX: 0, diffY: 0})
 
   const onMouseDown = (e: React.MouseEvent) => {
     const titleDom = e.currentTarget as HTMLElement
     const rect = titleDom.getBoundingClientRect()
-    dragRef.current = {moving: true, diffX: e.pageX - rect.left, diffY: e.pageY - rect.top}
+    // 以标题栏左上角为基准，记录鼠标相对偏移（全部视口坐标）
+    dragRef.current = {moving: true, diffX: e.clientX - rect.left, diffY: e.clientY - rect.top}
+    // 拖拽前先固定当前位置，避免 transform 与 position 切换造成跳变
+    const modal = (document.getElementById('air-modal-window') as HTMLElement | null)
+    const modalRect = modal?.getBoundingClientRect()
+    if (modalRect) setPos({x: modalRect.left, y: modalRect.top})
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
   }
 
   const onMouseMove = (e: MouseEvent) => {
     if (!dragRef.current.moving) return
-    const {clientWidth, clientHeight} = document.documentElement
     const modal = document.getElementById('air-modal-window')
-    const maxX = clientWidth - (modal?.offsetWidth ?? 0)
-    const maxY = clientHeight - (modal?.offsetHeight ?? 0)
-    const x = Math.min(Math.max(e.pageX - dragRef.current.diffX, 0), Math.max(maxX, 0))
-    const y = Math.min(Math.max(e.pageY - dragRef.current.diffY, 0), Math.max(maxY, 0))
+    const maxX = window.innerWidth - (modal?.offsetWidth ?? 0)
+    const maxY = window.innerHeight - (modal?.offsetHeight ?? 0)
+    const x = Math.min(Math.max(e.clientX - dragRef.current.diffX, 0), Math.max(maxX, 0))
+    const y = Math.min(Math.max(e.clientY - dragRef.current.diffY, 0), Math.max(maxY, 0))
     setPos({x, y})
   }
 
@@ -133,10 +137,11 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
   const style: React.CSSProperties = {
     width: width ?? 'min(560px, 90vw)',
     maxHeight: height ?? undefined,
+    // 拖拽时切换为视口绝对定位，并强制清除 Radix 的 translate 居中（避免抖动）
     position: pos ? 'fixed' : undefined,
-    left: pos?.x,
-    top: pos?.y,
-    transform: pos ? 'none' : undefined,
+    left: pos ? `${pos.x}px` : undefined,
+    top: pos ? `${pos.y}px` : undefined,
+    transform: pos ? 'translate(0,0)' : undefined,
     padding: 0,
   }
 
@@ -145,18 +150,18 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
       <DialogContent
         hideClose={!closable}
         style={style}
-        className="air-modal-dialog"
+        className="air-modal-dialog overflow-hidden rounded-lg p-0"
         onEscapeKeyDown={(e) => e.preventDefault()}
         onPointerDownOutside={(e) => e.preventDefault()}
       >
-        {/* 标题栏（可拖拽） */}
+        {/* 内层容器：与外层圆角一致，overflow 防止方角溢出 */}
         <div
           id="air-modal-window"
-          className="flex flex-col"
+          className="flex flex-col overflow-hidden rounded-lg"
           style={{backgroundColor: contentBgColor}}
         >
           <DialogHeader
-            className="flex-row items-center justify-between px-5 py-3 border-b"
+            className="flex-row items-center justify-between border-b px-5 py-3"
             style={{backgroundColor: headerBgColor}}
           >
             <div
@@ -187,7 +192,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           {/* 页脚 */}
           {showFooter && (
             <DialogFooter
-              className="justify-start px-5 py-3 border-t"
+              className="w-full justify-start border-t px-5 py-3"
               style={{backgroundColor: footerBgColor}}
             >
               {confirmable && (
