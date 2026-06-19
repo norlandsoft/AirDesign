@@ -6,7 +6,7 @@
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import React, {ReactNode} from 'react'
+import React, {ReactNode, useState} from 'react'
 import Icon from '@/components/Icon'
 import {
   DropdownMenu,
@@ -88,6 +88,9 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
 
   const menuPos = resolveDropdownPlacement(dropdownPlacement)
 
+  // 下拉菜单打开时保持触发按钮的高亮（hover 样式）
+  const [menuOpen, setMenuOpen] = useState(false)
+
   const iconSize = size - 12
   const radiusClass = shape === 'circle' ? 'rounded-full' : 'rounded-md'
 
@@ -108,6 +111,8 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
         radiusClass,
         bordered && 'border border-border',
         !disabled && 'hover:bg-accent active:bg-accent/70',
+        // 菜单打开时保持高亮，避免鼠标移到菜单项后按钮失去 hover 态
+        !disabled && menuOpen && 'bg-accent',
         disabled && 'opacity-50 cursor-not-allowed',
         className
       )}
@@ -157,7 +162,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
       trigger
     )
     return (
-      <DropdownMenu>
+      <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
         <DropdownMenuTrigger asChild>
           <span className="inline-flex">{inner}</span>
         </DropdownMenuTrigger>
