@@ -174,7 +174,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
         {/* 标题栏（可拖拽，高度 36px） */}
         <div
           className="flex shrink-0 items-center justify-between border-b border-border pl-4 select-none"
-          style={{height: 36, backgroundColor: headerBgColor, color: headerColor}}
+          style={{height: 40, backgroundColor: headerBgColor, color: headerColor}}
         >
           <div
             className="flex-1 cursor-move truncate text-sm font-semibold"
