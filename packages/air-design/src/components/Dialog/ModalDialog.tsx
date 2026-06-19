@@ -44,12 +44,6 @@ export interface ModalDialogHandle {
   open: () => void
 }
 
-interface DragState {
-  moving: boolean
-  diffX: number
-  diffY: number
-}
-
 const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props, ref) => {
   const {
     visible = true,
@@ -92,33 +86,38 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
 
   useImperativeHandle(ref, () => ({doCancel, open: () => setOpen(true)}), [])
 
-  // ---- 拖拽算法（沿用旧版，全视口坐标）----
-  const [pos, setPos] = useState<{x: number; y: number} | null>(null)
-  const dragRef = useRef<DragState>({moving: false, diffX: 0, diffY: 0})
+  // ---- 拖拽算法：保持 flex 居中，用 transform 偏移移动，避免布局切换造成跳动 ----
+  // offset = 鼠标相对按下点的位移；窗口始终居中，仅 translate(offset)，不改变 position。
+  const [offset, setOffset] = useState<{x: number; y: number} | null>(null)
+  const dragRef = useRef<{startX: number; startY: number}>({startX: 0, startY: 0})
 
   const onMouseDown = (e: React.MouseEvent) => {
-    const titleDom = e.currentTarget as HTMLElement
-    const rect = titleDom.getBoundingClientRect()
-    dragRef.current = {moving: true, diffX: e.clientX - rect.left, diffY: e.clientY - rect.top}
-    // 拖拽前先以窗口当前位置固定，避免从居中态切到定位态时跳变
-    const win = windowRef.current?.getBoundingClientRect()
-    if (win) setPos({x: win.left, y: win.top})
+    // 记录鼠标按下点；从当前累计偏移开始（支持多次拖拽累计）
+    const base = offset ?? {x: 0, y: 0}
+    dragRef.current = {startX: e.clientX - base.x, startY: e.clientY - base.y}
+    if (!offset) setOffset({x: 0, y: 0})
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
   }
 
   const onMouseMove = (e: MouseEvent) => {
-    if (!dragRef.current.moving) return
     const el = windowRef.current
-    const maxX = window.innerWidth - (el?.offsetWidth ?? 0)
-    const maxY = window.innerHeight - (el?.offsetHeight ?? 0)
-    const x = Math.min(Math.max(e.clientX - dragRef.current.diffX, 0), Math.max(maxX, 0))
-    const y = Math.min(Math.max(e.clientY - dragRef.current.diffY, 0), Math.max(maxY, 0))
-    setPos({x, y})
+    // 窗口居中位置（视口坐标）
+    const centerX = (window.innerWidth - (el?.offsetWidth ?? 0)) / 2
+    const centerY = (window.innerHeight - (el?.offsetHeight ?? 0)) / 2
+    // 约束：移动后窗口不超出视口
+    const dx = Math.min(
+      Math.max(e.clientX - dragRef.current.startX, -centerX),
+      centerX
+    )
+    const dy = Math.min(
+      Math.max(e.clientY - dragRef.current.startY, -centerY),
+      centerY
+    )
+    setOffset({x: dx, y: dy})
   }
 
   const onMouseUp = () => {
-    dragRef.current.moving = false
     window.removeEventListener('mousemove', onMouseMove)
     window.removeEventListener('mouseup', onMouseUp)
   }
@@ -145,9 +144,9 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
 
   if (!open) return null
 
-  // 窗口定位：未拖拽时居中；拖拽后绝对定位
-  const winStyle: React.CSSProperties = pos
-    ? {left: pos.x, top: pos.y, transform: 'none', margin: 0}
+  // 窗口始终 flex 居中；拖拽时叠加 transform 偏移（不切换布局，避免跳动）
+  const winStyle: React.CSSProperties = offset
+    ? {transform: `translate(${offset.x}px, ${offset.y}px)`}
     : {}
 
   const maskStyle: React.CSSProperties = mask
