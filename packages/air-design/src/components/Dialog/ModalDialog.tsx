@@ -171,10 +171,10 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           ...winStyle,
         }}
       >
-        {/* 标题栏（可拖拽，高度 50px） */}
+        {/* 标题栏（可拖拽，高度 36px） */}
         <div
-          className="flex shrink-0 items-center justify-between border-b border-border px-4 select-none"
-          style={{height: 45, backgroundColor: headerBgColor, color: headerColor}}
+          className="flex shrink-0 items-center justify-between border-b border-border pl-4 select-none"
+          style={{height: 36, backgroundColor: headerBgColor, color: headerColor}}
         >
           <div
             className="flex-1 cursor-move truncate text-sm font-semibold"
@@ -186,9 +186,9 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
             <button
               type="button"
               onClick={doCancel}
-              className="ml-2 inline-flex size-7 cursor-pointer items-center justify-center rounded border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-accent hover:text-foreground"
+              className="ml-2 mr-4 inline-flex size-6 cursor-pointer items-center justify-center rounded border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-accent hover:text-foreground"
             >
-              <Icon name="close" size={14}/>
+              <Icon name="close" size={12}/>
             </button>
           )}
         </div>
