@@ -2,13 +2,14 @@
  * SlidePanel 侧滑抽屉
  *
  * 保留旧版 API：size 类型（small/default/large/huge/full/custom）、双层抽屉（innerDrawer）、
- * footer 按钮栏。底层迁移到 Radix Dialog（primitives/sheet），无 AntD 依赖。
+ * footer 按钮栏。右上角关闭使用 IconButton。底层迁移到 Radix Dialog（primitives/sheet），无 AntD 依赖。
  *
  * @author ChaiMingXu, 2026/06/19
  */
 import React from 'react'
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter} from '@/primitives/sheet'
 import Button from '@/components/Button'
+import IconButton from '@/components/Button/IconButton'
 import {cn} from '@/lib/cn'
 
 type PanelSize = 'small' | 'default' | 'large' | 'huge' | 'full' | 'custom'
@@ -73,6 +74,11 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
   const isFull = type === 'full'
   const computedWidth = type === 'custom' ? width : isFull ? '100%' : SIZE_WIDTH[type as Exclude<PanelSize, 'custom' | 'full'>] ?? width
 
+  /** 右上角关闭：与 footer 取消一致，由外部 onClose 控制 open */
+  const handleHeaderClose = () => {
+    onClose?.()
+  }
+
   return (
     <Sheet
       open={open}
@@ -83,16 +89,25 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
     >
       <SheetContent
         side={isFull ? 'top' : placement === 'left' ? 'left' : placement === 'top' ? 'top' : placement === 'bottom' ? 'bottom' : 'right'}
-        hideClose={!hasCloseButton}
-        className={cn('p-0 sm:max-w-none', hasCloseButton && title && '[&>button]:top-3')}
+        hideClose
+        className="p-0 sm:max-w-none"
         style={{width: typeof computedWidth === 'number' ? `${computedWidth}px` : computedWidth}}
         onPointerDownOutside={(e) => {
           if (!maskClosable) e.preventDefault()
         }}
       >
+        {hasCloseButton && !title && (
+          <div className="absolute right-2 top-2 z-10">
+            <IconButton icon="close" size={24} tooltip="关闭" onClick={handleHeaderClose}/>
+          </div>
+        )}
+
         {title && (
-          <SheetHeader className="flex h-10 shrink-0 flex-row items-center justify-between border-b px-4 py-0">
-            <SheetTitle className="text-sm font-medium leading-none">{title}</SheetTitle>
+          <SheetHeader className="flex h-10 shrink-0 flex-row items-center justify-between border-b pl-4 pr-2 py-0">
+            <SheetTitle className="min-w-0 flex-1 truncate pr-2 text-sm font-medium leading-none">{title}</SheetTitle>
+            {hasCloseButton && (
+              <IconButton icon="close" size={24} tooltip="关闭" onClick={handleHeaderClose}/>
+            )}
           </SheetHeader>
         )}
 

@@ -160,11 +160,10 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     contentAlign === 'top' ? 'flex-start' : contentAlign === 'bottom' ? 'flex-end' : 'center'
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={maskStyle} onMouseDown={mask ? doCancel : undefined}>
-      {/* 窗口：阻止点击冒泡到遮罩 */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={maskStyle}>
+      {/* 窗口：点击遮罩不关闭，仅标题栏关闭按钮与页脚取消按钮可关闭 */}
       <div
         ref={windowRef}
-        onMouseDown={(e) => e.stopPropagation()}
         className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card"
         style={{
           width: width ?? 'min(560px, 90vw)',
@@ -207,11 +206,9 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           {children}
         </div>
 
-        {/* 页脚（无边框无背景，按钮靠右） */}
+        {/* 页脚：固定 60px 高度，按钮靠右 */}
         {showFooter && (
-          <div
-            className="flex w-full shrink-0 items-center justify-end gap-2 px-4 py-3"
-          >
+          <div className="flex h-[60px] w-full shrink-0 items-center justify-end gap-2 px-6">
             {confirmable && (
               <Button type="primary" onClick={onOk}>
                 {okText ?? '确定'}
