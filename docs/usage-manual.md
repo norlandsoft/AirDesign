@@ -198,7 +198,7 @@ import { ColorPicker } from 'air-design'
 </ColorPicker>
 ```
 
-基于 react-colorful + Popover，内置 12 组预设调色板，含「无背景色」。
+基于 react-colorful + Popover，取色面板在上、可编辑 hex 输入（Enter 确认 / Esc 取消）、预设色 6×2 网格在下，含「无背景色」。
 
 ### 其他基础组件
 

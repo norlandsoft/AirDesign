@@ -2,14 +2,15 @@
  * ColorPicker 颜色选择器
  *
  * 重写为基于 react-colorful + Radix Popover 的自建实现，摆脱对 antd ColorPicker 内部
- * Picker/Presets 子件的依赖。功能对齐旧版：取色面板、预设调色板、「无背景色」重置。
+ * Picker/Presets 子件的依赖。取色面板、可编辑 hex 输入、预设色网格、「无背景色」重置。
+ * 编辑 hex 后取色面板指示器自动同步到对应颜色位置。
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {HexColorPicker} from 'react-colorful'
 import {Popover, PopoverTrigger, PopoverContent} from '@/primitives/popover'
-import {Separator} from '@/primitives/separator'
+import {Input} from '@/primitives/input'
 import {cn} from '@/lib/cn'
 
 /** 预设颜色配置：键为分组名，值为颜色数组 */
@@ -17,20 +18,58 @@ export interface PresetColorConfig {
   [key: string]: string[] | undefined
 }
 
-/** 内置预设调色板（替代 @ant-design/colors 的 presetPalettes） */
-const DEFAULT_PRESETS: PresetColorConfig = {
-  red: ['#ff4d4f', '#ff7875', '#ffa39e'],
-  volcano: ['#fa541c', '#ff7a45', '#fa8c16'],
-  orange: ['#fa8c16', '#ffa940', '#ffc53d'],
-  gold: ['#faad14', '#ffc53d', '#ffe58f'],
-  yellow: ['#fadb14', '#d4b106', '#f5222d'],
-  lime: ['#a0d911', '#73d13d', '#52c41a'],
-  green: ['#52c41a', '#389e0d', '#237804'],
-  cyan: ['#13c2c2', '#08979c', '#006d75'],
-  blue: ['#1677ff', '#0958d9', '#003eb3'],
-  geekblue: ['#2f54eb', '#1d39c4', '#10239e'],
-  purple: ['#722ed1', '#531dab', '#391085'],
-  magenta: ['#eb2f96', '#c41d7f', '#9e1068'],
+/** 内置预设色（每组主色，共 12 个，紧凑网格展示） */
+const DEFAULT_PRESET_SWATCHES = [
+  '#ff4d4f',
+  '#fa541c',
+  '#fa8c16',
+  '#faad14',
+  '#a0d911',
+  '#52c41a',
+  '#13c2c2',
+  '#1677ff',
+  '#2f54eb',
+  '#722ed1',
+  '#eb2f96',
+  '#595959',
+]
+
+const FALLBACK_COLOR = '#1677ff'
+
+/** 从分组预设中提取展示色板：每组取首个颜色，去重并限制数量 */
+function flattenPresetSwatches(presets: PresetColorConfig, max = 12): string[] {
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const colors of Object.values(presets)) {
+    if (!colors?.length) continue
+    for (const color of colors) {
+      if (seen.has(color)) continue
+      seen.add(color)
+      result.push(color)
+      if (result.length >= max) return result
+    }
+  }
+  return result
+}
+
+/** 规范化 hex：支持 #RGB / #RRGGBB，无效时返回 null */
+function normalizeHex(input: string): string | null {
+  let hex = input.trim()
+  if (!hex) return null
+  if (!hex.startsWith('#')) hex = `#${hex}`
+  if (/^#[0-9a-f]{3}$/i.test(hex)) {
+    const [, r, g, b] = hex
+    return `#${r}${r}${g}${g}${b}${b}`.toLowerCase()
+  }
+  if (/^#[0-9a-f]{6}$/i.test(hex)) {
+    return hex.toLowerCase()
+  }
+  return null
+}
+
+/** 解析外部 value，无效时回退默认色 */
+function resolveColor(value?: string | null): string {
+  return normalizeHex(value ?? '') ?? FALLBACK_COLOR
 }
 
 export interface ColorPickerProps {
@@ -42,7 +81,7 @@ export interface ColorPickerProps {
   trigger?: 'click' | 'hover'
   /** 自定义预设颜色 */
   presetColors?: PresetColorConfig
-  /** 弹窗宽度，默认 375px */
+  /** 弹窗宽度，默认 240px */
   popupWidth?: number
   /** 触发元素 */
   children: React.ReactNode
@@ -58,12 +97,52 @@ const AirColorPicker: React.FC<ColorPickerProps> = ({
   value,
   onChangeComplete,
   presetColors,
-  popupWidth = 375,
+  popupWidth = 240,
   children,
   className,
 }) => {
-  const presets = presetColors ?? DEFAULT_PRESETS
-  const current = value && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value) ? value : '#1677ff'
+  const swatches = presetColors
+    ? flattenPresetSwatches(presetColors)
+    : DEFAULT_PRESET_SWATCHES
+
+  const [pickerColor, setPickerColor] = useState(() => resolveColor(value))
+  const [hexInput, setHexInput] = useState(() => resolveColor(value))
+
+  /** 外部 value 变化时同步面板与输入框 */
+  useEffect(() => {
+    const next = resolveColor(value)
+    setPickerColor(next)
+    setHexInput(next)
+  }, [value])
+
+  /** 提交有效 hex，同步取色面板并通知外部 */
+  const applyColor = (hex: string) => {
+    setPickerColor(hex)
+    setHexInput(hex)
+    onChangeComplete?.(toColorObject(hex))
+  }
+
+  /** 尝试规范化并提交；失败时回退到当前有效色 */
+  const commitHexInput = (raw: string, revertOnFail = true) => {
+    const normalized = normalizeHex(raw)
+    if (normalized) {
+      applyColor(normalized)
+      return true
+    }
+    if (revertOnFail) setHexInput(pickerColor)
+    return false
+  }
+
+  const handlePickerChange = (hex: string) => {
+    applyColor(hex.toLowerCase())
+  }
+
+  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = e.target.value
+    setHexInput(next)
+    const normalized = normalizeHex(next)
+    if (normalized) applyColor(normalized)
+  }
 
   return (
     <Popover>
@@ -71,51 +150,61 @@ const AirColorPicker: React.FC<ColorPickerProps> = ({
         <span className={cn('inline-flex', className)}>{children}</span>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-3" style={{width: popupWidth}} align="start">
-        <div className="flex gap-3">
-          {/* 左：取色面板 */}
-          <div className="flex flex-col gap-2">
-            <HexColorPicker
-              color={current}
-              onChange={(hex) => onChangeComplete?.(toColorObject(hex))}
-              style={{width: 200, height: 160}}
+        <div className="flex flex-col gap-3">
+          <HexColorPicker
+            color={pickerColor}
+            onChange={handlePickerChange}
+            style={{width: '100%', height: 140}}
+          />
+          <div className="flex items-center gap-2">
+            <span
+              className="inline-block size-5 shrink-0 rounded border"
+              style={{backgroundColor: pickerColor}}
             />
-            <div className="flex items-center gap-2 text-xs">
-              <span className="inline-block size-5 rounded border" style={{backgroundColor: current}}/>
-              <span className="font-mono uppercase">{current}</span>
-            </div>
+            <Input
+              value={hexInput}
+              onChange={handleHexInputChange}
+              onBlur={() => commitHexInput(hexInput)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  commitHexInput(hexInput)
+                  ;(e.target as HTMLInputElement).blur()
+                }
+                if (e.key === 'Escape') {
+                  setHexInput(pickerColor)
+                  ;(e.target as HTMLInputElement).blur()
+                }
+              }}
+              className="h-7 flex-1 font-mono text-xs uppercase"
+              spellCheck={false}
+              aria-label="颜色代码"
+            />
           </div>
-
-          <Separator orientation="vertical"/>
-
-          {/* 右：预设调色板 + 无背景色 */}
-          <div className="flex-1 space-y-3">
-            {Object.entries(presets).map(([label, colors]) =>
-              colors && colors.length ? (
-                <div key={label}>
-                  <div className="mb-1 text-xs capitalize text-muted-foreground">{label}</div>
-                  <div className="flex flex-wrap gap-1">
-                    {colors.map((color) => (
-                      <button
-                        key={color}
-                        type="button"
-                        title={color}
-                        onClick={() => onChangeComplete?.(toColorObject(color))}
-                        className="size-5 rounded border border-border transition-transform hover:scale-110"
-                        style={{backgroundColor: color}}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ) : null
-            )}
-            <button
-              type="button"
-              onClick={() => onChangeComplete?.(toColorObject('#ffffff'))}
-              className="w-full rounded border border-dashed py-1 text-xs text-muted-foreground hover:bg-accent"
-            >
-              无背景色
-            </button>
+          <div className="grid grid-cols-6 gap-1.5">
+            {swatches.map((color) => (
+              <button
+                key={color}
+                type="button"
+                title={color}
+                onClick={() => applyColor(color.toLowerCase())}
+                className={cn(
+                  'size-6 rounded border transition-transform hover:scale-110',
+                  color.toLowerCase() === pickerColor.toLowerCase()
+                    ? 'border-primary ring-1 ring-primary'
+                    : 'border-border'
+                )}
+                style={{backgroundColor: color}}
+              />
+            ))}
           </div>
+          <button
+            type="button"
+            onClick={() => applyColor('#ffffff')}
+            className="w-full rounded border border-dashed py-1 text-xs text-muted-foreground hover:bg-accent"
+          >
+            无背景色
+          </button>
         </div>
       </PopoverContent>
     </Popover>

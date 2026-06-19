@@ -165,7 +165,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
       <div
         ref={windowRef}
         onMouseDown={(e) => e.stopPropagation()}
-        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card shadow-2xl"
+        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card"
         style={{
           width: width ?? 'min(560px, 90vw)',
           height: height ?? undefined,

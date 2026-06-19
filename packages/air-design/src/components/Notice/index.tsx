@@ -112,7 +112,7 @@ const renderAll = () => {
         {posItems.map((item) => (
           <div
             key={item.id}
-            className={`flex w-80 items-start gap-3 rounded-md border border-border bg-background p-3 shadow-lg transition-all duration-200 ${
+            className={`flex w-80 items-start gap-3 rounded-md border border-border bg-background p-3 transition-all duration-200 ${
               item.leaving ? 'opacity-0 translate-x-4' : 'opacity-100'
             }`}
           >

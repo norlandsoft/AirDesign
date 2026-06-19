@@ -79,7 +79,7 @@ const render = () => {
       {messages.map((msg) => (
         <div
           key={msg.key}
-          className={`flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-sm shadow-lg transition-all duration-200 ${
+          className={`flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-sm transition-all duration-200 ${
             msg.closing ? 'translate-y-[-8px] opacity-0' : 'translate-y-0 opacity-100'
           }`}
         >
