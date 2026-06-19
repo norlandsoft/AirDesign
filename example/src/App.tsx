@@ -112,7 +112,7 @@ const App: React.FC = () => {
         </aside>
 
         {/* 右侧组件展示区 */}
-        <main className="min-w-0 flex-1 overflow-auto p-8">
+        <main className="min-w-0 flex-1 overflow-auto" style={{padding: 24}}>
           <Routes>
             <Route path="/" element={<Navigate to="/button" replace/>}/>
             <Route path="button" element={<ButtonPage/>}/>

@@ -115,7 +115,7 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
       >
         {hasCloseButton && !title && (
           <div className="absolute right-2 top-2 z-10">
-            <IconButton icon="close" size={26} tooltip="关闭" onClick={handleHeaderClose}/>
+            <IconButton icon="close" size={26} tooltip="关闭" showTooltip={false} onClick={handleHeaderClose}/>
           </div>
         )}
 
@@ -124,7 +124,7 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
             <SheetTitle className="min-w-0 flex-1 truncate pr-2 text-sm font-medium leading-none">{title}</SheetTitle>
             {hasCloseButton && (
               <span className="shrink-0">
-                <IconButton icon="close" size={26} tooltip="关闭" onClick={handleHeaderClose}/>
+                <IconButton icon="close" size={26} tooltip="关闭" showTooltip={false} onClick={handleHeaderClose}/>
               </span>
             )}
           </SheetHeader>
