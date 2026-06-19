@@ -26,6 +26,7 @@ import FeedbackPage from './pages/FeedbackPage'
 import TagPage from './pages/TagPage'
 import UploadPage from './pages/UploadPage'
 import LoginPage from './pages/LoginPage'
+import CodeEditorPage from './pages/CodeEditorPage'
 
 interface NavItem {
   path: string
@@ -49,6 +50,7 @@ const NAV: NavItem[] = [
   {path: 'tag', label: 'Tag 标签', icon: 'tag'},
   {path: 'upload', label: '文件上传', icon: 'upload'},
   {path: 'login', label: '登录页', icon: 'user'},
+  {path: 'codeeditor', label: 'CodeEditor', icon: 'document'},
 ]
 
 const App: React.FC = () => {
@@ -136,6 +138,7 @@ const App: React.FC = () => {
             <Route path="tag" element={<TagPage/>}/>
             <Route path="upload" element={<UploadPage/>}/>
             <Route path="login" element={<LoginPage/>}/>
+            <Route path="codeeditor" element={<CodeEditorPage/>}/>
           </Routes>
         </main>
       </div>
