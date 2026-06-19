@@ -15,7 +15,7 @@ import React, {useEffect, useMemo, useState} from 'react'
 import {Tree as ArboristTree} from 'react-arborist'
 import type {NodeApi} from 'react-arborist'
 import Icon from '@/components/Icon'
-import {Input} from '@/components/primitives/input'
+import {Input} from '@/primitives/input'
 import IconButton from '@/components/Button/IconButton'
 import {
   DropdownMenu,
@@ -23,7 +23,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '@/components/primitives/dropdown-menu'
+} from '@/primitives/dropdown-menu'
 import {cn} from '@/lib/cn'
 
 export interface TreeNode {
@@ -231,7 +231,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
                   item.type === 'divider' ? (
                     <DropdownMenuSeparator key={item.key ?? `d-${i}`}/>
                   ) : (
-                    <DropdownMenuItem key={item.key ?? i} onClick={(e) => {e.stopPropagation(); handleMenu(item, data)}}>
+                    <DropdownMenuItem key={item.key ?? i} onClick={(e: React.MouseEvent) => {e.stopPropagation(); handleMenu(item, data)}}>
                       {item.icon && <Icon name={item.icon} size={14}/>}
                       {item.label}
                     </DropdownMenuItem>
@@ -252,7 +252,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
           {rootButtonClick && (
             <IconButton icon="add" size={28} tooltip="新增" onClick={rootButtonClick}/>
           )}
-          <Input value={term} onChange={(e) => setTerm(e.target.value)} placeholder="搜索..." className="h-8"/>
+          <Input value={term} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTerm(e.target.value)} placeholder="搜索..." className="h-8"/>
         </div>
       )}
       <div style={{height: showFilter ? height - 56 : height}}>
