@@ -84,26 +84,26 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
       <SheetContent
         side={isFull ? 'top' : placement === 'left' ? 'left' : placement === 'top' ? 'top' : placement === 'bottom' ? 'bottom' : 'right'}
         hideClose={!hasCloseButton}
-        className="p-0 sm:max-w-none"
+        className={cn('p-0 sm:max-w-none', hasCloseButton && title && '[&>button]:top-3')}
         style={{width: typeof computedWidth === 'number' ? `${computedWidth}px` : computedWidth}}
         onPointerDownOutside={(e) => {
           if (!maskClosable) e.preventDefault()
         }}
       >
         {title && (
-          <SheetHeader className="flex-row items-center justify-between border-b px-4 py-2">
-            <SheetTitle className="text-sm">{title}</SheetTitle>
+          <SheetHeader className="flex h-10 shrink-0 flex-row items-center justify-between border-b px-4 py-0">
+            <SheetTitle className="text-sm font-medium leading-none">{title}</SheetTitle>
           </SheetHeader>
         )}
 
         {/* 内容区 */}
-        <div className="flex-1 overflow-auto" style={{padding: `${bodyPadding}px`, background: bodyBackgroundColor}}>
+        <div className="min-h-0 flex-1 overflow-auto" style={{padding: `${bodyPadding}px`, background: bodyBackgroundColor}}>
           <div className={cn(isFull && 'h-full')}>{children}</div>
         </div>
 
-        {/* 页脚按钮栏 */}
+        {/* 页脚按钮栏：固定 50px 高度 */}
         {hasButtonBar && (
-          <SheetFooter className="flex-row items-center justify-between border-t px-6 py-2.5">
+          <SheetFooter className="flex h-[50px] shrink-0 flex-row items-center justify-between border-t px-6 py-0">
             <span className="flex gap-2">
               {onConfirm && (
                 <Button type="primary" onClick={onConfirm}>

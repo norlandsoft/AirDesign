@@ -54,6 +54,16 @@
   /* 动画 */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-sheet-fade-in: sheet-fade-in 0.2s ease-out both;
+  --animate-sheet-fade-out: sheet-fade-out 0.2s ease-in both;
+  --animate-sheet-in-right: sheet-slide-in-from-right 0.3s ease-out both;
+  --animate-sheet-out-right: sheet-slide-out-to-right 0.3s ease-in both;
+  --animate-sheet-in-left: sheet-slide-in-from-left 0.3s ease-out both;
+  --animate-sheet-out-left: sheet-slide-out-to-left 0.3s ease-in both;
+  --animate-sheet-in-top: sheet-slide-in-from-top 0.3s ease-out both;
+  --animate-sheet-out-top: sheet-slide-out-to-top 0.3s ease-in both;
+  --animate-sheet-in-bottom: sheet-slide-in-from-bottom 0.3s ease-out both;
+  --animate-sheet-out-bottom: sheet-slide-out-to-bottom 0.3s ease-in both;
 }
 
 /*
@@ -130,9 +140,15 @@
 }
 
 @layer base {
+  /* 全局 border-box，含伪元素，避免 padding/border 撑大布局 */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   * {
     border-color: var(--color-border);
-    box-sizing: border-box;
   }
 
   /* 根字号 = 基础字号，驱动所有 rem 尺寸（Tailwind 工具类 + 组件）。
@@ -211,5 +227,97 @@
   40% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* Sheet / SlidePanel 遮罩淡入淡出 */
+@keyframes sheet-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Sheet / SlidePanel 四向滑入滑出 */
+@keyframes sheet-slide-in-from-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-slide-out-to-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sheet-slide-in-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-slide-out-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes sheet-slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-slide-out-to-top {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes sheet-slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-slide-out-to-bottom {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
   }
 }

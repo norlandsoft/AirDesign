@@ -123,7 +123,7 @@ import { SlidePanel } from 'air-design'
 >...</SlidePanel>
 ```
 
-`type`：`small`(290) / `default`(378) / `large`(850) / `huge`(1280) / `full` / `custom`(用 width)。支持内嵌抽屉（`innerDrawer`/`showInnerDrawer`/`onInnerClose`）。
+`type`：`small`(290) / `default`(378) / `large`(850) / `huge`(1280) / `full` / `custom`(用 width)。Header 高度 40px，Footer 高度 50px，打开时自侧边滑入。支持内嵌抽屉（`innerDrawer`/`showInnerDrawer`/`onInnerClose`）。
 
 ### Table
 
