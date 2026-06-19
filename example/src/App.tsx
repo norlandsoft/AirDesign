@@ -7,7 +7,9 @@
  */
 import React from 'react'
 import {Routes, Route, NavLink, Navigate} from 'react-router-dom'
-import {Icon} from 'air-design'
+import {Icon, SlidePanel} from 'air-design'
+import {UserSettings, useUserStore} from 'air-sdk'
+import './sdk'  // air-sdk 初始化（配置 + Mock + 用户状态）
 
 import ButtonPage from './pages/ButtonPage'
 import IconPage from './pages/IconPage'
@@ -50,6 +52,12 @@ const App: React.FC = () => {
     document.documentElement.style.setProperty('--base-font-size', `${baseSize}px`)
   }, [baseSize])
 
+  // 用户面板（点击头像展开侧滑）
+  const [userPanelOpen, setUserPanelOpen] = React.useState(false)
+  const [settingsOpen, setSettingsOpen] = React.useState(false)
+  const currentUser = useUserStore((s) => s.currentUser)
+  const avatarText = currentUser?.name?.[0] ?? 'U'
+
   return (
     <div className="flex h-full flex-col">
       {/* 上方 header：40px */}
@@ -58,17 +66,24 @@ const App: React.FC = () => {
           <Icon name="rocket" size={18} color="var(--color-primary)"/>
           <span className="text-sm font-semibold">AirDesign Demo</span>
         </div>
-        {/* 基础字号缩放 */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">基础字号 {baseSize}px</span>
+        <div className="flex items-center gap-3">
+          {/* 基础字号缩放 */}
+          <span className="text-xs text-muted-foreground">字号 {baseSize}px</span>
           <button onClick={() => setBaseSize((s) => Math.max(12, s - 1))} className="size-6 rounded bg-muted text-xs hover:bg-accent">−</button>
           <input
             type="range" min={12} max={20} value={baseSize}
             onChange={(e) => setBaseSize(Number(e.target.value))}
-            className="w-24"
+            className="w-20"
           />
           <button onClick={() => setBaseSize((s) => Math.min(20, s + 1))} className="size-6 rounded bg-muted text-xs hover:bg-accent">+</button>
-          <button onClick={() => setBaseSize(16)} className="rounded bg-muted px-1.5 py-0.5 text-xs hover:bg-accent">重置</button>
+          {/* 用户头像：点击展开用户侧边栏 */}
+          <button
+            onClick={() => setUserPanelOpen(true)}
+            className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground transition-transform hover:scale-105"
+            title={currentUser?.name ?? '用户'}
+          >
+            {avatarText}
+          </button>
         </div>
       </header>
 
@@ -115,6 +130,45 @@ const App: React.FC = () => {
           </Routes>
         </main>
       </div>
+
+      {/* 用户侧边栏：点击头像展开，含用户信息 + 设置入口 */}
+      <SlidePanel
+        open={userPanelOpen}
+        type="small"
+        title="账户"
+        hasCloseButton
+        hasButtonBar={false}
+        onClose={() => setUserPanelOpen(false)}
+      >
+        <div className="flex flex-col gap-4 py-2">
+          {/* 用户信息卡片 */}
+          <div className="rounded-lg border border-border p-4 text-center">
+            <div className="mx-auto mb-2 flex size-14 items-center justify-center rounded-full bg-primary text-lg font-medium text-primary-foreground">
+              {avatarText}
+            </div>
+            <div className="text-sm font-medium">{currentUser?.name ?? '用户'}</div>
+            <div className="mt-0.5 text-xs text-muted-foreground">@{currentUser?.loginId ?? 'unknown'}</div>
+            <div className="mt-2 flex justify-center gap-2 text-xs text-muted-foreground">
+              <span className="rounded bg-muted px-2 py-0.5">{currentUser?.role ?? ''}</span>
+              <span className="rounded bg-muted px-2 py-0.5">{currentUser?.status ?? ''}</span>
+            </div>
+          </div>
+
+          {/* 设置入口 */}
+          <div className="flex flex-col gap-1">
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="flex items-center gap-2 rounded px-3 py-2 text-sm hover:bg-accent"
+            >
+              <Icon name="settings" size={16}/>
+              用户设置
+            </button>
+          </div>
+        </div>
+      </SlidePanel>
+
+      {/* 用户设置（air-sdk UserSettings 组件） */}
+      <UserSettings visible={settingsOpen} onClose={() => setSettingsOpen(false)}/>
     </div>
   )
 }
