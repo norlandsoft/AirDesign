@@ -197,7 +197,7 @@
 
 @media (max-width: 768px) {
   .wechat-table {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .wechat-table .wechat-table-cell,
   .wechat-table .wechat-table-header {

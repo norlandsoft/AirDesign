@@ -42,13 +42,39 @@ const NAV: NavItem[] = [
 ]
 
 const App: React.FC = () => {
+  // 基础字号控制：修改 --base-font-size 即可整体缩放全站字号（驱动所有 rem）
+  const [baseSize, setBaseSize] = React.useState(16)
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--base-font-size', `${baseSize}px`)
+  }, [baseSize])
+
   return (
     <div className="flex h-full">
       {/* 侧边栏 */}
       <aside className="flex w-56 shrink-0 flex-col border-r border-border bg-card">
-        <div className="flex items-center gap-2 border-b border-border px-4 py-4">
-          <Icon name="rocket" size={20} color="var(--color-primary)"/>
-          <span className="text-sm font-semibold">AirDesign Demo</span>
+        <div className="flex items-center justify-between border-b border-border px-4 py-4">
+          <div className="flex items-center gap-2">
+            <Icon name="rocket" size={20} color="var(--color-primary)"/>
+            <span className="text-sm font-semibold">AirDesign Demo</span>
+          </div>
+        </div>
+
+        {/* 基础字号缩放演示 */}
+        <div className="border-b border-border px-4 py-3">
+          <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
+            <span>基础字号</span>
+            <span className="font-mono">{baseSize}px</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setBaseSize((s) => Math.max(12, s - 1))} className="size-6 rounded bg-muted text-sm hover:bg-accent">−</button>
+            <input
+              type="range" min={12} max={20} value={baseSize}
+              onChange={(e) => setBaseSize(Number(e.target.value))}
+              className="flex-1"
+            />
+            <button onClick={() => setBaseSize((s) => Math.min(20, s + 1))} className="size-6 rounded bg-muted text-sm hover:bg-accent">+</button>
+            <button onClick={() => setBaseSize(16)} className="rounded bg-muted px-1.5 py-0.5 text-xs hover:bg-accent">重置</button>
+          </div>
         </div>
         <nav className="flex-1 overflow-auto p-2">
           {NAV.map((item) => (

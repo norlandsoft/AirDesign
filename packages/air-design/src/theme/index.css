@@ -61,6 +61,11 @@
  * --primary 主色取自品牌色 #123F68；其余语义槽按 Material/shadcn 惯例派生。
  */
 :root {
+  /* 基础字号：作为 rem 计算基准（1rem = base-font-size）。
+     修改此值即可整体缩放全站字号（Tailwind 与组件均使用 rem）。
+     取值可为 px 或浏览器支持的任意 font-size 单位。 */
+  --base-font-size: 16px;
+
   --radius: 0.375rem;
 
   --background: oklch(0.99 0.002 240);
@@ -128,6 +133,12 @@
   * {
     border-color: var(--color-border);
     box-sizing: border-box;
+  }
+
+  /* 根字号 = 基础字号，驱动所有 rem 尺寸（Tailwind 工具类 + 组件）。
+     改 --base-font-size 即可整体缩放字号，例如 14px 缩小、18px 放大。 */
+  html {
+    font-size: var(--base-font-size);
   }
 
   html,

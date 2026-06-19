@@ -67,7 +67,7 @@ const TopicNode: React.FC<TopicNodeProps> = ({data, selected, id}) => {
           backgroundColor: (data as any)?.color || '#dbe6f1',
           // left: -8,
           color: '#222',
-          fontSize: '13px',
+          fontSize: '0.8125rem',
           fontWeight: 500,
           padding: '4px 8px',
           lineHeight: '18px',

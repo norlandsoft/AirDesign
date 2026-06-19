@@ -76,7 +76,7 @@
   background: var(--color-card);
   border: 1px solid var(--color-border);
   color: var(--color-muted-foreground);
-  font-size: 10px;
+  font-size: 0.625rem;
   line-height: 16px;
   text-align: center;
   box-sizing: border-box;
@@ -97,7 +97,7 @@
   background: var(--color-card);
   border: 1px solid var(--color-border);
   color: var(--color-muted-foreground);
-  font-size: 10px;
+  font-size: 0.625rem;
   line-height: 16px;
   text-align: center;
   box-sizing: border-box;
@@ -117,7 +117,7 @@
 }
 
 .air-mind-topic-node-collapse-toggle.is-icon {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   padding: 0;
   width: 16px;
