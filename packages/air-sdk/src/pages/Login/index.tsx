@@ -280,17 +280,19 @@ const Login: React.FC = () => {
   }, []);
 
   // 登录提交，密码直接传入 model 层进行 SHA256 加密
+  // 固定身份模式：配置了 loginId 时，登录 ID 取配置值，无需表单输入
+  const fixedLoginId = getSdkConfig().loginId;
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // 表单校验（替代 antd Form rules）
     const nextErrors: { id?: string; password?: string } = {};
-    if (!formValues.id) nextErrors.id = '请输入用户名';
+    if (!fixedLoginId && !formValues.id) nextErrors.id = '请输入用户名';
     if (!formValues.password) nextErrors.password = '请输入密码';
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
     login({
-      id: formValues.id,
+      id: fixedLoginId || formValues.id,
       password: formValues.password,
     });
   };
@@ -310,16 +312,19 @@ const Login: React.FC = () => {
         </div>
 
         <form onSubmit={handleLogin} className="air-login-form" autoComplete="off">
-          <div className="air-login-form-item">
-            <input
-              type="text"
-              placeholder="用户名"
-              className="air-login-input"
-              value={formValues.id}
-              onChange={(e) => setFormValues((v) => ({ ...v, id: e.target.value }))}
-            />
-            {errors.id && <div className="air-login-form-error">{errors.id}</div>}
-          </div>
+          {/* 固定身份模式（配置了 loginId）下隐藏用户名输入框，仅保留密码 */}
+          {!fixedLoginId && (
+            <div className="air-login-form-item">
+              <input
+                type="text"
+                placeholder="用户名"
+                className="air-login-input"
+                value={formValues.id}
+                onChange={(e) => setFormValues((v) => ({ ...v, id: e.target.value }))}
+              />
+              {errors.id && <div className="air-login-form-error">{errors.id}</div>}
+            </div>
+          )}
           <div className="air-login-form-item">
             <input
               type="password"

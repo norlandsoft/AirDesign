@@ -101,7 +101,8 @@
   box-sizing: border-box;
   border-radius: 8px;
   background: var(--air-login-input-bg);
-  border: 1px solid transparent;
+  /* 默认即显示边框，对齐 air-design 标准 Input 的有边框风格 */
+  border: 1px solid var(--air-login-input-border);
   font-size: 14px;
   height: 40px;
   padding: 0 14px;
@@ -115,12 +116,14 @@
 
 .air-login-input:hover {
   background: var(--air-login-input-hover);
+  border-color: #d1d5db;
 }
 
 .air-login-input:focus {
   background: #fff;
-  border-color: var(--air-login-input-border);
-  box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.06);
+  /* 聚焦时以主题色高亮边框 + 轻量环，与 air-design Input 的 focus-visible:ring 一致 */
+  border-color: var(--air-login-accent);
+  box-shadow: 0 0 0 3px var(--air-login-accent-glow);
 }
 
 .air-login-btn-item {
