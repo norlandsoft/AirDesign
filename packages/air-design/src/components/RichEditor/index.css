@@ -8,7 +8,9 @@
   border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
-  z-index: 100;
+  /* 仅在编辑器内部置顶，远低于弹层（SlidePanel z-50 / Tooltip z-100），
+     避免遮盖侧边栏与浮层 */
+  z-index: 10;
 }
 
 .air-rich-editor-wrapper .air-rich-editor-title {
