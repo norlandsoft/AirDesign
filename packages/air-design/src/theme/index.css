@@ -184,13 +184,10 @@
     height: 6px;
   }
 
-  /* 数字输入框的上下调节按钮：紧贴右侧边缘，上下/右边无留白 */
+  /* 数字输入框的上下调节按钮：紧贴右侧边缘，去除默认外边距（保留固有尺寸避免消失） */
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     margin: 0;
-    /* 让按钮贴合右边缘：去除 Webkit 默认的外边距，按钮填满输入框右侧高度 */
-    height: 100%;
-    border-radius: 0;
     opacity: 0.6;
   }
 
