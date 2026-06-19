@@ -58,7 +58,9 @@
 }
 
 .air-rich-editor-wrapper .air-rich-editor {
-  overflow: auto;
+  /* visible：让工具栏下拉/弹层（标题样式、表格尺寸面板）能溢出编辑器边界显示；
+     内部 ProseMirror 自身负责滚动 */
+  overflow: visible;
   border-radius: 3px;
 }
 
