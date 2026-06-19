@@ -45,6 +45,7 @@ function greet(name: string): string {
 const RichEditorPage: React.FC = () => {
   const editorRef = useRef<RichEditorRef>(null)
   const [editable, setEditable] = useState(true)
+  const [simpleMode, setSimpleMode] = useState(false)
   const [output, setOutput] = useState('')
 
   const toggleEditable = () => {
@@ -59,6 +60,9 @@ const RichEditorPage: React.FC = () => {
         <div className="flex flex-wrap items-center gap-3">
           <Button size="sm" type={editable ? 'primary' : 'default'} onClick={toggleEditable}>
             {editable ? '编辑模式' : '只读模式'}
+          </Button>
+          <Button size="sm" type={simpleMode ? 'primary' : 'default'} onClick={() => setSimpleMode((s) => !s)}>
+            {simpleMode ? '精简模式' : '完整模式'}
           </Button>
           <Button size="sm" onClick={() => setOutput(editorRef.current?.getMarkdown() ?? '')}>获取 Markdown</Button>
           <Button size="sm" onClick={() => setOutput(editorRef.current?.getHtmlContent() ?? '')}>获取 HTML</Button>
@@ -75,6 +79,7 @@ const RichEditorPage: React.FC = () => {
           bordered
           hasTitle
           showUndo
+          simpleMode={simpleMode}
           onChange={() => {}}
         />
       </div>

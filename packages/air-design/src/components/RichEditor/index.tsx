@@ -85,7 +85,7 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
     width,
     minHeight = 200,
     padding = 0,
-    contentPadding = 0,
+    contentPadding = 16,
     hasTitle = true,
     infoPanel,
     footPanel,

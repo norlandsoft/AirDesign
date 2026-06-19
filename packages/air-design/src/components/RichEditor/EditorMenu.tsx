@@ -302,27 +302,31 @@ const EditorMenu = (props: any) => {
           </div>
         </div>
 
-        {/* 代码行 */}
-        <div className="air-editor-toolbar-item">
-          <div className={
-              "air-editor-toolbar-item-button" +
-              (editor?.isActive('code') ? ' button-active' : '')
-          } onClick={() => {
-            editor?.chain().focus().toggleCode().run();
-          }}>
-            <CodeLineIcon/>
+        {/* 代码行（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div className={
+                "air-editor-toolbar-item-button" +
+                (editor?.isActive('code') ? ' button-active' : '')
+            } onClick={() => {
+              editor?.chain().focus().toggleCode().run();
+            }}>
+              <CodeLineIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* 公式 */}
-        <div className="air-editor-toolbar-item">
-          <div className="air-editor-toolbar-item-button">
-            <FormulaIcon/>
+        {/* 公式（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div className="air-editor-toolbar-item-button">
+              <FormulaIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 分隔栏 */}
-        <div className="air-editor-toolbar-separator"></div>
+        {!simpleMode && <div className="air-editor-toolbar-separator"></div>}
 
         {
             !simpleMode && (
@@ -361,41 +365,45 @@ const EditorMenu = (props: any) => {
             )
         }
 
-        {/* 文字对齐方式 */}
-        <div className="air-editor-toolbar-item">
-          <div className={
-              "air-editor-toolbar-item-button" +
-              (editor?.isActive({textAlign: 'left'}) ? ' button-active' : '')
-          } onClick={() => {
-            editor?.chain().focus().setTextAlign('left').run();
-          }}>
-            <AlignLeftIcon/>
-          </div>
-        </div>
+        {/* 文字对齐方式（精简模式隐藏） */}
+        {!simpleMode && (
+          <>
+            <div className="air-editor-toolbar-item">
+              <div className={
+                  "air-editor-toolbar-item-button" +
+                  (editor?.isActive({textAlign: 'left'}) ? ' button-active' : '')
+              } onClick={() => {
+                editor?.chain().focus().setTextAlign('left').run();
+              }}>
+                <AlignLeftIcon/>
+              </div>
+            </div>
 
-        <div className="air-editor-toolbar-item">
-          <div className={
-              "air-editor-toolbar-item-button" +
-              (editor?.isActive({textAlign: 'center'}) ? ' button-active' : '')
-          } onClick={() => {
-            editor?.chain().focus().setTextAlign('center').run();
-          }}>
-            <AlignCenterIcon/>
-          </div>
-        </div>
+            <div className="air-editor-toolbar-item">
+              <div className={
+                  "air-editor-toolbar-item-button" +
+                  (editor?.isActive({textAlign: 'center'}) ? ' button-active' : '')
+              } onClick={() => {
+                editor?.chain().focus().setTextAlign('center').run();
+              }}>
+                <AlignCenterIcon/>
+              </div>
+            </div>
 
-        <div className="air-editor-toolbar-item">
-          <div className={
-              "air-editor-toolbar-item-button" +
-              (editor?.isActive({textAlign: 'right'}) ? ' button-active' : '')
-          } onClick={() => {
-            editor?.chain().focus().setTextAlign('right').run();
-          }}>
-            <AlignRightIcon/>
-          </div>
-        </div>
+            <div className="air-editor-toolbar-item">
+              <div className={
+                  "air-editor-toolbar-item-button" +
+                  (editor?.isActive({textAlign: 'right'}) ? ' button-active' : '')
+              } onClick={() => {
+                editor?.chain().focus().setTextAlign('right').run();
+              }}>
+                <AlignRightIcon/>
+              </div>
+            </div>
 
-        <div className="air-editor-toolbar-separator"></div>
+            <div className="air-editor-toolbar-separator"></div>
+          </>
+        )}
 
         {/* 列表 */}
         <div className="air-editor-toolbar-item">
@@ -421,26 +429,30 @@ const EditorMenu = (props: any) => {
           </div>
         </div>
 
-        {/* 增加缩进 */}
-        <div className="air-editor-toolbar-item">
-          <div className="air-editor-toolbar-item-button" onClick={() => {
-            editor?.chain().focus().setIndent().run();
-          }}>
-            <IndentIcon/>
+        {/* 增加缩进（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div className="air-editor-toolbar-item-button" onClick={() => {
+              editor?.chain().focus().setIndent().run();
+            }}>
+              <IndentIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* 减少缩进 */}
-        <div className="air-editor-toolbar-item">
-          <div className="air-editor-toolbar-item-button" onClick={() => {
-            editor?.chain().focus().removeIndent().run();
-          }}>
-            <OutdentIcon/>
+        {/* 减少缩进（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div className="air-editor-toolbar-item-button" onClick={() => {
+              editor?.chain().focus().removeIndent().run();
+            }}>
+              <OutdentIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* 分隔栏 */}
-        <div className="air-editor-toolbar-separator"></div>
+        {/* 分隔栏（精简模式隐藏） */}
+        {!simpleMode && <div className="air-editor-toolbar-separator"></div>}
         {
             !simpleMode && (
                 <>
@@ -509,47 +521,53 @@ const EditorMenu = (props: any) => {
             )
         }
 
-        {/* 插入代码块 */}
-        <div className="air-editor-toolbar-item">
-          <div
-              className={
-                  "air-editor-toolbar-item-button" +
-                  (editor?.isActive('codeBlock') ? ' button-active' : '')
-              }
-              onClick={() => {
-                editor?.chain().focus().toggleCodeBlock().run();
-              }}
-          >
-            <CodeBlockIcon/>
+        {/* 插入代码块（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div
+                className={
+                    "air-editor-toolbar-item-button" +
+                    (editor?.isActive('codeBlock') ? ' button-active' : '')
+                }
+                onClick={() => {
+                  editor?.chain().focus().toggleCodeBlock().run();
+                }}
+            >
+              <CodeBlockIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* 插入引用 */}
-        <div className="air-editor-toolbar-item">
-          <div
-              className={
-                  "air-editor-toolbar-item-button" +
-                  (editor?.isActive('blockquote') ? ' button-active' : '')
-              }
-              onClick={() => {
-                editor?.chain().focus().toggleBlockquote().run();
-              }}
-          >
-            <QuoteIcon/>
+        {/* 插入引用（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div
+                className={
+                    "air-editor-toolbar-item-button" +
+                    (editor?.isActive('blockquote') ? ' button-active' : '')
+                }
+                onClick={() => {
+                  editor?.chain().focus().toggleBlockquote().run();
+                }}
+            >
+              <QuoteIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* 插入分割线 */}
-        <div className="air-editor-toolbar-item">
-          <div
-              className="air-editor-toolbar-item-button"
-              onClick={() => {
-                editor?.chain().focus().setHorizontalRule().run();
-              }}
-          >
-            <HrIcon/>
+        {/* 插入分割线（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item">
+            <div
+                className="air-editor-toolbar-item-button"
+                onClick={() => {
+                  editor?.chain().focus().setHorizontalRule().run();
+                }}
+            >
+              <HrIcon/>
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
   );
