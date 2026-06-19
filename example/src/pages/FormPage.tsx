@@ -25,6 +25,7 @@ import {
   SelectSeparator,
   Slider,
   Separator,
+  Tag,
 } from 'air-design'
 import PageContainer from '../components/PageContainer'
 
@@ -53,6 +54,17 @@ const FormPage: React.FC = () => {
   const [priceRange, setPriceRange] = useState([20, 80])
   const [themeColor, setThemeColor] = useState('#2563eb')
   const [formSubmitted, setFormSubmitted] = useState('')
+  const [tags, setTags] = useState<string[]>(['前端开发', 'TypeScript', 'React'])
+  const [dragOver, setDragOver] = useState(false)
+  const [files, setFiles] = useState<string[]>([])
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
+
+  const removeTag = (tag: string) => setTags((t) => t.filter((x) => x !== tag))
+
+  const handleFiles = (list: FileList | null) => {
+    if (!list) return
+    setFiles((f) => [...f, ...Array.from(list).map((x) => x.name)])
+  }
 
   /** 同步「全选」与兴趣列表的半选/全选状态 */
   const syncSelectAll = (next: string[]) => {
@@ -345,6 +357,63 @@ const FormPage: React.FC = () => {
           </ColorPicker>
           <span className="font-mono text-sm text-muted-foreground">{themeColor}</span>
         </div>
+      </div>
+
+      <div className="demo-block">
+        <GroupSplitter title="Tag 标签"/>
+        <div className="demo-row">
+          <Tag>默认</Tag>
+          <Tag variant="primary">主要</Tag>
+          <Tag variant="success">成功</Tag>
+          <Tag variant="warning">警告</Tag>
+          <Tag variant="danger">危险</Tag>
+        </div>
+        <div className="demo-row">
+          <Tag dotColor="#7c3aed">自定义色点</Tag>
+          <Tag variant="primary" closable onClose={() => {}}>可关闭</Tag>
+          {tags.map((tag) => (
+            <Tag key={tag} variant="default" closable onClose={() => removeTag(tag)}>{tag}</Tag>
+          ))}
+        </div>
+      </div>
+
+      <div className="demo-block">
+        <GroupSplitter title="文件上传"/>
+        <div
+          className={`flex w-full max-w-md flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed py-10 text-center transition-colors ${dragOver ? 'border-primary bg-primary/5' : 'border-border'}`}
+          onDragOver={(e) => {e.preventDefault(); setDragOver(true)}}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {e.preventDefault(); setDragOver(false); handleFiles(e.dataTransfer.files)}}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <p className="text-sm text-muted-foreground">点击或拖拽文件到此处上传</p>
+          <label className="mt-1 cursor-pointer text-sm font-medium text-primary hover:underline">
+            选择文件
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              className="hidden"
+              onChange={(e) => handleFiles(e.target.files)}
+            />
+          </label>
+        </div>
+        {files.length > 0 && (
+          <ul className="mt-3 space-y-1">
+            {files.map((name, i) => (
+              <li key={i} className="flex items-center justify-between rounded px-2 py-1 text-sm hover:bg-accent">
+                <span className="truncate">{name}</span>
+                <button className="ml-2 text-muted-foreground hover:text-destructive" onClick={() => setFiles((f) => f.filter((_, idx) => idx !== i))}>
+                  移除
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="demo-block">
