@@ -2,17 +2,17 @@
  * Tree 树形控件
  *
  * 基于 react-arborist 重写，对齐旧版（Semi Tree）业务 API 与交互：
- * 1. 折叠/展开：默认点击节点仅展开（clickToCollapse=false 时点击已展开节点不折叠），
- *    展开箭头独立控制折叠；
- * 2. 展开/折叠箭头样式：三角形，展开时旋转 90°（与旧版一致）；
- * 3. 拖拽：item 可在任意位置/层级间移动（draggable + onDrop）；
- * 4. 节点图标：group/item 各有缺省图标（folderIcon/itemIcon），node.image 可自定义；
+ * 1. 折叠/展开：默认点击节点仅展开（clickToCollapse=false 时不折叠），展开箭头独立切换；
+ *    通过 TreeApi ref 控制 react-arborist 内部打开状态，保证视觉与状态同步。
+ * 2. 展开/折叠箭头：三角形，展开时旋转 90°（与旧版一致）。
+ * 3. 拖拽：item 可在任意位置/层级间移动；本地维护数据副本，onMove 后同步更新并通知 onDrop。
+ * 4. 节点图标：group/item 各有缺省图标（folderIcon/itemIcon），node.image 可自定义。
  * 5. 菜单：group 用 groupMenu、item 用 itemMenu，node.menu 可覆盖；hover 出现「更多」按钮。
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import React, {useEffect, useMemo, useState} from 'react'
-import {Tree as ArboristTree} from 'react-arborist'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
+import {Tree as ArboristTree, type TreeApi} from 'react-arborist'
 import type {NodeApi} from 'react-arborist'
 import Icon from '@/components/Icon'
 import {Input} from '@/primitives/input'
@@ -51,28 +51,23 @@ interface TreeProps {
   data: TreeNode[]
   height?: number
   showFilter?: boolean
-  /** group 缺省图标名 */
   folderIcon?: string
-  /** item 缺省图标名 */
   itemIcon?: string
-  /** group 节点菜单 */
   groupMenu?: TreeMenuItem[]
-  /** item 节点菜单 */
   itemMenu?: TreeMenuItem[]
   rootButtonClick?: () => void
-  /** 菜单项点击回调（item, data） */
   menuItemClick?: (item: TreeMenuItem, data: TreeNode) => void
   onSelect?: (node: TreeNode) => void
-  onChange?: (keys: string[]) => void
+  onChange?: (data: TreeNode[]) => void
   value?: string
-  defaultValue?: string | string[]
   defaultExpandedKeys?: string[]
-  /** 受控展开键 */
+  /** 受控展开键（用于初始化与外部读取，实际展开由 TreeApi 管理） */
   expandedKeys?: string[]
   onExpand?: (keys: string[]) => void
   /** true 时点击已展开节点会折叠；false（默认）时点击只展开、不折叠 */
   clickToCollapse?: boolean
   draggable?: boolean
+  /** 拖拽移动后回调（info 由 react-arborist onMove 提供） */
   onDrop?: (info: any) => void
   autoExpandParent?: boolean
   checkable?: boolean
@@ -108,6 +103,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
     rootButtonClick,
     menuItemClick,
     onSelect,
+    onChange,
     defaultExpandedKeys = [],
     expandedKeys: controlled,
     onExpand,
@@ -116,28 +112,25 @@ const AirTree: React.FC<TreeProps> = (props) => {
     onDrop,
   } = props
 
+  const apiRef = useRef<TreeApi<any> | null>(null)
   const [term, setTerm] = useState('')
-  const [internalExpanded, setInternalExpanded] = useState<string[]>(defaultExpandedKeys)
-  const expanded = controlled ?? internalExpanded
-  const setExpanded = (keys: string[]) => {
-    if (controlled === undefined) setInternalExpanded(keys)
-    onExpand?.(keys)
-  }
 
-  const filtered = useMemo(() => filterTree(data, term), [data, term])
+  // 本地数据副本：拖拽 onMove 时更新它（react-arborist 自身只改内部树，不回写 props）
+  const [localData, setLocalData] = useState<TreeNode[]>(data)
+  useEffect(() => {
+    setLocalData(data)
+  }, [data])
 
-  // react-arborist 初始展开映射：{ [nodeId]: true }，仅用于初始化（内部展开状态由其自管）
+  const filtered = useMemo(() => filterTree(localData, term), [localData, term])
+
+  // 初始展开映射（仅用于 react-arborist 初始化）
   const initialOpen = useMemo(() => {
+    const keys = controlled ?? defaultExpandedKeys
     const map: Record<string, boolean> = {}
-    expanded.forEach((k) => (map[k] = true))
+    keys.forEach((k) => (map[k] = true))
     return map
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    if (controlled === undefined) setInternalExpanded(defaultExpandedKeys)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultExpandedKeys.join(',')])
 
   /** 节点菜单：优先 node.menu，其次按 type 取 groupMenu/itemMenu */
   const resolveMenu = (node: TreeNode): TreeMenuItem[] | undefined => {
@@ -154,34 +147,48 @@ const AirTree: React.FC<TreeProps> = (props) => {
     menuItemClick?.(item, data)
   }
 
+  /** 收集当前所有展开键（供 onExpand 通知消费方） */
+  const collectOpenKeys = (): string[] => {
+    const api = apiRef.current
+    if (!api) return []
+    const open: string[] = []
+    const visit = (nodes: TreeNode[]) => {
+      for (const n of nodes) {
+        if (api.isOpen(n.key)) open.push(n.key)
+        if (n.children) visit(n.children)
+      }
+    }
+    visit(localData)
+    return open
+  }
+
   const Row = ({node, style}: {node: NodeApi<TreeNode>; style: React.CSSProperties}) => {
     const data = node.data
     const menu = resolveMenu(data)
     const iconName = resolveIcon(data)
     const selected = props.value === data.key
-    const isOpen = node.isOpen
     const isInternal = node.isInternal
-    const isExpanded = expanded.includes(data.key)
+    const isOpen = node.isOpen
 
     /** 点击节点行：仅展开（clickToCollapse=false 时不折叠已展开节点） */
     const handleRowClick = () => {
       if (isInternal) {
         if (clickToCollapse) {
-          // 切换展开/折叠
-          setExpanded(isExpanded ? expanded.filter((k) => k !== data.key) : [...expanded, data.key])
-        } else if (!isExpanded) {
-          // 只展开，不折叠
-          setExpanded([...expanded, data.key])
+          apiRef.current?.toggle(data.key)
+        } else if (!isOpen) {
+          apiRef.current?.open(data.key)
         }
       }
       onSelect?.(data)
+      onExpand?.(collectOpenKeys())
     }
 
     /** 点击展开箭头：切换展开/折叠（独立于行点击逻辑） */
     const handleToggle = (e: React.MouseEvent) => {
       e.stopPropagation()
       if (!isInternal) return
-      setExpanded(isExpanded ? expanded.filter((k) => k !== data.key) : [...expanded, data.key])
+      apiRef.current?.toggle(data.key)
+      onExpand?.(collectOpenKeys())
     }
 
     return (
@@ -204,7 +211,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
               height="10"
               viewBox="0 0 10 10"
               fill="currentColor"
-              className={cn('transition-transform duration-150', isExpanded ? 'rotate-90' : '')}
+              className={cn('transition-transform duration-150', isOpen ? 'rotate-90' : '')}
             >
               <path d="M3 1.5L7.5 5L3 8.5z"/>
             </svg>
@@ -257,21 +264,27 @@ const AirTree: React.FC<TreeProps> = (props) => {
       )}
       <div style={{height: showFilter ? height - 56 : height}}>
         <ArboristTree
+          ref={apiRef as any}
           data={filtered as any}
           idAccessor="key"
           initialOpenState={initialOpen}
-          onToggle={(id: string) => {
-            // react-arborist 内部箭头切换：同步到受控展开键集合并通知消费方
-            const isOpen = expanded.includes(id)
-            setExpanded(isOpen ? expanded.filter((k) => k !== id) : [...expanded, id])
-          }}
           rowHeight={36}
           width="100%"
           height={showFilter ? height - 56 : height}
           indent={16}
           disableDrag={!draggable}
           disableDrop={!draggable}
-          onMove={(args: any) => onDrop?.(args)}
+          // 拖拽移动：react-arborist 内部已重排，这里把新结构同步到 localData 并通知消费方
+          onMove={(args: any) => {
+            // 从 TreeApi 取最新结构（react-arborist 在 onMove 后已更新内部树）
+            const api = apiRef.current
+            if (api) {
+              const next = (api.root?.children?.map((n: NodeApi<TreeNode>) => n.data) ?? localData) as TreeNode[]
+              setLocalData(next)
+              onChange?.(next)
+            }
+            onDrop?.(args)
+          }}
         >
           {Row as any}
         </ArboristTree>
