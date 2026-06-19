@@ -47,6 +47,8 @@ interface IconButtonProps {
     | 'top' | 'topLeft' | 'topRight'
     | 'bottom' | 'bottomLeft' | 'bottomRight'
     | 'left' | 'right'
+  /** 是否显示 tooltip 提示，默认 true；设为 false 即使提供 tooltip 也不显示 */
+  showTooltip?: boolean
 }
 
 /** 旧 antd placement → Radix DropdownMenu {side, align} 映射 */
@@ -79,7 +81,10 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
     className,
     style,
     dropdownPlacement = 'bottomLeft',
+    showTooltip = true,
   } = props
+
+  const enableTooltip = showTooltip && !!tooltip
 
   const menuPos = resolveDropdownPlacement(dropdownPlacement)
 
@@ -141,7 +146,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
   // 其子元素就是 TooltipTrigger（它再 asChild 到 button）。为保证 Slot 正确转发 ref，
   // DropdownMenuTrigger 的 asChild 子元素用一个可接收 ref 的 span 包裹 Tooltip 组件树。
   if (menuContent) {
-    const inner = tooltip ? (
+    const inner = enableTooltip ? (
       <TooltipProvider delayDuration={800}>
         <Tooltip>
           <TooltipTrigger asChild>{trigger}</TooltipTrigger>
@@ -161,7 +166,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
     )
   }
 
-  if (tooltip) {
+  if (enableTooltip) {
     return (
       <TooltipProvider delayDuration={800}>
         <Tooltip>
