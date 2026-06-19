@@ -156,7 +156,7 @@ const data = [{ key: '1', label: '分组', type: 'group', children: [...] }]
 />
 ```
 
-基于 react-arborist，支持搜索过滤、节点菜单、受控展开、拖拽（`draggable`/`onDrop`）。
+基于 react-arborist，完整迁移 JettoAuthor Semi Tree 能力：搜索过滤（内置 searchTerm）、节点菜单（groupMenu/itemMenu）、受控展开/选中（expandedKeys/value）、autoExpandParent、disabled 节点、checkable 多选、拖拽（draggable/onDrop/onChange）、clickToCollapse 与 stopMenuEventPropagation。
 
 ### TabPanel
 

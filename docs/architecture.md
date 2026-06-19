@@ -154,7 +154,7 @@ AirDesign/
 | SlidePanel | primitives/sheet | 侧滑抽屉、双层、size 类型 |
 | TabPanel | primitives/tabs | 可关闭标签 + tooltip 截断 |
 | Table / TableRowMenu | @tanstack/react-table | 排序/分页/行菜单 |
-| Tree | react-arborist | 搜索/图标/菜单/拖拽 |
+| Tree | react-arborist | 搜索/图标/菜单/拖拽/受控展开选中/checkable/disabled |
 | Message / Notice | 自建 createRoot | 命令式轻提示/通知 |
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |
 | Splitter / GroupSplitter | 自建（保留逻辑） | 拖拽分割 |
