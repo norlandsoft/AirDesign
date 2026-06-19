@@ -318,13 +318,15 @@ actions：`login` / `logout` / `validateToken` / `changePassword` / `updateUserI
 import { SecurityLayout } from 'air-sdk'
 import 'air-design/style.css'
 import 'air-sdk/style.css'
+import LoginPage from '@/pages/Login'   // 各业务服务自行实现的登录页
 
 export default function Layout({ children }) {
-  return <SecurityLayout>{children}</SecurityLayout>
+  // 未登录时渲染消费方提供的登录页（login prop）
+  return <SecurityLayout login={<LoginPage/>}>{children}</SecurityLayout>
 }
 ```
 
-`SecurityLayout` 行为：无 Token → Login；URL 含 `transferToken` → 自动兑换 SSO；校验中 → 全屏 Spin。
+`SecurityLayout` 行为：无 Token → 渲染 `login` prop（各服务自实现的登录页）；URL 含 `transferToken` → 自动兑换 SSO；校验中 → 全屏 Spin。登录页由各业务服务自行实现，air-sdk 不内置。
 
 ### 4. 业务组件
 
@@ -366,7 +368,7 @@ await SSE_POST('/api/v1/stream', { prompt: '...' }, chunk => console.log(chunk))
 
 ### 子路径导出
 
-`air-sdk` · `air-sdk/config` · `air-sdk/models/user` · `air-sdk/layouts/SecurityLayout` · `air-sdk/pages/Login` · `air-sdk/utils/HttpRequest` · `air-sdk/utils/CryptoUtils` · `air-sdk/style.css`
+`air-sdk` · `air-sdk/config` · `air-sdk/models/user` · `air-sdk/layouts/SecurityLayout` · `air-sdk/utils/HttpRequest` · `air-sdk/utils/CryptoUtils` · `air-sdk/style.css`
 
 ---
 

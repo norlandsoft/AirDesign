@@ -125,9 +125,9 @@ AirDesign/
 │       ├── src/
 │       │   ├── index.ts         # 主入口
 │       │   ├── config.ts        # defineSdkConfig / getSdkConfig / storageKey
-│       │   ├── models/user.ts   # DVA UserModel（登录/登出/Token校验/设置）
+│       │   ├── models/user.ts   # Zustand useUserStore（登录/登出/Token校验/设置）
 │       │   ├── layouts/SecurityLayout.tsx
-│       │   ├── pages/Login/     # 登录页（Canvas 星野动画）
+│       │   ├── pages/           # 业务页面（登录页由各服务自行实现，air-sdk 不内置）
 │       │   ├── components/      # AppSwitcher / UserSettings（3 子页）
 │       │   ├── utils/           # HttpRequest / CryptoUtils / IconUtils / ...
 │       │   ├── types/           # 类型定义
@@ -213,7 +213,7 @@ air-sdk 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`
 
 - **config**：`defineSdkConfig` 在应用入口注入 `storagePrefix` / `appName` / `appTagline` / `theme`
 - **useUserStore**（Zustand）：`login` / `logout` / `validateToken` / `changePassword` / `updateUserInfo` / `fetchUserSettings` / `updateUserSettings`；密码 SHA256；通过 `auth-state-changed` CustomEvent 与非 React 代码（HttpRequest 等）通信
-- **SecurityLayout**：未登录渲染 Login；URL 含 `transferToken` 自动兑换 SSO；校验中全屏 Spin
+- **SecurityLayout**：未登录渲染消费方提供的登录页（`login` prop）；URL 含 `transferToken` 自动兑换 SSO；校验中全屏 Spin
 - **Login**：Canvas 星野动画 + 原生受控表单
 - **UserSettings**：基本信息 / 显示设置 / 修改密码 三子页，原生表单
 - **AppSwitcher**：跨应用免登切换，基于 DropdownMenu 原语；`layoutSize` 经 props 传入（默认值，无需宿主全局 store）

@@ -22,13 +22,13 @@ export type {UserState} from './models/user'
 
 // 布局组件
 export {default as SecurityLayout} from './layouts/SecurityLayout'
+// 登录页由各业务服务自行实现，air-sdk 不再内置
 
 // 业务组件
 export {default as AppSwitcher} from './components/AppSwitcher'
 export {default as UserSettings} from './components/UserSettings'
 
-// 页面组件
-export {default as Login} from './pages/Login'
+// 页面组件（登录页由各业务服务自行实现，air-sdk 不再内置）
 
 // 工具函数
 export {POST, GET, SSE_POST} from './utils/HttpRequest'

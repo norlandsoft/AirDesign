@@ -1,7 +1,8 @@
 /**
  * 安全布局组件
  *
- * 未登录时渲染 Login 页面，已登录时渲染 children。
+ * 未登录时渲染消费方提供的登录页（login prop），已登录时渲染 children。
+ * 登录页由各业务服务自行实现（air-sdk 不再内置 Login 组件）。
  * 增强功能：检测 URL 中的 transferToken 参数，自动兑换为正式 Token 实现免登录跳转。
  * transferToken 兑换失败时不阻断，降级为正常登录流程。
  *
@@ -12,15 +13,16 @@
 import {useEffect, useRef} from 'react'
 import {Spin} from 'air-design'
 import {useUserStore} from '../models/user'
-import Login from '../pages/Login'
 import {POST} from '../utils/HttpRequest'
 import {storageKey} from '../config'
 
 interface SecurityLayoutProps {
   children?: React.ReactNode
+  /** 未登录时渲染的登录页（由各业务服务自行实现并传入） */
+  login?: React.ReactNode
 }
 
-const SecurityLayout: React.FC<SecurityLayoutProps> = ({children}) => {
+const SecurityLayout: React.FC<SecurityLayoutProps> = ({children, login}) => {
   const hasCheckedRef = useRef(false)
 
   // 直接订阅所需状态与 action（Zustand 精确订阅，避免多余渲染）
@@ -112,9 +114,9 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = ({children}) => {
     return <Spin spinning={true} fullscreen={true} description="正在验证身份..."/>
   }
 
-  // 未认证则显示登录页
+  // 未认证则显示登录页（由消费方通过 login prop 提供）
   if (!isAuthenticated) {
-    return <Login/>
+    return <>{login ?? null}</>
   }
 
   // 已认证则渲染子组件
