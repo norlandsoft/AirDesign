@@ -42,6 +42,26 @@ interface IconButtonProps {
   shape?: 'circle' | 'square' | 'default'
   className?: string
   style?: React.CSSProperties
+  /** 下拉菜单展开方向（兼容旧 antd placement 语义），默认 bottomLeft */
+  dropdownPlacement?:
+    | 'top' | 'topLeft' | 'topRight'
+    | 'bottom' | 'bottomLeft' | 'bottomRight'
+    | 'left' | 'right'
+}
+
+/** 旧 antd placement → Radix DropdownMenu {side, align} 映射 */
+function resolveDropdownPlacement(p: IconButtonProps['dropdownPlacement']) {
+  switch (p) {
+    case 'top': return {side: 'top' as const, align: 'center' as const}
+    case 'topLeft': return {side: 'top' as const, align: 'start' as const}
+    case 'topRight': return {side: 'top' as const, align: 'end' as const}
+    case 'bottom': return {side: 'bottom' as const, align: 'center' as const}
+    case 'bottomRight': return {side: 'bottom' as const, align: 'end' as const}
+    case 'left': return {side: 'left' as const, align: 'center' as const}
+    case 'right': return {side: 'right' as const, align: 'center' as const}
+    case 'bottomLeft':
+    default: return {side: 'bottom' as const, align: 'start' as const}
+  }
 }
 
 const IconButton: React.FC<IconButtonProps> = (props) => {
@@ -58,7 +78,10 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
     shape = 'default',
     className,
     style,
+    dropdownPlacement = 'bottomLeft',
   } = props
+
+  const menuPos = resolveDropdownPlacement(dropdownPlacement)
 
   const iconSize = size - 12
   const radiusClass = shape === 'circle' ? 'rounded-full' : 'rounded-md'
@@ -92,7 +115,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
   const withMenu = items && items.length > 0 ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{buttonContent}</DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent side={menuPos.side} align={menuPos.align}>
         {items.map((item, index) =>
           item.type === 'split' || item.type === 'divider' ? (
             <DropdownMenuSeparator key={`split-${index}`}/>
