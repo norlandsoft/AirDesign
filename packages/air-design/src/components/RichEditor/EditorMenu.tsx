@@ -199,7 +199,7 @@ const EditorMenu = (props: any) => {
 
 
   return (
-      <div className="air-editor-toolbar" style={{width: width + 15, overflowX: 'hidden'}}>
+      <div className="air-editor-toolbar" style={{width: width + 15, overflow: 'visible'}}>
         {
             showUndo && (
                 <>
@@ -456,7 +456,7 @@ const EditorMenu = (props: any) => {
         {
             !simpleMode && (
                 <>
-                  {/* 插入任务列表 */}
+                  {/* 插入任务列表（精简模式隐藏） */}
                   <div className="air-editor-toolbar-item">
                     <div
                         className={
@@ -471,72 +471,71 @@ const EditorMenu = (props: any) => {
                     </div>
                   </div>
 
-                  {/* 插入链接 */}
+                  {/* 插入链接（精简模式隐藏） */}
                   <div className="air-editor-toolbar-item">
                     <div className="air-editor-toolbar-item-button">
                       <LinkIcon/>
                     </div>
                   </div>
-
-                  {/* 插入图片 */}
-                  <div className="air-editor-toolbar-item">
-                    <input
-                        ref={imageInputRef}
-                        type="file"
-                        accept="image/*"
-                        className="air-editor-image-input"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleImageUpload(file);
-                          }
-                          e.target.value = ''; // 允许重复选择同一文件
-                        }}
-                    />
-                    <div
-                        className="air-editor-toolbar-item-button"
-                        onClick={() => imageInputRef.current?.click()}
-                    >
-                      <ImageIcon/>
-                    </div>
-                  </div>
-                  {/* 插入表格 */}
-                  <div className="air-editor-toolbar-item air-editor-toolbar-popover-wrap" ref={tablePopoverRef}>
-                    <div
-                        className="air-editor-toolbar-item-button"
-                        onClick={() => setShowTablePanel(open => !open)}
-                    >
-                      <TableIcon/>
-                    </div>
-                    {showTablePanel && (
-                        <div className="air-editor-toolbar-popover air-editor-toolbar-table-popover">
-                          <TableSizePanel
-                              editor={editor}
-                              onClose={() => setShowTablePanel(false)}
-                          />
-                        </div>
-                    )}
-                  </div>
                 </>
             )
         }
 
-        {/* 插入代码块（精简模式隐藏） */}
-        {!simpleMode && (
-          <div className="air-editor-toolbar-item">
-            <div
-                className={
-                    "air-editor-toolbar-item-button" +
-                    (editor?.isActive('codeBlock') ? ' button-active' : '')
+        {/* 插入图片（精简模式保留） */}
+        <div className="air-editor-toolbar-item">
+          <input
+              ref={imageInputRef}
+              type="file"
+              accept="image/*"
+              className="air-editor-image-input"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImageUpload(file);
                 }
-                onClick={() => {
-                  editor?.chain().focus().toggleCodeBlock().run();
-                }}
-            >
-              <CodeBlockIcon/>
-            </div>
+                e.target.value = ''; // 允许重复选择同一文件
+              }}
+          />
+          <div
+              className="air-editor-toolbar-item-button"
+              onClick={() => imageInputRef.current?.click()}
+          >
+            <ImageIcon/>
           </div>
-        )}
+        </div>
+        {/* 插入表格（精简模式保留） */}
+        <div className="air-editor-toolbar-item air-editor-toolbar-popover-wrap" ref={tablePopoverRef}>
+          <div
+              className="air-editor-toolbar-item-button"
+              onClick={() => setShowTablePanel(open => !open)}
+          >
+            <TableIcon/>
+          </div>
+          {showTablePanel && (
+              <div className="air-editor-toolbar-popover air-editor-toolbar-table-popover">
+                <TableSizePanel
+                    editor={editor}
+                    onClose={() => setShowTablePanel(false)}
+                />
+              </div>
+          )}
+        </div>
+        }
+
+        {/* 插入代码块（精简模式保留） */}
+        <div className="air-editor-toolbar-item">
+          <div
+              className={
+                  "air-editor-toolbar-item-button" +
+                  (editor?.isActive('codeBlock') ? ' button-active' : '')
+              }
+              onClick={() => {
+                editor?.chain().focus().toggleCodeBlock().run();
+              }}
+          >
+            <CodeBlockIcon/>
+          </div>
+        </div>
 
         {/* 插入引用（精简模式隐藏） */}
         {!simpleMode && (
