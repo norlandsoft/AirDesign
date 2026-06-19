@@ -33,7 +33,7 @@ interface TabPanelProps {
 const MAX_TAB_LENGTH = 16
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
-  const {height, width, items = [], currentTab, onChangeTab, onRemoveTab, tabHeight = 40} = props
+  const {height, width, items = [], currentTab, onChangeTab, onRemoveTab, tabHeight = 32} = props
 
   const [currentKey, setCurrentKey] = React.useState<string | undefined>(undefined)
 
