@@ -4,7 +4,7 @@
  * @author ChaiMingXu, 2026/06/19
  */
 import React, {useState} from 'react'
-import {EditableLabel, Help, GroupSplitter, Input, Switch, Checkbox, Select, SelectItem} from 'air-design'
+import {EditableLabel, Help, GroupSplitter, Input, Switch, Checkbox, Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 const FormPage: React.FC = () => {
@@ -49,9 +49,14 @@ const FormPage: React.FC = () => {
         <div className="demo-row">
           <span className="demo-label">Select</span>
           <Select value={lang} onValueChange={setLang}>
-            <SelectItem value="ts">TypeScript</SelectItem>
-            <SelectItem value="js">JavaScript</SelectItem>
-            <SelectItem value="py">Python</SelectItem>
+            <SelectTrigger style={{width: 200}}>
+              <SelectValue placeholder="选择语言"/>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ts">TypeScript</SelectItem>
+              <SelectItem value="js">JavaScript</SelectItem>
+              <SelectItem value="py">Python</SelectItem>
+            </SelectContent>
           </Select>
         </div>
       </div>
