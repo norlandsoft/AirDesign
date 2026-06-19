@@ -227,40 +227,42 @@ const EditorMenu = (props: any) => {
             )
         }
 
-        {/* 格式选择 */}
-        <div className="air-editor-toolbar-item air-editor-toolbar-popover-wrap" ref={stylePopoverRef}>
-          <div
-              className="air-editor-toolbar-item-dropdown"
-              onClick={() => setStylePanelOpen(open => !open)}
-          >
-            {textStyle.label}
-            <Icon name={'arrow_down'} size={14} thickness={3}/>
+        {/* 格式选择（精简模式隐藏） */}
+        {!simpleMode && (
+          <div className="air-editor-toolbar-item air-editor-toolbar-popover-wrap" ref={stylePopoverRef}>
+            <div
+                className="air-editor-toolbar-item-dropdown"
+                onClick={() => setStylePanelOpen(open => !open)}
+            >
+              {textStyle.label}
+              <Icon name={'arrow_down'} size={14} thickness={3}/>
+            </div>
+            {stylePanelOpen && (
+                <div className="air-editor-toolbar-popover air-editor-toolbar-style-popover">
+                  {stylesArray.map(style => (
+                      <div
+                          key={style.value}
+                          className="air-editor-toolbar-style-option"
+                          style={{
+                            fontSize: style.value === '0' ? '1rem' : `${2 - Number(style.value) * 0.2}rem`,
+                            padding: '0.2rem 0.4rem',
+                            fontWeight: style.value === '0' ? 'normal' : 'bold'
+                        }}
+                          onClick={() => {
+                            handleSetTextStyle(style.value);
+                            setStylePanelOpen(false);
+                          }}
+                      >
+                        {style.label}
+                      </div>
+                  ))}
+                </div>
+            )}
           </div>
-          {stylePanelOpen && (
-              <div className="air-editor-toolbar-popover air-editor-toolbar-style-popover">
-                {stylesArray.map(style => (
-                    <div
-                        key={style.value}
-                        className="air-editor-toolbar-style-option"
-                        style={{
-                          fontSize: style.value === '0' ? '1rem' : `${2 - Number(style.value) * 0.2}rem`,
-                          padding: '0.2rem 0.4rem',
-                          fontWeight: style.value === '0' ? 'normal' : 'bold'
-                        }}
-                        onClick={() => {
-                          handleSetTextStyle(style.value);
-                          setStylePanelOpen(false);
-                        }}
-                    >
-                      {style.label}
-                    </div>
-                ))}
-              </div>
-          )}
-        </div>
+        )}
 
-        {/* 分隔栏 */}
-        <div className="air-editor-toolbar-separator"></div>
+        {/* 分隔栏（精简模式隐藏） */}
+        {!simpleMode && <div className="air-editor-toolbar-separator"></div>}
 
         {/* 加粗 */}
         <div className="air-editor-toolbar-item">
