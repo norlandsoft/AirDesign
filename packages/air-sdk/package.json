@@ -22,6 +22,10 @@
       "import": "./dist/layouts/SecurityLayout.mjs",
       "types": "./dist/src/layouts/SecurityLayout.d.ts"
     },
+    "./pages/Login": {
+      "import": "./dist/pages/Login/index.mjs",
+      "types": "./dist/src/pages/Login/index.d.ts"
+    },
     "./utils/HttpRequest": {
       "import": "./dist/utils/HttpRequest.mjs",
       "types": "./dist/src/utils/HttpRequest.d.ts"

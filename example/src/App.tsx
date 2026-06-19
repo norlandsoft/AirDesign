@@ -23,6 +23,9 @@ import ColorPickerPage from './pages/ColorPickerPage'
 import FormPage from './pages/FormPage'
 import SplitterPage from './pages/SplitterPage'
 import FeedbackPage from './pages/FeedbackPage'
+import TagPage from './pages/TagPage'
+import UploadPage from './pages/UploadPage'
+import LoginPage from './pages/LoginPage'
 
 interface NavItem {
   path: string
@@ -43,6 +46,9 @@ const NAV: NavItem[] = [
   {path: 'form', label: '表单组件', icon: 'edit'},
   {path: 'splitter', label: 'Splitter 分割', icon: 'back'},
   {path: 'feedback', label: 'Spin/Loading', icon: 'refresh'},
+  {path: 'tag', label: 'Tag 标签', icon: 'tag'},
+  {path: 'upload', label: '文件上传', icon: 'upload'},
+  {path: 'login', label: '登录页', icon: 'user'},
 ]
 
 const App: React.FC = () => {
@@ -127,6 +133,9 @@ const App: React.FC = () => {
             <Route path="form" element={<FormPage/>}/>
             <Route path="splitter" element={<SplitterPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>
+            <Route path="tag" element={<TagPage/>}/>
+            <Route path="upload" element={<UploadPage/>}/>
+            <Route path="login" element={<LoginPage/>}/>
           </Routes>
         </main>
       </div>
