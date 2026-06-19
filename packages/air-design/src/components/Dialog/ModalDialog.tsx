@@ -186,7 +186,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
             <button
               type="button"
               onClick={doCancel}
-              className="ml-2 mr-2 inline-flex size-6 translate-y-px cursor-pointer items-center justify-center rounded border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-accent hover:text-foreground"
+              className="ml-2 mr-3 inline-flex size-6 translate-y-0.5 cursor-pointer items-center justify-center rounded border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-accent hover:text-foreground"
             >
               <Icon name="close" size={12}/>
             </button>
