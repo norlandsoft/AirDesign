@@ -123,7 +123,7 @@ function Grid<T = any>(props: TableProps<T>) {
           onClick={() => onChange(currentPage - 1)}
           className="inline-flex size-7 items-center justify-center rounded hover:bg-accent disabled:opacity-40"
         >
-          <Icon name="back" size={14}/>
+          <Icon name="arrow_left" size={14}/>
         </button>
         {pages.map((p) => (
           <button
@@ -144,7 +144,7 @@ function Grid<T = any>(props: TableProps<T>) {
           onClick={() => onChange(currentPage + 1)}
           className="inline-flex size-7 items-center justify-center rounded hover:bg-accent disabled:opacity-40"
         >
-          <Icon name="arrow_down" size={14} className="rotate-[-90deg]"/>
+          <Icon name="arrow_right" size={14}/>
         </button>
       </div>
     )
