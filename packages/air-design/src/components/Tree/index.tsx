@@ -216,6 +216,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
       <div style={{height: showFilter ? height - 56 : height}}>
         <ArboristTree
           data={filtered as any}
+          idAccessor="key"
           initialOpenState={initialOpen}
           onToggle={(id: string) => {
             // 同步展开键集合并通知消费方（react-arborist 自身维护内部展开状态）

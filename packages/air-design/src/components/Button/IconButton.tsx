@@ -92,7 +92,8 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
     <Icon name={icon} size={iconSize}/>
   ) : null
 
-  const buttonContent = (
+  // 触发按钮（DOM 元素，可被 asChild Slot 正确转发 ref）
+  const trigger = (
     <button
       type="button"
       disabled={disabled}
@@ -111,45 +112,67 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
     </button>
   )
 
-  // items 存在时渲染下拉菜单
-  const withMenu = items && items.length > 0 ? (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>{buttonContent}</DropdownMenuTrigger>
-      <DropdownMenuContent side={menuPos.side} align={menuPos.align}>
-        {items.map((item, index) =>
-          item.type === 'split' || item.type === 'divider' ? (
-            <DropdownMenuSeparator key={`split-${index}`}/>
-          ) : (
-            !item.disabled && (
-              <DropdownMenuItem
-                key={`item-${index}`}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  item.onClick?.(e)
-                }}
-              >
-                {item.icon && <Icon name={item.icon} size={14}/>}
-                {item.label}
-              </DropdownMenuItem>
-            )
+  // 菜单内容
+  const menuContent = items && items.length > 0 ? (
+    <DropdownMenuContent side={menuPos.side} align={menuPos.align}>
+      {items.map((item, index) =>
+        item.type === 'split' || item.type === 'divider' ? (
+          <DropdownMenuSeparator key={`split-${index}`}/>
+        ) : (
+          !item.disabled && (
+            <DropdownMenuItem
+              key={`item-${index}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                item.onClick?.(e)
+              }}
+            >
+              {item.icon && <Icon name={item.icon} size={14}/>}
+              {item.label}
+            </DropdownMenuItem>
           )
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  ) : (
-    buttonContent
-  )
+        )
+      )}
+    </DropdownMenuContent>
+  ) : null
 
-  return tooltip ? (
-    <TooltipProvider delayDuration={800}>
-      <Tooltip>
-        <TooltipTrigger asChild>{withMenu}</TooltipTrigger>
-        <TooltipContent side={placement}>{tooltip}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  ) : (
-    withMenu
-  )
+  // 组装触发器。Radix 的 asChild 要求直接子元素为可接收 ref 的单一 DOM 元素。
+  // 当 tooltip 与 menu 同时存在时，把 DropdownMenuTrigger 作为最外层 asChild，
+  // 其子元素就是 TooltipTrigger（它再 asChild 到 button）。为保证 Slot 正确转发 ref，
+  // DropdownMenuTrigger 的 asChild 子元素用一个可接收 ref 的 span 包裹 Tooltip 组件树。
+  if (menuContent) {
+    const inner = tooltip ? (
+      <TooltipProvider delayDuration={800}>
+        <Tooltip>
+          <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+          <TooltipContent side={placement}>{tooltip}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ) : (
+      trigger
+    )
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <span className="inline-flex">{inner}</span>
+        </DropdownMenuTrigger>
+        {menuContent}
+      </DropdownMenu>
+    )
+  }
+
+  if (tooltip) {
+    return (
+      <TooltipProvider delayDuration={800}>
+        <Tooltip>
+          <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+          <TooltipContent side={placement}>{tooltip}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    )
+  }
+
+  return trigger
 }
 
 export default IconButton
