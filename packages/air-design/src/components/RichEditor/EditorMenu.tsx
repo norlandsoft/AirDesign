@@ -201,7 +201,7 @@ const EditorMenu = (props: any) => {
   return (
       <div className="air-editor-toolbar" style={{width: typeof width === 'number' ? width + 15 : '100%', overflow: 'visible'}}>
         {
-            showUndo && (
+            showUndo && !simpleMode && (
                 <>
                   {/* 撤销 */}
                   <div className="air-editor-toolbar-item">
