@@ -166,17 +166,17 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
       <div
         ref={windowRef}
         onMouseDown={(e) => e.stopPropagation()}
-        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded-lg border border-border bg-card shadow-2xl"
+        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-border bg-card shadow-2xl"
         style={{
           width: width ?? 'min(560px, 90vw)',
           height: height ?? undefined,
           ...winStyle,
         }}
       >
-        {/* 标题栏（可拖拽） */}
+        {/* 标题栏（可拖拽，高度 50px） */}
         <div
-          className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3 select-none"
-          style={{backgroundColor: headerBgColor, color: headerColor}}
+          className="flex shrink-0 items-center justify-between border-b border-border px-4 select-none"
+          style={{height: 50, backgroundColor: headerBgColor, color: headerColor}}
         >
           <div
             className="flex-1 cursor-move truncate text-sm font-semibold"
@@ -208,11 +208,10 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           {children}
         </div>
 
-        {/* 页脚 */}
+        {/* 页脚（无边框无背景，按钮靠右） */}
         {showFooter && (
           <div
-            className="flex w-full shrink-0 items-center gap-2 border-t border-border px-4 py-3"
-            style={{backgroundColor: footerBgColor}}
+            className="flex w-full shrink-0 items-center justify-end gap-2 px-4 py-3"
           >
             {confirmable && (
               <Button type="primary" onClick={onOk}>
