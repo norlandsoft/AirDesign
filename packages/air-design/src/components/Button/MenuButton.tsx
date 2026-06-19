@@ -18,11 +18,13 @@ import {
 import {cn} from '@/lib/cn'
 
 export interface MenuButtonItem {
+  key?: string
   label?: React.ReactNode
   icon?: string
   onClick?: (e: React.MouseEvent) => void
   disabled?: boolean
-  type?: 'split'
+  /** 分隔符：'split' 与 'divider' 均渲染为分隔线 */
+  type?: 'split' | 'divider'
 }
 
 interface MenuButtonProps {
@@ -51,7 +53,7 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         {items.map((item, index) =>
-          item.type === 'split' ? (
+          item.type === 'split' || item.type === 'divider' ? (
             <DropdownMenuSeparator key={`split-${index}`}/>
           ) : (
             !item.disabled && (

@@ -18,13 +18,15 @@ import {
 import {Tooltip, TooltipTrigger, TooltipContent, TooltipProvider} from '@/primitives/tooltip'
 import {cn} from '@/lib/cn'
 
-/** 下拉菜单项（兼容旧 {label, onClick, type:'split', disabled} 结构） */
+/** 下拉菜单项（兼容旧 {label, onClick, type:'split'/'divider', disabled, key} 结构） */
 export interface IconButtonItem {
+  key?: string
   label?: ReactNode
   icon?: string
   onClick?: (e: React.MouseEvent) => void
   disabled?: boolean
-  type?: 'split'
+  /** 分隔符：'split' 与 'divider' 均渲染为分隔线 */
+  type?: 'split' | 'divider'
 }
 
 interface IconButtonProps {
@@ -92,7 +94,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
       <DropdownMenuTrigger asChild>{buttonContent}</DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         {items.map((item, index) =>
-          item.type === 'split' ? (
+          item.type === 'split' || item.type === 'divider' ? (
             <DropdownMenuSeparator key={`split-${index}`}/>
           ) : (
             !item.disabled && (

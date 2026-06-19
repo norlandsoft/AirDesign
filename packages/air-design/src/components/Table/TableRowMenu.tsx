@@ -23,7 +23,7 @@ export interface TableRowMenuItem {
   icon?: string
   onClick?: (item: TableRowMenuItem, data?: any) => void
   disabled?: boolean
-  type?: 'split'
+  type?: 'split' | 'divider'
 }
 
 interface TableRowMenuProps {
@@ -57,7 +57,7 @@ const TableRowMenu: React.FC<TableRowMenuProps> = (props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {items.map((item, index) =>
-          item.type === 'split' ? (
+          item.type === 'split' || item.type === 'divider' ? (
             <DropdownMenuSeparator key={item.key ?? `split-${index}`}/>
           ) : (
             <DropdownMenuItem

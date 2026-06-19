@@ -66,7 +66,7 @@ const CodeBlockBubbleMenu: React.FC<CodeBlockBubbleMenuProps> = ({editor}) => {
           let codeBlockPos: number | null = null;
 
           // 查找包含选择位置的代码块节点
-          state.doc.nodesBetween(selection.from, selection.to, (node, pos) => {
+          state.doc.nodesBetween(selection.from, selection.to, (node: any, pos: number) => {
             if (node.type.name === 'codeBlock') {
               codeBlockPos = pos;
             }

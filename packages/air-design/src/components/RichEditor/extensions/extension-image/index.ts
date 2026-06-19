@@ -671,7 +671,7 @@ export const Image = TImage.extend({
       ...this.parent?.() || {},
 
       // 添加删除图片时恢复样式的命令
-      deleteImage: () => ({tr, state, dispatch}) => {
+      deleteImage: () => ({tr, state, dispatch}: any) => {
         const {selection} = state;
         if (!isNodeSelection(selection) || selection.node.type.name !== 'image') {
           return false;

@@ -118,6 +118,14 @@ const AirTree: React.FC<TreeProps> = (props) => {
 
   const filtered = useMemo(() => filterTree(data, term), [data, term])
 
+  // react-arborist 初始展开映射：{ [nodeId]: true }。仅用于初始化，内部展开状态由其自管
+  const initialOpen = useMemo(() => {
+    const map: Record<string, boolean> = {}
+    expanded.forEach((k) => (map[k] = true))
+    return map
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // 同步新增展开键
   useEffect(() => {
     if (controlled === undefined) setInternalExpanded(defaultExpandedKeys)
@@ -208,10 +216,11 @@ const AirTree: React.FC<TreeProps> = (props) => {
       <div style={{height: showFilter ? height - 56 : height}}>
         <ArboristTree
           data={filtered as any}
-          openIds={expanded}
-          onToggle={(id) => {
-            const isOpen = expanded.includes(id as string)
-            setExpanded(isOpen ? expanded.filter((k) => k !== id) : [...expanded, id as string])
+          initialOpenState={initialOpen}
+          onToggle={(id: string) => {
+            // 同步展开键集合并通知消费方（react-arborist 自身维护内部展开状态）
+            const isOpen = expanded.includes(id)
+            setExpanded(isOpen ? expanded.filter((k) => k !== id) : [...expanded, id])
           }}
           rowHeight={36}
           width="100%"
