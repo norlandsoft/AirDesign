@@ -46,6 +46,7 @@ export interface RichEditorRef {
   getTextContent: () => string;
   getMarkdown: () => string;
   setMarkdown: (markdown: string) => void;
+  setTitle: (title: string) => void;
   setEditable: (editable: boolean) => void;
   isEditable: () => boolean;
 }
@@ -69,6 +70,8 @@ interface RichEditorProps {
   simpleMode?: boolean;
   fixedHeight?: boolean;
   id?: string;
+  /** 初始是否可编辑，默认 true；设为 false 以预览/只读模式挂载 */
+  defaultEditable?: boolean;
 }
 
 const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
@@ -90,7 +93,8 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
     bordered = true,
     simpleMode = false,
     fixedHeight = false,
-    id
+    id,
+    defaultEditable = true
   } = props;
 
   const extensions = [
@@ -136,7 +140,7 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
   // 保存 editor 实例的引用
   const [editor, setEditor] = React.useState<Editor | null>(null);
   // 保存 editable 状态
-  const [editable, setEditable] = React.useState<boolean>(true);
+  const [editable, setEditable] = React.useState<boolean>(defaultEditable);
 
   // fixedHeight 未传 height 时沿用 400 默认值，保证固定高度模式向后兼容
   const resolvedHeight = height ?? (fixedHeight ? 400 : undefined);
@@ -252,6 +256,9 @@ const RichEditor = forwardRef<RichEditorRef, RichEditorProps>((props, ref) => {
     setEditable: (editable: boolean) => {
       setEditable(editable);
       editor?.setEditable(editable);
+    },
+    setTitle: (title: string) => {
+      setDocTitle(title);
     },
     isEditable: () => {
       return editable;
