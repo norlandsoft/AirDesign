@@ -243,10 +243,10 @@ const EditorMenu = (props: any) => {
                       <div
                           key={style.value}
                           className="air-editor-toolbar-style-option"
-                          style={{
-                            fontSize: style.value === '0' ? '1rem' : `${2 - Number(style.value) * 0.2}rem`,
-                            padding: '0.2rem 0.4rem',
-                            fontWeight: style.value === '0' ? 'normal' : 'bold'
+                        style={{
+                          fontSize: style.value === '0' ? '0.8125rem' : `${1.2 - Number(style.value) * 0.08}rem`,
+                          padding: '0.3rem 0.5rem',
+                          fontWeight: style.value === '0' ? 'normal' : '600'
                         }}
                           onClick={() => {
                             handleSetTextStyle(style.value);

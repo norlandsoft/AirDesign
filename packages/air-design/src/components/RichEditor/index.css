@@ -111,6 +111,54 @@
   font-family: var(--font-mono);
 }
 
+/* 标题样式 */
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 1.2em 0 0.6em;
+}
+
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 1em 0 0.5em;
+}
+
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 1em 0 0.5em;
+}
+
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0.8em 0 0.4em;
+}
+
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0.8em 0 0.4em;
+}
+
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror h6 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0.8em 0 0.4em;
+  color: var(--color-muted-foreground);
+}
+
+.air-rich-editor-wrapper .air-rich-editor .ProseMirror p {
+  margin: 0.5em 0;
+}
+
 .air-rich-editor-wrapper .air-rich-editor .ProseMirror ul {
   padding-left: 1.5em;
   list-style-type: disc;
