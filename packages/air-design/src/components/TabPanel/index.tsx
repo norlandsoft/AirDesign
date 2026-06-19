@@ -57,9 +57,10 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
 
   return (
     <div className="flex flex-col" style={{height, width}}>
-      <div style={{height: tabHeight, boxSizing: 'border-box'}}>
-        <Tabs value={currentKey} onValueChange={handleChange}>
-          <TabsList className="h-full w-full justify-start rounded-none bg-transparent p-0">
+      {/* 标签栏 */}
+      <div className="flex items-end border-b border-border" style={{height: tabHeight, boxSizing: 'border-box'}}>
+        <Tabs value={currentKey} onValueChange={handleChange} className="w-full">
+          <TabsList className="h-full w-full justify-start gap-0 rounded-none bg-transparent p-0">
             {items.map((tab) => {
               const truncated = tab.label.length > MAX_TAB_LENGTH
               const display = truncated ? `${tab.label.substring(0, MAX_TAB_LENGTH)}...` : tab.label
@@ -71,8 +72,9 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
                         <TabsTrigger
                           value={tab.key}
                           className={cn(
-                            'group relative h-full gap-1.5 rounded-none px-3 text-sm',
-                            'data-[state=active]:bg-background'
+                            'group relative h-full gap-1.5 rounded-none border-b-2 border-transparent px-4 text-sm',
+                            'text-muted-foreground hover:text-foreground',
+                            'data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none'
                           )}
                           style={{height: tabHeight}}
                         >
@@ -98,7 +100,8 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
           </TabsList>
         </Tabs>
       </div>
-      <div className="flex-1 overflow-hidden" style={{height: height - tabHeight, boxSizing: 'border-box'}}>
+      {/* 内容区 */}
+      <div className="flex-1 overflow-auto" style={{height: height - tabHeight, boxSizing: 'border-box'}}>
         {currentChildren}
       </div>
     </div>
