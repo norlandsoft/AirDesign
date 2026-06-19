@@ -1,25 +1,17 @@
 /**
  * ModalDialog 可拖拽模态对话框
  *
- * 保留旧版拖拽（鼠标按住标题栏移动）、loading 遮罩、自定义页头/页脚背景等能力。
- * 底层迁移到 Radix Dialog（primitives/dialog），获得无障碍与焦点管理。受控 visible。
- *
- * 通过 ref 暴露 doCancel / open，命令式场景（Dialog.confirm）依赖 doCancel 关闭并卸载 DOM。
+ * 自包含实现（遮罩 + 居中窗口 + 标题栏拖拽），不依赖 Radix，避免 transform 居中与拖拽定位冲突。
+ * 沿用旧版经过验证的拖拽算法（鼠标按住标题栏移动、边界约束），样式迁移到 Tailwind + 设计 Token。
+ * 受控 visible；通过 ref 暴露 doCancel / open，命令式 Dialog.confirm 依赖 doCancel 关闭并卸载 DOM。
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import React, {useImperativeHandle, useRef, useState} from 'react'
-import {
-  Dialog as RadixDialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/primitives/dialog'
+import React, {useImperativeHandle, useRef, useState, useEffect} from 'react'
+import {createPortal} from 'react-dom'
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import Spin from '@/components/Spin'
-import {cn} from '@/lib/cn'
 
 export interface ModalDialogProps {
   visible?: boolean
@@ -52,6 +44,12 @@ export interface ModalDialogHandle {
   open: () => void
 }
 
+interface DragState {
+  moving: boolean
+  diffX: number
+  diffY: number
+}
+
 const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props, ref) => {
   const {
     visible = true,
@@ -69,14 +67,17 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     title,
     showFooter = true,
     headerBgColor = 'var(--color-muted)',
-    contentBgColor = 'var(--color-background)',
+    headerColor = 'var(--color-foreground)',
+    contentBgColor = 'var(--color-card)',
     footerBgColor = 'var(--color-muted)',
     contentPadding = 24,
     contentAlign = 'middle',
+    mask = true,
     loading = false,
   } = props
 
   const [open, setOpen] = useState(!!visible)
+  const windowRef = useRef<HTMLDivElement>(null)
 
   const doCancel = () => {
     onCancel?.()
@@ -91,28 +92,26 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
 
   useImperativeHandle(ref, () => ({doCancel, open: () => setOpen(true)}), [])
 
-  // 拖拽定位：统一使用视口坐标（clientX/Y、innerWidth/Height），与 position:fixed 对齐
+  // ---- 拖拽算法（沿用旧版，全视口坐标）----
   const [pos, setPos] = useState<{x: number; y: number} | null>(null)
-  const dragRef = useRef<{moving: boolean; diffX: number; diffY: number}>({moving: false, diffX: 0, diffY: 0})
+  const dragRef = useRef<DragState>({moving: false, diffX: 0, diffY: 0})
 
   const onMouseDown = (e: React.MouseEvent) => {
     const titleDom = e.currentTarget as HTMLElement
     const rect = titleDom.getBoundingClientRect()
-    // 以标题栏左上角为基准，记录鼠标相对偏移（全部视口坐标）
     dragRef.current = {moving: true, diffX: e.clientX - rect.left, diffY: e.clientY - rect.top}
-    // 拖拽前先固定当前位置，避免 transform 与 position 切换造成跳变
-    const modal = (document.getElementById('air-modal-window') as HTMLElement | null)
-    const modalRect = modal?.getBoundingClientRect()
-    if (modalRect) setPos({x: modalRect.left, y: modalRect.top})
+    // 拖拽前先以窗口当前位置固定，避免从居中态切到定位态时跳变
+    const win = windowRef.current?.getBoundingClientRect()
+    if (win) setPos({x: win.left, y: win.top})
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('mouseup', onMouseUp)
   }
 
   const onMouseMove = (e: MouseEvent) => {
     if (!dragRef.current.moving) return
-    const modal = document.getElementById('air-modal-window')
-    const maxX = window.innerWidth - (modal?.offsetWidth ?? 0)
-    const maxY = window.innerHeight - (modal?.offsetHeight ?? 0)
+    const el = windowRef.current
+    const maxX = window.innerWidth - (el?.offsetWidth ?? 0)
+    const maxY = window.innerHeight - (el?.offsetHeight ?? 0)
     const x = Math.min(Math.max(e.clientX - dragRef.current.diffX, 0), Math.max(maxX, 0))
     const y = Math.min(Math.max(e.clientY - dragRef.current.diffY, 0), Math.max(maxY, 0))
     setPos({x, y})
@@ -124,8 +123,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     window.removeEventListener('mouseup', onMouseUp)
   }
 
-  // onInit 回调（命令式渲染时用于拿到 doCancel）
-  React.useEffect(() => {
+  useEffect(() => {
     onInit?.({doCancel, open: () => setOpen(true)})
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
@@ -134,84 +132,104 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const style: React.CSSProperties = {
-    width: width ?? 'min(560px, 90vw)',
-    maxHeight: height ?? undefined,
-    // 拖拽时切换为视口绝对定位，并强制清除 Radix 的 translate 居中（避免抖动）
-    position: pos ? 'fixed' : undefined,
-    left: pos ? `${pos.x}px` : undefined,
-    top: pos ? `${pos.y}px` : undefined,
-    transform: pos ? 'translate(0,0)' : undefined,
-    padding: 0,
-  }
+  // ESC 关闭
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') doCancel()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
 
-  return (
-    <RadixDialog open={open} onOpenChange={(o) => !o && doCancel()}>
-      <DialogContent
-        hideClose={!closable}
-        style={style}
-        className="air-modal-dialog overflow-hidden rounded-lg p-0"
-        onEscapeKeyDown={(e) => e.preventDefault()}
-        onPointerDownOutside={(e) => e.preventDefault()}
+  if (!open) return null
+
+  // 窗口定位：未拖拽时居中；拖拽后绝对定位
+  const winStyle: React.CSSProperties = pos
+    ? {left: pos.x, top: pos.y, transform: 'none', margin: 0}
+    : {}
+
+  const maskStyle: React.CSSProperties = mask
+    ? {background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(1px)'}
+    : {background: 'transparent', pointerEvents: 'none'}
+
+  const contentPaddingStyle =
+    typeof contentPadding === 'number' ? `${contentPadding}px` : contentPadding
+
+  const alignJustify =
+    contentAlign === 'top' ? 'flex-start' : contentAlign === 'bottom' ? 'flex-end' : 'center'
+
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={maskStyle} onMouseDown={mask ? doCancel : undefined}>
+      {/* 窗口：阻止点击冒泡到遮罩 */}
+      <div
+        ref={windowRef}
+        onMouseDown={(e) => e.stopPropagation()}
+        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded-lg border border-border bg-card shadow-2xl"
+        style={{
+          width: width ?? 'min(560px, 90vw)',
+          height: height ?? undefined,
+          ...winStyle,
+        }}
       >
-        {/* 内层容器：与外层圆角一致，overflow 防止方角溢出 */}
+        {/* 标题栏（可拖拽） */}
         <div
-          id="air-modal-window"
-          className="flex flex-col overflow-hidden rounded-lg"
-          style={{backgroundColor: contentBgColor}}
+          className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3 select-none"
+          style={{backgroundColor: headerBgColor, color: headerColor}}
         >
-          <DialogHeader
-            className="flex-row items-center justify-between border-b px-5 py-3"
-            style={{backgroundColor: headerBgColor}}
-          >
-            <div
-              className="flex-1 cursor-move select-none text-sm font-semibold"
-              onMouseDown={onMouseDown}
-            >
-              {title ?? 'AirMachine'}
-            </div>
-          </DialogHeader>
-
-          {/* 内容区 */}
           <div
-            className={cn('relative overflow-auto')}
-            style={{
-              padding: typeof contentPadding === 'number' ? `${contentPadding}px` : contentPadding,
-              justifyContent:
-                contentAlign === 'top' ? 'flex-start' : contentAlign === 'bottom' ? 'flex-end' : 'center',
-            }}
+            className="flex-1 cursor-move truncate text-sm font-semibold"
+            onMouseDown={onMouseDown}
           >
-            {loading && (
-              <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60">
-                <Spin size="large"/>
-              </div>
-            )}
-            {children}
+            {title ?? 'AirMachine'}
           </div>
-
-          {/* 页脚 */}
-          {showFooter && (
-            <DialogFooter
-              className="w-full justify-start border-t px-5 py-3"
-              style={{backgroundColor: footerBgColor}}
+          {closable && (
+            <button
+              type="button"
+              onClick={doCancel}
+              className="ml-2 inline-flex size-7 cursor-pointer items-center justify-center rounded border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-accent hover:text-foreground"
             >
-              {confirmable && (
-                <Button type="primary" onClick={onOk}>
-                  {okText ?? '确定'}
-                </Button>
-              )}
-              {closable && (
-                <Button onClick={doCancel} className="ml-2">
-                  {cancelText ?? '取消'}
-                </Button>
-              )}
-            </DialogFooter>
+              <Icon name="close" size={14}/>
+            </button>
           )}
         </div>
-      </DialogContent>
-    </RadixDialog>
+
+        {/* 内容区 */}
+        <div
+          className="relative flex-1 overflow-auto"
+          style={{backgroundColor: contentBgColor, padding: contentPaddingStyle, justifyContent: alignJustify}}
+        >
+          {loading && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60">
+              <Spin size="large"/>
+            </div>
+          )}
+          {children}
+        </div>
+
+        {/* 页脚 */}
+        {showFooter && (
+          <div
+            className="flex w-full shrink-0 items-center gap-2 border-t border-border px-4 py-3"
+            style={{backgroundColor: footerBgColor}}
+          >
+            {confirmable && (
+              <Button type="primary" onClick={onOk}>
+                {okText ?? '确定'}
+              </Button>
+            )}
+            {closable && (
+              <Button onClick={doCancel}>
+                {cancelText ?? '取消'}
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
   )
 })
 
-// 保留默认导出与受控 visible 语义，兼容命令式 Dialog()
 export default ModalDialog
