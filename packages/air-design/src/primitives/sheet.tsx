@@ -31,15 +31,15 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
-const sheetVariants = cva('fixed z-50 gap-4 bg-background', {
+const sheetVariants = cva('fixed z-50 gap-0 bg-background p-0', {
   variants: {
     side: {
-      top: 'inset-x-0 top-0 border-b data-[state=open]:animate-sheet-in-top data-[state=closed]:animate-sheet-out-top',
+      top: 'inset-x-0 top-0 max-h-screen border-b data-[state=open]:animate-sheet-in-top data-[state=closed]:animate-sheet-out-top',
       bottom:
-        'inset-x-0 bottom-0 border-t data-[state=open]:animate-sheet-in-bottom data-[state=closed]:animate-sheet-out-bottom',
-      left: 'inset-y-0 left-0 h-full w-3/4 border-r data-[state=open]:animate-sheet-in-left data-[state=closed]:animate-sheet-out-left sm:max-w-sm',
+        'inset-x-0 bottom-0 max-h-screen border-t data-[state=open]:animate-sheet-in-bottom data-[state=closed]:animate-sheet-out-bottom',
+      left: 'inset-y-0 left-0 h-full border-r data-[state=open]:animate-sheet-in-left data-[state=closed]:animate-sheet-out-left',
       right:
-        'inset-y-0 right-0 h-full w-3/4 border-l data-[state=open]:animate-sheet-in-right data-[state=closed]:animate-sheet-out-right sm:max-w-sm',
+        'inset-y-0 right-0 h-full border-l data-[state=open]:animate-sheet-in-right data-[state=closed]:animate-sheet-out-right',
     },
   },
   defaultVariants: {
