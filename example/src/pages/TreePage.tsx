@@ -45,6 +45,7 @@ const TreePage: React.FC = () => {
         <div className="mb-3 text-xs text-muted-foreground">
           点击节点仅展开（不折叠）；点击左侧三角箭头切换展开/折叠；拖拽 item 可跨位置/层级移动；hover 节点显示「更多」菜单
         </div>
+        <div style={{width: 220}}>
         <Tree
           data={DATA}
           height={420}
@@ -70,6 +71,7 @@ const TreePage: React.FC = () => {
           onSelect={(node) => console.log('selected', node)}
           onDrop={(info) => console.log('drop', info)}
         />
+        </div>
       </div>
     </PageContainer>
   )
