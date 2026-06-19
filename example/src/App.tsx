@@ -19,6 +19,7 @@ import ColorPickerPage from './pages/ColorPickerPage'
 import FormPage from './pages/FormPage'
 import SplitterPage from './pages/SplitterPage'
 import FeedbackPage from './pages/FeedbackPage'
+import SdkPage from './pages/SdkPage'
 
 interface NavItem {
   path: string
@@ -39,6 +40,7 @@ const NAV: NavItem[] = [
   {path: 'form', label: '表单组件', icon: 'edit'},
   {path: 'splitter', label: 'Splitter 分割', icon: 'back'},
   {path: 'feedback', label: 'Spin/Loading', icon: 'refresh'},
+  {path: 'sdk', label: 'air-sdk 脚手架', icon: 'user'},
 ]
 
 const App: React.FC = () => {
@@ -112,6 +114,7 @@ const App: React.FC = () => {
           <Route path="form" element={<FormPage/>}/>
           <Route path="splitter" element={<SplitterPage/>}/>
           <Route path="feedback" element={<FeedbackPage/>}/>
+          <Route path="sdk" element={<SdkPage/>}/>
         </Routes>
       </main>
     </div>
