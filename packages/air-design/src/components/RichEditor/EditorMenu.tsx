@@ -520,7 +520,6 @@ const EditorMenu = (props: any) => {
               </div>
           )}
         </div>
-        }
 
         {/* 插入代码块（精简模式保留） */}
         <div className="air-editor-toolbar-item">
