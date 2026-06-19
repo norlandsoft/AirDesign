@@ -72,7 +72,8 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
   } = props
 
   const isFull = type === 'full'
-  const computedWidth = type === 'custom' ? width : isFull ? '100%' : SIZE_WIDTH[type as Exclude<PanelSize, 'custom' | 'full'>] ?? width
+  // 全屏从顶部滑出（全宽），其它从 placement（默认右侧）滑出，宽度按 size 计算
+  const computedWidth = type === 'custom' ? width : isFull ? undefined : SIZE_WIDTH[type as Exclude<PanelSize, 'custom' | 'full'>] ?? width
 
   /** 右上角关闭：与 footer 取消一致，由外部 onClose 控制 open */
   const handleHeaderClose = () => {
@@ -90,15 +91,15 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
       <SheetContent
         side={isFull ? 'top' : placement === 'left' ? 'left' : placement === 'top' ? 'top' : placement === 'bottom' ? 'bottom' : 'right'}
         hideClose
-        className="p-0 sm:max-w-none"
-        style={{width: typeof computedWidth === 'number' ? `${computedWidth}px` : computedWidth}}
+        className={cn('p-0 sm:max-w-none', isFull && 'h-full w-full max-w-none')}
+        style={isFull ? undefined : {width: typeof computedWidth === 'number' ? `${computedWidth}px` : computedWidth}}
         onPointerDownOutside={(e) => {
           if (!maskClosable) e.preventDefault()
         }}
       >
         {hasCloseButton && !title && (
           <div className="absolute right-2 top-2 z-10">
-            <IconButton icon="close" size={24} tooltip="关闭" onClick={handleHeaderClose}/>
+            <IconButton icon="close" size={26} tooltip="关闭" onClick={handleHeaderClose}/>
           </div>
         )}
 
@@ -106,7 +107,9 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
           <SheetHeader className="flex h-10 shrink-0 flex-row items-center justify-between border-b pl-4 pr-2 py-0">
             <SheetTitle className="min-w-0 flex-1 truncate pr-2 text-sm font-medium leading-none">{title}</SheetTitle>
             {hasCloseButton && (
-              <IconButton icon="close" size={24} tooltip="关闭" onClick={handleHeaderClose}/>
+              <span className="shrink-0">
+                <IconButton icon="close" size={26} tooltip="关闭" onClick={handleHeaderClose}/>
+              </span>
             )}
           </SheetHeader>
         )}
@@ -116,18 +119,16 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
           <div className={cn(isFull && 'h-full')}>{children}</div>
         </div>
 
-        {/* 页脚按钮栏：固定 50px 高度 */}
+        {/* 页脚按钮栏：固定 50px 高度；全屏时按钮靠右，其余靠左 */}
         {hasButtonBar && (
-          <SheetFooter className="flex h-[50px] shrink-0 flex-row items-center justify-between border-t px-6 py-0">
-            <span className="flex gap-2">
-              {onConfirm && (
-                <Button type="primary" onClick={onConfirm}>
-                  {confirmButtonText}
-                </Button>
-              )}
-              {onClose && <Button onClick={onClose}>{closeButtonText}</Button>}
-            </span>
-            {footerExtra && <div>{footerExtra}</div>}
+          <SheetFooter className={cn('flex h-[50px] shrink-0 flex-row items-center gap-2 border-t px-6 py-0', isFull ? 'justify-end' : 'justify-start')}>
+            {onConfirm && (
+              <Button type="primary" onClick={onConfirm}>
+                {confirmButtonText}
+              </Button>
+            )}
+            {onClose && <Button onClick={onClose}>{closeButtonText}</Button>}
+            {footerExtra && <div className="ml-auto">{footerExtra}</div>}
           </SheetFooter>
         )}
 
