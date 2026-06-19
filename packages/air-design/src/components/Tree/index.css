@@ -116,8 +116,16 @@
   gap: 8px;
 }
 
-/* 隐藏 react-arborist 容器的水平滚动 */
+/* 隐藏 react-arborist 容器的水平滚动：
+   react-arborist 在行上设了 min-width:max-content 以让高亮覆盖溢出宽度（#10），
+   这会导致固定宽度容器出现水平滚动条。此处覆盖为 min-width:0，
+   配合 .air-tree-node-label 的 ellipsis 实现文字省略、无横向滚动。 */
+.air-tree-wrapper [role="treeitem"] {
+  min-width: 0 !important;
+}
+
 .air-tree-wrapper .air-tree-list,
-.air-tree-wrapper .air-tree-list > div {
+.air-tree-wrapper .air-tree-list > div,
+.air-tree-wrapper [role="treeitem"] {
   overflow-x: hidden !important;
 }
