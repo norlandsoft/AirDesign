@@ -426,12 +426,6 @@ const AirTree: React.FC<TreeProps> = (props) => {
           isGroup && !groupSelectable && 'air-tree-row-group'
         )}
         style={rowStyle}
-        onMouseEnter={(e) => {
-          if (!selected) e.currentTarget.style.backgroundColor = 'var(--color-accent)'
-        }}
-        onMouseLeave={(e) => {
-          if (!selected) e.currentTarget.style.backgroundColor = 'transparent'
-        }}
         onClick={handleRowClick}
       >
         {/* 勾选框（checkable 模式） */}
