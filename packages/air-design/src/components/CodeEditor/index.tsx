@@ -34,8 +34,25 @@ const CodeEditor = forwardRef<CodeEditorRef, any>((props, ref) => {
     getContent: () => editorRef.current?.getValue() ?? content,
   }))
 
-  const handleEditorMount = (editor: any) => {
+  const handleEditorMount = (editor: any, monaco: any) => {
     editorRef.current = editor
+    // 自定义主题：选中行淡蓝背景无边框，行号区右侧 1px 分隔线
+    monaco.editor.defineTheme('air-design-light', {
+      base: 'vs',
+      inherit: true,
+      rules: [],
+      colors: {
+        // 选中行：淡蓝背景，无边框
+        'editor.lineHighlightBackground': '#e8f0fe',
+        'editor.lineHighlightBorder': '#00000000',
+        // 行号区背景与右侧 1px 分隔线
+        'editorLineNumber.foreground': '#999999',
+        'editorLineNumber.activeForeground': '#333333',
+        'editorGutter.background': '#fafafa',
+        'editorGutter.border': '#e5e7eb',
+      },
+    })
+    monaco.editor.setTheme('air-design-light')
   }
 
   // 抑制 Monaco 的 ResizeObserver loop 警告
