@@ -1,0 +1,124 @@
+/* 思维导图主题节点样式（由 TopicNode.less 转换，引用设计 Token） */
+
+.air-mind-topic-node {
+  padding: 0;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 60px;
+  max-width: 300px;
+  cursor: pointer;
+  position: relative;
+  background: var(--color-muted);
+  box-sizing: border-box;
+}
+
+.air-mind-topic-node:focus {
+  outline: none;
+}
+
+.air-mind-topic-node-content {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.air-mind-topic-node-content .air-resizable-textarea {
+  position: absolute;
+  left: 0;
+  font-family: var(--font-mono);
+  resize: none;
+  border: 1px solid #5cb85c !important;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  letter-spacing: normal;
+  text-rendering: auto;
+}
+
+.air-mind-topic-node-content .air-resizable-textarea:focus {
+  outline: none;
+}
+
+.air-mind-topic-node-content .air-resizable-textarea-view {
+  position: relative;
+  user-select: none;
+  font-family: var(--font-mono);
+  border-radius: 4px;
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  letter-spacing: normal;
+  text-rendering: auto;
+}
+
+.air-mind-topic-node-handler {
+  width: 1px;
+  height: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border-color: transparent;
+  cursor: pointer !important;
+}
+
+.air-mind-topic-node-child-count {
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 10px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-muted-foreground);
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 右侧折叠/展开控件（模仿 xmind） */
+.air-mind-topic-node-collapse-toggle {
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 10px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  color: var(--color-muted-foreground);
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.air-mind-topic-node-collapse-toggle:hover {
+  border-color: var(--color-muted-foreground);
+  color: var(--color-foreground);
+  background: var(--color-card);
+}
+
+.air-mind-topic-node-collapse-toggle.is-icon {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  width: 16px;
+}

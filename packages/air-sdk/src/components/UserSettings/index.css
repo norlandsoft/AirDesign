@@ -1,0 +1,276 @@
+/*
+ * 用户设置页面样式
+ * 左右分栏布局：左侧导航菜单，右侧设置内容。GitHub 设置页风格。
+ * （由 index.less 转换为原生 CSS；移除 antd 表单类名，新增原生表单样式）
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+
+.user-settings-container {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--color-card);
+}
+
+.user-settings-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--color-muted-foreground);
+  font-size: 14px;
+}
+
+/* 左侧导航栏 */
+.user-settings-sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100%;
+  background-color: var(--color-muted);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.user-settings-sidebar-header {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.user-settings-sidebar-user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.user-settings-sidebar-user-id {
+  font-size: 14px;
+  color: var(--color-muted-foreground);
+}
+
+.user-settings-sidebar-account {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-card);
+}
+
+.user-settings-account-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  line-height: 20px;
+  margin-bottom: 4px;
+}
+
+.user-settings-account-item:last-child {
+  margin-bottom: 0;
+}
+
+.user-settings-account-label {
+  color: var(--color-muted-foreground);
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.user-settings-account-value {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+.user-settings-sidebar-nav {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.user-settings-nav-section {
+  margin-bottom: 16px;
+}
+
+.user-settings-nav-item {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.user-settings-nav-item:hover {
+  background-color: var(--color-accent);
+}
+
+.user-settings-nav-item.active {
+  background-color: var(--color-card);
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.user-settings-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-primary);
+}
+
+/* 右侧内容区域 */
+.user-settings-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-card);
+  overflow: hidden;
+}
+
+.user-settings-main-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.user-settings-button-bar {
+  padding: 16px 32px;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-card);
+  display: flex;
+  align-items: center;
+}
+
+.user-settings-content {
+  max-width: 768px;
+  padding: 32px;
+}
+
+.user-settings-content-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.user-settings-content-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0 0 8px 0;
+}
+
+.user-settings-content-description {
+  font-size: 14px;
+  color: var(--color-muted-foreground);
+  margin: 0;
+}
+
+/* 原生表单（替代 antd Form） */
+.user-settings-form-native {
+  margin-top: 8px;
+}
+
+.user-settings-form-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.user-settings-form-label {
+  width: 120px;
+  flex-shrink: 0;
+  padding-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.air-sdk-input {
+  flex: 1;
+  max-width: 360px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.air-sdk-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.air-sdk-input:disabled {
+  background-color: var(--color-muted);
+  color: var(--color-muted-foreground);
+  cursor: not-allowed;
+}
+
+/* 头像单选 */
+.avatar-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.avatar-radio-item {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+  position: relative;
+}
+
+.avatar-radio-item input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.avatar-radio-item.checked {
+  box-shadow: 0 0 0 2px var(--color-card), 0 0 0 3px var(--color-primary);
+  border-radius: 50%;
+}
+
+/* 字体大小单选按钮组 */
+.air-sdk-radio-button-group {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.air-sdk-radio-button {
+  padding: 6px 16px;
+  border: none;
+  background-color: var(--color-card);
+  color: var(--color-foreground);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.air-sdk-radio-button:not(:last-child) {
+  border-right: 1px solid var(--color-border);
+}
+
+.air-sdk-radio-button:hover {
+  background-color: var(--color-accent);
+}
+
+.air-sdk-radio-button.active {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+.user-settings-hint {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--color-muted-foreground);
+  line-height: 1.6;
+}

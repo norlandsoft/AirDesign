@@ -1,0 +1,37 @@
+/**
+ * SDK 全局配置模块
+ *
+ * 各业务应用在启动时调用 defineSdkConfig 注入应用名称、存储前缀、主题色等配置。
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+import type {SdkConfig} from './types/auth'
+
+let _config: SdkConfig | null = null
+
+const DEFAULT_CONFIG: SdkConfig = {
+  storagePrefix: 'air-app',
+  appName: 'Unknown',
+}
+
+/** 定义 SDK 全局配置，应在应用入口最早调用 */
+export function defineSdkConfig(config: SdkConfig): SdkConfig {
+  _config = config
+  return config
+}
+
+/** 获取当前 SDK 配置 */
+export function getSdkConfig(): SdkConfig {
+  return _config || DEFAULT_CONFIG
+}
+
+/** 生成带应用前缀的 sessionStorage 键名 */
+export function storageKey(suffix: string): string {
+  return `${getSdkConfig().storagePrefix}-${suffix}`
+}
+
+/** @deprecated 使用 defineSdkConfig */
+export const defineAuthConfig = defineSdkConfig
+
+/** @deprecated 使用 getSdkConfig */
+export const getAuthConfig = getSdkConfig

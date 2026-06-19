@@ -1,0 +1,267 @@
+/*
+ * Kanban 看板样式
+ *
+ * 设计思路：
+ * 1. 列容器不滚动，仅任务列表区域滚动
+ * 2. 明确的高度链（flex 布局）：container -> board -> column -> column-inner -> column-body -> task-list
+ * 3. 配色基于设计 Token（灰白极简），选中态用琥珀色高亮
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+
+.air-kanban-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  box-sizing: border-box;
+  background: var(--color-muted);
+  border-radius: 6px;
+}
+
+.air-kanban-header {
+  flex: 0 0 32px;
+  height: 32px;
+  min-height: 32px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-muted);
+  border-radius: 6px 6px 0 0;
+}
+
+.air-kanban-board {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted-foreground) var(--color-muted);
+}
+
+.air-kanban-column {
+  flex: 0 0 272px;
+  width: 272px;
+  min-width: 272px;
+  max-width: 272px;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  box-sizing: border-box;
+}
+
+.air-kanban-column-inner {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.air-kanban-column-header {
+  flex: 0 0 36px;
+  height: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 0 6px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-card);
+  box-sizing: border-box;
+}
+
+.air-kanban-column-header-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: grab;
+  user-select: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.air-kanban-column--readonly .air-kanban-column-header-title {
+  cursor: default;
+}
+
+.air-kanban-column-header-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.air-kanban-column-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.air-kanban-task-list {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted-foreground) var(--color-muted);
+}
+
+.air-kanban-task {
+  margin: 0;
+  background: var(--color-card);
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  box-sizing: border-box;
+}
+
+.air-kanban-task:hover {
+  border-color: var(--color-muted-foreground);
+}
+
+.air-kanban-task.air-kanban-task--selected {
+  border-color: #d46b08;
+  box-shadow: 0 0 0 2px rgba(212, 107, 8, 0.2);
+}
+
+.air-kanban-task .air-kanban-task-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.air-kanban-task .air-kanban-task-drag-handle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  cursor: move;
+  user-select: none;
+  align-self: stretch;
+  margin: -6px 8px -6px -8px;
+  padding: 6px 0 6px 8px;
+}
+
+.air-kanban-task .air-kanban-task-drag-handle--readonly {
+  cursor: default;
+}
+
+.air-kanban-task .air-kanban-task-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  line-height: 1.25;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  word-break: break-word;
+}
+
+.air-kanban-task .air-kanban-task-menu {
+  flex-shrink: 0;
+  margin-top: -1px;
+}
+
+.air-kanban-task .air-kanban-task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.air-kanban-task .air-kanban-task-priority {
+  padding: 0 4px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.air-kanban-task-priority-high {
+  background: #ffebe6;
+  color: #cf1322;
+}
+
+.air-kanban-task-priority-medium {
+  background: #fff7e6;
+  color: #d46b08;
+}
+
+.air-kanban-task-priority-low {
+  background: #e6f7ff;
+  color: #096dd9;
+}
+
+.air-kanban-task .air-kanban-task-assignee {
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.air-kanban-task--clickable {
+  cursor: pointer;
+}
+
+.air-kanban-task .air-kanban-task-content {
+  margin-top: 6px;
+  min-height: 20px;
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  word-break: break-word;
+}
+
+.air-kanban-task .air-kanban-task-content-placeholder {
+  color: var(--color-muted-foreground);
+}
+
+.air-kanban-task .air-kanban-task-footer {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--color-border);
+}
+
+.air-kanban-task .air-kanban-task-footer-placeholder {
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+}
+
+.air-kanban-task-overlay {
+  opacity: 0.95;
+}
+
+.air-kanban-column-overlay {
+  opacity: 0.98;
+}

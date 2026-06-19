@@ -1,0 +1,106 @@
+/*
+ * AppSwitcher 下拉浮层样式（由 index.less 转换为原生 CSS，引用设计 Token）
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+
+.air-app-switcher-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1px;
+}
+
+.air-app-switcher-menu-inner {
+  border-radius: 50%;
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.air-app-switcher-menu-inner:hover {
+  background: var(--color-border);
+}
+
+/* 下拉内容容器（DropdownMenuContent 已有边框/阴影/圆角，这里仅调宽度） */
+.air-app-switcher-content {
+  width: 240px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.air-app-switcher {
+  font-family: var(--font-sans);
+  width: 100%;
+}
+
+.air-app-switcher-loading,
+.air-app-switcher-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  color: var(--color-muted-foreground);
+  font-size: 12px;
+}
+
+.air-app-switcher-list {
+  padding: 4px;
+}
+
+.air-app-switcher-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+  gap: 10px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.air-app-switcher-item:hover {
+  background: var(--color-accent);
+}
+
+.air-app-switcher-item-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-muted);
+  border-radius: 6px;
+  color: var(--color-muted-foreground);
+}
+
+.air-app-switcher-item-icon img {
+  width: 18px;
+  height: 18px;
+}
+
+.air-app-switcher-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.air-app-switcher-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-foreground);
+  line-height: 1.3;
+}
+
+.air-app-switcher-item-desc {
+  font-size: 11px;
+  color: var(--color-muted-foreground);
+  line-height: 1.3;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,173 @@
+/*
+ * 登录页面样式 — 宇宙边疆风格
+ * 深空星野背景 + 透视网格地面 + 地平线光晕
+ * （由 index.less 转换为原生 CSS，移除 antd 表单类名，改用原生 input 样式）
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+
+:root {
+  --air-login-bg-base: #040e0c;
+  --air-login-accent: #0d7377;
+  --air-login-accent-glow: rgba(13, 115, 119, 0.25);
+  --air-login-card-bg: rgba(255, 255, 255, 0.97);
+  --air-login-text-hint: #94a3b8;
+  --air-login-input-bg: #f8f9fb;
+  --air-login-input-hover: #f1f3f6;
+  --air-login-input-border: #e5e7eb;
+}
+
+.air-login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--air-login-bg-base);
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+}
+
+.air-login-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.air-login-card {
+  width: 380px;
+  position: relative;
+  z-index: 1;
+  background: var(--air-login-card-bg);
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.12),
+    0 20px 50px rgba(0, 0, 0, 0.2),
+    0 0 120px rgba(30, 110, 105, 0.04);
+  padding: 48px 40px;
+  animation: air-login-cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes air-login-cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.air-login-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.air-login-logo {
+  height: 26px;
+  width: auto;
+}
+
+.air-login-tagline {
+  margin-top: 14px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #8899b0;
+}
+
+/* 表单 */
+.air-login-form {
+  margin: 0;
+}
+
+.air-login-form-item {
+  margin-bottom: 16px;
+}
+
+.air-login-form-error {
+  font-size: 12px;
+  margin-top: 4px;
+  color: #ef4444;
+}
+
+.air-login-input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: var(--air-login-input-bg);
+  border: 1px solid transparent;
+  font-size: 14px;
+  height: 40px;
+  padding: 0 14px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.air-login-input::placeholder {
+  color: var(--air-login-text-hint);
+}
+
+.air-login-input:hover {
+  background: var(--air-login-input-hover);
+}
+
+.air-login-input:focus {
+  background: #fff;
+  border-color: var(--air-login-input-border);
+  box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.06);
+}
+
+.air-login-btn-item {
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+.air-login-btn {
+  height: 40px;
+  width: 100%;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  border-radius: 3px;
+  background: var(--air-login-accent);
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.air-login-btn:hover,
+.air-login-btn:focus {
+  background: var(--air-login-accent);
+  box-shadow: 0 2px 12px var(--air-login-accent-glow);
+}
+
+.air-login-btn:active {
+  background: var(--air-login-accent);
+  box-shadow: none;
+}
+
+.air-login-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.air-login-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 24px 0;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  z-index: 1;
+}

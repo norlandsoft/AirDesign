@@ -1,0 +1,133 @@
+/* 表格气泡菜单样式（由 TableBubbleMenu.less 转换，引用设计 Token） */
+
+.table-bubble-menu {
+  display: flex;
+  flex-direction: row;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 1000;
+}
+
+.table-bubble-menu .table-toolbar-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  color: var(--color-foreground);
+}
+
+.table-bubble-menu .table-toolbar-item:hover,
+.table-bubble-menu .table-toolbar-item:active {
+  background-color: var(--color-accent);
+}
+
+.table-bubble-menu .table-toolbar-item.table-toolbar-item-disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.table-bubble-menu .table-toolbar-item.table-toolbar-item-disabled:hover,
+.table-bubble-menu .table-toolbar-item.table-toolbar-item-disabled:active {
+  background-color: transparent;
+}
+
+.table-bubble-menu .table-toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background-color: var(--color-border);
+  margin: 4px 2px;
+}
+
+/* ColorPicker 在 BubbleMenu 中的触发器样式 */
+.table-bubble-menu .air-color-trigger {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.table-bubble-menu .air-color-trigger:hover {
+  border-color: var(--color-primary);
+}
+
+/* ProseMirror 表格样式 */
+.ProseMirror table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+  min-width: 1em;
+  border: 1px solid var(--color-border);
+  padding: 8px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.ProseMirror table td > *,
+.ProseMirror table th > * {
+  margin-bottom: 0;
+}
+
+.ProseMirror table th {
+  font-weight: bold;
+  text-align: left;
+  background-color: var(--color-muted);
+}
+
+.ProseMirror table .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+}
+
+.ProseMirror table .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: var(--color-primary);
+  pointer-events: none;
+}
+
+.ProseMirror table p {
+  margin: 0;
+}
+
+.ProseMirror[contenteditable="false"] table td,
+.ProseMirror[contenteditable="false"] table th {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
+.ProseMirror[contenteditable="false"] table td:hover,
+.ProseMirror[contenteditable="false"] table th:hover {
+  background-color: transparent;
+}

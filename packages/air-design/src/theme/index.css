@@ -1,0 +1,204 @@
+/**
+ * AirDesign 主题：设计 Token + TailwindCSS v4 入口
+ *
+ * 设计 Token 单一来源：所有视觉属性（颜色/圆角/字号/字体）经 CSS 变量 + Tailwind 表达，
+ * 暗色模式通过 .dark 选择器切换同一组变量。组件一律引用语义 Token（如 bg-primary），
+ * 禁止硬编码颜色值。
+ *
+ * 主色体系沿用既有品牌色 #123F68，映射到 shadcn 语义槽（primary / background / border 等）。
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+@import 'tailwindcss';
+@import './fonts.css';
+
+/* 将基于明暗模式切换的语义变量与 Tailwind 的工具类关联 */
+@theme inline {
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  /* 字体 */
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+
+  /* 圆角 */
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  /* 动画 */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/*
+ * 设计 Token：亮色（默认）
+ * --primary 主色取自品牌色 #123F68；其余语义槽按 Material/shadcn 惯例派生。
+ */
+:root {
+  --radius: 0.375rem;
+
+  --background: oklch(0.99 0.002 240);
+  --foreground: oklch(0.22 0.04 250);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.04 250);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.04 250);
+
+  /* 品牌主色 #123F68 */
+  --primary: oklch(0.385 0.085 244);
+  --primary-foreground: oklch(0.985 0.002 240);
+
+  --secondary: oklch(0.96 0.01 240);
+  --secondary-foreground: oklch(0.3 0.05 244);
+
+  --muted: oklch(0.96 0.006 240);
+  --muted-foreground: oklch(0.52 0.03 244);
+
+  --accent: oklch(0.94 0.02 240);
+  --accent-foreground: oklch(0.3 0.05 244);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.985 0.002 240);
+
+  --border: oklch(0.91 0.008 240);
+  --input: oklch(0.91 0.008 240);
+  --ring: oklch(0.385 0.085 244);
+}
+
+/* 设计 Token：暗色 */
+.dark {
+  --background: oklch(0.18 0.02 250);
+  --foreground: oklch(0.95 0.005 240);
+
+  --card: oklch(0.22 0.025 250);
+  --card-foreground: oklch(0.95 0.005 240);
+
+  --popover: oklch(0.22 0.025 250);
+  --popover-foreground: oklch(0.95 0.005 240);
+
+  --primary: oklch(0.62 0.1 244);
+  --primary-foreground: oklch(0.16 0.03 250);
+
+  --secondary: oklch(0.28 0.03 250);
+  --secondary-foreground: oklch(0.95 0.005 240);
+
+  --muted: oklch(0.28 0.03 250);
+  --muted-foreground: oklch(0.7 0.02 240);
+
+  --accent: oklch(0.32 0.04 250);
+  --accent-foreground: oklch(0.95 0.005 240);
+
+  --destructive: oklch(0.65 0.2 27);
+  --destructive-foreground: oklch(0.16 0.03 250);
+
+  --border: oklch(0.32 0.02 250);
+  --input: oklch(0.32 0.02 250);
+  --ring: oklch(0.62 0.1 244);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 全局滚动条样式 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-muted-foreground);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Spin 三圆点弹跳动画 */
+@keyframes air-spin-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

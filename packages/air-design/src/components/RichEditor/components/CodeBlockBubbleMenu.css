@@ -1,0 +1,39 @@
+/* 代码块气泡菜单样式（由 CodeBlockBubbleMenu.less 转换，引用设计 Token） */
+
+.code-block-bubble-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.code-block-bubble-menu .code-block-bubble-menu-content {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0 8px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.code-block-language-select {
+  width: 160px;
+  height: 28px;
+  margin: 4px;
+  padding: 0 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-card);
+  color: var(--color-foreground);
+  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  outline: none;
+}
+
+.code-block-language-select:focus {
+  border-color: var(--color-primary);
+}

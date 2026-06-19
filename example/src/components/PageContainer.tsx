@@ -1,0 +1,24 @@
+/**
+ * Demo 页面通用容器：标题 + 描述 + 内容
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+import React from 'react'
+
+interface PageContainerProps {
+  title: string
+  description?: string
+  children: React.ReactNode
+}
+
+const PageContainer: React.FC<PageContainerProps> = ({title, description, children}) => {
+  return (
+    <div className="mx-auto max-w-4xl">
+      <h1 className="mb-1 text-2xl font-semibold">{title}</h1>
+      {description && <p className="mb-6 text-sm text-muted-foreground">{description}</p>}
+      {children}
+    </div>
+  )
+}
+
+export default PageContainer

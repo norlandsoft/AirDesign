@@ -1,0 +1,292 @@
+/*
+ * Markdown 组件样式
+ *
+ * 定义 Markdown 显示组件的代码块、数学公式、Mermaid 图表、表格等元素样式。
+ * 颜色引用设计 Token（暗色模式自动适配），少量语义色保留字面量。
+ *
+ * @author ChaiMingXu, 2026/06/19
+ */
+
+.markdown-container {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-foreground);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-container .markdown-paragraph {
+  margin: 0 0 16px 0;
+}
+.markdown-container .markdown-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-container .markdown-heading {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  color: var(--color-foreground);
+}
+.markdown-container .markdown-heading:first-child {
+  margin-top: 0;
+}
+.markdown-container .markdown-h1 {
+  font-size: 2em;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.3em;
+}
+.markdown-container .markdown-h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.3em;
+}
+.markdown-container .markdown-h3 { font-size: 1.25em; }
+.markdown-container .markdown-h4 { font-size: 1em; }
+.markdown-container .markdown-h5 { font-size: 0.875em; }
+.markdown-container .markdown-h6 { font-size: 0.85em; color: var(--color-muted-foreground); }
+
+.markdown-container .markdown-inline-code {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background-color: var(--color-muted);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  color: #2729c3;
+  padding: 4px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.markdown-container .markdown-code-block {
+  margin: 16px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+.markdown-container .markdown-code-block .markdown-code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--color-muted);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 12px;
+}
+.markdown-container .markdown-code-block .markdown-code-header .markdown-code-language {
+  color: var(--color-muted-foreground);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.markdown-container .markdown-code-block .markdown-code-header .markdown-code-copy-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-muted-foreground);
+  transition: all 0.2s;
+}
+.markdown-container .markdown-code-block .markdown-code-header .markdown-code-copy-button:hover {
+  background-color: var(--color-border);
+  color: var(--color-foreground);
+}
+.markdown-container .markdown-code-block code {
+  display: block;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  word-wrap: normal;
+  background-color: transparent !important;
+  border: 0;
+  font-family: var(--font-mono);
+}
+.markdown-container .markdown-code-block code span {
+  background-color: transparent !important;
+}
+
+.markdown-container .markdown-mermaid-wrapper {
+  margin: 16px 0;
+  position: relative;
+}
+.markdown-container .markdown-mermaid-container {
+  margin: 0;
+  padding: 16px;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  text-align: center;
+  overflow-x: auto;
+  min-height: 50px;
+}
+.markdown-container .markdown-mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+.markdown-container .markdown-mermaid-loading {
+  margin: 0;
+  padding: 16px;
+  background-color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  text-align: center;
+  color: var(--color-muted-foreground);
+  font-size: 14px;
+}
+.markdown-container .markdown-mermaid-error {
+  margin: 0;
+  padding: 16px;
+  background-color: #ffebee;
+  border: 1px solid #ef5350;
+  border-radius: 6px;
+  color: #d32f2f;
+  font-size: 14px;
+}
+.markdown-container .markdown-mermaid-error .markdown-mermaid-error-title { margin: 0 0 6px 0; font-weight: 600; }
+.markdown-container .markdown-mermaid-error .markdown-mermaid-error-message { margin: 0 0 10px 0; color: #b71c1c; font-size: 13px; }
+.markdown-container .markdown-mermaid-error .markdown-mermaid-error-code { margin-top: 10px; font-size: 12px; color: var(--color-foreground); }
+.markdown-container .markdown-mermaid-error .markdown-mermaid-error-code summary { cursor: pointer; color: #1565c0; user-select: none; }
+.markdown-container .markdown-mermaid-error .markdown-mermaid-error-code pre {
+  margin: 8px 0 0 0;
+  padding: 12px;
+  background: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.markdown-container .markdown-mermaid-error .markdown-mermaid-error-code code { background: transparent; padding: 0; }
+
+.markdown-container .markdown-list { padding-left: 2em; margin-top: 0; margin-bottom: 16px; }
+.markdown-container .markdown-ul { list-style-type: disc; }
+.markdown-container .markdown-ol { list-style-type: decimal; }
+.markdown-container .markdown-list-item { margin: 0.25em 0; }
+.markdown-container .markdown-list-item p { margin: 0; }
+
+.markdown-container .markdown-blockquote {
+  padding: 0 1em;
+  color: var(--color-muted-foreground);
+  border-left: 0.25em solid var(--color-border);
+  margin: 0 0 16px 0;
+}
+.markdown-container .markdown-blockquote p { margin: 0; }
+
+.markdown-container .markdown-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin: 16px 0;
+  display: block;
+  overflow-x: auto;
+}
+.markdown-container .markdown-table .markdown-thead { display: table-header-group; }
+.markdown-container .markdown-table .markdown-tbody { display: table-row-group; }
+.markdown-container .markdown-table .markdown-tr {
+  display: table-row;
+  border-top: 1px solid var(--color-border);
+}
+.markdown-container .markdown-table .markdown-tr:nth-child(2n) { background-color: var(--color-muted); }
+.markdown-container .markdown-table .markdown-th {
+  display: table-cell;
+  padding: 6px 13px;
+  font-weight: 600;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-muted);
+}
+.markdown-container .markdown-table .markdown-td {
+  display: table-cell;
+  padding: 6px 13px;
+  border: 1px solid var(--color-border);
+}
+
+.markdown-container .markdown-link { color: #0366d6; text-decoration: none; }
+.markdown-container .markdown-link:hover { text-decoration: underline; }
+.markdown-container .markdown-image { max-width: 100%; height: auto; margin: 16px 0; border-radius: 6px; }
+.markdown-container .markdown-hr { height: 0.25em; padding: 0; margin: 24px 0; background-color: var(--color-border); border: 0; }
+
+.markdown-container .katex { font-size: 1.1em; }
+.markdown-container .katex-display { margin: 1em 0; overflow-x: auto; overflow-y: hidden; }
+
+/* think 思考块 */
+.markdown-container .markdown-think-block {
+  margin: 16px 0;
+  background-color: var(--color-muted);
+  border-left: 3px solid #92c1e3;
+  overflow: hidden;
+}
+.markdown-container .markdown-think-block .markdown-think-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 4px;
+  margin: 0 8px;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  user-select: none;
+}
+.markdown-container .markdown-think-block .markdown-think-header .markdown-think-label {
+  font-size: 0.85rem;
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+.markdown-container .markdown-think-block .markdown-think-content {
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--color-foreground);
+}
+.markdown-container .markdown-think-block .markdown-think-content p { margin: 0 0 8px 0; color: var(--color-foreground); }
+.markdown-container .markdown-think-block .markdown-think-content p:last-child { margin-bottom: 0; }
+.markdown-container .markdown-think-block .markdown-think-content h1,
+.markdown-container .markdown-think-block .markdown-think-content h2,
+.markdown-container .markdown-think-block .markdown-think-content h3,
+.markdown-container .markdown-think-block .markdown-think-content h4,
+.markdown-container .markdown-think-block .markdown-think-content h5,
+.markdown-container .markdown-think-block .markdown-think-content h6 { color: var(--color-foreground); margin-top: 12px; margin-bottom: 8px; }
+.markdown-container .markdown-think-block .markdown-think-content h1:first-child,
+.markdown-container .markdown-think-block .markdown-think-content h2:first-child,
+.markdown-container .markdown-think-block .markdown-think-content h3:first-child,
+.markdown-container .markdown-think-block .markdown-think-content h4:first-child,
+.markdown-container .markdown-think-block .markdown-think-content h5:first-child,
+.markdown-container .markdown-think-block .markdown-think-content h6:first-child { margin-top: 0; }
+.markdown-container .markdown-think-block .markdown-think-content code {
+  background-color: var(--color-muted);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #e83e8c;
+  font-family: var(--font-mono);
+}
+.markdown-container .markdown-think-block .markdown-think-content pre {
+  background-color: var(--color-muted);
+  padding: 12px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 8px 0;
+  border: 1px solid var(--color-border);
+}
+.markdown-container .markdown-think-block .markdown-think-content pre code { background-color: transparent; padding: 0; color: var(--color-foreground); }
+.markdown-container .markdown-think-block .markdown-think-content strong { color: var(--color-foreground); font-weight: 600; }
+.markdown-container .markdown-think-block .markdown-think-content em { color: var(--color-muted-foreground); font-style: italic; }
+.markdown-container .markdown-think-block .markdown-think-content ul,
+.markdown-container .markdown-think-block .markdown-think-content ol { margin: 8px 0; padding-left: 24px; color: var(--color-foreground); }
+.markdown-container .markdown-think-block .markdown-think-content li { margin: 4px 0; color: var(--color-foreground); }
+.markdown-container .markdown-think-block .markdown-think-content a { color: #0366d6; text-decoration: none; }
+.markdown-container .markdown-think-block .markdown-think-content a:hover { text-decoration: underline; }
+.markdown-container .markdown-think-block .markdown-think-content blockquote { border-left: 3px solid var(--color-border); padding-left: 12px; margin: 8px 0; color: var(--color-muted-foreground); }
+.markdown-container .markdown-think-block .markdown-think-content table { border-collapse: collapse; margin: 8px 0; width: 100%; }
+.markdown-container .markdown-think-block .markdown-think-content table th,
+.markdown-container .markdown-think-block .markdown-think-content table td { border: 1px solid var(--color-border); padding: 6px 12px; color: var(--color-foreground); }
+.markdown-container .markdown-think-block .markdown-think-content table th { background-color: var(--color-muted); font-weight: 600; }
