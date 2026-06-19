@@ -6,7 +6,7 @@
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import React from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter} from '@/primitives/sheet'
 import Button from '@/components/Button'
 import IconButton from '@/components/Button/IconButton'
@@ -75,6 +75,22 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
   // 全屏从顶部滑出（全宽），其它从 placement（默认右侧）滑出，宽度按 size 计算
   const computedWidth = type === 'custom' ? width : isFull ? undefined : SIZE_WIDTH[type as Exclude<PanelSize, 'custom' | 'full'>] ?? width
 
+  // 本次打开所用的滑出方向：打开时锁定，关闭过程中保持不变，
+  // 避免关闭瞬间 type/placement 变化导致收起动画方向错乱（如全屏收回时从右侧滑入）。
+  const currentSide = isFull ? 'top' : placement === 'left' ? 'left' : placement === 'top' ? 'top' : placement === 'bottom' ? 'bottom' : 'right'
+  const [renderSide, setRenderSide] = useState<'top' | 'right' | 'left' | 'bottom'>(currentSide as any)
+  const animatingCloseRef = useRef(false)
+
+  useEffect(() => {
+    if (open) {
+      // 打开时（或打开期间）锁定方向
+      setRenderSide(currentSide as any)
+      animatingCloseRef.current = false
+    }
+    // 关闭时不立即改方向：交给下方 onOpenChange 在动画结束后再清
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, currentSide])
+
   /** 右上角关闭：与 footer 取消一致，由外部 onClose 控制 open */
   const handleHeaderClose = () => {
     onClose?.()
@@ -89,7 +105,7 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
       }}
     >
       <SheetContent
-        side={isFull ? 'top' : placement === 'left' ? 'left' : placement === 'top' ? 'top' : placement === 'bottom' ? 'bottom' : 'right'}
+        side={renderSide}
         hideClose
         className={cn('p-0 sm:max-w-none', isFull && 'h-full w-full max-w-none')}
         style={isFull ? undefined : {width: typeof computedWidth === 'number' ? `${computedWidth}px` : computedWidth}}
