@@ -1,7 +1,7 @@
 /**
  * 统一用户 Store（Zustand）
  *
- * 取代 DVA UserModel。admin 走 /admin/user/login，其余走 /api/v1/auth/login；
+ * 取代 DVA UserModel。admin 走 /rest/auth/login，其余走 /api/v1/auth/login。
  * validateToken 统一走 /api/v1/auth/current。
  * 保留原有的 auth-state-changed CustomEvent 桥接，便于非 React 代码（HttpRequest 等）响应。
  *
@@ -58,8 +58,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     const newPassword = SHA(password)
     const loginDTO: UserLoginRequest = {id, password: newPassword}
 
-    const isAdmin = id?.toLowerCase?.() === 'admin'
-    const loginUrl = isAdmin ? '/admin/user/login' : '/api/v1/auth/login'
+    const loginUrl = isAdminPlatform() ? '/rest/auth/login' : '/api/v1/auth/login'
 
     set({loading: true})
     const resp = await POST(loginUrl, loginDTO)
@@ -102,7 +101,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     set({validatingToken: true})
     try {
-      const currentUrl = isAdminPlatform() ? '/admin/user/current' : '/api/v1/auth/current'
+      const currentUrl = isAdminPlatform() ? '/rest/auth/current' : '/api/v1/auth/current'
       const resp = await POST(currentUrl, {})
       if (resp?.success) {
         const user: UserResponse = resp.data || null
@@ -136,7 +135,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     if (changeDTO.password?.trim()) {
       changeDTO.password = SHA(changeDTO.password)
     }
-    const resp = await POST('/admin/user/changePassword', changeDTO)
+    const resp = await POST('/rest/auth/changePassword', changeDTO)
     callback?.(resp)
   },
 

@@ -70,7 +70,7 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({layoutSize = DEFAULT_LAYOUT_SI
     if (services.length > 0) return;
     setLoading(true);
     try {
-      const listUrl = isAdminPlatform() ? '/admin/sso/app/services' : '/api/v1/service/list';
+      const listUrl = isAdminPlatform() ? '/rest/sso/app/services' : '/api/v1/service/list';
       const resp = await POST(listUrl, {}) as ApiResponse<ServiceInfo[]>;
       if (resp?.success && Array.isArray(resp.data)) {
         setServices(

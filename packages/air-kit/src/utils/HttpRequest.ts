@@ -206,7 +206,7 @@ export async function POST(url: string | URL | Request, params: any): Promise<an
                 detail: {authenticated: false}}));
 
               if (url != '/api/v1/auth/login' && url != '/api/v1/auth/current'
-                  && url != '/api/v1/transfer/accept' && url != '/admin/user/login') {
+                  && url != '/api/v1/transfer/accept' && url != '/rest/auth/login') {
                 Notice.error('登录已失效', '您的登录已过期，请重新登录。');
               }
               return resolve({
