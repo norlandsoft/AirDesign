@@ -13,6 +13,7 @@ import React, {useCallback, useState} from 'react';
 import {Icon, Spin, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent} from 'air-design';
 import {POST} from '../../utils/HttpRequest';
 import icons from './icons';
+import {isAdminPlatform} from '../../config';
 import './index.css';
 
 /** 平台服务信息 */
@@ -69,7 +70,8 @@ const AppSwitcher: React.FC<AppSwitcherProps> = ({layoutSize = DEFAULT_LAYOUT_SI
     if (services.length > 0) return;
     setLoading(true);
     try {
-      const resp = await POST('/api/v1/service/list', {}) as ApiResponse<ServiceInfo[]>;
+      const listUrl = isAdminPlatform() ? '/admin/sso/app/services' : '/api/v1/service/list';
+      const resp = await POST(listUrl, {}) as ApiResponse<ServiceInfo[]>;
       if (resp?.success && Array.isArray(resp.data)) {
         setServices(
           resp.data.filter((s: ServiceInfo) => {

@@ -12,7 +12,7 @@ import {POST} from '../utils/HttpRequest'
 import {Notice} from 'air-design'
 import {SHA} from '../utils/CryptoUtils'
 import type {UserLoginRequest, UserResponse} from '../types/user'
-import {storageKey} from '../config'
+import {isAdminPlatform, storageKey} from '../config'
 
 export interface UserState {
   currentUser: UserResponse | null
@@ -102,7 +102,8 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     set({validatingToken: true})
     try {
-      const resp = await POST('/api/v1/auth/current', {})
+      const currentUrl = isAdminPlatform() ? '/admin/user/current' : '/api/v1/auth/current'
+      const resp = await POST(currentUrl, {})
       if (resp?.success) {
         const user: UserResponse = resp.data || null
         if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))

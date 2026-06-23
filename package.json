@@ -1,15 +1,15 @@
 {
   "name": "air-design-monorepo",
   "private": true,
-  "description": "AirDesign Monorepo - 通用 UI 组件库 + 业务前端 SDK",
+  "description": "AirDesign Monorepo - 通用 UI 组件库 air-design + 业务套件 air-kit",
   "workspaces": [
     "packages/*",
     "example"
   ],
   "scripts": {
-    "build": "npm run build -w air-design && npm run build -w air-sdk",
+    "build": "npm run build -w air-design && npm run build -w air-kit",
     "build:design": "npm run build -w air-design",
-    "build:sdk": "npm run build -w air-sdk",
+    "build:kit": "npm run build -w air-kit",
     "dev:example": "npm run dev -w air-design-example"
   }
 }

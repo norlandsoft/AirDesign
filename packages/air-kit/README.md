@@ -1,4 +1,4 @@
-# air-sdk
+# air-kit
 
 企业应用前端业务组件框架，基于 `air-design` 通用 UI 层，提供登录、认证布局、用户管理等开箱即用的业务模块。
 
@@ -8,7 +8,7 @@
 
 ```
 业务应用 (UmiJS 4)
-    └── air-sdk          ← 本包
+    └── air-kit          ← 本包
             └── air-design   ← 通用 UI（shadcn/Radix + TailwindCSS，peerDependency）
                     └── react
 ```
@@ -23,7 +23,7 @@
 }
 ```
 
-> 状态管理基于 **Zustand**（随 air-sdk 自动安装），不依赖 Umi/DVA。
+> 状态管理基于 **Zustand**（随 air-kit 自动安装），不依赖 Umi/DVA。
 
 ## 构建
 
@@ -32,13 +32,13 @@
 ```bash
 npm run build:sdk
 # 或
-npm run build -w air-sdk
+npm run build -w air-kit
 ```
 
 监听模式：
 
 ```bash
-npm run dev -w air-sdk
+npm run dev -w air-kit
 ```
 
 产物目录 `dist/`：
@@ -46,7 +46,7 @@ npm run dev -w air-sdk
 | 文件 | 说明 |
 |------|------|
 | `index.mjs` | 主入口 |
-| `air-sdk.css` | 业务样式，通过 `air-sdk/style.css` 引入 |
+| `air-kit.css` | 业务样式，通过 `air-kit/style.css` 引入 |
 | `src/index.d.ts` | 类型声明 |
 
 ## 安装
@@ -55,7 +55,7 @@ npm run dev -w air-sdk
 {
   "dependencies": {
     "air-design": "file:../AirDesign/packages/air-design",
-    "air-sdk": "file:../AirDesign/packages/air-sdk"
+    "air-kit": "file:../AirDesign/packages/air-kit"
   }
 }
 ```
@@ -68,7 +68,7 @@ npm run dev -w air-sdk
 
 ```tsx
 // src/app.tsx
-import { defineSdkConfig } from 'air-sdk';
+import { defineSdkConfig } from 'air-kit';
 
 defineSdkConfig({
   storagePrefix: 'my-app',
@@ -89,10 +89,10 @@ defineSdkConfig({
 
 ### 2. 用户状态（Zustand）
 
-air-sdk 内置 `useUserStore`，无需注册 DVA Model：
+air-kit 内置 `useUserStore`，无需注册 DVA Model：
 
 ```tsx
-import { useUserStore } from 'air-sdk'
+import { useUserStore } from 'air-kit'
 
 // 精确订阅（推荐）
 const currentUser = useUserStore((s) => s.currentUser)
@@ -116,9 +116,9 @@ useUserStore.getState().logout()
 
 ```tsx
 // src/layouts/index.tsx
-import { SecurityLayout } from 'air-sdk';
+import { SecurityLayout } from 'air-kit';
 import 'air-design/style.css';
-import 'air-sdk/style.css';
+import 'air-kit/style.css';
 
 export default function Layout({ children }) {
   return <SecurityLayout>{children}</SecurityLayout>;
@@ -135,7 +135,7 @@ export default function Layout({ children }) {
 ### 4. 业务组件
 
 ```tsx
-import { AppSwitcher, UserSettings } from 'air-sdk';
+import { AppSwitcher, UserSettings } from 'air-kit';
 import { useState } from 'react';
 
 function Header() {
@@ -159,7 +159,7 @@ import {
   getAvatarUrl, getAgentIconUrl,
   randomString, UUID, shortId,
   formatFileSize,
-} from 'air-sdk';
+} from 'air-kit';
 ```
 
 `POST` / `GET` 自动附加请求头：
@@ -174,14 +174,14 @@ import {
 
 | 路径 | 用途 |
 |------|------|
-| `air-sdk` | 主入口 |
-| `air-sdk/config` | 配置模块 |
-| `air-sdk/models/user` | useUserStore（Zustand） |
-| `air-sdk/layouts/SecurityLayout` | 安全布局 |
-| `air-sdk/pages/Login` | 登录页 |
-| `air-sdk/utils/HttpRequest` | HTTP 封装 |
-| `air-sdk/utils/CryptoUtils` | SHA256 |
-| `air-sdk/style.css` | 样式 |
+| `air-kit` | 主入口 |
+| `air-kit/config` | 配置模块 |
+| `air-kit/models/user` | useUserStore（Zustand） |
+| `air-kit/layouts/SecurityLayout` | 安全布局 |
+| `air-kit/pages/Login` | 登录页 |
+| `air-kit/utils/HttpRequest` | HTTP 封装 |
+| `air-kit/utils/CryptoUtils` | SHA256 |
+| `air-kit/style.css` | 样式 |
 
 ## 类型导出
 
@@ -192,21 +192,21 @@ import type {
   UserLoginRequest,
   DisplaySettings,
   UserSettingsResponse,
-} from 'air-sdk';
+} from 'air-kit';
 ```
 
-## 从 air-auth 迁移
+## 从 air-auth / air-sdk 迁移
 
 | 旧 | 新 |
 |----|-----|
-| `air-auth` | `air-sdk` |
+| `air-auth` / `air-sdk` | `air-kit` |
 | `defineAuthConfig` | `defineSdkConfig` |
 | `getAuthConfig` | `getSdkConfig` |
-| `import 'air-auth/dist/air-auth.css'` | `import 'air-sdk/style.css'` |
+| `import 'air-auth/dist/air-auth.css'` | `import 'air-kit/style.css'` |
 
 ## 2.0 重构说明（不向后兼容）
 
-air-sdk 2.0 随 air-design 2.0 一起完成底层重构，**不保留旧 API 兼容**：
+air-kit 2.0 随 air-design 2.0 一起完成底层重构，**不保留旧 API 兼容**：
 
 - **登录页**：移除 antd `Form` / `Input` / `ConfigProvider`，改为原生受控表单 + 手动校验。Canvas 星野动画保持不变。
 - **用户设置**：`BasicInfo` / `DisplaySettings` / `ChangePassword` 的 antd `Form` / `Radio` / `Input.Password` 改为原生 input / radio-button-group，`Avatar` 改用 air-design 的 Radix Avatar 原语。

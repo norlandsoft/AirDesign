@@ -16,7 +16,7 @@ AirDesign 是**全平台统一的 UI 组件库 + 业务前端脚手架**，为 J
 | 包 | 路径 | 职责 |
 |----|------|------|
 | **air-design** | `packages/air-design` | 通用 React UI 组件库（shadcn/ui + Radix UI + TailwindCSS） |
-| **air-sdk** | `packages/air-sdk` | 业务前端整合脚手架（登录、布局、用户设置、应用切换、请求封装），仅服务于自有服务 |
+| **air-kit** | `packages/air-kit` | 业务前端整合脚手架（登录、布局、用户设置、应用切换、请求封装），仅服务于自有服务 |
 
 **核心价值**：一处建设、全平台一致；业务应用引入 SDK 即可获得完整登录/布局/用户体系，无需重复搭建。
 
@@ -46,7 +46,7 @@ AirDesign 是**全平台统一的 UI 组件库 + 业务前端脚手架**，为 J
 
 ```
 业务应用（UmiJS 4 + DVA）
-    └── air-sdk              业务脚手架（页面/布局/Model/请求）
+    └── air-kit              业务脚手架（页面/布局/Model/请求）
             └── air-design   通用 UI 层
                     ├── primitives   Radix 薄封装
                     ├── components   业务级组件（组合 primitives）
@@ -121,13 +121,13 @@ AirDesign/
 │   │   ├── tsconfig.json        # strict + @ 别名
 │   │   ├── vite.config.ts       # library mode + Tailwind 插件
 │   │   └── package.json
-│   └── air-sdk/                 # 业务前端脚手架
+│   └── air-kit/                 # 业务前端脚手架
 │       ├── src/
 │       │   ├── index.ts         # 主入口
 │       │   ├── config.ts        # defineSdkConfig / getSdkConfig / storageKey
 │       │   ├── models/user.ts   # Zustand useUserStore（登录/登出/Token校验/设置）
 │       │   ├── layouts/SecurityLayout.tsx
-│       │   ├── pages/           # 业务页面（登录页由各服务自行实现，air-sdk 不内置）
+│       │   ├── pages/           # 业务页面（登录页由各服务自行实现，air-kit 不内置）
 │       │   ├── components/      # AppSwitcher / UserSettings（3 子页）
 │       │   ├── utils/           # HttpRequest / CryptoUtils / IconUtils / ...
 │       │   ├── types/           # 类型定义
@@ -185,11 +185,11 @@ AirDesign/
 
 | 命令 | 说明 |
 |------|------|
-| `npm run build` | 构建 air-design → air-sdk |
+| `npm run build` | 构建 air-design → air-kit |
 | `npm run build:design` | 仅 air-design |
-| `npm run build:sdk` | 仅 air-sdk |
+| `npm run build:sdk` | 仅 air-kit |
 | `npm run dev -w air-design` | air-design 监听模式 |
-| `npm run dev -w air-sdk` | air-sdk 监听模式 |
+| `npm run dev -w air-kit` | air-kit 监听模式 |
 
 ### 产物
 
@@ -205,9 +205,9 @@ packages/air-design/dist/
 
 ---
 
-## 八、air-sdk 业务脚手架设计
+## 八、air-kit 业务脚手架设计
 
-air-sdk 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`），不依赖任何宿主框架 —— 纯 React 应用与 Umi 应用均可即插即用。
+air-kit 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`），不依赖任何宿主框架 —— 纯 React 应用与 Umi 应用均可即插即用。
 
 ### 核心模块
 
@@ -243,7 +243,7 @@ air-sdk 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`
 | Single Icon | 沿用现有 AirDesign Icon 组件 |
 | Full Refactor | 完全重构，无需向后兼容，旧实现一律删除 |
 | Token First | 视觉属性一律经 Token，禁止硬编码 |
-| Business SDK | air-sdk 提供自有服务开箱即用的业务脚手架 |
+| Business SDK | air-kit 提供自有服务开箱即用的业务脚手架 |
 
 违反任一原则即视为架构退化。
 
@@ -253,6 +253,6 @@ air-sdk 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`
 
 - **新增通用组件**：放 `components/`，基于 primitives 组合，样式用 Tailwind + Token；在 `index.ts` 导出。
 - **新增 Radix 原语**：放 `primitives/`，参考 shadcn 实现，经 `cn` 合并 className；在 `primitives/index.ts` 导出。
-- **新增业务页面**：放 `air-sdk/src/pages/`，DVA Model 放 `models/`，在 `air-sdk/src/index.ts` 导出。
+- **新增业务页面**：放 `air-kit/src/pages/`，DVA Model 放 `models/`，在 `air-kit/src/index.ts` 导出。
 - **新增设计 Token**：在 `theme/index.css` 的 `:root` / `.dark` 增加变量，必要时在 `@theme inline` 映射为工具类。
 - **新增图标**：SVG 放 `components/Icon/svg/`，构建时经 `import.meta.glob` 自动注册，按文件名（去 `.svg`）引用。

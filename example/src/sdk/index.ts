@@ -1,11 +1,11 @@
 /**
- * air-sdk 初始化：配置 + Mock fetch + 用户状态种子
+ * air-kit 初始化：配置 + Mock fetch + 用户状态种子
  *
  * 在 App 加载前执行一次，为 UserSettings/AppSwitcher 提供运行环境。
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import {defineSdkConfig, useUserStore} from 'air-sdk'
+import {defineSdkConfig, useUserStore} from 'air-kit'
 import {installFetchMock} from './fetchMock'
 
 defineSdkConfig({

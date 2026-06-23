@@ -9,7 +9,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter} from 'react-router-dom'
 import 'air-design/style.css'
-import 'air-sdk/style.css'
+import 'air-kit/style.css'
 import App from './App'
 import './index.css'
 

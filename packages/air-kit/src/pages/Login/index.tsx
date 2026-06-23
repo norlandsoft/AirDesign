@@ -2,7 +2,7 @@
  * Login 登录页（左品牌右表单）
  *
  * 布局模仿 JettoAuthor：左侧品牌区（主题渐变 + Logo + 应用名 + Slogan + 特性），
- * 右侧白色登录表单卡片（用户名 / 密码 / 登录按钮）。登录逻辑接入 air-sdk
+ * 右侧白色登录表单卡片（用户名 / 密码 / 登录按钮）。登录逻辑接入 air-kit
  * useUserStore.login（密码 SHA256 + 接口）。
  *
  * 主题色由 getSdkConfig().theme 决定（blue/teal/amber，默认 teal），

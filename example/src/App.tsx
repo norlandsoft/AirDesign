@@ -8,8 +8,8 @@
 import React from 'react'
 import {Routes, Route, NavLink, Navigate} from 'react-router-dom'
 import {Icon, SlidePanel} from 'air-design'
-import {UserSettings, useUserStore} from 'air-sdk'
-import './sdk'  // air-sdk 初始化（配置 + Mock + 用户状态）
+import {UserSettings, useUserStore} from 'air-kit'
+import './sdk'  // air-kit 初始化（配置 + Mock + 用户状态）
 
 import ButtonPage from './pages/ButtonPage'
 import IconPage from './pages/IconPage'
@@ -182,7 +182,7 @@ const App: React.FC = () => {
         </div>
       </SlidePanel>
 
-      {/* 用户设置（air-sdk UserSettings 组件） */}
+      {/* 用户设置（air-kit UserSettings 组件） */}
       <UserSettings visible={settingsOpen} onClose={() => setSettingsOpen(false)}/>
     </div>
   )

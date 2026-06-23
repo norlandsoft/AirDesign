@@ -1,7 +1,7 @@
 {
-  "name": "air-sdk",
+  "name": "air-kit",
   "version": "2.0.0",
-  "description": "AirSDK - 企业应用前端业务组件框架（登录、布局、用户管理等）",
+  "description": "AirKit - 企业应用前端业务套件（登录、布局、用户管理、跨应用切换等，与 air-design 并列）",
   "type": "module",
   "main": "./dist/index.mjs",
   "types": "./dist/src/index.d.ts",
@@ -34,7 +34,7 @@
       "import": "./dist/utils/CryptoUtils.mjs",
       "types": "./dist/src/utils/CryptoUtils.d.ts"
     },
-    "./style.css": "./dist/air-sdk.css"
+    "./style.css": "./dist/air-kit.css"
   },
   "files": [
     "dist"

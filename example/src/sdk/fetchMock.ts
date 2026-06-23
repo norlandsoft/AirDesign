@@ -1,7 +1,7 @@
 /**
- * example 的 fetch Mock（供 air-sdk UserSettings 交互）
+ * example 的 fetch Mock（供 air-kit UserSettings 交互）
  *
- * 拦截 air-sdk 用户相关端点，返回模拟响应，无需真实后端。
+ * 拦截 air-kit 用户相关端点，返回模拟响应，无需真实后端。
  *
  * @author ChaiMingXu, 2026/06/19
  */

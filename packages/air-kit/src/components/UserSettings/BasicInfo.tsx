@@ -117,19 +117,19 @@ const BasicInfo = forwardRef<BasicInfoRef, BasicInfoProps>((props, ref) => {
       <div className="user-settings-form user-settings-form-native">
         <div className="user-settings-form-row">
           <label className="user-settings-form-label">登录ID</label>
-          <input className="air-sdk-input" value={form.id} disabled placeholder="登录ID" onChange={(e) => updateField('id', e.target.value)}/>
+          <input className="air-kit-input" value={form.id} disabled placeholder="登录ID" onChange={(e) => updateField('id', e.target.value)}/>
         </div>
         <div className="user-settings-form-row">
           <label className="user-settings-form-label">姓名</label>
-          <input className="air-sdk-input" value={form.name} disabled placeholder="请输入姓名" onChange={(e) => updateField('name', e.target.value)}/>
+          <input className="air-kit-input" value={form.name} disabled placeholder="请输入姓名" onChange={(e) => updateField('name', e.target.value)}/>
         </div>
         <div className="user-settings-form-row">
           <label className="user-settings-form-label">邮箱</label>
-          <input className="air-sdk-input" value={form.email} placeholder="请输入邮箱（可选）" onChange={(e) => updateField('email', e.target.value)}/>
+          <input className="air-kit-input" value={form.email} placeholder="请输入邮箱（可选）" onChange={(e) => updateField('email', e.target.value)}/>
         </div>
         <div className="user-settings-form-row">
           <label className="user-settings-form-label">电话</label>
-          <input className="air-sdk-input" value={form.phone} placeholder="请输入电话号码（可选）" onChange={(e) => updateField('phone', e.target.value)}/>
+          <input className="air-kit-input" value={form.phone} placeholder="请输入电话号码（可选）" onChange={(e) => updateField('phone', e.target.value)}/>
         </div>
         <div className="user-settings-form-row">
           <label className="user-settings-form-label">头像</label>

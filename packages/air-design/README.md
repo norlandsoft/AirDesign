@@ -13,7 +13,7 @@
 
 ## 项目结构（Monorepo）
 
-本包位于 `packages/air-design/`，与 `packages/air-sdk/` 业务脚手架同属 AirDesign Monorepo。
+本包位于 `packages/air-design/`，与 `packages/air-kit/` 业务脚手架同属 AirDesign Monorepo。
 
 ```
 packages/air-design/src/
@@ -69,7 +69,7 @@ cd /opt/AirDesign
 npm install
 npm run build:design    # 仅构建本包
 # 或
-npm run build           # 构建 air-design + air-sdk
+npm run build           # 构建 air-design + air-kit
 ```
 
 ### 构建产物
@@ -263,15 +263,15 @@ cd ../..
 npm run build
 ```
 
-## 与 air-sdk 配合使用
+## 与 air-kit 配合使用
 
-企业应用建议同时安装 `air-sdk`（业务脚手架），详见仓库根目录 [README.md](../../README.md) 与 [packages/air-sdk/README.md](../air-sdk/README.md)。
+企业应用建议同时安装 `air-kit`（业务脚手架），详见仓库根目录 [README.md](../../README.md) 与 [packages/air-kit/README.md](../air-kit/README.md)。
 
 ```tsx
 import 'air-design/style.css'
-import 'air-sdk/style.css'
+import 'air-kit/style.css'
 import { Button, Table } from 'air-design'
-import { SecurityLayout, defineSdkConfig } from 'air-sdk'
+import { SecurityLayout, defineSdkConfig } from 'air-kit'
 ```
 
 ## 组件列表

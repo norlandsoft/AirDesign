@@ -79,7 +79,7 @@ const ChangePassword = forwardRef<ChangePasswordRef, ChangePasswordProps>((props
           <label className="user-settings-form-label">新密码</label>
           <input
             type="password"
-            className="air-sdk-input"
+            className="air-kit-input"
             value={newPassword}
             placeholder="请输入新密码"
             onChange={(e) => setNewPassword(e.target.value)}
@@ -89,7 +89,7 @@ const ChangePassword = forwardRef<ChangePasswordRef, ChangePasswordProps>((props
           <label className="user-settings-form-label">确认密码</label>
           <input
             type="password"
-            className="air-sdk-input"
+            className="air-kit-input"
             value={confirmPassword}
             placeholder="请再次输入新密码"
             onChange={(e) => setConfirmPassword(e.target.value)}

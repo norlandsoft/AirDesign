@@ -55,7 +55,7 @@
     "react-router-dom": "^6.30.1",
     "tailwind-merge": "^3.6.0",
     "air-design": "file:../packages/air-design",
-    "air-sdk": "file:../packages/air-sdk"
+    "air-kit": "file:../packages/air-kit"
   },
   "devDependencies": {
     "@types/react": "^18.3.28",

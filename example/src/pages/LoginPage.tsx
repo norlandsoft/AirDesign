@@ -1,10 +1,10 @@
 /**
- * 登录页 Demo：展示 air-sdk Login 组件（左品牌右表单）
+ * 登录页 Demo：展示 air-kit Login 组件（左品牌右表单）
  *
  * @author ChaiMingXu, 2026/06/20
  */
 import React from 'react'
-import {Login, useUserStore} from 'air-sdk'
+import {Login, useUserStore} from 'air-kit'
 import {Button, Icon} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
   const logout = useUserStore((s) => s.logout)
 
   return (
-    <PageContainer title="登录页（air-sdk Login）" description="左品牌右表单布局，登录逻辑接 air-sdk useUserStore.login。Mock 账号：demo / 任意密码。">
+    <PageContainer title="登录页（air-kit Login）" description="左品牌右表单布局，登录逻辑接 air-kit useUserStore.login。Mock 账号：demo / 任意密码。">
       <div className="demo-block">
         <div className="flex items-center gap-3 text-sm">
           {isAuthenticated ? (

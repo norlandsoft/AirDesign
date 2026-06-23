@@ -2,7 +2,7 @@
  * 安全布局组件
  *
  * 未登录时渲染消费方提供的登录页（login prop），已登录时渲染 children。
- * 登录页由各业务服务自行实现（air-sdk 不再内置 Login 组件）。
+ * 登录页由各业务服务自行实现（air-kit 不再内置 Login 组件）。
  * 增强功能：检测 URL 中的 transferToken 参数，自动兑换为正式 Token 实现免登录跳转。
  * transferToken 兑换失败时不阻断，降级为正常登录流程。
  *

@@ -105,12 +105,12 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
       <div className="user-settings-form user-settings-form-native">
         <div className="user-settings-form-row">
           <label className="user-settings-form-label">字体大小</label>
-          <div className="air-sdk-radio-button-group">
+          <div className="air-kit-radio-button-group">
             {FONT_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
                 type="button"
-                className={`air-sdk-radio-button ${fontSize === opt.value ? 'active' : ''}`}
+                className={`air-kit-radio-button ${fontSize === opt.value ? 'active' : ''}`}
                 onClick={() => setFontSize(opt.value)}
               >
                 {opt.label}
