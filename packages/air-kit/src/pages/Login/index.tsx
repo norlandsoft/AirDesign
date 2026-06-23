@@ -5,6 +5,8 @@
  * 右侧白色登录表单卡片（用户名 / 密码 / 登录按钮）。登录逻辑接入 air-kit
  * useUserStore.login（密码 SHA256 + 接口）。
  *
+ * 若 defineSdkConfig 配置了 loginId（如 admin），则隐藏用户名输入框，仅保留密码。
+ *
  * 主题色由 getSdkConfig().theme 决定（blue/teal/amber，默认 teal），
  * 影响左侧渐变与强调色。
  *
@@ -42,25 +44,37 @@ const Login: React.FC<LoginProps> = ({onSuccess}) => {
   const theme = THEMES[themeName]
   const appName = cfg.appName ?? '应用'
   const appTagline = cfg.appTagline ?? ''
+  /** 固定登录身份：配置后仅输入密码（如 AirFramework 单 admin 账户） */
+  const fixedLoginId = cfg.loginId?.trim() ?? ''
+  const passwordOnly = fixedLoginId.length > 0
 
   const login = useUserStore((s) => s.login)
   const loading = useUserStore((s) => s.loading)
 
-  const [form, setForm] = useState({id: '', password: ''})
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
   const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    if (!form.id.trim()) {setError('请输入用户名'); return}
-    if (!form.password) {setError('请输入密码'); return}
-    await login({id: form.id.trim(), password: form.password})
-    // 登录结果由 store 写入；此处检查是否认证成功
+    if (!passwordOnly && !username.trim()) {
+      setError('请输入用户名')
+      return
+    }
+    if (!password) {
+      setError('请输入密码')
+      return
+    }
+    await login({
+      id: passwordOnly ? fixedLoginId : username.trim(),
+      password,
+    })
     const authed = useUserStore.getState().isAuthenticated
     if (authed) {
       onSuccess ? onSuccess() : (window.location.href = '/')
     } else {
-      setError('登录失败，请检查用户名和密码')
+      setError(passwordOnly ? '登录失败，请检查密码' : '登录失败，请检查用户名和密码')
     }
   }
 
@@ -88,26 +102,31 @@ const Login: React.FC<LoginProps> = ({onSuccess}) => {
       <main className="air-login-form-side">
         <div className="air-login-form-card">
           <h2 className="air-login-form-title">欢迎回来</h2>
-          <p className="air-login-form-sub">登录以继续使用 {appName}</p>
+          <p className="air-login-form-sub">
+            {passwordOnly ? `请输入 ${appName} 管理员密码` : `登录以继续使用 ${appName}`}
+          </p>
 
           <form onSubmit={handleSubmit} className="air-login-form" autoComplete="off">
-            <div className="air-login-field">
-              <label>用户名</label>
-              <input
-                type="text"
-                value={form.id}
-                onChange={(e) => setForm((f) => ({...f, id: e.target.value}))}
-                placeholder="请输入用户名"
-                autoFocus
-              />
-            </div>
+            {!passwordOnly && (
+              <div className="air-login-field">
+                <label>用户名</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="请输入用户名"
+                  autoFocus
+                />
+              </div>
+            )}
             <div className="air-login-field">
               <label>密码</label>
               <input
                 type="password"
-                value={form.password}
-                onChange={(e) => setForm((f) => ({...f, password: e.target.value}))}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="请输入密码"
+                autoFocus={passwordOnly}
               />
             </div>
             {error && <div className="air-login-error">{error}</div>}

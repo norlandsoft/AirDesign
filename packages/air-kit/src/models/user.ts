@@ -56,9 +56,31 @@ export const useUserStore = create<UserState>((set, get) => ({
   login: async (payload) => {
     const {id, password} = payload
     const newPassword = SHA(password)
-    const loginDTO: UserLoginRequest = {id, password: newPassword}
 
-    const loginUrl = isAdminPlatform() ? '/rest/auth/login' : '/api/v1/auth/login'
+    if (isAdminPlatform()) {
+      set({loading: true})
+      const resp = await POST('/rest/auth/login', {password: newPassword})
+      set({loading: false})
+
+      if (resp?.success) {
+        const data = resp.data || {}
+        const token = data.token || ''
+        const user: UserResponse = data.user || data || null
+
+        if (token) sessionStorage.setItem(storageKey('token'), token)
+        if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))
+        if (user?.loginId) sessionStorage.setItem(storageKey('user'), String(user.loginId))
+
+        set({currentUser: user, isAuthenticated: !!token})
+        window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: true}}))
+      } else {
+        Notice.error('登录失败', resp?.message || '登录失败，请检查密码')
+      }
+      return
+    }
+
+    const loginDTO: UserLoginRequest = {id, password: newPassword}
+    const loginUrl = '/api/v1/auth/login'
 
     set({loading: true})
     const resp = await POST(loginUrl, loginDTO)
