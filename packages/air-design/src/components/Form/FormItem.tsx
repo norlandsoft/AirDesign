@@ -45,6 +45,7 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
     help,
     extra,
     hidden,
+    noStyle,
     valuePropName = 'value',
     trigger = 'onChange',
     validateTrigger = 'onChange',
@@ -195,6 +196,10 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
     }
 
     return cloneElement(children, injected)
+  }
+
+  if (noStyle) {
+    return <>{renderControl()}</>
   }
 
   const labelNode = label != null && (

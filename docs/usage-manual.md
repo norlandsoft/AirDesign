@@ -141,7 +141,7 @@ import { NavMenu } from 'air-design'
 />
 ```
 
-`mode`：`icon`（仅图标，栏宽 40px）/ `icon-label`（图标+文字，栏宽 72px，背景块 56×56）。`shortLabel` 建议 2～4 字短文案。
+`mode`：`icon`（仅图标，栏宽 40px）/ `icon-label`（图标+文字，栏宽 60px，背景块 48×48）。`shortLabel` 建议 2～4 字短文案。
 
 ### Table
 
@@ -309,7 +309,7 @@ import { Avatar } from 'air-design'
 </Avatar.Group>
 ```
 
-**尺寸**：`default` 32px / `small` 24px / `large` 40px，或传入数字像素。字符头像背景色由内容哈希生成（对齐 antd 色板）。深度定制可使用 `RadixAvatar` / `RadixAvatarImage` / `RadixAvatarFallback` 原语。
+**尺寸**：`default` 32px / `small` 24px / `large` 40px，或传入数字像素。用户指定图片按原图比例展示，仅通过容器外形裁剪为圆形或方形，无遮罩或覆盖效果。字符头像背景色由内容哈希生成（对齐 antd 色板）。深度定制可使用 `RadixAvatar` / `RadixAvatarImage` / `RadixAvatarFallback` 原语。
 
 ### DatePicker 日期选择
 

@@ -22,7 +22,7 @@ const NavMenuPage: React.FC = () => {
   return (
     <PageContainer
       title="NavMenu 导航菜单"
-      description="左侧模块切换导航。icon 模式宽 40px；icon-label 模式宽 72px，背景块 56×56（1:1）。"
+      description="左侧模块切换导航。icon 模式宽 40px；icon-label 模式宽 60px，背景块 48×48（1:1）。"
     >
       <div className="demo-block">
         <div className="mb-3 flex flex-wrap gap-2">
@@ -42,7 +42,7 @@ const NavMenuPage: React.FC = () => {
             }`}
             onClick={() => setMode('icon-label')}
           >
-            图标+文字（72px）
+            图标+文字（60px）
           </button>
         </div>
 

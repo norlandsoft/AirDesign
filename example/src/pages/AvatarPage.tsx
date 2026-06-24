@@ -18,6 +18,18 @@ const DEMO_IMG =
 const AvatarPage: React.FC = () => (
   <PageContainer title="Avatar 头像" description="图片 / 字符 / 图标头像，支持 size、shape 与 Avatar.Group 堆叠，API 对齐 antd。">
     <div className="demo-block">
+      <GroupSplitter title="图片头像（/icons/avatar）"/>
+      <div className="demo-row items-end">
+        {['u01', 'u02', 'u03', 'u04', 'u05', 'u06'].map((id) => (
+          <div key={id} className="flex flex-col items-center gap-2">
+            <Avatar src={`/icons/avatar/${id}.svg`} alt={id} size={40}/>
+            <span className="text-xs text-muted-foreground">{id}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div className="demo-block">
       <GroupSplitter title="基础类型"/>
       <div className="demo-row items-end">
         <div className="flex flex-col items-center gap-2">

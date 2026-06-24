@@ -65,9 +65,12 @@ function parseSvg(name: string, size: number, color: string, thickness: number):
     if (element.hasAttribute('stroke-width') && !isInFixedStrokeWidthScope(element)) {
       element.setAttribute('stroke-width', thickness.toString())
     }
-    // 替换 stroke 颜色
+    // 替换 stroke 颜色；纯描边元素未声明 fill 时 SVG 默认为 black，需显式 none
     if (element.hasAttribute('stroke')) {
       element.setAttribute('stroke', color)
+      if (!element.hasAttribute('fill')) {
+        element.setAttribute('fill', 'none')
+      }
     }
     // 替换 fill 颜色（如果 fill 不是 none 或固定色值）
     const fill = element.getAttribute('fill')

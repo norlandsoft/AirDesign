@@ -2,6 +2,7 @@
  * Avatar 组件类型定义
  *
  * API 对齐 antd Avatar / Avatar.Group 常用能力。
+ * 图片模式作为固定尺寸容器，按原图比例展示，仅裁剪外形。
  *
  * @author ChaiMingXu, 2026/06/24
  */

@@ -7,8 +7,8 @@
  */
 import React from 'react'
 import {Routes, Route, Navigate, useLocation, useNavigate} from 'react-router-dom'
-import {Icon, NavMenu, SlidePanel, type NavMenuItem, type NavMenuMode} from 'air-design'
-import {UserSettings, useUserStore} from 'air-kit'
+import {Icon, NavMenu, SlidePanel, Avatar, type NavMenuItem, type NavMenuMode} from 'air-design'
+import {UserSettings, useUserStore, getAvatarUrl} from 'air-kit'
 import './sdk'  // air-kit 初始化（配置 + Mock + 用户状态）
 
 import ButtonPage from './pages/ButtonPage'
@@ -106,13 +106,13 @@ const App: React.FC = () => {
             className="w-20"
           />
           <button onClick={() => setBaseSize((s) => Math.min(20, s + 1))} className="size-6 rounded bg-muted text-xs hover:bg-accent">+</button>
-          <button
+          <Avatar
+            src={getAvatarUrl(currentUser?.avatar)}
+            size={28}
+            className="af-header-avatar cursor-pointer transition-transform hover:scale-105"
             onClick={() => setUserPanelOpen(true)}
-            className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground transition-transform hover:scale-105"
-            title={currentUser?.name ?? '用户'}
-          >
-            {avatarText}
-          </button>
+            alt={currentUser?.name ?? '用户'}
+          />
         </div>
       </header>
 

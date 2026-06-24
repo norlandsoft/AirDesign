@@ -1,7 +1,7 @@
 /**
  * NavMenu 左侧导航菜单样式
  *
- * icon 模式宽 40px；icon-label 模式宽 72px，背景高亮块 56×56（1:1）。
+ * icon 模式宽 40px；icon-label 模式宽 60px，背景高亮块 48×48（1:1）。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -25,7 +25,7 @@
 }
 
 .air-nav-menu--icon-label {
-  width: 72px;
+  width: 60px;
   padding: 10px 0;
 }
 
@@ -77,11 +77,11 @@
 }
 
 .air-nav-menu--icon-label .air-nav-menu-item-inner {
-  width: 56px;
+  width: 48px;
   aspect-ratio: 1 / 1;
   gap: 4px;
-  padding: 6px 4px;
-  border-radius: 10px;
+  padding: 5px 3px;
+  border-radius: 8px;
   box-sizing: border-box;
 }
 

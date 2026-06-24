@@ -17,6 +17,11 @@ body {
   color: var(--color-foreground);
 }
 
+/* 顶栏用户头像：仅展示图片，无背景色 */
+.af-header-avatar {
+  background: transparent;
+}
+
 /* Demo 通用：展示区块 */
 .demo-section {
   margin-bottom: 32px;

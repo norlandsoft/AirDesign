@@ -143,6 +143,8 @@ export interface FormItemProps {
   help?: ReactNode
   extra?: ReactNode
   hidden?: boolean
+  /** 为 true 时不渲染表单项布局（标签/间距），仅向子控件注入表单绑定 */
+  noStyle?: boolean
   /** 从子组件读取值的 prop 名，Checkbox/Switch 默认为 checked */
   valuePropName?: string
   /** 触发 value 更新的 prop 名 */

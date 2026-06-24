@@ -157,13 +157,13 @@ AirDesign/
 | Tree | react-arborist | 搜索/图标/菜单/拖拽/受控展开选中/checkable/disabled |
 | Message / Notice | 自建 createRoot | 命令式轻提示/通知 |
 | Form / Input / Select / NumberInput / DatePicker / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 38px |
-| Avatar | primitives/avatar (Radix) | antd 兼容 API，图片/字符/图标 + Group |
+| Avatar | 自建 img 容器 + Radix 原语 | antd 兼容 API，图片原比例展示 + 字符/图标 + Group |
 | Grid / Row / Col | Flex + 24 栅格 | gutter / 响应式 / useBreakpoint |
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |
 | Splitter / GroupSplitter | 自建（antd 兼容 API） | 多面板拖拽分割、折叠 |
 | Spin / LoadingPanel | 自建 | 三圆点动画 |
 | EditableLabel / Help | primitives/input / tooltip | — |
-| List / MenuBar / NavMenu / PropertiesNaviBar | 自建 | Tailwind 化；NavMenu 左侧模块导航（40px/72px） |
+| List / MenuBar / NavMenu / PropertiesNaviBar | 自建 | Tailwind 化；NavMenu 左侧模块导航（40px/60px） |
 | CodeEditor | @monaco-editor/react | Monaco 内核不变 |
 | RichEditor | @tiptap/* | Tiptap 内核不变，工具栏去 antd |
 | Markdown | react-markdown + mermaid | 渲染层 CSS Token 化 |

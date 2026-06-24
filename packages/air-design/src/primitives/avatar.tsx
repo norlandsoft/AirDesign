@@ -1,9 +1,10 @@
 /**
  * Avatar 原语：基于 Radix Avatar 的头像
  *
- * 支持图片加载失败时降级显示文字/占位。业务用户头像场景使用。
+ * 图片按原图比例展示（object-contain），仅通过容器 overflow 裁剪外形。
+ * 支持图片加载失败时降级显示文字/占位，供深度定制场景使用。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/24
  */
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
@@ -27,7 +28,7 @@ const AvatarImage = React.forwardRef<
 >(({className, ...props}, ref) => (
   <AvatarPrimitive.Image
     ref={ref}
-    className={cn('block h-full w-full object-cover object-center', className)}
+    className={cn('block h-full w-full object-contain object-center', className)}
     {...props}
   />
 ))
@@ -40,7 +41,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      'flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium',
+      'flex h-full w-full items-center justify-center rounded-full bg-transparent text-sm font-medium',
       className
     )}
     {...props}
