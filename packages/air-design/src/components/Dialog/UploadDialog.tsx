@@ -1,7 +1,7 @@
 /**
  * UploadDialog 命令式上传对话框
  *
- * 调用 UploadDialog(props) 即在 #root 上挂载一个 ModalDialog，内部提供拖拽上传区域，
+ * 调用 UploadDialog(props) 即在 #root 上挂载一个 ModalDialog，内部提供可点击/拖拽的上传区域，
  * 确认后以 FormData 上传到指定 url。上传结果通过 onFileSaved 回调返回。
  *
  * @author ChaiMingXu, 2026/06/19
@@ -24,14 +24,15 @@ interface UploadDialogProps {
 
 function UploadContent({url = '/upload', onFileSaved, multiple = true, bucket = '', ownerType = 'file', ownerId = ''}: UploadDialogProps) {
   const dialogRef = useRef<ModalDialogHandle>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<File[]>([])
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
 
-  const confirmUpload = () => {
+  const confirmUpload = (): false | Promise<void> => {
     if (fileList.length === 0) {
       Notice.info('', '请选择要上传的文件')
-      return
+      return false
     }
     const formData = new FormData()
     fileList.forEach((file) => formData.append('files', file))
@@ -40,7 +41,7 @@ function UploadContent({url = '/upload', onFileSaved, multiple = true, bucket = 
     formData.append('ownerId', ownerId)
 
     setUploading(true)
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers: {Authorization: 'Bearer ' + (sessionStorage.getItem('air-machine-token') ?? '')},
       body: formData,
@@ -49,19 +50,20 @@ function UploadContent({url = '/upload', onFileSaved, multiple = true, bucket = 
       .then((resp) => {
         if (resp.success) {
           setFileList([])
-          setUploading(false)
           Notice.success('', '文件上传成功')
           onFileSaved?.(resp)
-          dialogRef.current?.doCancel()
-        } else {
-          setUploading(false)
-          Notice.error('无法上传文件', resp.message)
+          return
         }
+        Notice.error('无法上传文件', resp.message)
+        return Promise.reject(new Error(resp.message))
       })
-      .catch(() => {
-        setUploading(false)
-        Notice.error('', '文件上传失败')
+      .catch((error) => {
+        if (!(error instanceof Error) || !error.message) {
+          Notice.error('', '文件上传失败')
+        }
+        return Promise.reject(error)
       })
+      .finally(() => setUploading(false))
   }
 
   const handleFiles = (files: FileList | null) => {
@@ -75,9 +77,10 @@ function UploadContent({url = '/upload', onFileSaved, multiple = true, bucket = 
       {/* 拖拽上传区域 */}
       <div
         className={cn(
-          'flex flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed py-10 text-center transition-colors',
+          'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed py-10 text-center transition-colors',
           dragOver ? 'border-primary bg-accent' : 'border-border'
         )}
+        onClick={() => fileInputRef.current?.click()}
         onDragOver={(e) => {
           e.preventDefault()
           setDragOver(true)
@@ -89,17 +92,18 @@ function UploadContent({url = '/upload', onFileSaved, multiple = true, bucket = 
           handleFiles(e.dataTransfer.files)
         }}
       >
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple={multiple}
+          className="hidden"
+          onChange={(e) => {
+            handleFiles(e.target.files)
+            e.target.value = ''
+          }}
+        />
         <Icon name="upload" size={22} color="var(--color-primary)"/>
         <p className="text-sm text-muted-foreground">点击或将文件拖拽到此处上传</p>
-        <label className="mt-2 cursor-pointer text-sm text-primary underline-offset-4 hover:underline">
-          选择文件
-          <input
-            type="file"
-            multiple={multiple}
-            className="hidden"
-            onChange={(e) => handleFiles(e.target.files)}
-          />
-        </label>
       </div>
 
       {/* 已选文件列表 */}

@@ -20,6 +20,7 @@ import TablePage from './pages/TablePage'
 import TreePage from './pages/TreePage'
 import TabPanelPage from './pages/TabPanelPage'
 import ColorPickerPage from './pages/ColorPickerPage'
+import DatePickerPage from './pages/DatePickerPage'
 import FormPage from './pages/FormPage'
 import SplitterPage from './pages/SplitterPage'
 import FeedbackPage from './pages/FeedbackPage'
@@ -47,6 +48,7 @@ const NAV: NavItem[] = [
   {path: 'tree', label: 'Tree 树', icon: 'folder'},
   {path: 'tabpanel', label: 'TabPanel 标签页', icon: 'more'},
   {path: 'colorpicker', label: 'ColorPicker', icon: 'tag'},
+  {path: 'datepicker', label: 'DatePicker 日期', icon: 'calendar'},
   {path: 'form', label: '表单组件', icon: 'edit'},
   {path: 'splitter', label: 'Splitter 分割', icon: 'back'},
   {path: 'feedback', label: 'Spin/Loading', icon: 'refresh'},
@@ -138,6 +140,7 @@ const App: React.FC = () => {
             <Route path="tree" element={<TreePage/>}/>
             <Route path="tabpanel" element={<TabPanelPage/>}/>
             <Route path="colorpicker" element={<ColorPickerPage/>}/>
+            <Route path="datepicker" element={<DatePickerPage/>}/>
             <Route path="form" element={<FormPage/>}/>
             <Route path="splitter" element={<SplitterPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>

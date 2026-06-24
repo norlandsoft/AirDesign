@@ -10,6 +10,7 @@ export {default as Form} from './Form'
 export {FormListField} from './FormList'
 export {useForm, createFormInstance} from './useForm'
 export * from './fields'
+export type {DatePickerProps, RangePickerProps, RangeValue} from './fields'
 export type {
   FormProps,
   FormItemProps,

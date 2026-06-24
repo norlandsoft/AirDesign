@@ -4,6 +4,7 @@
  * 胶囊状标签：可选前缀色点 + 文本 + 可选关闭按钮。
  * 支持 default / primary / success / warning / danger 五种语义色，
  * 也可通过 color 传入任意 hex 自定义点色。可关闭（closable）时显示 ×。
+ * 所有 variant 均显示可见边框。
  *
  * @author ChaiMingXu, 2026/06/20
  */
@@ -16,7 +17,7 @@ const tagVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-muted text-foreground border-transparent',
+        default: 'bg-muted text-foreground border-border',
         primary: 'bg-primary/10 text-primary border-primary/20',
         success: 'bg-green-50 text-green-700 border-green-200',
         warning: 'bg-amber-50 text-amber-700 border-amber-200',

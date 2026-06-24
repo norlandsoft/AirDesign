@@ -208,6 +208,7 @@ import { ColorPicker } from 'air-design'
 import {
   Form, Input, PasswordInput, TextArea, NumberInput,
   Select, Checkbox, Radio, Switch,
+  DatePicker,
 } from 'air-design'
 
 const [form] = Form.useForm()
@@ -269,7 +270,7 @@ import { Form, FormListField, Input } from 'air-design'
 
 **Form.Item 要点**：Checkbox / Switch 需 `valuePropName="checked"`；`rules` 支持 `required` / `min` / `max` / `pattern` / `type` / 自定义 `validator`。
 
-**字段组件**：`Input`（含 `PasswordInput`）、`TextArea`、`NumberInput`、`Select`（支持 `mode="multiple"`）、`Checkbox` / `Checkbox.Group`、`Radio` / `Radio.Group`。
+**字段组件**：`Input`（含 `PasswordInput`）、`TextArea`、`NumberInput`、`Select`（支持 `mode="multiple"`）、`DatePicker` / `DatePicker.RangePicker`、`Checkbox` / `Checkbox.Group`、`Radio` / `Radio.Group`。
 
 ### Avatar 头像（antd 兼容）
 
@@ -288,6 +289,21 @@ import { Avatar } from 'air-design'
 ```
 
 **尺寸**：`default` 32px / `small` 24px / `large` 40px，或传入数字像素。字符头像背景色由内容哈希生成（对齐 antd 色板）。深度定制可使用 `RadixAvatar` / `RadixAvatarImage` / `RadixAvatarFallback` 原语。
+
+### DatePicker 日期选择
+
+```tsx
+import { DatePicker } from 'air-design'
+
+<DatePicker value={date} onChange={(d, str) => setDate(d)} placeholder="请选择日期" />
+
+<DatePicker.RangePicker
+  value={range}
+  onChange={(dates, [start, end]) => setRange(dates)}
+/>
+```
+
+`value` 为 `Date | null`；范围选择为 `[Date | null, Date | null] | null`。`onChange` 第二参数为格式化字符串（默认 `YYYY-MM-DD`）。
 
 ### Grid 栅格（antd 兼容）
 

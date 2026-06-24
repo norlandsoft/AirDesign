@@ -8,7 +8,7 @@
  */
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import ModalDialog, {type ModalDialogHandle} from './ModalDialog'
+import ModalDialog, {type ModalDialogHandle, type ModalDialogOnOkResult} from './ModalDialog'
 
 interface DialogProps {
   title?: React.ReactNode
@@ -18,7 +18,7 @@ interface DialogProps {
   height?: number | string
   okText?: string
   cancelText?: string
-  onConfirm?: (ref: ModalDialogHandle | null) => void
+  onConfirm?: (ref: ModalDialogHandle | null) => ModalDialogOnOkResult
   onInit?: (ref: ModalDialogHandle | null) => void
   /** 确认按钮是否显示，默认 true */
   confirmable?: boolean
@@ -43,9 +43,7 @@ const Dialog = (props: DialogProps) => {
   container.setAttribute('id', domId)
   rootDiv.appendChild(container)
 
-  const handleConfirm = (ref: ModalDialogHandle | null) => {
-    onConfirm?.(ref)
-  }
+  let modalHandle: ModalDialogHandle | null = null
 
   const dialogContent = (
     <ModalDialog
@@ -57,8 +55,11 @@ const Dialog = (props: DialogProps) => {
       okText={okText}
       cancelText={cancelText}
       confirmable={confirmable}
-      onInit={(ref) => onInit?.(ref)}
-      onOk={() => handleConfirm(null)}
+      onInit={(ref) => {
+        modalHandle = ref
+        onInit?.(ref)
+      }}
+      onOk={() => onConfirm?.(modalHandle)}
     >
       {message}
       {content}

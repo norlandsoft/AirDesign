@@ -156,7 +156,7 @@ AirDesign/
 | Table / TableRowMenu | @tanstack/react-table | 排序/分页/行菜单 |
 | Tree | react-arborist | 搜索/图标/菜单/拖拽/受控展开选中/checkable/disabled |
 | Message / Notice | 自建 createRoot | 命令式轻提示/通知 |
-| Form / Input / Select / NumberInput / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 38px |
+| Form / Input / Select / NumberInput / DatePicker / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 38px |
 | Avatar | primitives/avatar (Radix) | antd 兼容 API，图片/字符/图标 + Group |
 | Grid / Row / Col | Flex + 24 栅格 | gutter / 响应式 / useBreakpoint |
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |

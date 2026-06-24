@@ -9,6 +9,7 @@ export {default as NumberInput, type NumberInputProps} from './NumberInput'
 export {default as Select, type SelectProps} from './Select'
 export {default as Checkbox, CheckboxGroup, type CheckboxProps, type CheckboxGroupProps} from './Checkbox'
 export {default as Radio, RadioGroup, type RadioProps, type RadioGroupProps} from './Radio'
+export {default as DatePicker, RangePicker, type DatePickerProps, type RangePickerProps, type RangeValue} from '@/components/DatePicker'
 
 /** Switch 与 Form 配合时使用 valuePropName="checked" */
 export {Switch} from '@/primitives/switch'

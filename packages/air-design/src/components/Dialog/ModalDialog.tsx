@@ -20,7 +20,8 @@ export interface ModalDialogProps {
   onCancel?: () => void
   domId?: string
   okText?: string
-  onOk?: () => void
+  /** 返回 false 或 rejected Promise 时保持打开；true / void / fulfilled Promise 时关闭并销毁 */
+  onOk?: () => ModalDialogOnOkResult
   cancelText?: string
   confirmable?: boolean
   closable?: boolean
@@ -37,6 +38,9 @@ export interface ModalDialogProps {
   mask?: boolean
   loading?: boolean
 }
+
+/** 确定回调返回值：false 表示不关闭；Promise reject 时保持打开 */
+export type ModalDialogOnOkResult = void | boolean | Promise<void | boolean>
 
 /** 命令式调用通过 ref 暴露的句柄 */
 export interface ModalDialogHandle {
@@ -71,6 +75,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
   } = props
 
   const [open, setOpen] = useState(!!visible)
+  const [confirmLoading, setConfirmLoading] = useState(false)
   const windowRef = useRef<HTMLDivElement>(null)
 
   const doCancel = () => {
@@ -81,6 +86,35 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     if (rootDiv) {
       const dm = rootDiv.querySelector(`#${domId ?? 'air-modal-dialog'}`)
       if (dm) rootDiv.removeChild(dm)
+    }
+  }
+
+  /** 根据 onOk 返回值决定是否关闭并销毁对话框 */
+  const handleOk = async () => {
+    if (!onOk) {
+      doCancel()
+      return
+    }
+
+    try {
+      const result = onOk()
+      if (result === false) return
+
+      if (result != null && typeof (result as Promise<void | boolean>).then === 'function') {
+        setConfirmLoading(true)
+        try {
+          const resolved = await result
+          if (resolved === false) return
+          doCancel()
+        } finally {
+          setConfirmLoading(false)
+        }
+        return
+      }
+
+      doCancel()
+    } catch {
+      // Promise 被拒绝时保持对话框打开
     }
   }
 
@@ -144,6 +178,8 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
 
   if (!open) return null
 
+  const isBusy = loading || confirmLoading
+
   // 窗口始终 flex 居中；拖拽时叠加 transform 偏移（不切换布局，避免跳动）
   const winStyle: React.CSSProperties = offset
     ? {transform: `translate(${offset.x}px, ${offset.y}px)`}
@@ -198,7 +234,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           className="relative flex-1 overflow-auto"
           style={{backgroundColor: contentBgColor, padding: contentPaddingStyle, justifyContent: alignJustify}}
         >
-          {loading && (
+          {isBusy && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/60">
               <Spin size="large"/>
             </div>
@@ -210,12 +246,12 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
         {showFooter && (
           <div className="flex h-[60px] w-full shrink-0 items-center justify-end gap-2 px-6">
             {confirmable && (
-              <Button type="primary" onClick={onOk}>
+              <Button type="primary" loading={isBusy} disabled={isBusy} onClick={handleOk}>
                 {okText ?? '确定'}
               </Button>
             )}
             {closable && (
-              <Button onClick={doCancel}>
+              <Button disabled={isBusy} onClick={doCancel}>
                 {cancelText ?? '取消'}
               </Button>
             )}
