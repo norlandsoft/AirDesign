@@ -17,7 +17,6 @@
   min-height: 520px;
   background: #fff;
   overflow: hidden;
-  border-radius: 8px;
 }
 
 /* ===== 左侧品牌装饰区 ===== */
@@ -259,9 +258,9 @@
 .air-login-submit {
   height: 40px !important;
   min-height: 40px !important;
-  margin-top: 4px;
+  margin-top: 16px;
   border: 1px solid var(--login-button-bg) !important;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
   background-color: var(--login-button-bg) !important;
   color: #fff !important;
   font-size: 14px !important;

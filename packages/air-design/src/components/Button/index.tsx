@@ -9,6 +9,7 @@
 import React, {forwardRef, MouseEvent, ReactNode} from 'react'
 import {Button as PrimitiveButton, type ButtonProps} from '@/primitives/button'
 import Icon from '@/components/Icon'
+import {cn} from '@/lib/cn'
 
 /** AirDesign 按钮类型语义（非 AntD） */
 type AirButtonType = 'default' | 'primary' | 'danger' | 'text' | 'link'
@@ -76,7 +77,7 @@ const Button = forwardRef<HTMLButtonElement, AirButtonProps>((props, ref) => {
       type="button"
       variant={variant}
       size={size}
-      className={block ? 'w-full' : undefined}
+      className={cn(block && 'w-full', className)}
       onClick={onClick}
       disabled={isDisabled}
       data-loading={loading || undefined}
