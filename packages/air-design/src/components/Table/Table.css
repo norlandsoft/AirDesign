@@ -1,7 +1,7 @@
 /**
  * Table 表格样式
  *
- * bordered 模式：外框 + 行间分隔线（无列边框，首尾行不画横线）。
+ * bordered 模式：外框 + 行间分隔线（无列边框，含末行底边）。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -45,18 +45,15 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.air-table-shell--bordered .air-table-grid tbody tr:not(:last-child) {
+.air-table-shell--bordered .air-table-grid tbody tr {
   border-bottom: 1px solid var(--color-border);
+  background: #fff;
 }
 
 .air-table-shell--bordered .air-table-grid th {
   background: #fafafa;
   font-weight: 600;
   color: var(--color-foreground);
-}
-
-.air-table-shell--bordered .air-table-grid tbody tr {
-  background: #fff;
 }
 
 .air-table-shell--bordered .air-table-grid tbody tr:hover {
