@@ -35,6 +35,21 @@ function isControlledChild(child: React.ReactElement): boolean {
   return 'value' in (child.props as object) || 'checked' in (child.props as object)
 }
 
+/** Form.Item 绑定文本类控件时，undefined 须转为 ''，否则 cloneElement 会省略 value 导致 input 非受控 */
+const TEXT_FIELD_DISPLAY_NAMES = new Set(['Input', 'TextArea', 'NumberInput', 'Input.Password'])
+
+function resolveInjectedFieldValue(
+  child: React.ReactElement,
+  valuePropName: string,
+  rawValue: unknown
+): unknown {
+  if (valuePropName !== 'value') return rawValue
+  if (rawValue !== undefined && rawValue !== null) return rawValue
+  const displayName = (child.type as {displayName?: string})?.displayName ?? ''
+  if (TEXT_FIELD_DISPLAY_NAMES.has(displayName)) return ''
+  return rawValue
+}
+
 const FormItem: React.FC<FormItemExtendedProps> = (props) => {
   const {
     name,
@@ -153,7 +168,7 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
       return status ? cloneElement(children, {status} as Record<string, unknown>) : children
     }
 
-    const fieldValue = form.getFieldValue(fullName)
+    const fieldValue = resolveInjectedFieldValue(children, valuePropName, form.getFieldValue(fullName))
     const injected: Record<string, unknown> = {
       [valuePropName]: fieldValue,
       status,

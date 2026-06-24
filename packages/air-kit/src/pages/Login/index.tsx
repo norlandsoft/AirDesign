@@ -221,6 +221,7 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
             layout="vertical"
             requiredMark={false}
             className="air-login-form"
+            initialValues={{username: '', password: ''}}
             onFinish={handleFinish}
           >
             {!passwordOnly && (

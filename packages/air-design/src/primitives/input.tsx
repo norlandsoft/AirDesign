@@ -11,18 +11,26 @@ import {controlBaseClass} from '../lib/control-styles'
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({className, type, ...props}, ref) => (
-  <input
-    type={type}
-    className={cn(
-      'flex py-1 file:border-0 file:bg-transparent file:text-sm file:font-medium',
-      controlBaseClass,
-      className
-    )}
-    ref={ref}
-    {...props}
-  />
-))
+const Input = React.forwardRef<HTMLInputElement, InputProps>((allProps, ref) => {
+  const {className, type, value, defaultValue, onChange, ...rest} = allProps
+  // Form.Item 注入 onChange 但 value:undefined 被 cloneElement 省略时，仍须受控空串
+  const controlled =
+    'value' in allProps || (defaultValue === undefined && onChange != null)
+  return (
+    <input
+      type={type}
+      className={cn(
+        'flex py-1 file:border-0 file:bg-transparent file:text-sm file:font-medium',
+        controlBaseClass,
+        className
+      )}
+      ref={ref}
+      onChange={onChange}
+      {...rest}
+      {...(controlled ? {value: value ?? ''} : defaultValue !== undefined ? {defaultValue} : {})}
+    />
+  )
+})
 Input.displayName = 'Input'
 
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>

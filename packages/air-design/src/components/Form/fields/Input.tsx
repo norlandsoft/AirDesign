@@ -115,10 +115,10 @@ const AffixWrapper = forwardRef<
         className={cn(
           'h-full min-w-0 flex-1 border-0 bg-transparent p-0 shadow-none focus-visible:ring-0'
         )}
-        value={mergedValue}
         disabled={disabled}
         onChange={handleChange}
         {...rest}
+        value={mergedValue}
       />
       {suffix ? <span className="shrink-0 text-muted-foreground">{suffix}</span> : null}
       {!suffix && clearNode}
