@@ -1,7 +1,7 @@
 /**
  * PropertiesNaviBar 属性导航栏
  *
- * 属性页左侧导航，支持分组（type:'group'）与平铺项，选中态高亮。
+ * 属性页左侧导航，支持分组（type:'group'）与平铺项，选中态高亮；组内选项间距 4px，分组标题略大且不可选中。
  * 已无 UI 库依赖，样式改为 Tailwind。
  *
  * @author ChaiMingXu, 2026/06/19
@@ -47,9 +47,11 @@ const PropertiesNaviBar: React.FC<PropertiesNaviBarProps> = (props) => {
     <div className="overflow-auto" style={{width, height, padding}}>
       {data.map((sub) =>
         sub.type === 'group' ? (
-          <div key={sub.key} className="mb-2">
-            <div className="px-3 py-1 text-xs font-medium text-muted-foreground">{sub.label}</div>
-            {sub.children?.map((item) => renderItem(item))}
+          <div key={sub.key} className="mb-3">
+            <div className="select-none px-3 py-2 text-sm font-medium text-muted-foreground">{sub.label}</div>
+            <div className="flex flex-col gap-[4px]">
+              {sub.children?.map((item) => renderItem(item))}
+            </div>
           </div>
         ) : (
           renderItem(sub)

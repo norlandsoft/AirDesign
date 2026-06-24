@@ -48,6 +48,8 @@ npm run build        # 重新构建 air-design + air-kit
 | 表单组件 | Form 布局 / 字段 / 校验 / Form.List / FormInstance API |
 | Splitter | 可拖拽分割面板 |
 | Spin/Loading | 加载动画 / 骨架屏 / 全屏加载 |
+| NavMenu | 左侧模块导航 |
+| PropertiesNaviBar | 属性页左侧导航栏 |
 
 ## 暗色模式
 

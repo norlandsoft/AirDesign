@@ -32,6 +32,7 @@ import LoginPage from './pages/LoginPage'
 import CodeEditorPage from './pages/CodeEditorPage'
 import RichEditorPage from './pages/RichEditorPage'
 import NavMenuPage from './pages/NavMenuPage'
+import PropertiesNaviBarPage from './pages/PropertiesNaviBarPage'
 
 const NAV: NavMenuItem[] = [
   {key: 'button', icon: 'add', label: 'Button 按钮', shortLabel: '按钮'},
@@ -53,6 +54,7 @@ const NAV: NavMenuItem[] = [
   {key: 'upload', icon: 'upload', label: '文件上传', shortLabel: '上传'},
   {key: 'login', icon: 'user', label: '登录页', shortLabel: '登录'},
   {key: 'navmenu', icon: 'menu', label: 'NavMenu 导航', shortLabel: '导航'},
+  {key: 'propertiesnav', icon: 'project_settings', label: 'PropertiesNaviBar', shortLabel: '属性'},
   {key: 'codeeditor', icon: 'document', label: 'CodeEditor', shortLabel: '代码'},
   {key: 'richeditor', icon: 'edit', label: 'RichEditor', shortLabel: '富文本'},
 ]
@@ -146,6 +148,7 @@ const App: React.FC = () => {
             <Route path="upload" element={<UploadPage/>}/>
             <Route path="login" element={<LoginPage/>}/>
             <Route path="navmenu" element={<NavMenuPage/>}/>
+            <Route path="propertiesnav" element={<PropertiesNaviBarPage/>}/>
             <Route path="codeeditor" element={<CodeEditorPage/>}/>
             <Route path="richeditor" element={<RichEditorPage/>}/>
           </Routes>
