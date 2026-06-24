@@ -250,15 +250,6 @@
   --tw-ring-shadow: 0 0 #0000;
 }
 
-.air-login-form-row {
-  margin-bottom: 20px;
-}
-
-.air-login-remember {
-  font-size: 13px;
-  color: var(--color-muted-foreground);
-}
-
 .air-login-error {
   margin: -8px 0 12px;
   font-size: 13px;

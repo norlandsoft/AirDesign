@@ -9,7 +9,7 @@
  * @author ChaiMingXu, 2026/06/24
  */
 import React, {useState} from 'react'
-import {Button, Checkbox, Form, Input, PasswordInput} from 'air-design'
+import {Button, Form, Input, PasswordInput} from 'air-design'
 import type {FormInstance} from 'air-design'
 import {useUserStore} from '../../models/user'
 import {getSdkConfig} from '../../config'
@@ -102,7 +102,6 @@ interface LoginProps {
 interface LoginForm extends Record<string, unknown> {
   username: string
   password: string
-  remember?: boolean
 }
 
 /** 左侧装饰线条与节点（纯视觉，不参与交互） */
@@ -222,7 +221,6 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
             layout="vertical"
             requiredMark={false}
             className="air-login-form"
-            initialValues={{remember: true}}
             onFinish={handleFinish}
           >
             {!passwordOnly && (
@@ -247,12 +245,6 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
                 autoFocus={passwordOnly}
               />
             </Form.Item>
-
-            <div className="air-login-form-row">
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox className="air-login-remember">保持登录状态</Checkbox>
-              </Form.Item>
-            </div>
 
             {loginError ? <div className="air-login-error">{loginError}</div> : null}
 
