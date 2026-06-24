@@ -2,7 +2,7 @@
  * Form.Item 表单项
  *
  * 负责标签、校验、错误展示，并向子控件注入 value / onChange（或 checked）等 props，
- * 行为对齐 antd Form.Item。
+ * 行为对齐 antd Form.Item。默认从事件中按 valuePropName 提取字段值（避免误读 input.checked）。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -167,10 +167,12 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
           const first = eventArgs[0]
           if (first && typeof first === 'object' && first !== null && 'target' in first) {
             const target = (first as {target?: {value?: unknown; checked?: unknown}}).target
-            if (target && 'checked' in target && typeof target.checked === 'boolean') {
+            if (!target) return first
+            // 按 valuePropName 取值：文本类 input 也有 checked 属性（恒为 false），不可优先读 checked
+            if (valuePropName === 'checked' && 'checked' in target) {
               return target.checked
             }
-            if (target && 'value' in target) {
+            if ('value' in target) {
               return target.value
             }
           }
