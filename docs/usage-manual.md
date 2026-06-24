@@ -125,6 +125,24 @@ import { SlidePanel } from 'air-design'
 
 `type`：`small`(290) / `default`(378) / `large`(850) / `huge`(1280) / `full` / `custom`(用 width)。Header 高度 40px，Footer 高度 50px，打开时自侧边滑入。支持内嵌抽屉（`innerDrawer`/`showInnerDrawer`/`onInnerClose`）。
 
+### NavMenu 左侧导航
+
+```tsx
+import { NavMenu } from 'air-design'
+
+<NavMenu
+  mode="icon-label"
+  items={[
+    { key: 'home', icon: 'rocket', label: '工作台', shortLabel: '工作台' },
+    { key: 'doc', icon: 'document', label: '文档中心', shortLabel: '文档' },
+  ]}
+  selectedKey={activeKey}
+  onSelect={setActiveKey}
+/>
+```
+
+`mode`：`icon`（仅图标，栏宽 40px）/ `icon-label`（图标+文字纵向排列，栏宽 60px）。选中项左侧显示主题色竖线。`shortLabel` 用于 60px 窄栏下的短文案。
+
 ### Table
 
 ```tsx
@@ -324,7 +342,7 @@ const screens = Grid.useBreakpoint()
 ### 其他基础组件
 
 ```tsx
-import { Splitter, GroupSplitter, EditableLabel, Help, List, MenuBar, PropertiesNaviBar } from 'air-design'
+import { Splitter, GroupSplitter, EditableLabel, Help, List, MenuBar, NavMenu, PropertiesNaviBar } from 'air-design'
 
 // antd 兼容 API
 <Splitter layout="horizontal" onResize={(sizes) => {}}>
@@ -416,7 +434,7 @@ defineSdkConfig({
   storagePrefix: 'air-test-platform',   // sessionStorage 前缀，多应用隔离
   appName: '接口测试平台',
   appTagline: 'API Testing Platform',
-  theme: 'teal',                        // 登录页主题：blue | teal | amber
+  theme: 'teal',                        // 登录页主题：blue | teal | cyan | emerald | indigo | violet | rose | orange | amber | slate
 })
 ```
 

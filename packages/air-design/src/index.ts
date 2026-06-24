@@ -71,6 +71,9 @@ export {default as Markdown} from './components/Markdown'
 
 export {default as MenuBar} from './components/MenuBar'
 
+export {default as NavMenu} from './components/NavMenu'
+export type {NavMenuProps, NavMenuItem, NavMenuMode} from './components/NavMenu'
+
 export {default as MindPanel} from './components/MindPanel'
 export type {MindData, MindNodeData} from './components/MindPanel/data/MindData'
 

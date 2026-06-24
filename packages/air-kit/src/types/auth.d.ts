@@ -7,7 +7,7 @@ export interface SdkConfig {
   /** 应用副标题 */
   appTagline?: string
   /** 登录页主题色 */
-  theme?: 'blue' | 'teal' | 'amber'
+  theme?: 'blue' | 'teal' | 'cyan' | 'emerald' | 'indigo' | 'violet' | 'rose' | 'orange' | 'amber' | 'slate'
   /**
    * 固定登录身份（登录 ID）。
    * 配置后登录页将隐藏用户名输入框，仅保留密码输入框，并以该固定值作为登录 ID 提交。

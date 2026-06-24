@@ -1,0 +1,104 @@
+/**
+ * NavMenu 左侧导航菜单样式
+ *
+ * icon 模式宽 40px；icon-label 模式宽 60px，图标与文字纵向排列。
+ *
+ * @author ChaiMingXu, 2026/06/24
+ */
+
+.air-nav-menu {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-card);
+  padding: 4px 0;
+}
+
+.air-nav-menu--icon {
+  width: 40px;
+}
+
+.air-nav-menu--icon-label {
+  width: 60px;
+}
+
+.air-nav-menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-muted-foreground);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.air-nav-menu--icon .air-nav-menu-item {
+  height: 40px;
+}
+
+.air-nav-menu--icon-label .air-nav-menu-item {
+  min-height: 52px;
+  padding: 6px 2px;
+  gap: 4px;
+}
+
+.air-nav-menu-item:hover:not(:disabled) {
+  color: var(--color-foreground);
+  background: var(--color-accent);
+}
+
+.air-nav-menu-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.air-nav-menu-item-active {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.air-nav-menu-item-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: var(--color-primary);
+}
+
+.air-nav-menu-item-label {
+  width: 100%;
+  padding: 0 2px;
+  font-size: 10px;
+  line-height: 1.25;
+  text-align: center;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* icon 模式悬停 Tooltip：深色背景，显示在菜单项右侧 */
+.air-nav-menu-tooltip {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border: none;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}

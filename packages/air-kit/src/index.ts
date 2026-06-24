@@ -23,7 +23,8 @@ export {default as AppSwitcher} from './components/AppSwitcher'
 export {default as UserSettings} from './components/UserSettings'
 
 // 页面组件
-export {default as Login} from './pages/Login'
+export {default as Login, LOGIN_THEMES} from './pages/Login'
+export type {LoginTheme} from './pages/Login'
 
 // 工具函数
 export {POST, GET, SSE_POST} from './utils/HttpRequest'

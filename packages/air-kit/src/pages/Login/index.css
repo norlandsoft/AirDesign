@@ -1,155 +1,299 @@
 /*
- * Login 登录页样式（左品牌右表单）
+ * Login 登录页样式（左装饰右表单）
  *
- * @author ChaiMingXu, 2026/06/20
+ * 左侧：网格底纹 + 波浪 + 线条节点；右侧：白底表单 + 左侧强调线输入框。
+ *
+ * @author ChaiMingXu, 2026/06/24
  */
 
 .air-login-split {
+  --login-base: #2185f4;
+  --login-accent: #2185f4;
+  --login-accent-soft: rgba(33, 133, 244, 0.2);
+
   display: flex;
   width: 100%;
   height: 100%;
-  min-height: 480px;
-  background: var(--color-card);
+  min-height: 520px;
+  background: #fff;
   overflow: hidden;
   border-radius: 8px;
 }
 
-/* ===== 左侧品牌区 ===== */
+/* ===== 左侧品牌装饰区 ===== */
 .air-login-brand {
   position: relative;
-  flex: 1 1 55%;
+  flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 48px;
+  padding: 40px 48px;
   color: #fff;
+  overflow: hidden;
+  background-color: var(--login-base);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.air-login-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   overflow: hidden;
 }
 
-.air-login-brand-inner {
+.air-login-wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.air-login-wave-top {
+  top: 0;
+  height: 42%;
+}
+
+.air-login-wave-bottom {
+  bottom: 0;
+  height: 38%;
+}
+
+.air-login-lines {
+  position: absolute;
+  right: -20px;
+  top: 18%;
+  width: 55%;
+  height: auto;
+  opacity: 0.9;
+}
+
+.air-login-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.air-login-circle-1 {
+  width: 120px;
+  height: 120px;
+  left: -30px;
+  bottom: 18%;
+}
+
+.air-login-circle-2 {
+  width: 64px;
+  height: 64px;
+  right: 12%;
+  top: 28%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.air-login-circle-3 {
+  width: 36px;
+  height: 36px;
+  right: 28%;
+  bottom: 22%;
+  border-style: dashed;
+}
+
+.air-login-brand-header {
   position: relative;
   z-index: 1;
-}
-
-.air-login-logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 32px;
+  gap: 10px;
+  margin-bottom: auto;
 }
 
-.air-login-logo-dot {
-  width: 8px;
-  height: 8px;
+.air-login-brand-mark {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.air-login-brand-mark-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.85);
   border-radius: 50%;
 }
 
-.air-login-brand-title {
-  margin: 0 0 12px 0;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.air-login-brand-tagline {
-  margin: 0 0 32px 0;
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
-  max-width: 360px;
-}
-
-.air-login-features {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.air-login-features li {
-  position: relative;
-  padding-left: 22px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.air-login-features li::before {
-  content: '';
+.air-login-brand-mark-core {
   position: absolute;
-  left: 0;
-  top: 7px;
-  width: 12px;
-  height: 6px;
-  border-left: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.air-login-brand-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.92;
+}
+
+.air-login-brand-content {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+  margin: auto 0;
+  padding: 24px 0;
+}
+
+.air-login-greeting {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.air-login-headline {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+}
+
+.air-login-headline-line {
+  display: block;
+  width: 48px;
+  height: 4px;
+  margin: 14px 0 18px;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.air-login-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 300px;
 }
 
 .air-login-brand-footer {
-  position: absolute;
-  bottom: 24px;
-  left: 48px;
-  right: 48px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  position: relative;
   z-index: 1;
+  margin-top: auto;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 /* ===== 右侧表单区 ===== */
 .air-login-form-side {
-  flex: 1 1 45%;
+  flex: 1 1 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: 40px 48px;
+  background: #fff;
 }
 
 .air-login-form-card {
   width: 100%;
-  max-width: 340px;
+  max-width: 360px;
 }
 
 .air-login-form-title {
-  margin: 0 0 6px 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--color-foreground);
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--login-accent);
+  letter-spacing: 0.02em;
 }
 
 .air-login-form-sub {
-  margin: 0 0 28px 0;
-  font-size: 14px;
+  margin: 0 0 32px;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--color-muted-foreground);
 }
 
 .air-login-form {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
-.air-login-form .air-form-item {
-  margin-bottom: 12px;
+.air-login-field .air-form-item-label > label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.air-login-field {
+  margin-bottom: 18px;
+}
+
+/* 左侧强调线输入框 */
+.air-login-field-input {
+  border: none !important;
+  border-radius: 0 !important;
+  border-left: 4px solid var(--login-accent) !important;
+  background: #f3f6fa !important;
+  box-shadow: none !important;
+}
+
+.air-login-field-input:focus-within {
+  background: #eef2f7 !important;
+  outline: none;
+  box-shadow: none !important;
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+
+.air-login-form-row {
+  margin-bottom: 20px;
+}
+
+.air-login-remember {
+  font-size: 13px;
+  color: var(--color-muted-foreground);
 }
 
 .air-login-error {
+  margin: -8px 0 12px;
   font-size: 13px;
   color: var(--color-destructive);
-  margin-bottom: 8px;
 }
 
-/* ===== 响应式：窄屏隐藏左侧品牌区 ===== */
-@media (max-width: 720px) {
+.air-login-submit {
+  height: 40px !important;
+  min-height: 40px !important;
+  margin-top: 4px;
+  border: 1px solid var(--login-button-bg) !important;
+  border-radius: 10px !important;
+  background-color: var(--login-button-bg) !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em;
+  box-shadow: none !important;
+}
+
+.air-login-submit:hover:not(:disabled) {
+  background-color: var(--login-button-hover) !important;
+  border-color: var(--login-button-hover) !important;
+  color: #fff !important;
+  filter: none;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
   .air-login-brand {
     display: none;
   }
+
   .air-login-form-side {
     flex: 1 1 100%;
+    padding: 32px 24px;
   }
 }

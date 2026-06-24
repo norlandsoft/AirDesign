@@ -85,7 +85,7 @@ defineSdkConfig({
 | `storagePrefix` | string | sessionStorage 键前缀，多应用隔离 |
 | `appName` | string | 应用名称，显示在登录页 |
 | `appTagline` | string? | 登录页副标题 |
-| `theme` | `'blue' \| 'teal' \| 'amber'`? | 登录页主题色，默认 teal |
+| `theme` | 见 `LoginTheme` | 登录页主题色，默认 blue |
 
 ### 2. 用户状态（Zustand）
 
