@@ -217,7 +217,7 @@ air-kit 已**去 Umi/DVA 化**，状态管理基于 **Zustand**（`useUserStore`
 - **config**：`defineSdkConfig` 在应用入口注入 `storagePrefix` / `appName` / `appTagline` / `theme`
 - **useUserStore**（Zustand）：`login` / `logout` / `validateToken` / `changePassword` / `updateUserInfo` / `fetchUserSettings` / `updateUserSettings`；密码 SHA256；通过 `auth-state-changed` CustomEvent 与非 React 代码（HttpRequest 等）通信
 - **SecurityLayout**：未登录渲染消费方提供的登录页（`login` prop）；URL 含 `transferToken` 自动兑换 SSO；校验中全屏 Spin
-- **Login**：左右分栏布局，左侧网格/线条装饰区，右侧强调线输入框与胶囊登录按钮
+- **Login**：全页主题渐变背景（圆环装饰）+ 居中圆角卡片；左侧 panel 斜线节点装饰，右侧白底表单；Space Grotesk 字体
 - **UserSettings**：基本信息 / 显示设置 / 修改密码 三子页，原生表单
 - **AppSwitcher**：跨应用免登切换，基于 DropdownMenu 原语；`layoutSize` 经 props 传入（默认值，无需宿主全局 store）
 - **HttpRequest**：fetch 封装，自动注入 Authorization / X-User-Id 头，401 清理 session；含 SSE_POST 流式请求

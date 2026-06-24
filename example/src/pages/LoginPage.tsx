@@ -1,5 +1,5 @@
 /**
- * 登录页 Demo：展示 air-kit Login 组件（左品牌右表单）
+ * 登录页 Demo：展示 air-kit Login 组件（居中卡片左右分栏）
  *
  * 支持切换多套登录页主题配色。
  *
@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
   return (
     <PageContainer
       title="登录页（air-kit Login）"
-      description="左装饰右表单布局，可切换多套主题色。Mock 账号：demo / 任意密码。"
+      description="居中卡片左右分栏布局，可切换多套主题色。Mock 账号：demo / 任意密码。"
     >
       <div className="demo-block">
         <div className="flex flex-wrap items-center gap-3 text-sm">

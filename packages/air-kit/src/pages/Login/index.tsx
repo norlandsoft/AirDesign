@@ -1,12 +1,12 @@
 /**
- * Login 登录页（左装饰右表单）
+ * Login 登录页（居中卡片左右分栏）
  *
- * 左右分栏布局：左侧以网格、波浪与线条构成品牌装饰区；右侧为白底登录表单，
- * 输入框采用左侧强调色竖线，主按钮为圆角矩形。登录逻辑接入 air-kit useUserStore.login。
+ * 全页主题渐变背景（大面积圆环装饰）+ 居中圆角卡片：左侧约 40% 欢迎区（斜线节点与小圆），
+ * 右侧约 60% 为白底表单区（顶栏标识、居中表单、底栏链接）。登录逻辑接入 air-kit useUserStore.login。
  *
  * 若 defineSdkConfig 配置了 loginId（如 admin），则隐藏用户名输入框，仅保留密码。
  *
- * @author ChaiMingXu, 2026/06/24
+ * @author ChaiMingXu, 2026/06/25
  */
 import React, {useState} from 'react'
 import {Button, Form, Input, PasswordInput} from 'air-design'
@@ -104,45 +104,34 @@ interface LoginForm extends Record<string, unknown> {
   password: string
 }
 
-/** 左侧装饰线条与节点（纯视觉，不参与交互） */
-const BrandDecor: React.FC = () => (
-  <div className="air-login-decor" aria-hidden>
-    <svg className="air-login-wave air-login-wave-top" viewBox="0 0 800 220" preserveAspectRatio="none">
-      <path
-        d="M0,120 C120,40 240,180 400,90 C560,0 680,140 800,60 L800,0 L0,0 Z"
-        fill="rgba(255,255,255,0.12)"
-      />
-      <path
-        d="M0,160 C160,80 280,200 480,110 C620,40 720,150 800,100 L800,0 L0,0 Z"
-        fill="rgba(255,255,255,0.08)"
-      />
-    </svg>
-    <svg className="air-login-wave air-login-wave-bottom" viewBox="0 0 800 220" preserveAspectRatio="none">
-      <path
-        d="M0,60 C140,140 300,20 460,100 C600,170 700,40 800,120 L800,220 L0,220 Z"
-        fill="rgba(255,255,255,0.1)"
-      />
-      <path
-        d="M0,100 C120,20 280,160 440,70 C580,0 700,130 800,50 L800,220 L0,220 Z"
-        fill="rgba(255,255,255,0.06)"
-      />
-    </svg>
+/** 全页背景装饰：大面积朦胧圆环（与 panel 内图案区分） */
+const PageBgDecor: React.FC = () => (
+  <div className="air-login-page-decor" aria-hidden>
+    <span className="air-login-bg-ring air-login-bg-ring-1"/>
+    <span className="air-login-bg-ring air-login-bg-ring-2"/>
+    <span className="air-login-bg-ring air-login-bg-ring-3"/>
+    <span className="air-login-bg-ring air-login-bg-ring-4"/>
+    <span className="air-login-bg-ring air-login-bg-ring-5"/>
+  </div>
+)
 
-    <svg className="air-login-lines" viewBox="0 0 480 480">
-      <line x1="40" y1="80" x2="180" y2="200" stroke="rgba(255,255,255,0.35)" strokeWidth="1"/>
-      <circle cx="40" cy="80" r="4" fill="rgba(255,255,255,0.5)"/>
-      <circle cx="180" cy="200" r="3" fill="rgba(255,255,255,0.4)"/>
-      <line x1="320" y1="60" x2="420" y2="160" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-      <circle cx="320" cy="60" r="3" fill="rgba(255,255,255,0.45)"/>
-      <circle cx="420" cy="160" r="4" fill="rgba(255,255,255,0.35)"/>
-      <line x1="100" y1="320" x2="260" y2="400" stroke="rgba(255,255,255,0.28)" strokeWidth="1"/>
-      <circle cx="100" cy="320" r="3" fill="rgba(255,255,255,0.4)"/>
-      <circle cx="260" cy="400" r="4" fill="rgba(255,255,255,0.3)"/>
+/** 左侧欢迎 panel 装饰：斜线节点与小圆（与全页背景图案区分） */
+const PanelDecor: React.FC = () => (
+  <div className="air-login-panel-decor" aria-hidden>
+    <span className="air-login-panel-circle air-login-panel-circle-1"/>
+    <span className="air-login-panel-circle air-login-panel-circle-2"/>
+    <span className="air-login-panel-circle air-login-panel-circle-3"/>
+    <svg className="air-login-panel-lines" viewBox="0 0 400 400">
+      <line x1="48" y1="56" x2="168" y2="176" stroke="rgba(255,255,255,0.32)" strokeWidth="1"/>
+      <circle cx="48" cy="56" r="4" fill="rgba(255,255,255,0.45)"/>
+      <circle cx="168" cy="176" r="3" fill="rgba(255,255,255,0.35)"/>
+      <line x1="260" y1="72" x2="360" y2="168" stroke="rgba(255,255,255,0.28)" strokeWidth="1"/>
+      <circle cx="260" cy="72" r="3" fill="rgba(255,255,255,0.4)"/>
+      <circle cx="360" cy="168" r="4" fill="rgba(255,255,255,0.3)"/>
+      <line x1="80" y1="300" x2="240" y2="380" stroke="rgba(255,255,255,0.22)" strokeWidth="1"/>
+      <circle cx="80" cy="300" r="3" fill="rgba(255,255,255,0.38)"/>
+      <circle cx="240" cy="380" r="4" fill="rgba(255,255,255,0.28)"/>
     </svg>
-
-    <span className="air-login-circle air-login-circle-1"/>
-    <span className="air-login-circle air-login-circle-2"/>
-    <span className="air-login-circle air-login-circle-3"/>
   </div>
 )
 
@@ -185,81 +174,85 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
   }
 
   return (
-    <div className="air-login-split" style={themeStyle}>
-      <aside className="air-login-brand">
-        <BrandDecor/>
+    <div className="air-login-page" style={themeStyle}>
+      <div className="air-login-page-bg" aria-hidden>
+        <PageBgDecor/>
+      </div>
 
-        <header className="air-login-brand-header">
-          <span className="air-login-brand-mark">
-            <span className="air-login-brand-mark-ring"/>
-            <span className="air-login-brand-mark-core"/>
-          </span>
-          <span className="air-login-brand-name">{appName}</span>
-        </header>
+      <div className="air-login-card">
+        <aside className="air-login-brand">
+          <PanelDecor/>
 
-        <div className="air-login-brand-content">
-          <p className="air-login-greeting">很高兴再次见到您</p>
-          <h1 className="air-login-headline">欢迎回来</h1>
-          <span className="air-login-headline-line"/>
-          <p className="air-login-desc">{appTagline}</p>
-        </div>
+          <div className="air-login-brand-content">
+            <h1 className="air-login-headline">欢迎回来</h1>
+            <p className="air-login-desc">{appTagline}</p>
+          </div>
+        </aside>
 
-        <footer className="air-login-brand-footer">© {new Date().getFullYear()} Norlandsoft</footer>
-      </aside>
+        <main className="air-login-form-side">
+          <header className="air-login-form-header">
+            <span className="air-login-form-logo">{appName}</span>
+          </header>
 
-      <main className="air-login-form-side">
-        <div className="air-login-form-card">
-          <h2 className="air-login-form-title">登录账户</h2>
-          <p className="air-login-form-sub">
-            {passwordOnly
-              ? `请输入 ${appName} 管理员密码以继续`
-              : `使用您的账号登录 ${appName}`}
-          </p>
+          <div className="air-login-form-body">
+            <h2 className="air-login-form-title">登录账户</h2>
+            <p className="air-login-form-sub">
+              {passwordOnly
+                ? `请输入 ${appName} 管理员密码以继续`
+                : `使用您的账号登录 ${appName}`}
+            </p>
 
-          <Form<LoginForm>
-            form={form as FormInstance<LoginForm>}
-            layout="vertical"
-            requiredMark={false}
-            className="air-login-form"
-            initialValues={{username: '', password: ''}}
-            onFinish={handleFinish}
-          >
-            {!passwordOnly && (
+            <Form<LoginForm>
+              form={form as FormInstance<LoginForm>}
+              layout="vertical"
+              requiredMark={false}
+              className="air-login-form"
+              initialValues={{username: '', password: ''}}
+              onFinish={handleFinish}
+            >
+              {!passwordOnly && (
+                <Form.Item
+                  name="username"
+                  label="用户名"
+                  className="air-login-field"
+                  rules={[{required: true, message: '请输入用户名'}]}
+                >
+                  <Input className="air-login-field-input" placeholder="请输入用户名" autoFocus/>
+                </Form.Item>
+              )}
               <Form.Item
-                name="username"
-                label="用户名"
+                name="password"
+                label="密码"
                 className="air-login-field"
-                rules={[{required: true, message: '请输入用户名'}]}
+                rules={[{required: true, message: '请输入密码'}]}
               >
-                <Input className="air-login-field-input" placeholder="请输入用户名" autoFocus/>
+                <PasswordInput
+                  className="air-login-field-input"
+                  placeholder="请输入密码"
+                  autoFocus={passwordOnly}
+                />
               </Form.Item>
-            )}
-            <Form.Item
-              name="password"
-              label="密码"
-              className="air-login-field"
-              rules={[{required: true, message: '请输入密码'}]}
-            >
-              <PasswordInput
-                className="air-login-field-input"
-                placeholder="请输入密码"
-                autoFocus={passwordOnly}
-              />
-            </Form.Item>
 
-            {loginError ? <div className="air-login-error">{loginError}</div> : null}
+              {loginError ? <div className="air-login-error">{loginError}</div> : null}
 
-            <Button
-              block
-              loading={loading}
-              className="air-login-submit"
-              onClick={() => form.submit()}
-            >
-              登 录
-            </Button>
-          </Form>
-        </div>
-      </main>
+              <Button
+                block
+                loading={loading}
+                className="air-login-submit"
+                onClick={() => form.submit()}
+              >
+                登 录
+              </Button>
+            </Form>
+          </div>
+
+          <footer className="air-login-form-footer">
+            <span>帮助</span>
+            <span>隐私政策</span>
+            <span>服务条款</span>
+          </footer>
+        </main>
+      </div>
     </div>
   )
 }

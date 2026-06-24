@@ -180,6 +180,22 @@ function parseMessageBlock(messageBlock: string, callback: (data: string) => voi
   }
 }
 
+/** 是否为登录类接口（401 时须解析 JSON 正文，且不应清空 session） */
+function isAuthLoginRequest(url: string | URL | Request): boolean {
+  const path =
+    typeof url === 'string'
+      ? url.split('?')[0]
+      : url instanceof URL
+        ? url.pathname
+        : url.url.split('?')[0]
+  return (
+    path.endsWith('/api/v1/auth/login') ||
+    path.endsWith('/rest/auth/login') ||
+    path.endsWith('/admin/user/login') ||
+    path.endsWith('/rest/admin/user/login')
+  )
+}
+
 export async function POST(url: string | URL | Request, params: any): Promise<any> {
   return new Promise<any>(
       (resolve, reject) => {
@@ -198,15 +214,22 @@ export async function POST(url: string | URL | Request, params: any): Promise<an
                 message: '异常 [HTTP-400], 请求参数错误'
               });
             case 401:
-              // token失效，清除所有sessionStorage并跳转到登录页
+              // 登录失败：解析服务端 message（用户名/密码错误等），勿清空 session
+              if (
+                isAuthLoginRequest(url) &&
+                res.headers.get('Content-Type')?.includes('application/json')
+              ) {
+                return res.json().then(resolve)
+              }
+              // 其余 401：token 失效，清除 session
               sessionStorage.clear();
-
-              // 触发登出事件
               window.dispatchEvent(new CustomEvent('auth-state-changed', {
                 detail: {authenticated: false}}));
-
-              if (url != '/api/v1/auth/login' && url != '/api/v1/auth/current'
-                  && url != '/api/v1/transfer/accept' && url != '/rest/auth/login') {
+              if (
+                !String(url).includes('/api/v1/auth/current') &&
+                !String(url).includes('/rest/auth/current') &&
+                !String(url).includes('/api/v1/transfer/accept')
+              ) {
                 Notice.error('登录已失效', '您的登录已过期，请重新登录。');
               }
               return resolve({
