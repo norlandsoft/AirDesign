@@ -397,7 +397,7 @@ import { POST } from 'air-kit/utils/HttpRequest';
 | 旧 API | 新 API |
 |--------|--------|
 | `air-auth` | `air-kit` |
-| `defineAuthConfig` | `defineSdkConfig`（旧名仍可用，已 @deprecated） |
+| `defineAuthConfig` | `defineSdkConfig` |
 | `getAuthConfig` | `getSdkConfig` |
 | `AuthConfig` | `SdkConfig` |
 | `air-auth/dist/air-auth.css` | `air-kit/style.css` |

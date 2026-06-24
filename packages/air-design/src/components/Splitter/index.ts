@@ -1,12 +1,11 @@
 /**
  * Splitter 分割面板入口
  *
- * 导出 SplitPane（默认）与 Pane。拖拽/折叠逻辑见 SplitPane.tsx。
+ * 导出 antd 兼容 Splitter 及 Splitter.Panel。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/24
  */
-import SplitPane from './SplitPane'
-import Pane from './Pane'
+import Splitter from './Splitter'
 
-export default SplitPane
-export {Pane}
+export default Splitter
+export type {SplitterProps, SplitterPanelProps, SplitterLayout, PanelCollapsible} from './types'

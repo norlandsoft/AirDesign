@@ -10,10 +10,6 @@
 
 // 配置
 export {defineSdkConfig, getSdkConfig, storageKey} from './config'
-/** @deprecated 使用 defineSdkConfig */
-export {defineSdkConfig as defineAuthConfig} from './config'
-/** @deprecated 使用 getSdkConfig */
-export {getSdkConfig as getAuthConfig} from './config'
 
 // 用户 Store（Zustand，取代 DVA UserModel）
 export {default as useUserStore, UserModel} from './models/user'
@@ -38,7 +34,5 @@ export {formatFileSize} from './utils/FormatUtils'
 
 // 类型导出
 export type {SdkConfig} from './types/auth'
-/** @deprecated 使用 SdkConfig */
-export type {SdkConfig as AuthConfig} from './types/auth'
 export type {UserResponse, UserLoginRequest, AdminPasswordChangeRequest} from './types/user'
 export type {DisplaySettings, UserSettingsResponse, UserSettingsUpdateRequest} from './types/userSettings'

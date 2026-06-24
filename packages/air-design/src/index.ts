@@ -24,6 +24,19 @@ export {Tag, tagVariants} from './components/Tag'
 export type {TagProps} from './components/Tag'
 export {default as Avatar, AvatarGroup} from './components/Avatar'
 export type {AvatarProps, AvatarGroupProps, AvatarSize, AvatarShape} from './components/Avatar'
+export {Grid, Row, Col, useBreakpoint, useViewportWidth, getActiveBreakpoint} from './components/Grid'
+export type {
+  RowProps,
+  ColProps,
+  ColSize,
+  ColSizeConfig,
+  Gutter,
+  Breakpoint,
+  BreakpointMap,
+  RowJustify,
+  RowAlign,
+  ResponsiveValue,
+} from './components/Grid'
 export {default as Message} from './components/Message'
 export {default as message} from './components/Message'
 export {default as Notice} from './components/Notice'
@@ -34,7 +47,7 @@ export {default as GroupSplitter} from './components/GroupSplitter'
 export {default as Help} from './components/Help'
 export {default as SlidePanel} from './components/SlidePanel'
 export {default as Splitter} from './components/Splitter'
-export {Pane} from './components/Splitter'
+export type {SplitterProps, SplitterPanelProps, SplitterLayout, PanelCollapsible} from './components/Splitter'
 export {default as TabPanel} from './components/TabPanel'
 export {default as Tree} from './components/Tree'
 export type {TreeNode, TreeMenuItem} from './components/Tree'

@@ -289,13 +289,32 @@ import { Avatar } from 'air-design'
 
 **尺寸**：`default` 32px / `small` 24px / `large` 40px，或传入数字像素。字符头像背景色由内容哈希生成（对齐 antd 色板）。深度定制可使用 `RadixAvatar` / `RadixAvatarImage` / `RadixAvatarFallback` 原语。
 
+### Grid 栅格（antd 兼容）
+
+```tsx
+import { Row, Col, Grid } from 'air-design'
+
+const screens = Grid.useBreakpoint()
+
+<Row gutter={[16, 24]} justify="center" align="middle">
+  <Col xs={24} sm={12} md={8} lg={6} xl={4}>内容</Col>
+  <Col span={8} offset={8}>偏移</Col>
+  <Col flex="auto">flex 填充</Col>
+</Row>
+```
+
+**断点**：`xs` 0 / `sm` 576 / `md` 768 / `lg` 992 / `xl` 1200 / `xxl` 1600 / `xxxl` 1920（px）。`Col` 支持 `span` / `offset` / `order` / `push` / `pull` / `flex` 及各级响应式属性。
+
 ### 其他基础组件
 
 ```tsx
 import { Splitter, GroupSplitter, EditableLabel, Help, List, MenuBar, PropertiesNaviBar } from 'air-design'
 
-<Splitter split="vertical" defaultSize={200} minSize={50}
-  onChange={n => {}}>{<PaneA/>}{<PaneB/>}</Splitter>
+// antd 兼容 API
+<Splitter layout="horizontal" onResize={(sizes) => {}}>
+  <Splitter.Panel defaultSize="40%" min="20%" max="70%" collapsible>左</Splitter.Panel>
+  <Splitter.Panel>右</Splitter.Panel>
+</Splitter>
 
 <EditableLabel text="标题" onSave={v => setTitle(v)} />
 <Help text="这是一段帮助说明" />

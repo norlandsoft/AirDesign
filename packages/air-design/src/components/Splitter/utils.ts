@@ -1,0 +1,162 @@
+/**
+ * Splitter 工具函数
+ *
+ * 尺寸解析、布局方向映射、Panel 配置归一化。
+ *
+ * @author ChaiMingXu, 2026/06/24
+ */
+import React, {isValidElement} from 'react'
+import type {NormalizedPanelConfig, PanelCollapsible, SplitterLayout, SplitterPanelProps, SplitterProps} from './types'
+import {SPLITTER_PANEL_DISPLAY_NAME} from './SplitterPanel'
+
+/** 分割条占位宽度（px） */
+export const SPLIT_BAR_SIZE = 4
+
+/** 将 size 字符串或数字解析为像素 */
+export function parseSizeValue(value: number | string | undefined, containerSize: number): number | undefined {
+  if (value == null || value === '') return undefined
+  if (typeof value === 'number') return value
+  const trimmed = String(value).trim()
+  if (trimmed.endsWith('%')) {
+    const percent = parseFloat(trimmed)
+    if (Number.isNaN(percent)) return undefined
+    return (containerSize * percent) / 100
+  }
+  const num = parseFloat(trimmed)
+  return Number.isNaN(num) ? undefined : num
+}
+
+/** 解析 Panel min/max（支持 px 与百分比） */
+export function resolvePanelLimit(
+  value: number | string | undefined,
+  containerSize: number
+): number | undefined {
+  return parseSizeValue(value, containerSize)
+}
+
+/** 约束面板尺寸在 min/max 范围内 */
+export function clampPanelSize(
+  size: number,
+  minRaw?: number | string,
+  maxRaw?: number | string,
+  containerSize = 0
+): number {
+  const min = resolvePanelLimit(minRaw, containerSize)
+  const max = resolvePanelLimit(maxRaw, containerSize)
+  let next = size
+  if (min != null) next = Math.max(min, next)
+  if (max != null) next = Math.min(max, next)
+  return Math.max(0, next)
+}
+
+/** 解析 Splitter 布局方向 */
+export function resolveSplitterLayout(props: SplitterProps): SplitterLayout {
+  if (props.layout) return props.layout
+  if (props.vertical) return 'vertical'
+  return 'horizontal'
+}
+
+/** 判断子节点是否为 Splitter.Panel */
+export function isSplitterPanelElement(child: React.ReactNode): child is React.ReactElement<SplitterPanelProps> {
+  return (
+    isValidElement(child) &&
+    typeof child.type === 'function' &&
+    (child.type as {displayName?: string}).displayName === SPLITTER_PANEL_DISPLAY_NAME
+  )
+}
+
+/** 归一化 Panel collapsible 配置 */
+export function normalizeCollapsible(value: PanelCollapsible | undefined): PanelCollapsible {
+  return value ?? false
+}
+
+/** 是否允许在分割条起点显示折叠按钮（收起左侧/上方面板） */
+export function canCollapseStart(collapsible: PanelCollapsible): boolean {
+  if (collapsible === true) return true
+  if (typeof collapsible === 'object') return collapsible.start !== false
+  return false
+}
+
+/** 是否允许在分割条终点显示折叠按钮（收起右侧/下方面板） */
+export function canCollapseEnd(collapsible: PanelCollapsible): boolean {
+  if (collapsible === true) return true
+  if (typeof collapsible === 'object') return collapsible.end !== false
+  return false
+}
+
+/** 从 React 子元素提取 Panel 配置 */
+export function extractPanelConfigs(children: React.ReactNode): NormalizedPanelConfig[] {
+  const items = React.Children.toArray(children).filter(isSplitterPanelElement)
+  return items.map((child, index) => {
+    const {
+      className,
+      style,
+      defaultSize,
+      size,
+      min,
+      max,
+      resizable = true,
+      collapsible = false,
+      children: content,
+    } = child.props
+
+    return {
+      key: child.key != null ? String(child.key) : `panel-${index}`,
+      className,
+      style,
+      children: content,
+      defaultSize,
+      size,
+      minRaw: min,
+      maxRaw: max,
+      resizable,
+      collapsible: normalizeCollapsible(collapsible),
+    }
+  })
+}
+
+/** 根据 Panel 配置计算初始像素尺寸 */
+export function buildInitialSizes(
+  panels: NormalizedPanelConfig[],
+  containerSize: number,
+  collapsed: boolean[]
+): number[] {
+  const available = Math.max(0, containerSize - Math.max(panels.length - 1, 0) * SPLIT_BAR_SIZE)
+  const explicit = panels.map((panel, index) => {
+    if (collapsed[index]) return 0
+    const raw = panel.size ?? panel.defaultSize
+    return parseSizeValue(raw, containerSize)
+  })
+
+  let fixedTotal = 0
+  let flexCount = 0
+  explicit.forEach((value) => {
+    if (value != null) fixedTotal += value
+    else flexCount += 1
+  })
+
+  const flexUnit = flexCount > 0 ? Math.max(0, available - fixedTotal) / flexCount : 0
+
+  return panels.map((panel, index) => {
+    if (collapsed[index]) return 0
+    const parsed = explicit[index] ?? flexUnit
+    return clampPanelSize(parsed, panel.minRaw, panel.maxRaw, containerSize)
+  })
+}
+
+/** 将 Panel 受控 size 合并进尺寸数组 */
+export function mergeControlledSizes(
+  panels: NormalizedPanelConfig[],
+  sizes: number[],
+  containerSize: number,
+  collapsed: boolean[]
+): number[] {
+  return panels.map((panel, index) => {
+    if (collapsed[index]) return 0
+    if (panel.size != null) {
+      const parsed = parseSizeValue(panel.size, containerSize)
+      if (parsed != null) return clampPanelSize(parsed, panel.minRaw, panel.maxRaw, containerSize)
+    }
+    return sizes[index] ?? 0
+  })
+}

@@ -158,8 +158,9 @@ AirDesign/
 | Message / Notice | 自建 createRoot | 命令式轻提示/通知 |
 | Form / Input / Select / NumberInput / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 38px |
 | Avatar | primitives/avatar (Radix) | antd 兼容 API，图片/字符/图标 + Group |
+| Grid / Row / Col | Flex + 24 栅格 | gutter / 响应式 / useBreakpoint |
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |
-| Splitter / GroupSplitter | 自建（保留逻辑） | 拖拽分割 |
+| Splitter / GroupSplitter | 自建（antd 兼容 API） | 多面板拖拽分割、折叠 |
 | Spin / LoadingPanel | 自建 | 三圆点动画 |
 | EditableLabel / Help | primitives/input / tooltip | — |
 | List / MenuBar / PropertiesNaviBar | 自建 | Tailwind 化 |

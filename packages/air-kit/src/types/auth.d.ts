@@ -16,6 +16,3 @@ export interface SdkConfig {
    */
   loginId?: string
 }
-
-/** @deprecated 使用 SdkConfig */
-export type AuthConfig = SdkConfig

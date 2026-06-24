@@ -25,6 +25,7 @@ import SplitterPage from './pages/SplitterPage'
 import FeedbackPage from './pages/FeedbackPage'
 import TagPage from './pages/TagPage'
 import AvatarPage from './pages/AvatarPage'
+import GridPage from './pages/GridPage'
 import UploadPage from './pages/UploadPage'
 import LoginPage from './pages/LoginPage'
 import CodeEditorPage from './pages/CodeEditorPage'
@@ -51,6 +52,7 @@ const NAV: NavItem[] = [
   {path: 'feedback', label: 'Spin/Loading', icon: 'refresh'},
   {path: 'tag', label: 'Tag 标签', icon: 'tag'},
   {path: 'avatar', label: 'Avatar 头像', icon: 'user'},
+  {path: 'grid', label: 'Grid 栅格', icon: 'columns_2'},
   {path: 'upload', label: '文件上传', icon: 'upload'},
   {path: 'login', label: '登录页', icon: 'user'},
   {path: 'codeeditor', label: 'CodeEditor', icon: 'document'},
@@ -141,6 +143,7 @@ const App: React.FC = () => {
             <Route path="feedback" element={<FeedbackPage/>}/>
             <Route path="tag" element={<TagPage/>}/>
             <Route path="avatar" element={<AvatarPage/>}/>
+            <Route path="grid" element={<GridPage/>}/>
             <Route path="upload" element={<UploadPage/>}/>
             <Route path="login" element={<LoginPage/>}/>
             <Route path="codeeditor" element={<CodeEditorPage/>}/>

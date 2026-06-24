@@ -38,7 +38,7 @@ packages/air-design/src/
     ├── Dialog/                     # 对话框（Dialog / UploadDialog / AlertDialog）
     ├── EditableLabel/ / GroupSplitter/ / Help/
     ├── SlidePanel/                 # 侧滑抽屉（基于 Sheet）
-    ├── Splitter/                   # 分割面板（Splitter / Pane）
+    ├── Splitter/                   # 分割面板（Splitter / Splitter.Panel）
     ├── TabPanel/                   # 标签页（基于 Tabs）
     ├── Tree/                       # 树（react-arborist）
     ├── List/ / MenuBar/ / PropertiesNaviBar/
@@ -294,7 +294,7 @@ import { SecurityLayout, defineSdkConfig } from 'air-kit'
 | GroupSplitter | `GroupSplitter` | 分组分隔面板 |
 | Help | `Help` | 帮助提示组件 |
 | SlidePanel | `SlidePanel` | 侧滑面板 |
-| Splitter | `Splitter` / `Pane` | 可调整大小的分割面板 |
+| Splitter | `Splitter` / `Splitter.Panel` | 可调整大小的分割面板 |
 | TabPanel | `TabPanel` | 标签页面板 |
 | Tree | `Tree` | 树形控件 |
 | List | `List` | 列表控件 |

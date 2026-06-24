@@ -37,9 +37,3 @@ export function storageKey(suffix: string): string {
 export function isAdminPlatform(): boolean {
   return getSdkConfig().loginId?.toLowerCase() === 'admin'
 }
-
-/** @deprecated 使用 defineSdkConfig */
-export const defineAuthConfig = defineSdkConfig
-
-/** @deprecated 使用 getSdkConfig */
-export const getAuthConfig = getSdkConfig

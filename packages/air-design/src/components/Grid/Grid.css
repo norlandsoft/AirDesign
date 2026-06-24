@@ -1,0 +1,16 @@
+/**
+ * Grid 栅格样式
+ *
+ * Row / Col 基础 flex 布局类，具体宽度由 JS 按 24 栅格计算。
+ *
+ * @author ChaiMingXu, 2026/06/24
+ */
+.air-row {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.air-col {
+  box-sizing: border-box;
+  max-width: 100%;
+}
