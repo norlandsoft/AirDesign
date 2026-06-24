@@ -14,7 +14,7 @@
  * @author ChaiMingXu, 2026/06/19
  */
 import React, {useEffect, useState} from 'react'
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter} from '@/primitives/sheet'
+import {Sheet, SheetContent, SheetHeader, SheetTitle} from '@/primitives/sheet'
 import Button from '@/components/Button'
 import IconButton from '@/components/Button/IconButton'
 import {cn} from '@/lib/cn'
@@ -158,17 +158,22 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
           {children}
         </div>
 
-        {/* 页脚按钮栏：固定 50px；全屏靠右，其余靠左 */}
+        {/* 页脚按钮栏：固定 50px；非 full 靠左 gap 8px，full 靠右 */}
         {hasButtonBar && (
-          <SheetFooter className={cn('flex h-[50px] shrink-0 flex-row items-center gap-2 border-t px-6 py-0', locked.isFull ? 'justify-end' : 'justify-start')}>
+          <div
+            className={cn(
+              'flex h-[50px] shrink-0 flex-row items-center gap-[8px] border-t px-6',
+              locked.isFull ? 'justify-end' : 'justify-start',
+            )}
+          >
             {onConfirm && (
               <Button type="primary" onClick={onConfirm}>
                 {confirmButtonText}
               </Button>
             )}
             {onClose && <Button onClick={onClose}>{closeButtonText}</Button>}
-            {footerExtra && <div className="ml-auto">{footerExtra}</div>}
-          </SheetFooter>
+            {footerExtra && <div className={locked.isFull ? undefined : 'ml-auto'}>{footerExtra}</div>}
+          </div>
         )}
 
         {/* 内嵌抽屉（独立 Sheet 叠加，side 与主面板一致） */}
