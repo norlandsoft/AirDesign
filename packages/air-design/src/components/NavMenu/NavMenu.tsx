@@ -3,9 +3,9 @@
  *
  * 用于全局页面模块切换，固定在页面左侧。支持两种展示模式：
  * - icon：仅图标，栏宽 40px，悬停右侧显示深色 Tooltip
- * - icon-label：图标 + 文字（纵向排列），栏宽 60px
+ * icon-label：图标 + 文字纵向排列，栏宽 72px，背景块 56×56（1:1）。
  *
- * 选中项左侧显示主题色竖线指示，与 AirDesign 线条风格一致。
+ * icon-label 选中/悬停以圆角背景块高亮；icon 模式保留左侧竖线指示。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -26,7 +26,7 @@ export interface NavMenuItem {
   icon: string
   /** 菜单文案；icon 模式下悬停右侧 Tooltip 展示 */
   label: string
-  /** icon-label 模式下的短文案（栏宽 60px 时建议提供） */
+  /** icon-label 模式下的短文案（建议 2～4 字） */
   shortLabel?: string
   /** 是否禁用 */
   disabled?: boolean
@@ -74,14 +74,16 @@ const NavMenu: React.FC<NavMenuProps> = ({
       aria-label={mode === 'icon' ? item.label : undefined}
       onClick={() => handleSelect(item.key, item.disabled)}
     >
-      <Icon
-        name={item.icon}
-        size={mode === 'icon' ? 18 : 16}
-        color={active ? 'var(--color-primary)' : 'currentColor'}
-      />
-      {mode === 'icon-label' ? (
-        <span className="air-nav-menu-item-label">{item.shortLabel ?? item.label}</span>
-      ) : null}
+      <span className="air-nav-menu-item-inner">
+        <Icon
+          name={item.icon}
+          size={mode === 'icon' ? 18 : 20}
+          color={mode === 'icon-label' ? 'var(--color-primary)' : active ? 'var(--color-primary)' : 'currentColor'}
+        />
+        {mode === 'icon-label' ? (
+          <span className="air-nav-menu-item-label">{item.shortLabel ?? item.label}</span>
+        ) : null}
+      </span>
     </button>
   )
 

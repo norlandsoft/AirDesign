@@ -5,18 +5,19 @@
  * data / columns（dataIndex+render+title，Semi/AntD 风格）/ height / padding / bordered /
  * headerHeight / rowHeight / onItemClick / showHeader / headerPanel / pagination / showEmpty / emptyText。
  *
- * 分页由内部 state 管理（pagination 为 {total,pageSize,currentPage,onChange} 或 boolean），
- * 实际分页逻辑仍由消费方控制（currentPage/onChange），Table 只负责渲染分页条。
+ * bordered 为 true 时：外框 + 行间横线（无列边框），表头浅灰底；分页栏显示「总页数」。
+ * pagination 为 false 时不渲染分页栏。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/24
  */
 import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {useReactTable, getCoreRowModel, flexRender, type ColumnDef} from '@tanstack/react-table'
 import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
+import './Table.css'
 
 /** Semi/AntD 风格列定义（消费方惯用） */
-interface LegacyColumn<T = any> {
+export interface LegacyColumn<T = any> {
   key?: string
   dataIndex?: string
   title?: React.ReactNode
@@ -25,18 +26,19 @@ interface LegacyColumn<T = any> {
   align?: 'left' | 'center' | 'right'
 }
 
-interface PaginationProps {
+export interface TablePaginationProps {
   total: number
   pageSize: number
   currentPage: number
   onChange: (page: number) => void
 }
 
-interface TableProps<T = any> {
+export interface TableProps<T = any> {
   data: T[]
   columns: LegacyColumn<T>[]
   height: number
   padding?: number
+  /** 是否显示边框网格样式 */
   bordered?: boolean
   headerHeight?: number
   rowHeight?: number
@@ -44,15 +46,24 @@ interface TableProps<T = any> {
   showHeader?: boolean
   headerPanel?: React.ReactNode
   customStyles?: React.CSSProperties
-  pagination?: boolean | PaginationProps
+  /** false 不分页；true 仅占位；对象时渲染分页栏 */
+  pagination?: boolean | TablePaginationProps
   showEmpty?: boolean
   emptyText?: string
+}
+
+/** 列对齐 class */
+function alignClass(align?: 'left' | 'center' | 'right'): string {
+  if (align === 'center') return 'text-center'
+  if (align === 'right') return 'text-right'
+  return 'text-left'
 }
 
 /** 将旧式列定义转换为 TanStack column defs */
 function toColumnDefs<T>(columns: LegacyColumn<T>[]): ColumnDef<T>[] {
   return columns.map((col, index) => ({
     id: col.key ?? col.dataIndex ?? `col-${index}`,
+    meta: {align: col.align, width: col.width},
     header: () => col.title ?? '',
     size: typeof col.width === 'number' ? col.width : undefined,
     cell: ({row}) => {
@@ -62,7 +73,16 @@ function toColumnDefs<T>(columns: LegacyColumn<T>[]): ColumnDef<T>[] {
   }))
 }
 
-function Grid<T = any>(props: TableProps<T>) {
+/** 计算分页页码窗口（最多 5 个） */
+function buildPageWindow(currentPage: number, totalPages: number): number[] {
+  const pages: number[] = []
+  const start = Math.max(1, Math.min(currentPage - 2, totalPages - 4))
+  const end = Math.min(totalPages, start + 4)
+  for (let i = start; i <= end; i += 1) pages.push(i)
+  return pages
+}
+
+function Table<T = any>(props: TableProps<T>) {
   const {
     data,
     columns,
@@ -94,34 +114,41 @@ function Grid<T = any>(props: TableProps<T>) {
   useEffect(() => {
     if (!tableRef.current) return
     const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) setInnerWidth(entry.contentRect.width)
+      for (const entry of entries) entries[0] && setInnerWidth(entry.contentRect.width)
     })
     observer.observe(tableRef.current)
     return () => observer.disconnect()
   }, [])
 
-  const hasPagination = !!pagination
-  const scrollY = height - (showHeader ? headerHeight : 0) - padding * 2 - (hasPagination ? 40 : 0) - (headerPanel ? 50 : 0) - (bordered ? 2 : 0)
-
+  const hasPagination = pagination !== false && pagination !== undefined && typeof pagination === 'object'
   const paginationProps = typeof pagination === 'object' ? pagination : null
+  const shellHeight = height - padding * 2
 
   const renderPagination = () => {
     if (!paginationProps) return null
     const {total, pageSize, currentPage, onChange} = paginationProps
     const totalPages = Math.max(1, Math.ceil(total / pageSize))
-    const pages: number[] = []
-    const start = Math.max(1, Math.min(currentPage - 2, totalPages - 4))
-    const end = Math.min(totalPages, start + 4)
-    for (let i = start; i <= end; i++) pages.push(i)
+    const pages = buildPageWindow(currentPage, totalPages)
 
     return (
-      <div className="flex items-center justify-end gap-1 border-t px-3 text-sm" style={{width: innerWidth, height: 40}}>
-        <span className="mr-2 text-muted-foreground">共 {total} 条</span>
+      <div
+        className={cn(
+          'air-table-pagination',
+          bordered ? 'air-table-pagination--bordered' : 'air-table-pagination--plain'
+        )}
+        style={{width: bordered ? '100%' : innerWidth}}
+      >
+        {bordered ? (
+          <span className="air-table-pagination-total">总页数: {totalPages}</span>
+        ) : (
+          <span className="air-table-pagination-total">共 {total} 条</span>
+        )}
         <button
           type="button"
           disabled={currentPage <= 1}
           onClick={() => onChange(currentPage - 1)}
-          className="inline-flex size-7 items-center justify-center rounded hover:bg-accent disabled:opacity-40"
+          className="air-table-pagination-btn"
+          aria-label="上一页"
         >
           <Icon name="arrow_left" size={14}/>
         </button>
@@ -131,8 +158,8 @@ function Grid<T = any>(props: TableProps<T>) {
             type="button"
             onClick={() => onChange(p)}
             className={cn(
-              'inline-flex h-7 min-w-7 items-center justify-center rounded px-2',
-              p === currentPage ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+              'air-table-pagination-btn',
+              p === currentPage && 'air-table-pagination-btn--active'
             )}
           >
             {p}
@@ -142,7 +169,8 @@ function Grid<T = any>(props: TableProps<T>) {
           type="button"
           disabled={currentPage >= totalPages}
           onClick={() => onChange(currentPage + 1)}
-          className="inline-flex size-7 items-center justify-center rounded hover:bg-accent disabled:opacity-40"
+          className="air-table-pagination-btn"
+          aria-label="下一页"
         >
           <Icon name="arrow_right" size={14}/>
         </button>
@@ -150,50 +178,79 @@ function Grid<T = any>(props: TableProps<T>) {
     )
   }
 
+  const shellClass = cn(
+    'air-table-shell',
+    bordered ? 'air-table-shell--bordered' : 'air-table-shell--plain'
+  )
+
   return (
     <div ref={tableRef} className="air-table-container" style={{padding, ...customStyles}}>
-      <div style={{height: height - padding * 2, border: bordered ? '1px solid var(--color-border)' : 'none', boxSizing: 'border-box', borderRadius: 2}}>
-        {headerPanel && <div className="flex items-center border-b" style={{height: 50}}>{headerPanel}</div>}
-        <div className="overflow-auto" style={{height: scrollY, borderTop: !bordered && showHeader ? '1px solid var(--color-border)' : undefined}}>
-          <table className="w-full border-collapse text-sm">
-            {showHeader && (
-              <thead className="sticky top-0 z-10 bg-muted">
+      <div className={shellClass} style={{height: shellHeight}}>
+        {headerPanel ? (
+          <div className="flex shrink-0 items-center border-b border-border" style={{height: 50}}>
+            {headerPanel}
+          </div>
+        ) : null}
+
+        <div
+          className={cn('air-table-scroll', !bordered && showHeader && 'border-t border-border')}
+        >
+          <table className="air-table-grid">
+            {showHeader ? (
+              <thead className="air-table-head--sticky">
                 {table.getHeaderGroups().map((hg) => (
                   <tr key={hg.id} style={{height: headerHeight}}>
-                    {hg.headers.map((header) => (
-                      <th key={header.id} className="border-b px-3 text-left font-medium" style={{width: header.getSize() !== 150 ? header.getSize() : undefined}}>
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                      </th>
-                    ))}
+                    {hg.headers.map((header) => {
+                      const meta = header.column.columnDef.meta as {align?: string; width?: number | string} | undefined
+                      return (
+                        <th
+                          key={header.id}
+                          className={alignClass(meta?.align as 'left' | 'center' | 'right')}
+                          style={{
+                            width:
+                              meta?.width != null
+                                ? meta.width
+                                : header.getSize() !== 150
+                                  ? header.getSize()
+                                  : undefined,
+                          }}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                        </th>
+                      )
+                    })}
                   </tr>
                 ))}
               </thead>
-            )}
+            ) : null}
             <tbody>
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
                   onClick={(e) => onItemClick?.(row.original as T, e)}
-                  className="border-b transition-colors hover:bg-accent/50"
                   style={{cursor: onItemClick ? 'pointer' : 'default', height: rowHeight}}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-3 align-middle">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </td>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const meta = cell.column.columnDef.meta as {align?: string} | undefined
+                    return (
+                      <td key={cell.id} className={alignClass(meta?.align as 'left' | 'center' | 'right')}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    )
+                  })}
                 </tr>
               ))}
             </tbody>
           </table>
-          {data.length === 0 && showEmpty && (
-            <div className="flex h-32 items-center justify-center text-sm text-muted-foreground">{emptyText}</div>
-          )}
+          {data.length === 0 && showEmpty ? (
+            <div className="air-table-empty">{emptyText}</div>
+          ) : null}
         </div>
-        {hasPagination && renderPagination()}
+
+        {hasPagination ? renderPagination() : null}
       </div>
     </div>
   )
 }
 
-export default Grid
+export default Table

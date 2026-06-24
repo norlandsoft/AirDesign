@@ -141,7 +141,7 @@ import { NavMenu } from 'air-design'
 />
 ```
 
-`mode`：`icon`（仅图标，栏宽 40px）/ `icon-label`（图标+文字纵向排列，栏宽 60px）。选中项左侧显示主题色竖线。`shortLabel` 用于 60px 窄栏下的短文案。
+`mode`：`icon`（仅图标，栏宽 40px）/ `icon-label`（图标+文字，栏宽 72px，背景块 56×56）。`shortLabel` 建议 2～4 字短文案。
 
 ### Table
 
@@ -154,13 +154,16 @@ const columns = [
 ]
 <Table data={rows} columns={columns} height={400}
   showHeader headerHeight={40} rowHeight={40}
+  bordered
   onItemClick={(record, e) => select(record)}
   pagination={{ total: 100, pageSize: 10, currentPage: 1, onChange: setPage }}
   showEmpty emptyText="暂无数据"
 />
 ```
 
-列定义沿用 Semi/AntD 习惯（`dataIndex` / `title` / `render` / `width`），底层为 TanStack Table。`TableRowMenu` 提供行内「更多」操作菜单。
+`bordered` 为 true 时显示外框与行间横线（无列边框，首尾行不重复画线），表头浅灰底，分页栏展示「总页数」；`pagination={false}` 或不传则不显示分页。
+
+列定义沿用 Semi/AntD 习惯（`dataIndex` / `title` / `render` / `width` / `align`），底层为 TanStack Table。`TableRowMenu` 提供行内「更多」操作菜单。
 
 ### Tree
 

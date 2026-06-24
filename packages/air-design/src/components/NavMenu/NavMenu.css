@@ -1,7 +1,7 @@
 /**
  * NavMenu 左侧导航菜单样式
  *
- * icon 模式宽 40px；icon-label 模式宽 60px，图标与文字纵向排列。
+ * icon 模式宽 40px；icon-label 模式宽 72px，背景高亮块 56×56（1:1）。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -14,16 +14,19 @@
   overflow-x: hidden;
   overflow-y: auto;
   border-right: 1px solid var(--color-border);
-  background: var(--color-card);
-  padding: 4px 0;
+  background: #f6f7f9;
+  padding: 8px 0;
+  gap: 2px;
 }
 
 .air-nav-menu--icon {
   width: 40px;
+  padding: 6px 0;
 }
 
 .air-nav-menu--icon-label {
-  width: 60px;
+  width: 72px;
+  padding: 10px 0;
 }
 
 .air-nav-menu-item {
@@ -32,7 +35,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -40,22 +42,55 @@
   background: transparent;
   color: var(--color-muted-foreground);
   cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.air-nav-menu-item-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .air-nav-menu--icon .air-nav-menu-item {
   height: 40px;
 }
 
-.air-nav-menu--icon-label .air-nav-menu-item {
-  min-height: 52px;
-  padding: 6px 2px;
-  gap: 4px;
+.air-nav-menu--icon .air-nav-menu-item-inner {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
 }
 
-.air-nav-menu-item:hover:not(:disabled) {
+.air-nav-menu--icon .air-nav-menu-item:hover:not(:disabled) .air-nav-menu-item-inner {
+  background: #ebedf0;
   color: var(--color-foreground);
-  background: var(--color-accent);
+}
+
+.air-nav-menu--icon .air-nav-menu-item-active .air-nav-menu-item-inner {
+  background: color-mix(in srgb, var(--color-primary) 12%, #fff);
+  color: var(--color-primary);
+}
+
+.air-nav-menu--icon-label .air-nav-menu-item {
+  padding: 2px 0;
+}
+
+.air-nav-menu--icon-label .air-nav-menu-item-inner {
+  width: 56px;
+  aspect-ratio: 1 / 1;
+  gap: 4px;
+  padding: 6px 4px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.air-nav-menu--icon-label .air-nav-menu-item:hover:not(:disabled) .air-nav-menu-item-inner {
+  background: #e8eaee;
+}
+
+.air-nav-menu--icon-label .air-nav-menu-item-active .air-nav-menu-item-inner {
+  background: #dfe2e8;
 }
 
 .air-nav-menu-item:disabled {
@@ -63,17 +98,13 @@
   cursor: not-allowed;
 }
 
-.air-nav-menu-item-active {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-}
-
-.air-nav-menu-item-active::before {
+/* icon 模式：左侧竖线指示 */
+.air-nav-menu--icon .air-nav-menu-item-active::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 6px;
-  bottom: 6px;
+  top: 8px;
+  bottom: 8px;
   width: 2px;
   border-radius: 0 2px 2px 0;
   background: var(--color-primary);
@@ -81,10 +112,12 @@
 
 .air-nav-menu-item-label {
   width: 100%;
-  padding: 0 2px;
-  font-size: 10px;
-  line-height: 1.25;
+  padding: 0 1px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
   text-align: center;
+  color: var(--color-foreground);
   word-break: break-all;
   display: -webkit-box;
   -webkit-box-orient: vertical;

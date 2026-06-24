@@ -1,0 +1,164 @@
+/**
+ * Table 表格样式
+ *
+ * bordered 模式：外框 + 行间分隔线（无列边框，首尾行不画横线）。
+ *
+ * @author ChaiMingXu, 2026/06/24
+ */
+
+.air-table-shell {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.air-table-shell--bordered {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--color-card);
+}
+
+.air-table-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.air-table-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+/* bordered：外框由 shell 承担；仅表头底线与行间横线，无列边框 */
+.air-table-shell--bordered .air-table-grid th,
+.air-table-shell--bordered .air-table-grid td {
+  border: none;
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.air-table-shell--bordered .air-table-grid thead th {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.air-table-shell--bordered .air-table-grid tbody tr:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.air-table-shell--bordered .air-table-grid th {
+  background: #fafafa;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.air-table-shell--bordered .air-table-grid tbody tr {
+  background: #fff;
+}
+
+.air-table-shell--bordered .air-table-grid tbody tr:hover {
+  background: color-mix(in srgb, var(--color-accent) 50%, #fff);
+}
+
+/* 默认模式：仅底部分割线 */
+.air-table-shell--plain .air-table-grid th {
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 12px;
+  font-weight: 500;
+}
+
+.air-table-shell--plain .air-table-grid td {
+  padding: 0 12px;
+}
+
+.air-table-shell--plain .air-table-grid tbody tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.air-table-shell--plain .air-table-grid tbody tr:hover {
+  background: color-mix(in srgb, var(--color-accent) 50%, transparent);
+}
+
+.air-table-head--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.air-table-shell--bordered .air-table-head--sticky th {
+  background: #fafafa;
+}
+
+.air-table-shell--plain .air-table-head--sticky {
+  background: var(--color-muted);
+}
+
+/* 分页栏 */
+.air-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.air-table-pagination--bordered {
+  border-top: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.air-table-pagination--plain {
+  border-top: 1px solid var(--color-border);
+}
+
+.air-table-pagination-total {
+  margin-right: 8px;
+  color: var(--color-muted-foreground);
+  white-space: nowrap;
+}
+
+.air-table-pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.air-table-pagination-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+}
+
+.air-table-pagination-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.air-table-pagination-btn--active {
+  border-color: var(--color-border);
+  background: #f5f5f5;
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+.air-table-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 128px;
+  font-size: 14px;
+  color: var(--color-muted-foreground);
+}
