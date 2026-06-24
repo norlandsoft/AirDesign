@@ -157,6 +157,7 @@ AirDesign/
 | Tree | react-arborist | 搜索/图标/菜单/拖拽/受控展开选中/checkable/disabled |
 | Message / Notice | 自建 createRoot | 命令式轻提示/通知 |
 | Form / Input / Select / NumberInput / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 38px |
+| Avatar | primitives/avatar (Radix) | antd 兼容 API，图片/字符/图标 + Group |
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |
 | Splitter / GroupSplitter | 自建（保留逻辑） | 拖拽分割 |
 | Spin / LoadingPanel | 自建 | 三圆点动画 |

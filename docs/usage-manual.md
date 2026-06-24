@@ -271,6 +271,24 @@ import { Form, FormListField, Input } from 'air-design'
 
 **字段组件**：`Input`（含 `PasswordInput`）、`TextArea`、`NumberInput`、`Select`（支持 `mode="multiple"`）、`Checkbox` / `Checkbox.Group`、`Radio` / `Radio.Group`。
 
+### Avatar 头像（antd 兼容）
+
+```tsx
+import { Avatar } from 'air-design'
+
+<Avatar src="/avatar.png" alt="用户" onClick={() => { /* ... */ }} />
+<Avatar size="large">张</Avatar>
+<Avatar icon="user" shape="square" />
+<Avatar.Group max={{ count: 3 }}>
+  <Avatar>甲</Avatar>
+  <Avatar>乙</Avatar>
+  <Avatar>丙</Avatar>
+  <Avatar>丁</Avatar>
+</Avatar.Group>
+```
+
+**尺寸**：`default` 32px / `small` 24px / `large` 40px，或传入数字像素。字符头像背景色由内容哈希生成（对齐 antd 色板）。深度定制可使用 `RadixAvatar` / `RadixAvatarImage` / `RadixAvatarFallback` 原语。
+
 ### 其他基础组件
 
 ```tsx

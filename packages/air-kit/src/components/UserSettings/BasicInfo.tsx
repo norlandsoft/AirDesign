@@ -7,7 +7,7 @@
  * @author ChaiMingXu, 2026/06/24
  */
 import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react'
-import {Avatar, AvatarImage, Form, Input, Notice} from 'air-design'
+import {Avatar, Form, Input, Notice} from 'air-design'
 import type {FormInstance} from 'air-design'
 import type {UserResponse} from '../../types/user'
 import {getAvatarUrl, extractAvatarId} from '../../utils/IconUtils'
@@ -53,9 +53,7 @@ const AvatarPicker: React.FC<{
         onClick={() => onChange?.(option.value)}
         aria-label={option.label}
       >
-        <Avatar className="!size-7">
-          <AvatarImage src={getAvatarUrl(option.value)}/>
-        </Avatar>
+        <Avatar src={getAvatarUrl(option.value)} size={28}/>
       </button>
     ))}
   </div>

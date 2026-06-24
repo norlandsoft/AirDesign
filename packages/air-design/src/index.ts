@@ -22,6 +22,8 @@ export {default as ColorPicker} from './components/ColorPicker'
 export type {PresetColorConfig, ColorPickerProps} from './components/ColorPicker'
 export {Tag, tagVariants} from './components/Tag'
 export type {TagProps} from './components/Tag'
+export {default as Avatar, AvatarGroup} from './components/Avatar'
+export type {AvatarProps, AvatarGroupProps, AvatarSize, AvatarShape} from './components/Avatar'
 export {default as Message} from './components/Message'
 export {default as message} from './components/Message'
 export {default as Notice} from './components/Notice'
@@ -170,9 +172,9 @@ export {
   ScrollBar,
   Skeleton,
   Slider,
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
+  Avatar as RadixAvatar,
+  AvatarImage as RadixAvatarImage,
+  AvatarFallback as RadixAvatarFallback,
   Toaster,
   toast,
 } from './primitives'

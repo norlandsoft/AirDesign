@@ -209,7 +209,7 @@ import type {
 air-kit 2.0 随 air-design 2.0 一起完成底层重构，**不保留旧 API 兼容**：
 
 - **登录页**：使用 air-design `Form` / `Input` / `PasswordInput` / `Button`，校验由 Form.rules 驱动。
-- **用户设置**：`BasicInfo` / `DisplaySettings` / `ChangePassword` 使用 air-design `Form` 体系；头像选择为自定义 `AvatarPicker`，`Avatar` 使用 Radix 原语。
+- **用户设置**：`BasicInfo` / `DisplaySettings` / `ChangePassword` 使用 air-design `Form` 体系；头像选择为自定义 `AvatarPicker`，头像展示使用 air-design `Avatar`（antd 兼容 API）。
 - **AppSwitcher**：antd `Dropdown` 改用 air-design 的 `DropdownMenu` 原语；`layoutSize` 改为 props 传入（默认值）。
 - **状态管理**：去 Umi/DVA，改用 **Zustand** `useUserStore`；`connect`/`useDispatch`/`useSelector` 全部移除。纯 React 与 Umi 应用均可使用。
 - 表单校验由 air-design `Form.Item` 的 `rules` / `form.validateFields()` 完成，接口错误仍通过 `Notice` 提示。

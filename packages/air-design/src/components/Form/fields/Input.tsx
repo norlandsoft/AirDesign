@@ -8,6 +8,7 @@
  */
 import React, {forwardRef, useState} from 'react'
 import {Input as PrimitiveInput, type InputProps as PrimitiveInputProps} from '@/primitives/input'
+import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
 import {controlBaseClass, controlStatusClass} from '@/lib/control-styles'
 
@@ -87,10 +88,11 @@ const AffixWrapper = forwardRef<
     <button
       type="button"
       tabIndex={-1}
-      className="inline-flex items-center text-xs text-muted-foreground hover:text-foreground"
+      className="inline-flex size-4 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
       onClick={() => setVisible((v) => !v)}
+      aria-label={visible ? '隐藏密码' : '显示密码'}
     >
-      {visible ? '隐藏' : '显示'}
+      <Icon name={visible ? 'unlock' : 'lock'} size={14}/>
     </button>
   ) : null
 

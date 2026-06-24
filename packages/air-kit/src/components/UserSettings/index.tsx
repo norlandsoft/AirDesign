@@ -7,7 +7,7 @@
  * Author: ChaiMingXu, 2026/05/28
  */
 import React, {useEffect, useRef, useState} from 'react';
-import {Avatar, AvatarImage, Button, SlidePanel} from 'air-design';
+import {Avatar, Button, SlidePanel} from 'air-design';
 import type {UserResponse} from '../../types/user';
 import {getAvatarUrl} from '../../utils/IconUtils';
 import {useUserStore} from '../../models/user';
@@ -111,9 +111,7 @@ const UserSettings: React.FC<UserSettingsProps> = ({visible, onClose}) => {
         {/* 左侧导航菜单 */}
         <div className="user-settings-sidebar">
           <div className="user-settings-sidebar-header">
-            <Avatar className="!size-10 !mb-2">
-              <AvatarImage src={getAvatarUrl(currentUser.avatar)}/>
-            </Avatar>
+            <Avatar src={getAvatarUrl(currentUser.avatar)} size={40} className="mb-2"/>
             <div className="user-settings-sidebar-user-name">
               {currentUser.name || currentUser.id}
             </div>
