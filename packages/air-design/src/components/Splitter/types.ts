@@ -10,14 +10,8 @@ import type {CSSProperties, ReactNode} from 'react'
 /** 布局方向：horizontal 左右分栏，vertical 上下分栏 */
 export type SplitterLayout = 'horizontal' | 'vertical'
 
-/** Panel 折叠配置 */
-export type PanelCollapsible =
-  | boolean
-  | {
-      start?: boolean
-      end?: boolean
-      showCollapsibleIcon?: boolean | 'auto'
-    }
+/** Panel 是否允许折叠（不渲染折叠按钮，由外部或 onCollapse 配合控制） */
+export type PanelCollapsible = boolean
 
 /** Splitter.Panel Props */
 export interface SplitterPanelProps {
@@ -51,8 +45,14 @@ export interface SplitterProps {
   onResizeEnd?: (sizes: number[]) => void
   onCollapse?: (collapsed: boolean[], sizes: number[]) => void
   onDraggerDoubleClick?: (index: number) => void
-  /** 根级折叠图标（作用于分割条两侧） */
-  collapsibleIcon?: {start?: ReactNode; end?: ReactNode}
+}
+
+/** Splitter 实例方法（折叠操作，无内置折叠按钮） */
+export interface SplitterRef {
+  /** 折叠指定面板（需 Panel 设置 collapsible） */
+  collapsePanel: (panelIndex: number) => void
+  /** 展开指定面板 */
+  expandPanel: (panelIndex: number) => void
 }
 
 /** 内部解析后的 Panel 配置 */

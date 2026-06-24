@@ -1,15 +1,16 @@
 /**
  * Splitter 分割面板（antd 兼容）
  *
- * 支持多面板、百分比尺寸、每 Panel 独立 collapsible/resizable、lazy 拖拽、
- * onResize/onCollapse 等回调。
+ * 分割条以绝对定位浮于面板接缝，不占用面板布局空间；面板尺寸按容器全尺寸分配。
  *
  * @author ChaiMingXu, 2026/06/24
  */
 import React, {
   Children,
+  forwardRef,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -17,17 +18,17 @@ import React, {
 } from 'react'
 import SplitterBar from './SplitterBar'
 import SplitterPanel from './SplitterPanel'
-import type {NormalizedPanelConfig, SplitterProps} from './types'
+import type {NormalizedPanelConfig, SplitterProps, SplitterRef} from './types'
 import {
   buildInitialSizes,
-  canCollapseEnd,
-  canCollapseStart,
   extractPanelConfigs,
+  getBarCenterOffset,
   isSplitterPanelElement,
   mergeControlledSizes,
   parseSizeValue,
   resolveSplitterLayout,
   clampPanelSize,
+  SPLIT_BAR_SIZE,
 } from './utils'
 import {cn} from '../../lib/cn'
 import './Splitter.css'
@@ -50,7 +51,7 @@ function getPointerPos(event: MouseEvent | TouchEvent, isHorizontal: boolean): n
 }
 
 /** 多面板 Splitter */
-const SplitterRoot: React.FC<SplitterProps> = (props) => {
+const SplitterRoot = forwardRef<SplitterRef, SplitterProps>((props, ref) => {
   const {
     children,
     className,
@@ -61,7 +62,6 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
     onResizeEnd,
     onCollapse,
     onDraggerDoubleClick,
-    collapsibleIcon,
   } = props
 
   const layout = resolveSplitterLayout(props)
@@ -151,6 +151,8 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
 
   const startDrag = useCallback(
     (barIndex: number, clientPos: number) => {
+      if (collapsed[barIndex] || collapsed[barIndex + 1]) return
+
       const leftPanel = panels[barIndex]
       const rightPanel = panels[barIndex + 1]
       if (!leftPanel?.resizable || !rightPanel?.resizable) return
@@ -163,7 +165,7 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
       setActiveBar(barIndex)
       onResizeStart?.(resolvedSizes)
     },
-    [panels, resolvedSizes, onResizeStart]
+    [panels, resolvedSizes, onResizeStart, collapsed]
   )
 
   const moveDrag = useCallback(
@@ -236,11 +238,15 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
     }
   }, [moveDrag, endDrag, isHorizontal])
 
-  const toggleCollapse = useCallback(
-    (panelIndex: number) => {
+  /** 设置面板折叠状态（仅 collapsible 面板生效） */
+  const setPanelCollapsed = useCallback(
+    (panelIndex: number, willCollapse: boolean) => {
+      if (!panels[panelIndex]?.collapsible) return
+
       setCollapsed((prev) => {
+        if (prev[panelIndex] === willCollapse) return prev
+
         const nextCollapsed = [...prev]
-        const willCollapse = !nextCollapsed[panelIndex]
         nextCollapsed[panelIndex] = willCollapse
 
         setSizes((prevSizes) => {
@@ -270,6 +276,15 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
       })
     },
     [panels, containerSize, emitResize, onCollapse]
+  )
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      collapsePanel: (panelIndex: number) => setPanelCollapsed(panelIndex, true),
+      expandPanel: (panelIndex: number) => setPanelCollapsed(panelIndex, false),
+    }),
+    [setPanelCollapsed]
   )
 
   const resetBarPanels = useCallback(
@@ -307,6 +322,7 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
   }
 
   const nodes: React.ReactNode[] = []
+  const barNodes: React.ReactNode[] = []
 
   panels.forEach((panel: NormalizedPanelConfig, index: number) => {
     const panelSize = resolvedSizes[index] ?? 0
@@ -330,28 +346,27 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
       </div>
     )
 
-    if (index < panels.length - 1) {
+    if (index < panels.length - 1 && !collapsed[index] && !collapsed[index + 1]) {
       const leftPanel = panel
       const rightPanel = panels[index + 1]
       const barDisabled = !leftPanel.resizable && !rightPanel.resizable
+      const center = getBarCenterOffset(resolvedSizes, index)
+      const halfBar = SPLIT_BAR_SIZE / 2
 
-      nodes.push(
+      barNodes.push(
         <SplitterBar
           key={`bar-${panel.key}`}
           layout={layout}
           active={activeBar === index}
           disabled={barDisabled}
-          showStartCollapse={canCollapseStart(leftPanel.collapsible)}
-          showEndCollapse={canCollapseEnd(rightPanel.collapsible)}
-          startCollapsed={collapsed[index]}
-          endCollapsed={collapsed[index + 1]}
-          startIcon={collapsibleIcon?.start}
-          endIcon={collapsibleIcon?.end}
+          style={
+            isHorizontal
+              ? {left: center - halfBar, top: 0, bottom: 0}
+              : {top: center - halfBar, left: 0, right: 0}
+          }
           onMouseDown={(event) => startDrag(index, getPointerPos(event.nativeEvent, isHorizontal))}
           onTouchStart={(event) => startDrag(index, getPointerPos(event.nativeEvent, isHorizontal))}
           onDoubleClick={() => resetBarPanels(index)}
-          onCollapseStart={() => toggleCollapse(index)}
-          onCollapseEnd={() => toggleCollapse(index + 1)}
         />
       )
     }
@@ -364,15 +379,18 @@ const SplitterRoot: React.FC<SplitterProps> = (props) => {
       style={style}
     >
       {nodes}
+      {barNodes}
     </div>
   )
-}
+})
 
-type SplitterComponent = React.FC<SplitterProps> & {
+SplitterRoot.displayName = 'Splitter'
+
+type SplitterComponent = React.ForwardRefExoticComponent<SplitterProps & React.RefAttributes<SplitterRef>> & {
   Panel: typeof SplitterPanel
 }
 
-const Splitter: SplitterComponent = (props) => <SplitterRoot {...props} />
+const Splitter = SplitterRoot as SplitterComponent
 
 Splitter.Panel = SplitterPanel
 

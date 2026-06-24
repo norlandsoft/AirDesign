@@ -9,8 +9,8 @@ import React, {isValidElement} from 'react'
 import type {NormalizedPanelConfig, PanelCollapsible, SplitterLayout, SplitterPanelProps, SplitterProps} from './types'
 import {SPLITTER_PANEL_DISPLAY_NAME} from './SplitterPanel'
 
-/** 分割条占位宽度（px） */
-export const SPLIT_BAR_SIZE = 4
+/** 分割条占位宽度（px），与样式 air-splitter-bar 操作热区一致 */
+export const SPLIT_BAR_SIZE = 8
 
 /** 将 size 字符串或数字解析为像素 */
 export function parseSizeValue(value: number | string | undefined, containerSize: number): number | undefined {
@@ -67,21 +67,7 @@ export function isSplitterPanelElement(child: React.ReactNode): child is React.R
 
 /** 归一化 Panel collapsible 配置 */
 export function normalizeCollapsible(value: PanelCollapsible | undefined): PanelCollapsible {
-  return value ?? false
-}
-
-/** 是否允许在分割条起点显示折叠按钮（收起左侧/上方面板） */
-export function canCollapseStart(collapsible: PanelCollapsible): boolean {
-  if (collapsible === true) return true
-  if (typeof collapsible === 'object') return collapsible.start !== false
-  return false
-}
-
-/** 是否允许在分割条终点显示折叠按钮（收起右侧/下方面板） */
-export function canCollapseEnd(collapsible: PanelCollapsible): boolean {
-  if (collapsible === true) return true
-  if (typeof collapsible === 'object') return collapsible.end !== false
-  return false
+  return Boolean(value)
 }
 
 /** 从 React 子元素提取 Panel 配置 */
@@ -115,13 +101,13 @@ export function extractPanelConfigs(children: React.ReactNode): NormalizedPanelC
   })
 }
 
-/** 根据 Panel 配置计算初始像素尺寸 */
+/** 根据 Panel 配置计算初始像素尺寸（分割条浮层不占布局空间，按容器全尺寸分配） */
 export function buildInitialSizes(
   panels: NormalizedPanelConfig[],
   containerSize: number,
   collapsed: boolean[]
 ): number[] {
-  const available = Math.max(0, containerSize - Math.max(panels.length - 1, 0) * SPLIT_BAR_SIZE)
+  const available = Math.max(0, containerSize)
   const explicit = panels.map((panel, index) => {
     if (collapsed[index]) return 0
     const raw = panel.size ?? panel.defaultSize
@@ -159,4 +145,13 @@ export function mergeControlledSizes(
     }
     return sizes[index] ?? 0
   })
+}
+
+/** 计算第 index 条分割条在主轴上的中心位置（相邻面板接缝处，px） */
+export function getBarCenterOffset(sizes: number[], barIndex: number): number {
+  let offset = 0
+  for (let i = 0; i <= barIndex; i += 1) {
+    offset += sizes[i] ?? 0
+  }
+  return offset
 }

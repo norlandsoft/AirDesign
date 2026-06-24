@@ -1,16 +1,24 @@
 /**
  * Splitter 样式
  *
- * 分割条热区、拖拽高亮与折叠按钮，对齐 antd Splitter 视觉与交互。
+ * 全长 1px 浅色轨道；中段 36px × 3px 稍深把手。操作热区 8px。
  *
  * @author ChaiMingXu, 2026/06/24
  */
 .air-splitter {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
   overflow: hidden;
   outline: none;
+
+  --air-splitter-hit-size: 8px;
+  --air-splitter-track-size: 1px;
+  --air-splitter-track-thumb-size: 3px;
+  --air-splitter-thumb-length: 36px;
+  --air-splitter-track-bg: color-mix(in srgb, var(--color-foreground) 16%, var(--color-muted));
+  --air-splitter-track-thumb-bg: color-mix(in srgb, var(--color-foreground) 40%, var(--color-muted));
 }
 
 .air-splitter-horizontal {
@@ -30,27 +38,27 @@
 }
 
 .air-splitter-panel-collapsed {
-  overflow: hidden;
+  display: none;
 }
 
 .air-splitter-bar {
-  position: relative;
-  flex: none;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
   user-select: none;
   touch-action: none;
+  pointer-events: auto;
 }
 
 .air-splitter-bar-horizontal {
-  width: 4px;
+  width: var(--air-splitter-hit-size);
   cursor: col-resize;
 }
 
 .air-splitter-bar-vertical {
-  height: 4px;
+  height: var(--air-splitter-hit-size);
   cursor: row-resize;
 }
 
@@ -61,48 +69,68 @@
 .air-splitter-dragger {
   position: absolute;
   inset: 0;
-  background: var(--color-border);
+}
+
+/* 垂直轨道（左右分栏）：全长 1px 竖线 */
+.air-splitter-bar-horizontal .air-splitter-dragger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: var(--air-splitter-track-size);
+  transform: translateX(-50%);
+  background: var(--air-splitter-track-bg);
   transition: background-color 0.2s;
 }
 
-.air-splitter-bar:hover .air-splitter-dragger,
-.air-splitter-bar-active .air-splitter-dragger {
-  background: var(--color-primary, #1677ff);
-}
-
-.air-splitter-collapse {
+/* 垂直轨道：中段 36px 更宽、更深 */
+.air-splitter-bar-horizontal .air-splitter-dragger::after {
+  content: '';
   position: absolute;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  padding: 0;
-  border: 1px solid var(--color-border);
-  border-radius: 2px;
-  background: var(--color-background, #fff);
-  color: var(--color-muted-foreground);
-  cursor: pointer;
+  top: 50%;
+  left: 50%;
+  width: var(--air-splitter-track-thumb-size);
+  height: var(--air-splitter-thumb-length);
+  transform: translate(-50%, -50%);
+  background: var(--air-splitter-track-thumb-bg);
+  border-radius: 1px;
+  transition: background-color 0.2s;
 }
 
-.air-splitter-collapse:hover {
-  color: var(--color-foreground);
-  border-color: var(--color-primary, #1677ff);
+/* 水平轨道（上下分栏）：全长 1px 横线 */
+.air-splitter-bar-vertical .air-splitter-dragger::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: var(--air-splitter-track-size);
+  transform: translateY(-50%);
+  background: var(--air-splitter-track-bg);
+  transition: background-color 0.2s;
 }
 
-.air-splitter-bar-horizontal .air-splitter-collapse-start {
-  left: -8px;
+/* 水平轨道：中段 36px 更宽、更深 */
+.air-splitter-bar-vertical .air-splitter-dragger::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--air-splitter-thumb-length);
+  height: var(--air-splitter-track-thumb-size);
+  transform: translate(-50%, -50%);
+  background: var(--air-splitter-track-thumb-bg);
+  border-radius: 1px;
+  transition: background-color 0.2s;
 }
 
-.air-splitter-bar-horizontal .air-splitter-collapse-end {
-  right: -8px;
+.air-splitter-bar:hover .air-splitter-dragger::before,
+.air-splitter-bar-active .air-splitter-dragger::before {
+  background: color-mix(in srgb, var(--color-primary, #1677ff) 35%, var(--air-splitter-track-bg));
 }
 
-.air-splitter-bar-vertical .air-splitter-collapse-start {
-  top: -8px;
-}
-
-.air-splitter-bar-vertical .air-splitter-collapse-end {
-  bottom: -8px;
+.air-splitter-bar:hover .air-splitter-dragger::after,
+.air-splitter-bar-active .air-splitter-dragger::after {
+  background: var(--color-primary, #1677ff);
 }

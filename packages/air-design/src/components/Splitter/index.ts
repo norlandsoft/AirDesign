@@ -8,4 +8,4 @@
 import Splitter from './Splitter'
 
 export default Splitter
-export type {SplitterProps, SplitterPanelProps, SplitterLayout, PanelCollapsible} from './types'
+export type {SplitterProps, SplitterPanelProps, SplitterLayout, PanelCollapsible, SplitterRef} from './types'
