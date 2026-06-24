@@ -200,7 +200,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
       {/* 窗口：点击遮罩不关闭，仅标题栏关闭按钮与页脚取消按钮可关闭 */}
       <div
         ref={windowRef}
-        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card"
+        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card shadow-2xl"
         style={{
           width: width ?? 'min(560px, 90vw)',
           height: height ?? undefined,
