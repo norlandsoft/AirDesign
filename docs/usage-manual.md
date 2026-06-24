@@ -242,6 +242,29 @@ const [form] = Form.useForm()
 </Form>
 ```
 
+**Form.List 动态列表**：配合 `FormListField` 为行内 `Form.Item` 注入路径前缀。
+
+```tsx
+import { Form, FormListField, Input } from 'air-design'
+
+<Form.List name="contacts">
+  {(fields, { add, remove }) => (
+    <>
+      {fields.map((field) => (
+        <FormListField key={field.key} fieldName={field.name} listName={['contacts']}>
+          <Form.Item name="name" label="姓名" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+        </FormListField>
+      ))}
+      <Button onClick={() => add({ name: '', phone: '' })}>添加</Button>
+    </>
+  )}
+</Form.List>
+```
+
+**布局**：`layout="vertical" | "horizontal" | "inline"`；horizontal 可配 `labelCol` / `wrapperCol`（24 栅格）。
+
 **FormInstance 常用方法**：`getFieldsValue` / `setFieldsValue` / `resetFields` / `validateFields` / `submit`。
 
 **Form.Item 要点**：Checkbox / Switch 需 `valuePropName="checked"`；`rules` 支持 `required` / `min` / `max` / `pattern` / `type` / 自定义 `validator`。

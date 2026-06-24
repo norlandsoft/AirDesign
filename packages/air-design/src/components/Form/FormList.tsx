@@ -7,7 +7,7 @@
  */
 import React, {useMemo, useSyncExternalStore} from 'react'
 import {FormItemPrefixContext, mergeNamePath, useFormContext, useFormItemPrefix} from './context'
-import {getPathValue} from './pathUtils'
+import {getPathValue, pathKey} from './pathUtils'
 import type {FormListProps} from './types'
 import type {InternalFormInstance} from './formInstance'
 
@@ -63,10 +63,12 @@ export const FormListField: React.FC<{fieldName: number; listName: (string | num
   fieldName,
   listName,
   children,
-}) => (
-  <FormItemPrefixContext.Provider value={[...listName, fieldName]}>
-    {children}
-  </FormItemPrefixContext.Provider>
-)
+}) => {
+  const prefix = useMemo(
+    () => [...listName, fieldName],
+    [pathKey(listName), fieldName]
+  )
+  return <FormItemPrefixContext.Provider value={prefix}>{children}</FormItemPrefixContext.Provider>
+}
 
 export default FormList

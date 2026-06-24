@@ -34,7 +34,19 @@ export function createFormInstance<T extends Record<string, unknown> = Record<st
   const listeners = new Set<() => void>()
   let handlers: FormInternalOptions<T> = {...options}
 
+  /** 构建并缓存快照；useSyncExternalStore 要求 getSnapshot 在两次 notify 之间返回同一引用 */
+  const buildSnapshot = (): FormSnapshot => {
+    const fields: Record<string, FieldMeta> = {}
+    fieldMeta.forEach((meta, key) => {
+      fields[key] = meta
+    })
+    return {values: cloneValues(values), fields}
+  }
+
+  let snapshot: FormSnapshot = buildSnapshot()
+
   const notify = () => {
+    snapshot = buildSnapshot()
     listeners.forEach((listener) => listener())
   }
 
@@ -166,11 +178,15 @@ export function createFormInstance<T extends Record<string, unknown> = Record<st
 
     _registerField(entity) {
       const key = pathKey(entity.name)
+      const isNew = !fieldEntities.has(key)
       fieldEntities.set(key, entity)
       if (!fieldMeta.has(key)) {
         fieldMeta.set(key, {touched: false, validating: false, errors: []})
       }
-      notify()
+      // 仅新增字段时通知；规则等配置变更通过 entity 上的 getter 读取，避免重复 mount/unmount 触发循环
+      if (isNew) {
+        notify()
+      }
       return () => {
         fieldEntities.delete(key)
         fieldMeta.delete(key)
@@ -184,11 +200,7 @@ export function createFormInstance<T extends Record<string, unknown> = Record<st
     },
 
     _getSnapshot(): FormSnapshot {
-      const fields: Record<string, FieldMeta> = {}
-      fieldMeta.forEach((meta, key) => {
-        fields[key] = {...meta}
-      })
-      return {values: cloneValues(values), fields}
+      return snapshot
     },
 
     _setInitialValues(next) {

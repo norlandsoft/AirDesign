@@ -64,6 +64,62 @@ body {
   color: var(--color-foreground);
 }
 
+/* Form Demo：三列布局对比 vertical / horizontal / inline */
+.demo-form-layouts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1200px) {
+  .demo-form-layouts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.demo-form-layout-card {
+  border: 1px dashed var(--color-border);
+  border-radius: 6px;
+  padding: 16px;
+  min-width: 0;
+}
+
+.demo-form-layout-card h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Form Demo：字段组件网格 */
+.demo-form-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px 20px;
+}
+
+.demo-form-field-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.demo-form-field-cell .demo-field-label {
+  font-size: 12px;
+  color: var(--color-muted-foreground);
+}
+
+.demo-form-list-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-muted);
+}
+
 /* Login 嵌入展示容器：覆盖 .air-login-page 的 min-height:100vh，使登录表单在容器内完整可见 */
 .air-login-demo-frame {
   position: relative;

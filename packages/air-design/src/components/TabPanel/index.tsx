@@ -64,35 +64,53 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
             {items.map((tab) => {
               const truncated = tab.label.length > MAX_TAB_LENGTH
               const display = truncated ? `${tab.label.substring(0, MAX_TAB_LENGTH)}...` : tab.label
+
+              const tabTrigger = (
+                <TabsTrigger
+                  value={tab.key}
+                  asChild
+                  className={cn(
+                    'group relative h-full cursor-pointer gap-1.5 rounded-none border-b-2 border-transparent px-4 text-sm',
+                    'text-muted-foreground hover:text-foreground',
+                    'data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none'
+                  )}
+                  style={{height: tabHeight}}
+                >
+                  <div className="inline-flex h-full cursor-pointer items-center gap-1.5 outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    {tab.icon && <Icon name={tab.icon} size={16}/>}
+                    <span className="max-w-[180px] truncate">{display}</span>
+                    {tab.closable && (
+                      <span
+                        role="button"
+                        tabIndex={-1}
+                        aria-label={`关闭 ${tab.label}`}
+                        onClick={handleRemove(tab)}
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault()
+                            event.stopPropagation()
+                            onRemoveTab?.(tab)
+                          }
+                        }}
+                        className="ml-1 inline-flex size-4 cursor-pointer items-center justify-center rounded opacity-0 transition-opacity hover:bg-accent group-hover:opacity-100"
+                      >
+                        <Icon name="close" size={10}/>
+                      </span>
+                    )}
+                  </div>
+                </TabsTrigger>
+              )
+
+              if (!truncated) {
+                return <React.Fragment key={tab.key}>{tabTrigger}</React.Fragment>
+              }
+
               return (
                 <TooltipProvider key={tab.key} delayDuration={400}>
                   <Tooltip>
-                    <TooltipTrigger asChild>
-                      <div>
-                        <TabsTrigger
-                          value={tab.key}
-                          className={cn(
-                            'group relative h-full gap-1.5 rounded-none border-b-2 border-transparent px-4 text-sm',
-                            'text-muted-foreground hover:text-foreground',
-                            'data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none'
-                          )}
-                          style={{height: tabHeight}}
-                        >
-                          {tab.icon && <Icon name={tab.icon} size={16}/>}
-                          <span className="max-w-[180px] truncate">{display}</span>
-                          {tab.closable && (
-                            <button
-                              type="button"
-                              onClick={handleRemove(tab)}
-                              className="ml-1 inline-flex size-4 items-center justify-center rounded opacity-0 transition-opacity hover:bg-accent group-hover:opacity-100"
-                            >
-                              <Icon name="close" size={10}/>
-                            </button>
-                          )}
-                        </TabsTrigger>
-                      </div>
-                    </TooltipTrigger>
-                    {truncated && <TooltipContent side="top">{tab.label}</TooltipContent>}
+                    <TooltipTrigger asChild>{tabTrigger}</TooltipTrigger>
+                    <TooltipContent side="top">{tab.label}</TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               )

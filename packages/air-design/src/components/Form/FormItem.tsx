@@ -6,7 +6,7 @@
  *
  * @author ChaiMingXu, 2026/06/24
  */
-import React, {cloneElement, isValidElement, useEffect, useMemo, useSyncExternalStore} from 'react'
+import React, {cloneElement, isValidElement, useEffect, useMemo, useRef, useSyncExternalStore} from 'react'
 import {cn} from '@/lib/cn'
 import {FormItemPrefixContext, mergeNamePath, useFormContext, useFormItemPrefix} from './context'
 import {pathKey} from './pathUtils'
@@ -64,6 +64,30 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
     return mergeNamePath(prefix, name)
   }, [absoluteName, name, prefix])
 
+  const fieldKey = fullName != null ? pathKey(fullName) : null
+
+  /** 校验配置放在 ref 中，避免内联 rules 数组导致 useEffect 反复注册字段 */
+  const fieldConfigRef = useRef({
+    rules,
+    label,
+    required,
+    valuePropName,
+    trigger,
+    validateTrigger,
+    getValueFromEvent,
+    normalize,
+  })
+  fieldConfigRef.current = {
+    rules,
+    label,
+    required,
+    valuePropName,
+    trigger,
+    validateTrigger,
+    getValueFromEvent,
+    normalize,
+  }
+
   const snapshot = useSyncExternalStore(
     (listener) => form._subscribe(listener),
     () => form._getSnapshot(),
@@ -71,19 +95,36 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
   )
 
   useEffect(() => {
-    if (fullName == null) return undefined
+    if (fullName == null || fieldKey == null) return undefined
+    const cfg = fieldConfigRef
     return form._registerField({
       name: fullName,
-      rules,
-      label,
-      required,
-      valuePropName,
-      trigger,
-      validateTrigger,
-      getValueFromEvent,
-      normalize,
+      get rules() {
+        return cfg.current.rules
+      },
+      get label() {
+        return cfg.current.label
+      },
+      get required() {
+        return cfg.current.required
+      },
+      get valuePropName() {
+        return cfg.current.valuePropName
+      },
+      get trigger() {
+        return cfg.current.trigger
+      },
+      get validateTrigger() {
+        return cfg.current.validateTrigger
+      },
+      get getValueFromEvent() {
+        return cfg.current.getValueFromEvent
+      },
+      get normalize() {
+        return cfg.current.normalize
+      },
     })
-  }, [form, fullName, rules, label, required, valuePropName, trigger, validateTrigger, getValueFromEvent, normalize])
+  }, [form, fieldKey, fullName])
 
   if (hidden) return null
 

@@ -41,6 +41,29 @@ function clampValue(value: number, min?: number, max?: number, precision?: numbe
   return formatNumber(next, precision)
 }
 
+/** 步进按钮用的小号 chevron（约 8px，适配 38px 控件） */
+function StepChevron({direction}: {direction: 'up' | 'down'}) {
+  const path = direction === 'up' ? 'M6 15L12 9L18 15' : 'M6 9L12 15L18 9'
+  return (
+    <svg
+      aria-hidden
+      width="8"
+      height="8"
+      viewBox="0 0 24 24"
+      fill="none"
+      className="shrink-0"
+    >
+      <path
+        d={path}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>((props, ref) => {
   const {
     value,
@@ -89,24 +112,24 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>((props, ref) 
   const controlButtons = useMemo(() => {
     if (!controls) return null
     return (
-      <span className="flex h-full flex-col border-l border-input">
+      <span className="flex h-full w-[22px] shrink-0 flex-col border-l border-input">
         <button
           type="button"
           tabIndex={-1}
           disabled={disabled || readOnly}
-          className="flex flex-1 items-center justify-center px-2 text-xs text-muted-foreground hover:bg-accent disabled:opacity-50"
+          className="flex min-h-0 flex-1 items-center justify-center text-muted-foreground hover:bg-accent disabled:opacity-50"
           onClick={() => handleStep(1)}
         >
-          ▲
+          <StepChevron direction="up"/>
         </button>
         <button
           type="button"
           tabIndex={-1}
           disabled={disabled || readOnly}
-          className="flex flex-1 items-center justify-center border-t border-input px-2 text-xs text-muted-foreground hover:bg-accent disabled:opacity-50"
+          className="flex min-h-0 flex-1 items-center justify-center border-t border-input text-muted-foreground hover:bg-accent disabled:opacity-50"
           onClick={() => handleStep(-1)}
         >
-          ▼
+          <StepChevron direction="down"/>
         </button>
       </span>
     )
