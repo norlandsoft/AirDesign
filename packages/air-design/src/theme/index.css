@@ -78,6 +78,9 @@
 
   --radius: 0.375rem;
 
+  /* 单行表单控件默认高度（Input / Select / NumberInput 等） */
+  --control-height: 38px;
+
   --background: oklch(0.99 0.002 240);
   --foreground: oklch(0.22 0.04 250);
 

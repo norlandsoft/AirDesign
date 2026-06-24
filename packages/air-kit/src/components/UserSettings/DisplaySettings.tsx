@@ -2,12 +2,13 @@
  * 显示设置组件
  *
  * 字体大小等个性化设置，以 JSON 字符串形式通过接口存储/读取。
- * 表单由 antd Form/Radio 改为原生 radio。
+ * 表单基于 air-design Form / Radio.Group 组件。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/24
  */
 import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react'
-import {Notice} from 'air-design'
+import {Form, Radio, Notice} from 'air-design'
+import type {FormInstance} from 'air-design'
 import type {UserResponse} from '../../types/user'
 import type {DisplaySettings as DisplaySettingsType, UserSettingsResponse} from '../../types/userSettings'
 import {useUserStore} from '../../models/user'
@@ -19,6 +20,10 @@ export interface DisplaySettingsRef {
 
 interface DisplaySettingsProps {
   currentUser: UserResponse | null
+}
+
+interface DisplaySettingsForm extends Record<string, unknown> {
+  fontSize: number
 }
 
 const FONT_OPTIONS = [
@@ -34,16 +39,14 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
   const fetchUserSettings = useUserStore((s) => s.fetchUserSettings)
   const updateUserSettings = useUserStore((s) => s.updateUserSettings)
   const [loading, setLoading] = useState(false)
-  const [fontSize, setFontSize] = useState<number>(15)
+  const [form] = Form.useForm<DisplaySettingsForm>()
 
-  // 加载用户设置
   useEffect(() => {
     if (currentUser?.id) {
       fetchUserSettings({userId: currentUser.id})
     }
   }, [currentUser?.id, fetchUserSettings])
 
-  // 设置加载完成后回填
   useEffect(() => {
     if (userSettings && !userSettingsLoading) {
       let displaySettings: DisplaySettingsType = {}
@@ -55,31 +58,36 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
           displaySettings = {}
         }
       }
-      setFontSize(displaySettings.fontSize || 15)
+      form.setFieldsValue({fontSize: displaySettings.fontSize || 15})
     }
-  }, [userSettings, userSettingsLoading])
+  }, [userSettings, userSettingsLoading, form])
 
   const handleSaveSettings = async (): Promise<void> => {
     if (!currentUser?.id) {
       Notice.error('用户信息不存在，无法保存设置')
       return
     }
-    setLoading(true)
-    const displaySettings: DisplaySettingsType = {fontSize}
-    await updateUserSettings(
-      {
-        userId: currentUser.id,
-        settings: JSON.stringify(displaySettings),
-      },
-      (resp: any) => {
-        setLoading(false)
-        if (resp.success) {
-          Notice.success('保存成功')
-        } else {
-          Notice.error(resp.message || '保存显示设置失败')
+    try {
+      const values = await form.validateFields()
+      setLoading(true)
+      const displaySettings: DisplaySettingsType = {fontSize: values.fontSize}
+      await updateUserSettings(
+        {
+          userId: currentUser.id,
+          settings: JSON.stringify(displaySettings),
+        },
+        (resp: {success?: boolean; message?: string}) => {
+          setLoading(false)
+          if (resp.success) {
+            Notice.success('保存成功')
+          } else {
+            Notice.error(resp.message || '保存显示设置失败')
+          }
         }
-      }
-    )
+      )
+    } catch {
+      // 校验失败
+    }
   }
 
   useImperativeHandle(ref, () => ({
@@ -102,23 +110,19 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
         <p className="user-settings-content-description">管理您的显示偏好设置</p>
       </div>
 
-      <div className="user-settings-form user-settings-form-native">
-        <div className="user-settings-form-row">
-          <label className="user-settings-form-label">字体大小</label>
-          <div className="air-kit-radio-button-group">
-            {FONT_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                className={`air-kit-radio-button ${fontSize === opt.value ? 'active' : ''}`}
-                onClick={() => setFontSize(opt.value)}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <Form<DisplaySettingsForm>
+        form={form as FormInstance<DisplaySettingsForm>}
+        layout="horizontal"
+        labelCol={{span: 6}}
+        wrapperCol={{span: 18}}
+        labelAlign="left"
+        initialValues={{fontSize: 15}}
+        className="user-settings-form"
+      >
+        <Form.Item name="fontSize" label="字体大小" rules={[{required: true, message: '请选择字体大小'}]}>
+          <Radio.Group optionType="button" options={FONT_OPTIONS}/>
+        </Form.Item>
+      </Form>
     </div>
   )
 })

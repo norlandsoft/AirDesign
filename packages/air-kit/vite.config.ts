@@ -18,7 +18,7 @@ export default defineConfig({
     dts({
       include: ['src/**/*'],
       outDir: 'dist',
-      tsconfigPath: './tsconfig.json',
+      tsconfigPath: './tsconfig.build.json',
     }),
   ],
 

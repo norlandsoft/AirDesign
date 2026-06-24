@@ -200,6 +200,54 @@ import { ColorPicker } from 'air-design'
 
 基于 react-colorful + Popover，取色面板在上、可编辑 hex 输入（Enter 确认 / Esc 取消）、预设色 6×2 网格在下，含「无背景色」。
 
+### Form 表单体系（antd 兼容）
+
+单行控件（Input / Select / NumberInput 等）默认高度 **38px**（`--control-height`）。
+
+```tsx
+import {
+  Form, Input, PasswordInput, TextArea, NumberInput,
+  Select, Checkbox, Radio, Switch,
+} from 'air-design'
+
+const [form] = Form.useForm()
+
+<Form form={form} layout="vertical" initialValues={{ notify: true }}
+  onFinish={values => console.log(values)}>
+  <Form.Item name="email" label="邮箱" rules={[{ required: true }, { type: 'email' }]}>
+    <Input placeholder="name@example.com" allowClear />
+  </Form.Item>
+  <Form.Item name="password" label="密码" rules={[{ required: true }, { min: 8 }]}>
+    <PasswordInput />
+  </Form.Item>
+  <Form.Item name="age" label="年龄">
+    <NumberInput min={1} max={120} />
+  </Form.Item>
+  <Form.Item name="lang" label="语言">
+    <Select options={[{ value: 'ts', label: 'TypeScript' }]} allowClear />
+  </Form.Item>
+  <Form.Item name="role" label="角色">
+    <Radio.Group optionType="button" options={[{ value: 'dev', label: '开发' }]} />
+  </Form.Item>
+  <Form.Item name="interests" label="兴趣">
+    <Checkbox.Group options={[{ value: 'code', label: '前端' }]} />
+  </Form.Item>
+  <Form.Item name="notify" label="通知" valuePropName="checked">
+    <Switch />
+  </Form.Item>
+  <Form.Item name="agree" valuePropName="checked" rules={[{ required: true }]}>
+    <Checkbox>同意协议</Checkbox>
+  </Form.Item>
+  <Button type="primary" onClick={() => form.submit()}>提交</Button>
+</Form>
+```
+
+**FormInstance 常用方法**：`getFieldsValue` / `setFieldsValue` / `resetFields` / `validateFields` / `submit`。
+
+**Form.Item 要点**：Checkbox / Switch 需 `valuePropName="checked"`；`rules` 支持 `required` / `min` / `max` / `pattern` / `type` / 自定义 `validator`。
+
+**字段组件**：`Input`（含 `PasswordInput`）、`TextArea`、`NumberInput`、`Select`（支持 `mode="multiple"`）、`Checkbox` / `Checkbox.Group`、`Radio` / `Radio.Group`。
+
 ### 其他基础组件
 
 ```tsx

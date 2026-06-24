@@ -6,13 +6,13 @@
  * useUserStore.login（密码 SHA256 + 接口）。
  *
  * 若 defineSdkConfig 配置了 loginId（如 admin），则隐藏用户名输入框，仅保留密码。
+ * 表单基于 air-design Form / Input / PasswordInput / Button 组件。
  *
- * 主题色由 getSdkConfig().theme 决定（blue/teal/amber，默认 teal），
- * 影响左侧渐变与强调色。
- *
- * @author ChaiMingXu, 2026/06/20
+ * @author ChaiMingXu, 2026/06/24
  */
 import React, {useState} from 'react'
+import {Button, Form, Input, PasswordInput} from 'air-design'
+import type {FormInstance} from 'air-design'
 import {useUserStore} from '../../models/user'
 import {getSdkConfig} from '../../config'
 import './index.css'
@@ -38,49 +38,41 @@ interface LoginProps {
   onSuccess?: () => void
 }
 
+interface LoginForm extends Record<string, unknown> {
+  username: string
+  password: string
+}
+
 const Login: React.FC<LoginProps> = ({onSuccess}) => {
   const cfg = getSdkConfig()
   const themeName = (cfg.theme && THEMES[cfg.theme] ? cfg.theme : 'teal') as keyof typeof THEMES
   const theme = THEMES[themeName]
   const appName = cfg.appName ?? '应用'
   const appTagline = cfg.appTagline ?? ''
-  /** 固定登录身份：配置后仅输入密码（如 AirFramework 单 admin 账户） */
   const fixedLoginId = cfg.loginId?.trim() ?? ''
   const passwordOnly = fixedLoginId.length > 0
 
   const login = useUserStore((s) => s.login)
   const loading = useUserStore((s) => s.loading)
+  const [form] = Form.useForm<LoginForm>()
+  const [loginError, setLoginError] = useState('')
 
-  const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
-  const [error, setError] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    if (!passwordOnly && !username.trim()) {
-      setError('请输入用户名')
-      return
-    }
-    if (!password) {
-      setError('请输入密码')
-      return
-    }
+  const handleFinish = async (values: LoginForm) => {
+    setLoginError('')
     await login({
-      id: passwordOnly ? fixedLoginId : username.trim(),
-      password,
+      id: passwordOnly ? fixedLoginId : values.username.trim(),
+      password: values.password,
     })
     const authed = useUserStore.getState().isAuthenticated
     if (authed) {
       onSuccess ? onSuccess() : (window.location.href = '/')
     } else {
-      setError(passwordOnly ? '登录失败，请检查密码' : '登录失败，请检查用户名和密码')
+      setLoginError(passwordOnly ? '登录失败，请检查密码' : '登录失败，请检查用户名和密码')
     }
   }
 
   return (
     <div className="air-login-split">
-      {/* 左侧品牌区 */}
       <aside className="air-login-brand" style={{background: theme.gradient}}>
         <div className="air-login-brand-inner">
           <div className="air-login-logo" style={{color: theme.accent}}>
@@ -98,7 +90,6 @@ const Login: React.FC<LoginProps> = ({onSuccess}) => {
         <div className="air-login-brand-footer">© {new Date().getFullYear()} Norlandsoft</div>
       </aside>
 
-      {/* 右侧表单区 */}
       <main className="air-login-form-side">
         <div className="air-login-form-card">
           <h2 className="air-login-form-title">欢迎回来</h2>
@@ -106,39 +97,40 @@ const Login: React.FC<LoginProps> = ({onSuccess}) => {
             {passwordOnly ? `请输入 ${appName} 管理员密码` : `登录以继续使用 ${appName}`}
           </p>
 
-          <form onSubmit={handleSubmit} className="air-login-form" autoComplete="off">
+          <Form<LoginForm>
+            form={form as FormInstance<LoginForm>}
+            layout="vertical"
+            requiredMark={false}
+            className="air-login-form"
+            onFinish={handleFinish}
+          >
             {!passwordOnly && (
-              <div className="air-login-field">
-                <label>用户名</label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="请输入用户名"
-                  autoFocus
-                />
-              </div>
+              <Form.Item
+                name="username"
+                label="用户名"
+                rules={[{required: true, message: '请输入用户名'}]}
+              >
+                <Input placeholder="请输入用户名" autoFocus/>
+              </Form.Item>
             )}
-            <div className="air-login-field">
-              <label>密码</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="请输入密码"
-                autoFocus={passwordOnly}
-              />
-            </div>
-            {error && <div className="air-login-error">{error}</div>}
-            <button
-              type="submit"
-              className="air-login-submit"
-              style={{background: theme.accent}}
-              disabled={loading}
+            <Form.Item
+              name="password"
+              label="密码"
+              rules={[{required: true, message: '请输入密码'}]}
             >
-              {loading ? '登录中…' : '登 录'}
-            </button>
-          </form>
+              <PasswordInput placeholder="请输入密码" autoFocus={passwordOnly}/>
+            </Form.Item>
+            {loginError ? <div className="air-login-error">{loginError}</div> : null}
+            <Button
+              type="primary"
+              block
+              loading={loading}
+              style={{background: theme.accent, marginTop: 4, height: 40}}
+              onClick={() => form.submit()}
+            >
+              登 录
+            </Button>
+          </Form>
         </div>
       </main>
     </div>

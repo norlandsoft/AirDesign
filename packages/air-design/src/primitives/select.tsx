@@ -8,6 +8,7 @@
 import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import {cn} from '../lib/cn'
+import {controlBaseClass} from '../lib/control-styles'
 
 const Select = SelectPrimitive.Root
 const SelectGroup = SelectPrimitive.Group
@@ -20,7 +21,8 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex h-9 w-full items-center justify-between whitespace-nowrap rounded-[4px] border border-input bg-background px-3 py-2 text-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+      'flex items-center justify-between whitespace-nowrap py-0 focus:outline-none [&>span]:line-clamp-1',
+      controlBaseClass,
       className
     )}
     {...props}

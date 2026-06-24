@@ -131,67 +131,17 @@
 .air-login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 4px;
 }
 
-.air-login-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.air-login-field label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-foreground);
-}
-
-.air-login-field input {
-  height: 40px;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.air-login-field input::placeholder {
-  color: var(--color-muted-foreground);
-}
-
-.air-login-field input:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 12%, transparent);
+.air-login-form .air-form-item {
+  margin-bottom: 12px;
 }
 
 .air-login-error {
   font-size: 13px;
   color: var(--color-destructive);
-}
-
-.air-login-submit {
-  margin-top: 4px;
-  height: 40px;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: filter 0.2s;
-}
-
-.air-login-submit:hover:not(:disabled) {
-  filter: brightness(1.08);
-}
-
-.air-login-submit:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
+  margin-bottom: 8px;
 }
 
 /* ===== 响应式：窄屏隐藏左侧品牌区 ===== */

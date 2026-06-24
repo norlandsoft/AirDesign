@@ -1,0 +1,4 @@
+# pnpm Monorepo 工作区配置（与 package.json workspaces 保持一致）
+packages:
+  - 'packages/*'
+  - 'example'

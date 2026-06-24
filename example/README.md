@@ -1,15 +1,18 @@
 # AirDesign 组件库 Demo
 
-基于 Vite + React 的组件效果展示项目，引用 workspace 中的 `air-design`。
+基于 Vite + React 的组件效果展示项目，引用 workspace 中的 `air-design` 与 `air-kit`。
 
 ## 运行
 
 ```bash
-# 1. 先构建组件库（Demo 依赖 air-design 的 dist/）
+# 1. 安装依赖（Monorepo 根目录）
 cd /opt/AirDesign
-npm run build:design
+npm install          # 或 pnpm install
 
-# 2. 启动 Demo
+# 2. 构建组件库（Demo 依赖 dist/ 产物）
+npm run build        # 构建 air-design + air-kit
+
+# 3. 启动 Demo
 npm run dev:example
 # 或：cd example && npm run dev
 ```
@@ -18,10 +21,10 @@ npm run dev:example
 
 ## 改动组件后的刷新
 
-修改 `packages/air-design/src/` 后需重新构建，Demo 刷新即可：
+修改 `packages/air-design/src/` 或 `packages/air-kit/src/` 后需重新构建，Demo 刷新即可：
 
 ```bash
-npm run build:design   # 重新构建 air-design
+npm run build        # 重新构建 air-design + air-kit
 # Demo 页面刷新
 ```
 

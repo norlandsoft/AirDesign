@@ -1,0 +1,21 @@
+/**
+ * Form 表单样式
+ *
+ * 补充 Tailwind 未覆盖的表单项间距与 inline 布局细节。
+ *
+ * @author ChaiMingXu, 2026/06/24
+ */
+.air-form-inline .air-form-item-inline .air-form-item-label {
+  margin-right: 8px;
+  line-height: var(--control-height);
+}
+
+.air-form-item-row .air-form-item-label {
+  line-height: var(--control-height);
+}
+
+.air-form-item-control .air-input-affix-wrapper,
+.air-form-item-control .air-select-trigger,
+.air-form-item-control .air-number-input {
+  width: 100%;
+}

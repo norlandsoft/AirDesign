@@ -11,6 +11,7 @@
     "declaration": true,
     "declarationDir": "dist",
     "outDir": "dist",
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
