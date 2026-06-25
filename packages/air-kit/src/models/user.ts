@@ -2,7 +2,9 @@
  * 统一用户 Store（Zustand）
  *
  * 取代 DVA UserModel。admin 走 /rest/auth/login，其余走 /api/v1/auth/login。
- * validateToken 统一走 /api/v1/auth/current。
+ * 双轨模式下（不配 loginId），登录页可切换两种登录；登录成功后写入 adminMode session 标记，
+ * validateToken 据此分流 /rest/auth/current（admin）或 /api/v1/auth/current（普通），
+ * 避免 admin 登录后刷新被 SSO 校验掉态。
  * 保留原有的 auth-state-changed CustomEvent 桥接，便于非 React 代码（HttpRequest 等）响应。
  *
  * @author ChaiMingXu, 2026/06/19
@@ -18,6 +20,9 @@ import {isAdminPlatform, storageKey} from '../config'
 const ADMIN_LOGIN_URL = '/rest/auth/login'
 /** 普通用户 SSO 登录（用户名 + 密码） */
 const SSO_LOGIN_URL = '/api/v1/auth/login'
+
+/** 当前会话是否 admin 本地登录（双轨模式下 validateToken 据此分流校验端点） */
+const isAdminSession = (): boolean => sessionStorage.getItem(storageKey('adminMode')) === '1'
 
 export interface UserState {
   currentUser: UserResponse | null
@@ -77,6 +82,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         if (token) sessionStorage.setItem(storageKey('token'), token)
         if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))
         if (user?.loginId) sessionStorage.setItem(storageKey('user'), String(user.loginId))
+        sessionStorage.setItem(storageKey('adminMode'), '1')
 
         set({currentUser: user, isAuthenticated: !!token})
         window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: true}}))
@@ -98,6 +104,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       if (token) sessionStorage.setItem(storageKey('token'), token)
       if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))
       if (user?.loginId) sessionStorage.setItem(storageKey('user'), String(user.loginId))
+      sessionStorage.setItem(storageKey('adminMode'), '0')
 
       set({currentUser: user, isAuthenticated: !!token})
       window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: true}}))
@@ -127,7 +134,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     set({validatingToken: true})
     try {
-      const currentUrl = isAdminPlatform() ? '/rest/auth/current' : '/api/v1/auth/current'
+      const currentUrl = isAdminSession() ? '/rest/auth/current' : '/api/v1/auth/current'
       const resp = await POST(currentUrl, {})
       if (resp?.success) {
         const user: UserResponse = resp.data || null
@@ -146,6 +153,7 @@ export const useUserStore = create<UserState>((set, get) => ({
         sessionStorage.removeItem(storageKey('token'))
         sessionStorage.removeItem(storageKey('user'))
         sessionStorage.removeItem(storageKey('uid'))
+        sessionStorage.removeItem(storageKey('adminMode'))
         if (state.isAuthenticated) {
           set({currentUser: null, isAuthenticated: false})
           window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: false}}))
