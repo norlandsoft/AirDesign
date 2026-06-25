@@ -252,8 +252,8 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
               <Button
                 block
                 loading={loading}
+                htmlType="submit"
                 className="air-login-submit"
-                onClick={() => form.submit()}
               >
                 登 录
               </Button>

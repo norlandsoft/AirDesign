@@ -17,6 +17,8 @@ type AirButtonType = 'default' | 'primary' | 'danger' | 'text' | 'link'
 interface AirButtonProps extends Omit<ButtonProps, 'type' | 'variant'> {
   /** 按钮类型，等价于旧 type 属性，便于业务代码平滑迁移 */
   type?: AirButtonType
+  /** 原生 button 的 type，用于表单提交等场景 */
+  htmlType?: 'button' | 'submit' | 'reset'
   /** danger=true 时强制渲染为 danger 类型（保留语义快捷开关） */
   danger?: boolean
   /** 图标：string 为图标名（经 Icon 渲染），或任意 ReactNode */
@@ -50,6 +52,7 @@ const Button = forwardRef<HTMLButtonElement, AirButtonProps>((props, ref) => {
     children,
     onClick,
     type = 'default',
+    htmlType = 'button',
     danger,
     icon = null,
     loading = false,
@@ -74,7 +77,7 @@ const Button = forwardRef<HTMLButtonElement, AirButtonProps>((props, ref) => {
   return (
     <PrimitiveButton
       ref={ref}
-      type="button"
+      type={htmlType}
       variant={variant}
       size={size}
       className={cn(block && 'w-full', className)}
