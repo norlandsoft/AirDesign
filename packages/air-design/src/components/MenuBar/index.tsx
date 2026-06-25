@@ -1,13 +1,14 @@
 /**
  * MenuBar 菜单栏
  *
- * 垂直菜单列表，支持选中高亮与底部「返回」按钮。已无 UI 库依赖，样式改为 Tailwind。
+ * 窄宽垂直侧栏：上图标下文字、深绿配色；选中项浅绿灰圆角高亮；底部可选「返回」按钮。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/25
  */
 import React, {useEffect, useState} from 'react'
 import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
+import './index.css'
 
 interface MenuItemData {
   id: string
@@ -17,14 +18,18 @@ interface MenuItemData {
 
 interface MenuBarProps {
   items: MenuItemData[]
-  height?: number
+  height?: number | string
+  width?: number | string
   onSelect?: (id: string) => void
   onReturn?: () => void
   defaultSelected?: string
 }
 
+/** 菜单项图标与文字色 */
+const MENU_ICON_COLOR = '#2D5A41'
+
 const MenuBar: React.FC<MenuBarProps> = (props) => {
-  const {items, height, onSelect, onReturn, defaultSelected} = props
+  const {items, height, width, onSelect, onReturn, defaultSelected} = props
   const [current, setCurrent] = useState<string>('')
 
   useEffect(() => {
@@ -32,43 +37,41 @@ const MenuBar: React.FC<MenuBarProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const rootStyle: React.CSSProperties = {
+    ...(height != null ? {height} : {}),
+    ...(width != null ? {width, minWidth: width} : {}),
+  }
+
   return (
-    <div className="flex h-full flex-col justify-between" style={{height}}>
-      <div className="flex flex-col">
+    <div className="air-menu-bar" style={rootStyle}>
+      <nav className="air-menu-bar-nav" aria-label="菜单">
         {items.map((item) => {
-          const label = item.label
           const iconName = item.icon || item.id
           const active = item.id === current
           return (
-            <div
+            <button
               key={item.id}
-              className="cursor-pointer px-3 py-2"
+              type="button"
+              className={cn('air-menu-bar-item', active && 'air-menu-bar-item-active')}
+              aria-current={active ? 'page' : undefined}
               onClick={() => {
                 onSelect?.(item.id)
                 setCurrent(item.id)
               }}
             >
-              <div
-                className={cn(
-                  'flex items-center gap-2 rounded px-2 py-1.5 text-sm',
-                  active ? 'bg-primary/15 font-medium' : 'hover:bg-accent'
-                )}
-              >
-                <Icon name={iconName} size={20}/>
-                <span style={{letterSpacing: label.length > 2 ? 0 : '2px'}}>{label}</span>
-              </div>
-            </div>
+              <Icon name={iconName} size={22} color={MENU_ICON_COLOR}/>
+              <span className="air-menu-bar-item-label">{item.label}</span>
+            </button>
           )
         })}
-      </div>
-      {onReturn && (
-        <div className="cursor-pointer px-3 py-2" onClick={onReturn}>
-          <div className="flex items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-accent">
-            <Icon name="back" size={20}/>
-            <span style={{letterSpacing: '2px'}}>返回</span>
-          </div>
-        </div>
-      )}
+      </nav>
+
+      {onReturn ? (
+        <button type="button" className="air-menu-bar-item air-menu-bar-return" onClick={onReturn}>
+          <Icon name="back" size={22} color={MENU_ICON_COLOR}/>
+          <span className="air-menu-bar-item-label">返回</span>
+        </button>
+      ) : null}
     </div>
   )
 }

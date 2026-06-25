@@ -1,0 +1,75 @@
+/*
+ * MenuBar 垂直菜单栏样式
+ *
+ * 上图标下文字、深绿配色；选中项浅绿灰圆角底；底部返回按钮靠下对齐。
+ *
+ * @author ChaiMingXu, 2026/06/25
+ */
+
+.air-menu-bar {
+  --menu-bar-bg: #f7f8f7;
+  --menu-bar-border: #e5e5e5;
+  --menu-bar-fg: #2d5a41;
+  --menu-bar-active-bg: #e3eae5;
+  --menu-bar-hover-bg: #eef2ef;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 72px;
+  min-width: 72px;
+  height: 100%;
+  padding: 12px 8px;
+  box-sizing: border-box;
+  background-color: var(--menu-bar-bg);
+  border-right: 1px solid var(--menu-bar-border);
+}
+
+.air-menu-bar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.air-menu-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  padding: 8px 4px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--menu-bar-fg);
+  font-size: 12px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.air-menu-bar-item:hover {
+  background-color: var(--menu-bar-hover-bg);
+}
+
+.air-menu-bar-item-active {
+  background-color: var(--menu-bar-active-bg);
+  font-weight: 500;
+}
+
+.air-menu-bar-item-active:hover {
+  background-color: var(--menu-bar-active-bg);
+}
+
+.air-menu-bar-item-label {
+  max-width: 100%;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.air-menu-bar-return {
+  flex-shrink: 0;
+  margin-top: auto;
+}
