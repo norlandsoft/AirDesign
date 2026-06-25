@@ -14,6 +14,11 @@ import {SHA} from '../utils/CryptoUtils'
 import type {UserLoginRequest, UserResponse} from '../types/user'
 import {isAdminPlatform, storageKey} from '../config'
 
+/** 管理员本地鉴权登录（仅密码） */
+const ADMIN_LOGIN_URL = '/rest/auth/login'
+/** 普通用户 SSO 登录（用户名 + 密码） */
+const SSO_LOGIN_URL = '/api/v1/auth/login'
+
 export interface UserState {
   currentUser: UserResponse | null
   isAuthenticated: boolean
@@ -54,12 +59,14 @@ export const useUserStore = create<UserState>((set, get) => ({
     set(() => ({currentUser: null, isAuthenticated: false})),
 
   login: async (payload) => {
-    const {id, password} = payload
+    const {id, password, adminMode} = payload
     const newPassword = SHA(password)
+    // adminMode 由登录页切换传入；未传时兼容 defineSdkConfig.loginId=admin 的纯 Admin 应用
+    const useAdminChannel = adminMode ?? isAdminPlatform()
 
-    if (isAdminPlatform()) {
+    if (useAdminChannel) {
       set({loading: true})
-      const resp = await POST('/rest/auth/login', {password: newPassword})
+      const resp = await POST(ADMIN_LOGIN_URL, {password: newPassword})
       set({loading: false})
 
       if (resp?.success) {
@@ -79,11 +86,8 @@ export const useUserStore = create<UserState>((set, get) => ({
       return
     }
 
-    const loginDTO: UserLoginRequest = {id, password: newPassword}
-    const loginUrl = '/api/v1/auth/login'
-
     set({loading: true})
-    const resp = await POST(loginUrl, loginDTO)
+    const resp = await POST(SSO_LOGIN_URL, {id, password: newPassword})
     set({loading: false})
 
     if (resp?.success) {

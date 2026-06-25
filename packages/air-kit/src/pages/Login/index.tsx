@@ -2,9 +2,8 @@
  * Login 登录页（居中卡片左右分栏）
  *
  * 全页主题渐变背景（大面积圆环装饰）+ 居中圆角卡片：左侧约 40% 欢迎区（斜线节点与小圆），
- * 右侧约 60% 为白底表单区（顶栏标识、居中表单、底栏链接）。登录逻辑接入 air-kit useUserStore.login。
- *
- * 若 defineSdkConfig 配置了 loginId（如 admin），则隐藏用户名输入框，仅保留密码。
+ * 右侧约 60% 为白底表单区。支持两种登录模式：管理员走本地鉴权 /rest/auth/login，
+ * 普通用户走 SSO 通道 /api/v1/auth/login，可在登录按钮下方切换。
  *
  * @author ChaiMingXu, 2026/06/25
  */
@@ -104,6 +103,12 @@ interface LoginForm extends Record<string, unknown> {
   password: string
 }
 
+/** 管理员登录缺省账号 */
+const ADMIN_LOGIN_ID = 'admin'
+
+/** 登录模式：普通用户 / 管理员 */
+type LoginMode = 'user' | 'admin'
+
 /** 全页背景装饰：大面积朦胧圆环（与 panel 内图案区分） */
 const PageBgDecor: React.FC = () => (
   <div className="air-login-page-decor" aria-hidden>
@@ -143,13 +148,13 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
   const theme = LOGIN_THEMES[themeName]
   const appName = cfg.appName ?? '应用'
   const appTagline = cfg.appTagline ?? '统一身份认证与安全访问入口'
-  const fixedLoginId = cfg.loginId?.trim() ?? ''
-  const passwordOnly = fixedLoginId.length > 0
 
   const login = useUserStore((s) => s.login)
   const loading = useUserStore((s) => s.loading)
   const [form] = Form.useForm<LoginForm>()
   const [loginError, setLoginError] = useState('')
+  const [loginMode, setLoginMode] = useState<LoginMode>('user')
+  const isAdminMode = loginMode === 'admin'
 
   const themeStyle = {
     '--login-base': theme.base,
@@ -162,15 +167,24 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
   const handleFinish = async (values: LoginForm) => {
     setLoginError('')
     await login({
-      id: passwordOnly ? fixedLoginId : values.username.trim(),
+      id: isAdminMode ? ADMIN_LOGIN_ID : values.username.trim(),
       password: values.password,
+      adminMode: isAdminMode,
     })
     const authed = useUserStore.getState().isAuthenticated
     if (authed) {
       onSuccess ? onSuccess() : (window.location.href = '/')
     } else {
-      setLoginError(passwordOnly ? '登录失败，请检查密码' : '登录失败，请检查用户名和密码')
+      setLoginError(isAdminMode ? '登录失败，请检查密码' : '登录失败，请检查用户名和密码')
     }
+  }
+
+  /** 切换用户 / 管理员登录模式 */
+  const handleSwitchLoginMode = () => {
+    const nextMode: LoginMode = isAdminMode ? 'user' : 'admin'
+    setLoginMode(nextMode)
+    setLoginError('')
+    form.resetFields()
   }
 
   return (
@@ -197,7 +211,7 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
           <div className="air-login-form-body">
             <h2 className="air-login-form-title">登录账户</h2>
             <p className="air-login-form-sub">
-              {passwordOnly
+              {isAdminMode
                 ? `请输入 ${appName} 管理员密码以继续`
                 : `使用您的账号登录 ${appName}`}
             </p>
@@ -210,7 +224,7 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
               initialValues={{username: '', password: ''}}
               onFinish={handleFinish}
             >
-              {!passwordOnly && (
+              {!isAdminMode && (
                 <Form.Item
                   name="username"
                   label="用户名"
@@ -229,7 +243,7 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
                 <PasswordInput
                   className="air-login-field-input"
                   placeholder="请输入密码"
-                  autoFocus={passwordOnly}
+                  autoFocus={isAdminMode}
                 />
               </Form.Item>
 
@@ -243,13 +257,17 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
               >
                 登 录
               </Button>
+
+              <div className="air-login-mode-switch">
+                <Button type="link" className="air-login-mode-link" onClick={handleSwitchLoginMode}>
+                  {isAdminMode ? '用户登录' : '管理员登录'}
+                </Button>
+              </div>
             </Form>
           </div>
 
           <footer className="air-login-form-footer">
-            <span>帮助</span>
-            <span>隐私政策</span>
-            <span>服务条款</span>
+            © {new Date().getFullYear()} Norlandsoft
           </footer>
         </main>
       </div>

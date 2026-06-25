@@ -1,6 +1,8 @@
 export interface UserLoginRequest {
   id: string;
   password: string;
+  /** 管理员登录：本地鉴权通道 POST /rest/auth/login（仅密码） */
+  adminMode?: boolean;
 }
 
 export interface UserResponse {
