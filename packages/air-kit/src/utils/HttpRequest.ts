@@ -188,12 +188,7 @@ function isAuthLoginRequest(url: string | URL | Request): boolean {
       : url instanceof URL
         ? url.pathname
         : url.url.split('?')[0]
-  return (
-    path.endsWith('/api/v1/auth/login') ||
-    path.endsWith('/rest/auth/login') ||
-    path.endsWith('/admin/user/login') ||
-    path.endsWith('/rest/admin/user/login')
-  )
+  return path.endsWith('/api/v1/auth/login')
 }
 
 export async function POST(url: string | URL | Request, params: any): Promise<any> {
@@ -227,7 +222,6 @@ export async function POST(url: string | URL | Request, params: any): Promise<an
                 detail: {authenticated: false}}));
               if (
                 !String(url).includes('/api/v1/auth/current') &&
-                !String(url).includes('/rest/auth/current') &&
                 !String(url).includes('/api/v1/transfer/accept')
               ) {
                 Notice.error('登录已失效', '您的登录已过期，请重新登录。');

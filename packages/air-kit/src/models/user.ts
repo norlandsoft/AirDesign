@@ -1,28 +1,22 @@
 /**
  * 统一用户 Store（Zustand）
  *
- * 取代 DVA UserModel。admin 走 /rest/auth/login，其余走 /api/v1/auth/login。
- * 双轨模式下（不配 loginId），登录页可切换两种登录；登录成功后写入 adminMode session 标记，
- * validateToken 据此分流 /rest/auth/current（admin）或 /api/v1/auth/current（普通），
- * 避免 admin 登录后刷新被 SSO 校验掉态。
- * 保留原有的 auth-state-changed CustomEvent 桥接，便于非 React 代码（HttpRequest 等）响应。
+ * 取代 DVA UserModel。登录与 Token 校验统一走 SSO 通道 /api/v1/auth/*。
+ * 保留 auth-state-changed CustomEvent 桥接，便于非 React 代码（HttpRequest 等）响应。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/25
  */
 import {create} from 'zustand'
 import {POST} from '../utils/HttpRequest'
 import {Notice} from 'air-design'
 import {SHA} from '../utils/CryptoUtils'
 import type {UserLoginRequest, UserResponse} from '../types/user'
-import {isAdminPlatform, storageKey} from '../config'
+import {storageKey} from '../config'
 
-/** 管理员本地鉴权登录（仅密码） */
-const ADMIN_LOGIN_URL = '/rest/auth/login'
-/** 普通用户 SSO 登录（用户名 + 密码） */
+/** SSO 登录接口 */
 const SSO_LOGIN_URL = '/api/v1/auth/login'
-
-/** 当前会话是否 admin 本地登录（双轨模式下 validateToken 据此分流校验端点） */
-const isAdminSession = (): boolean => sessionStorage.getItem(storageKey('adminMode')) === '1'
+/** SSO Token 校验接口 */
+const SSO_CURRENT_URL = '/api/v1/auth/current'
 
 export interface UserState {
   currentUser: UserResponse | null
@@ -36,12 +30,10 @@ export interface UserState {
   login: (payload: UserLoginRequest) => Promise<void>
   logout: () => Promise<void>
   validateToken: () => Promise<void>
-  changeAdminPassword: (payload: {password: string}, callback?: (resp: any) => void) => Promise<void>
   updateUserInfo: (payload: any, callback?: (resp: any) => void) => Promise<void>
   fetchUserSettings: (payload: {userId: string | number}) => Promise<void>
   updateUserSettings: (payload: any, callback?: (resp: any) => void) => Promise<void>
   changePassword: (payload: any, callback?: (resp: any) => void) => Promise<void>
-  // 直接状态操作（对应 DVA reducers）
   setUser: (user: UserResponse | null) => void
   clearUser: () => void
 }
@@ -64,33 +56,8 @@ export const useUserStore = create<UserState>((set, get) => ({
     set(() => ({currentUser: null, isAuthenticated: false})),
 
   login: async (payload) => {
-    const {id, password, adminMode} = payload
+    const {id, password} = payload
     const newPassword = SHA(password)
-    // adminMode 由登录页切换传入；未传时兼容 defineSdkConfig.loginId=admin 的纯 Admin 应用
-    const useAdminChannel = adminMode ?? isAdminPlatform()
-
-    if (useAdminChannel) {
-      set({loading: true})
-      const resp = await POST(ADMIN_LOGIN_URL, {password: newPassword})
-      set({loading: false})
-
-      if (resp?.success) {
-        const data = resp.data || {}
-        const token = data.token || ''
-        const user: UserResponse = data.user || data || null
-
-        if (token) sessionStorage.setItem(storageKey('token'), token)
-        if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))
-        if (user?.loginId) sessionStorage.setItem(storageKey('user'), String(user.loginId))
-        sessionStorage.setItem(storageKey('adminMode'), '1')
-
-        set({currentUser: user, isAuthenticated: !!token})
-        window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: true}}))
-      } else {
-        Notice.error('登录失败', resp?.message || '登录失败，请检查密码')
-      }
-      return
-    }
 
     set({loading: true})
     const resp = await POST(SSO_LOGIN_URL, {id, password: newPassword})
@@ -104,7 +71,6 @@ export const useUserStore = create<UserState>((set, get) => ({
       if (token) sessionStorage.setItem(storageKey('token'), token)
       if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))
       if (user?.loginId) sessionStorage.setItem(storageKey('user'), String(user.loginId))
-      sessionStorage.setItem(storageKey('adminMode'), '0')
 
       set({currentUser: user, isAuthenticated: !!token})
       window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: true}}))
@@ -134,8 +100,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
     set({validatingToken: true})
     try {
-      const currentUrl = isAdminSession() ? '/rest/auth/current' : '/api/v1/auth/current'
-      const resp = await POST(currentUrl, {})
+      const resp = await POST(SSO_CURRENT_URL, {})
       if (resp?.success) {
         const user: UserResponse = resp.data || null
         if (user?.id) sessionStorage.setItem(storageKey('uid'), String(user.id))
@@ -153,7 +118,6 @@ export const useUserStore = create<UserState>((set, get) => ({
         sessionStorage.removeItem(storageKey('token'))
         sessionStorage.removeItem(storageKey('user'))
         sessionStorage.removeItem(storageKey('uid'))
-        sessionStorage.removeItem(storageKey('adminMode'))
         if (state.isAuthenticated) {
           set({currentUser: null, isAuthenticated: false})
           window.dispatchEvent(new CustomEvent('auth-state-changed', {detail: {authenticated: false}}))
@@ -162,15 +126,6 @@ export const useUserStore = create<UserState>((set, get) => ({
     } finally {
       set({validatingToken: false})
     }
-  },
-
-  changeAdminPassword: async (payload, callback) => {
-    const changeDTO: any = {...payload}
-    if (changeDTO.password?.trim()) {
-      changeDTO.password = SHA(changeDTO.password)
-    }
-    const resp = await POST('/rest/auth/changePassword', changeDTO)
-    callback?.(resp)
   },
 
   updateUserInfo: async (payload, callback) => {
@@ -215,6 +170,5 @@ export const useUserStore = create<UserState>((set, get) => ({
   },
 }))
 
-// 兼容旧导出名：UserModel（已不再作为 DVA model，仅为平滑过渡保留对 store 的引用）
 export const UserModel = useUserStore
 export default useUserStore

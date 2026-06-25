@@ -172,6 +172,14 @@
   text-align: center;
 }
 
+.air-login-brand-name {
+  margin: 0 0 12px;
+  font-size: clamp(20px, 2.8vw, 24px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
 .air-login-headline {
   margin: 0 0 16px;
   font-size: clamp(26px, 3.5vw, 34px);
@@ -195,18 +203,6 @@
   min-width: 0;
   padding: 28px 40px 20px;
   background: #fff;
-}
-
-.air-login-form-header {
-  flex-shrink: 0;
-  margin-bottom: 8px;
-}
-
-.air-login-form-logo {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--login-accent);
-  letter-spacing: 0.04em;
 }
 
 .air-login-form-body {
@@ -251,9 +247,10 @@
 }
 
 /* 圆角浅灰底输入框：4px 圆角、40px 高度、浅灰边框，聚焦时主题色边框 */
-.air-login-field-input {
+.air-login-form .air-login-field-input {
   height: 40px !important;
   min-height: 40px !important;
+  max-height: 40px !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 4px !important;
   background: #f3f4f6 !important;
@@ -262,7 +259,23 @@
   box-sizing: border-box;
 }
 
-.air-login-field-input:focus-within {
+/* 用户名：原生 input */
+.air-login-form input.air-login-field-input {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 38px !important;
+}
+
+/* 密码：AffixWrapper 内层 input 撑满 40px 外框 */
+.air-login-form .air-login-field-input input {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: normal !important;
+}
+
+.air-login-form .air-login-field-input:focus-within {
   background: #eef0f3 !important;
   border-color: var(--login-accent) !important;
   outline: none;
@@ -297,27 +310,6 @@
   border: none !important;
   color: #fff !important;
   filter: brightness(1.05);
-}
-
-/* 登录模式切换：登录按钮下方居右 link 按钮 */
-.air-login-mode-switch {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-.air-login-mode-link {
-  height: auto !important;
-  min-height: 0 !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: var(--login-accent) !important;
-}
-
-.air-login-mode-link:hover:not(:disabled) {
-  color: var(--login-button-hover) !important;
-  background: transparent !important;
 }
 
 .air-login-form-footer {

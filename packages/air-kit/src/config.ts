@@ -29,11 +29,3 @@ export function getSdkConfig(): SdkConfig {
 export function storageKey(suffix: string): string {
   return `${getSdkConfig().storagePrefix}-${suffix}`
 }
-
-/**
- * 是否为平台 Admin 模式（loginId 固定为 admin）。
- * Admin 前端只访问 /rest/*，不走 /api/v1/auth/*。
- */
-export function isAdminPlatform(): boolean {
-  return getSdkConfig().loginId?.toLowerCase() === 'admin'
-}

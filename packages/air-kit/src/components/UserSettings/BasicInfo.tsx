@@ -7,7 +7,7 @@
  * @author ChaiMingXu, 2026/06/24
  */
 import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react'
-import {Avatar, Form, Input, Notice} from 'air-design'
+import {Avatar, Form, Input, Notice, Radio} from 'air-design'
 import type {FormInstance} from 'air-design'
 import type {UserResponse} from '../../types/user'
 import {getAvatarUrl, extractAvatarId} from '../../utils/IconUtils'
@@ -39,24 +39,22 @@ const avatarOptions = [
   {value: 'u06', label: '头像6'},
 ]
 
-/** 头像选择器：Form.Item 注入 value / onChange */
+/** 头像选择器：Form.Item 注入 value / onChange，Radio 圆点 + 头像横向排列 */
 const AvatarPicker: React.FC<{
   value?: string
   onChange?: (value: string) => void
 }> = ({value = 'u01', onChange}) => (
-  <div className="avatar-radio-group">
+  <Radio.Group
+    value={value}
+    onChange={(next) => onChange?.(String(next))}
+    className="avatar-radio-group"
+  >
     {avatarOptions.map((option) => (
-      <button
-        key={option.value}
-        type="button"
-        className={`avatar-radio-item ${value === option.value ? 'checked' : ''}`}
-        onClick={() => onChange?.(option.value)}
-        aria-label={option.label}
-      >
+      <Radio key={option.value} value={option.value} className="avatar-radio-item" aria-label={option.label}>
         <Avatar src={getAvatarUrl(option.value)} size={28}/>
-      </button>
+      </Radio>
     ))}
-  </div>
+  </Radio.Group>
 )
 
 const BasicInfo = forwardRef<BasicInfoRef, BasicInfoProps>((props, ref) => {

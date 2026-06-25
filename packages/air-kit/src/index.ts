@@ -35,5 +35,5 @@ export {formatFileSize} from './utils/FormatUtils'
 
 // 类型导出
 export type {SdkConfig} from './types/auth'
-export type {UserResponse, UserLoginRequest, AdminPasswordChangeRequest} from './types/user'
+export type {UserResponse, UserLoginRequest} from './types/user'
 export type {DisplaySettings, UserSettingsResponse, UserSettingsUpdateRequest} from './types/userSettings'
