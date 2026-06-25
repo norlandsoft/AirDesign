@@ -163,7 +163,7 @@ AirDesign/
 | Splitter / GroupSplitter | 自建（antd 兼容 API） | 多面板拖拽分割、折叠 |
 | Spin / LoadingPanel | 自建 | 三圆点动画 |
 | EditableLabel / Help | primitives/input / tooltip | — |
-| List / MenuBar / NavMenu / PropertiesNaviBar | 自建 | MenuBar 上图标下文字垂直侧栏；NavMenu 左侧模块导航（40px/60px） |
+| List / MenuBar / NavMenu / PropertiesNaviBar | 自建 | MenuBar / NavMenu icon-label：栏宽 60px、项块 48×48；NavMenu icon 模式 40px |
 | CodeEditor | @monaco-editor/react | Monaco 内核不变 |
 | RichEditor | @tiptap/* | Tiptap 内核不变，工具栏去 antd |
 | Markdown | react-markdown + mermaid | 渲染层 CSS Token 化 |

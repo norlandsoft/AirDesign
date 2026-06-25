@@ -1,7 +1,8 @@
 /**
  * MenuBar 菜单栏
  *
- * 窄宽垂直侧栏：上图标下文字、深绿配色；选中项浅绿灰圆角高亮；底部可选「返回」按钮。
+ * 窄宽垂直侧栏（60px），与 NavMenu icon-label 模式一致：项内 48×48 背景块、设计 Token 配色；
+ * 上图标下文字，底部可选「返回」按钮（与主菜单项同尺寸）。
  *
  * @author ChaiMingXu, 2026/06/25
  */
@@ -25,8 +26,28 @@ interface MenuBarProps {
   defaultSelected?: string
 }
 
-/** 菜单项图标与文字色 */
-const MENU_ICON_COLOR = '#2D5A41'
+/** 渲染菜单项按钮（主菜单与返回按钮共用） */
+const MenuBarItemButton: React.FC<{
+  icon: string
+  label: string
+  active?: boolean
+  className?: string
+  ariaCurrent?: boolean
+  onClick?: () => void
+}> = ({icon, label, active, className, ariaCurrent, onClick}) => (
+  <button
+    type="button"
+    className={cn('air-menu-bar-item', active && 'air-menu-bar-item-active', className)}
+    aria-current={ariaCurrent ? 'page' : undefined}
+    aria-label={label}
+    onClick={onClick}
+  >
+    <span className="air-menu-bar-item-inner">
+      <Icon name={icon} size={20} color="var(--color-primary)"/>
+      <span className="air-menu-bar-item-label">{label}</span>
+    </span>
+  </button>
+)
 
 const MenuBar: React.FC<MenuBarProps> = (props) => {
   const {items, height, width, onSelect, onReturn, defaultSelected} = props
@@ -49,28 +70,28 @@ const MenuBar: React.FC<MenuBarProps> = (props) => {
           const iconName = item.icon || item.id
           const active = item.id === current
           return (
-            <button
+            <MenuBarItemButton
               key={item.id}
-              type="button"
-              className={cn('air-menu-bar-item', active && 'air-menu-bar-item-active')}
-              aria-current={active ? 'page' : undefined}
+              icon={iconName}
+              label={item.label}
+              active={active}
+              ariaCurrent={active}
               onClick={() => {
                 onSelect?.(item.id)
                 setCurrent(item.id)
               }}
-            >
-              <Icon name={iconName} size={22} color={MENU_ICON_COLOR}/>
-              <span className="air-menu-bar-item-label">{item.label}</span>
-            </button>
+            />
           )
         })}
       </nav>
 
       {onReturn ? (
-        <button type="button" className="air-menu-bar-item air-menu-bar-return" onClick={onReturn}>
-          <Icon name="back" size={22} color={MENU_ICON_COLOR}/>
-          <span className="air-menu-bar-item-label">返回</span>
-        </button>
+        <MenuBarItemButton
+          className="air-menu-bar-return"
+          icon="back"
+          label="返回"
+          onClick={onReturn}
+        />
       ) : null}
     </div>
   )
