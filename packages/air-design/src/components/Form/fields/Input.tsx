@@ -92,7 +92,7 @@ const AffixWrapper = forwardRef<
       onClick={() => setVisible((v) => !v)}
       aria-label={visible ? '隐藏密码' : '显示密码'}
     >
-      <Icon name={visible ? 'unlock' : 'lock'} size={14}/>
+      <Icon name={visible ? 'unlock' : 'lock_password'} size={14}/>
     </button>
   ) : null
 
