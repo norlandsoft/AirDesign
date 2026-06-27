@@ -110,7 +110,7 @@ AirDesign/
 │   │   │   ├── primitives/      # Radix 薄封装（17 个原子件）
 │   │   │   ├── components/      # 业务组件（27 个目录，含 Icon）
 ││   │   │   │   ├── Button/ Icon/ ColorPicker/ Message/ Notice/
-│   │   │   │   ├── Form/ Dialog/ EditableLabel/ GroupSplitter/ Help/
+│   │   │   │   ├── Form/ Dialog/ EditableLabel/ GroupSplitter/ Help/ InfoPage/
 │   │   │   │   ├── SlidePanel/ Splitter/ TabPanel/ Tree/ List/
 │   │   │   │   ├── Table/ LoadingPanel/ Spin/
 │   │   │   │   ├── CodeEditor/ RichEditor/ Markdown/
@@ -162,7 +162,7 @@ AirDesign/
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |
 | Splitter / GroupSplitter | 自建（antd 兼容 API） | 多面板拖拽分割、折叠 |
 | Spin / LoadingPanel | 自建 | 三圆点动画 |
-| EditableLabel / Help | primitives/input / tooltip | — |
+| EditableLabel / Help / InfoPage | primitives/input / tooltip / 全页 Result | InfoPage 对齐 antd Result |
 | List / MenuBar / NavMenu / PropertiesNaviBar | 自建 | MenuBar / NavMenu icon-label：栏宽 60px、项块 48×48；NavMenu icon 模式 40px |
 | CodeEditor | @monaco-editor/react | Monaco 内核不变 |
 | RichEditor | @tiptap/* | Tiptap 内核不变，工具栏去 antd |

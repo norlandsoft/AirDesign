@@ -33,6 +33,7 @@ import CodeEditorPage from './pages/CodeEditorPage'
 import RichEditorPage from './pages/RichEditorPage'
 import NavMenuPage from './pages/NavMenuPage'
 import PropertiesNaviBarPage from './pages/PropertiesNaviBarPage'
+import InfoPagePage from './pages/InfoPagePage'
 
 const NAV: NavMenuItem[] = [
   {key: 'button', icon: 'add', label: 'Button 按钮', shortLabel: '按钮'},
@@ -48,12 +49,13 @@ const NAV: NavMenuItem[] = [
   {key: 'form', icon: 'edit', label: '表单组件', shortLabel: '表单'},
   {key: 'splitter', icon: 'back', label: 'Splitter 分割', shortLabel: '分割'},
   {key: 'feedback', icon: 'refresh', label: 'Spin/Loading', shortLabel: '加载'},
+  {key: 'infopage', icon: 'sign_info', label: 'InfoPage 信息页', shortLabel: '信息'},
   {key: 'tag', icon: 'tag', label: 'Tag 标签', shortLabel: '标签'},
   {key: 'avatar', icon: 'user', label: 'Avatar 头像', shortLabel: '头像'},
   {key: 'grid', icon: 'columns_2', label: 'Grid 栅格', shortLabel: '栅格'},
   {key: 'upload', icon: 'upload', label: '文件上传', shortLabel: '上传'},
   {key: 'login', icon: 'user', label: '登录页', shortLabel: '登录'},
-  {key: 'navmenu', icon: 'menu', label: 'NavMenu 导航', shortLabel: '导航'},
+  {key: 'navmenu', icon: 'menu', label: 'NavMenu/MenuBar', shortLabel: '导航'},
   {key: 'propertiesnav', icon: 'project_settings', label: 'PropertiesNaviBar', shortLabel: '属性'},
   {key: 'codeeditor', icon: 'document', label: 'CodeEditor', shortLabel: '代码'},
   {key: 'richeditor', icon: 'edit', label: 'RichEditor', shortLabel: '富文本'},
@@ -142,6 +144,7 @@ const App: React.FC = () => {
             <Route path="form" element={<FormPage/>}/>
             <Route path="splitter" element={<SplitterPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>
+            <Route path="infopage" element={<InfoPagePage/>}/>
             <Route path="tag" element={<TagPage/>}/>
             <Route path="avatar" element={<AvatarPage/>}/>
             <Route path="grid" element={<GridPage/>}/>

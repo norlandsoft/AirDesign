@@ -293,6 +293,7 @@ import { SecurityLayout, defineSdkConfig } from 'air-kit'
 | EditableLabel | `EditableLabel` | 可编辑文本标签 |
 | GroupSplitter | `GroupSplitter` | 分组分隔面板 |
 | Help | `Help` | 帮助提示组件 |
+| InfoPage | `InfoPage` | 全页信息展示（对齐 antd Result） |
 | SlidePanel | `SlidePanel` | 侧滑面板 |
 | Splitter | `Splitter` / `Splitter.Panel` | 可调整大小的分割面板 |
 | TabPanel | `TabPanel` | 标签页面板 |

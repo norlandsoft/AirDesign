@@ -209,6 +209,21 @@ Notice.error('错误标题', '请检查网络')
 <LoadingPanel loading message="加载中"/> {/* 全屏加载 */}
 ```
 
+### InfoPage（对齐 antd Result）
+
+```tsx
+import { InfoPage, Button } from 'air-design'
+
+<InfoPage
+  status="404"
+  title="页面不存在"
+  subTitle="您访问的地址有误或页面已移除"
+  extra={<Button type="primary" onClick={() => history.back()}>返回</Button>}
+/>
+```
+
+`status`：`success` | `error` | `info` | `warning` | `404` | `403` | `500`；支持 `icon` 覆盖默认图标，`extra` 放操作按钮，`children` 附加说明。
+
 ### ColorPicker
 
 ```tsx
