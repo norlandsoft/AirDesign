@@ -1,22 +1,25 @@
 /*
  * ChatInput 组件样式
  *
- * 输入框 + 发送按钮，颜色引用设计 Token。
+ * 输入框（textarea）+ 下方工具栏（左：工具按钮；右：发送按钮）。
+ * 颜色引用设计 Token。
  *
  * @author ChaiMingXu, 2026/06/29
  */
 
 .chat-input-wrapper {
   position: relative;
-  padding: 8px 0 8px 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--color-muted);
-  overflow: hidden;
   box-sizing: border-box;
 }
 
 .chat-input {
+  width: 100%;
   resize: none;
   border: none;
   outline: none;
@@ -25,7 +28,7 @@
   line-height: 1.5rem;
   background: transparent;
   color: var(--color-foreground);
-  padding-right: 8px;
+  padding: 0;
 }
 
 .chat-input::placeholder {
@@ -47,27 +50,66 @@
   opacity: 0.6;
 }
 
+/* 工具栏：左侧工具按钮，右侧发送按钮 */
+.chat-input-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  min-height: 32px;
+}
+
+.chat-input-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 工具按钮（附件等）：透明图标按钮 */
+.chat-input-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--color-muted-foreground);
+  transition: background-color 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.chat-input-tool-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+/* 发送按钮：主色圆形 */
 .chat-input-submit {
-  position: absolute;
-  right: 8px;
-  bottom: 4px;
-  width: 35px;
-  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   cursor: pointer;
-  color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  background: var(--color-primary);
+  transition: opacity 0.2s;
 }
 
 .chat-input-submit:hover {
-  background: var(--color-accent);
+  opacity: 0.9;
 }
 
 .chat-input-submit.chat-input-disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  background: transparent;
-  color: var(--color-muted-foreground);
+  background: var(--color-muted-foreground);
+}
+
+/* 隐藏的文件选择框 */
+.chat-input-file {
+  display: none;
 }

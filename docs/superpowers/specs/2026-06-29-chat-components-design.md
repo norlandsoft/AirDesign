@@ -44,7 +44,8 @@ packages/air-design/src/components/
 - `textarea` 自适应高度：基线 `minRows * 24px`，上限 `MAX_HEIGHT=180`。
 - 回车发送；`Ctrl/Cmd + Enter` 插入换行；IME 合成期（`compositionStart/End`）不触发发送。
 - 发送按钮：`finished` 控制"发送/停止"两态；空内容或 `disabled` 时不发送；发送后清空并重置高度。
-- 依赖：`Icon`（air-design 已有）。`onHeightChange` 回调用于外层布局协调。
+- **输入框下方工具栏**：左侧工具按钮区（首个为"附件"按钮）、右侧发送按钮（由绝对定位改为流入工具栏，布局更贴合参考图）。附件按钮点击触发隐藏的 `<input type="file">`，选中后通过 `onFileUpload` 上抛 `File[]`，由消费方自行上传/预览。
+- 依赖：`Icon`（air-design 已有，含 `attachment` 图标）。`onHeightChange` 回调改为上抛 wrapper 真实高度（含工具栏）。
 
 Props（与参考一致）：
 
@@ -59,6 +60,10 @@ Props（与参考一致）：
 | `disabled` | `boolean` | `false` | 是否禁用 |
 | `minRows` | `number` | `1` | 最小行数 |
 | `width` | `number` | - | 输入框宽度 |
+| `showAttachment` | `boolean` | `true` | 是否显示工具栏左侧的附件按钮 |
+| `onFileUpload` | `(files: File[]) => void` | - | 附件选择回调，返回选中的文件列表 |
+| `accept` | `string` | - | 文件选择框 accept（如 `image/*`），默认不限 |
+| `multiple` | `boolean` | `true` | 是否允许多选 |
 
 ## 5. ChatView 设计
 

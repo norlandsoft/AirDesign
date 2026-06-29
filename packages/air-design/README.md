@@ -318,7 +318,7 @@ import { SecurityLayout, defineSdkConfig } from 'air-kit'
 | PropertiesNaviBar | `PropertiesNaviBar` | 属性导航栏 | -- |
 | WebClient | `WebClient` | Web 客户端 | -- |
 | ChatView | `ChatView` | 聊天消息显示（Markdown 渲染 + Claude Code 标签折叠） | react-markdown |
-| ChatInput | `ChatInput` | 聊天输入框（自适应高度、回车发送） | -- |
+| ChatInput | `ChatInput` | 聊天输入框（自适应高度、回车发送）+ 下方工具栏（附件上传 `onFileUpload`） | -- |
 
 ## 对等依赖
 

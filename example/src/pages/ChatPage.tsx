@@ -8,7 +8,7 @@
  * @author ChaiMingXu, 2026/06/29
  */
 import React, {useEffect, useRef, useState} from 'react'
-import {ChatView, ChatInput, type ChatMessage} from 'air-design'
+import {ChatView, ChatInput, Message, type ChatMessage} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 /** 演示用候选回复：覆盖 Markdown 与各类 Claude Code 标签 */
@@ -59,6 +59,11 @@ const ChatPage: React.FC = () => {
   const [lastContent, setLastContent] = useState('')
   const replyIdx = useRef(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  /** 附件选择回调（示例仅提示；实际项目在此上传到后端并生成预览） */
+  const handleFileUpload = (files: File[]) => {
+    Message.success(`已添加 ${files.length} 个附件：${files.map((f) => f.name).join('、')}`)
+  }
 
   /** 发送：追加用户消息，模拟流式回复后落库 */
   const handleSend = (value: string) => {
@@ -114,7 +119,7 @@ const ChatPage: React.FC = () => {
           />
         </div>
         <div className="mt-3">
-          <ChatInput onSend={handleSend} finished={!loading} width={820}/>
+          <ChatInput onSend={handleSend} onFileUpload={handleFileUpload} finished={!loading} width={820}/>
         </div>
       </div>
     </PageContainer>
