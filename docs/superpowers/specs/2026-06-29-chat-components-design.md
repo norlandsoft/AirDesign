@@ -109,7 +109,7 @@ interface ChatViewProps {
 2. 依次渲染：
    - `markdown` 片段 → `<Markdown>`（已处理 `<think>`/公式/代码/图片/mermaid）；
    - `system-reminder` / `task-notification` / `tool-use` / `tool-result` 片段 → `<TagBlock>`。
-3. 结构化 props（`toolCalls`/`toolResults`）追加在正文之后，复用同一套 `<TagBlock>` 渲染（与参考 `renderStreamMeta` 位置一致）。
+3. 结构化 props（`toolCalls`/`toolResults`）已 `@deprecated`，不再单独渲染；工具调用/结果统一以正文内联标签 `<tool_use>`/`<tool_result>` 承载，由分段器按出现顺序展示（不再统一置底）。
 
 其余逻辑沿用参考：自动滚动到底、整条/代码块复制、用量行、`React.memo` 浅比较、头像图标（用户 `talker` / 助手 `flash`）。
 
@@ -139,11 +139,11 @@ type ClaudeSegment =
 
 不在分段器处理、保留在 `markdown` 片段交由 Markdown 的标签：`<think>`、`<antThinking>`（Markdown 已内置折叠思考块）。
 
-### 6.2 工具块双来源
+### 6.2 工具块来源
 
-- 内联标签：`<tool_use>` / `<tool_result>`（出现于 Claude Code 转录文本中）。
-- 结构化 props：`toolCalls`（每项 json 字符串）/ `toolResults`（每项文本），来自后端协议标记。
-- 两者共用同一套 `<TagBlock>` 渲染。json 字段兼容：工具名取 `name` / `tool_name` / `function.name`；参数取 `arguments` / `args` / `parameters`。
+- 工具调用/结果统一以**正文内联标签** `<tool_use>` / `<tool_result>` 承载，由分段器按出现顺序渲染（不再统一置底）。
+- 结构化 props `toolCalls` / `toolResults` 已 `@deprecated`，不再单独渲染（保留字段以兼容旧数据传入，但不会展示）。后端如需展示工具信息，应将其作为内联标签写入 `content`。
+- json 字段兼容：工具名取 `name` / `tool_name` / `function.name`；参数取 `arguments` / `args` / `parameters`。
 
 ### 6.3 流式容错
 

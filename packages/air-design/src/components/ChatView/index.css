@@ -120,17 +120,12 @@
   padding: 8px 0;
 }
 
-/* 流式元数据 */
-.chat-stream-meta {
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+/* 用量行（token 汇总，右对齐小字） */
 .chat-usage-row {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  margin-top: 8px;
   font-size: 12px;
   color: var(--color-muted-foreground);
   user-select: none;

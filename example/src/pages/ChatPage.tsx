@@ -88,8 +88,6 @@ const ChatPage: React.FC = () => {
             id: `a-${idSeq++}`,
             role: 'assistant',
             content: reply,
-            toolCalls: ['{"name":"Read","arguments":{"file_path":"/opt/AirDesign/README.md"}}'],
-            toolResults: ['# AirDesign\n通用 UI 组件库 + 业务前端脚手架。'],
             usage: '{"input_tokens":1280,"output_tokens":64,"turns":3}',
           },
         ])

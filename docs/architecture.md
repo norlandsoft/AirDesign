@@ -177,7 +177,7 @@ AirDesign/
 ### ChatView / ChatInput 聊天组件
 
 - **ChatInput**：自适应高度输入框，回车发送、Ctrl/Cmd+Enter 换行、IME 合成期不误触发、发送/停止两态；输入框下方工具栏左侧含附件按钮（点击触发 `<input type="file">`，经 `onFileUpload(files: File[])` 上抛，消费方自行上传/预览）。
-- **ChatView**：消息列表 + 流式输出 + 自动滚动。assistant 正文经 `segmentClaudeContent` 纯函数分段器切分：markdown 片段用 Markdown 渲染（图片/代码/公式/Mermaid/`<think>`），系统提醒/任务通知/工具调用/工具结果用专用折叠块（`TagBlock`）渲染；结构化工具数据（`toolCalls`/`toolResults`）与内联标签共用同一套标签块。
+- **ChatView**：消息列表 + 流式输出 + 自动滚动。assistant 正文经 `segmentClaudeContent` 纯函数分段器切分：markdown 片段用 Markdown 渲染（图片/代码/公式/Mermaid/`<think>`），系统提醒/任务通知/工具调用/工具结果作为正文内联标签由专用折叠块（`TagBlock`）按出现顺序渲染（不再统一置底）；结构化 `toolCalls`/`toolResults` props 已 `@deprecated`，工具信息统一以正文内联标签承载。
 - **Claude Code 标签规格**：`<system-reminder>`、`<task-notification state="...">`、`<tool_use name="X">{json}</tool_use>`、`<tool_result>`；流式中未闭合的开始标签按普通文本处理，待闭合后再分段。
 
 ---

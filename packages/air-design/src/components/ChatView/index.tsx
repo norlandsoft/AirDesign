@@ -43,9 +43,17 @@ export interface ChatMessage {
   content: string
   /** 本轮用量（json 字符串或对象） */
   usage?: string | ChatUsage | null
-  /** 本轮工具调用列表（每项为工具调用 json 字符串） */
+  /**
+   * 本轮工具调用列表（每项为工具调用 json 字符串）
+   * @deprecated 已不再单独渲染。工具调用请以正文内联标签 <tool_use> 承载，
+   * 由分段器按出现顺序展示。
+   */
   toolCalls?: string[]
-  /** 本轮工具结果列表（每项为工具结果文本） */
+  /**
+   * 本轮工具结果列表（每项为工具结果文本）
+   * @deprecated 已不再单独渲染。工具结果请以正文内联标签 <tool_result> 承载，
+   * 由分段器按出现顺序展示。
+   */
   toolResults?: string[]
 }
 
@@ -65,9 +73,15 @@ export interface ChatViewProps {
   loading: boolean
   /** 流式累积用量（json 字符串） */
   lastUsage?: string | null
-  /** 流式累积工具调用列表 */
+  /**
+   * 流式累积工具调用列表
+   * @deprecated 已不再单独渲染；工具调用请以正文内联标签 <tool_use> 承载。
+   */
   lastToolCalls?: string[]
-  /** 流式累积工具结果列表 */
+  /**
+   * 流式累积工具结果列表
+   * @deprecated 已不再单独渲染；工具结果请以正文内联标签 <tool_result> 承载。
+   */
   lastToolResults?: string[]
   /** 助手名称（默认 MACHINE） */
   assistantName?: string
@@ -135,43 +149,22 @@ function renderContent(content: string, streaming: boolean) {
   return segments.map((seg, idx) => renderSegment(seg, idx, streaming))
 }
 
-/** 渲染结构化元数据（用量 + 工具调用 + 工具结果） */
-function renderStreamMeta(msg: Pick<ChatMessage, 'usage' | 'toolCalls' | 'toolResults'>) {
+/** 渲染用量行（仅 token 用量；工具调用/结果改由正文内联标签承载，按出现顺序展示，不再统一置底） */
+function renderUsageRow(msg: Pick<ChatMessage, 'usage'>) {
   const usageRaw = msg.usage
-  const toolCalls = msg.toolCalls
-  const toolResults = msg.toolResults
-
-  const hasUsage = usageRaw != null && usageRaw !== ''
-  const hasToolCalls = !!(toolCalls && toolCalls.length > 0)
-  const hasToolResults = !!(toolResults && toolResults.length > 0)
-  if (!hasUsage && !hasToolCalls && !hasToolResults) return null
-
-  const usage: ChatUsage | null = hasUsage
-    ? typeof usageRaw === 'string'
-      ? safeJsonParse(usageRaw)
-      : (usageRaw as ChatUsage)
-    : null
-
+  if (usageRaw == null || usageRaw === '') return null
+  const usage: ChatUsage | null =
+    typeof usageRaw === 'string' ? safeJsonParse(usageRaw) : (usageRaw as ChatUsage)
+  if (!usage) return null
   return (
-    <div className="chat-stream-meta">
-      {usage && (
-        <div className="chat-usage-row">
-          {usage.input_tokens != null && (
-            <span className="chat-usage-item">入 {formatTokenCount(usage.input_tokens)} tokens</span>
-          )}
-          {usage.output_tokens != null && (
-            <span className="chat-usage-item">出 {formatTokenCount(usage.output_tokens)} tokens</span>
-          )}
-          {usage.turns != null && <span className="chat-usage-item">· {usage.turns} 轮</span>}
-        </div>
+    <div className="chat-usage-row">
+      {usage.input_tokens != null && (
+        <span className="chat-usage-item">入 {formatTokenCount(usage.input_tokens)} tokens</span>
       )}
-      {hasToolCalls &&
-        toolCalls!.map((raw, idx) => {
-          const obj = safeJsonParse(raw)
-          return <ToolUseBlock key={`tc-${idx}`} obj={obj} />
-        })}
-      {hasToolResults &&
-        toolResults!.map((raw, idx) => <ToolResultBlock key={`tr-${idx}`} raw={raw} />)}
+      {usage.output_tokens != null && (
+        <span className="chat-usage-item">出 {formatTokenCount(usage.output_tokens)} tokens</span>
+      )}
+      {usage.turns != null && <span className="chat-usage-item">· {usage.turns} 轮</span>}
     </div>
   )
 }
@@ -185,8 +178,6 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
     lastContent,
     loading,
     lastUsage,
-    lastToolCalls,
-    lastToolResults,
     assistantName = 'MACHINE',
     contentPadding,
     waitingWithSpin = false,
@@ -237,7 +228,7 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
           <div className={cn('chat-msg-content', isUser ? 'chat-msg-user' : 'chat-msg-ai')}>
             {renderContent(msg.content, false)}
           </div>
-          {!isUser && renderStreamMeta(msg)}
+          {!isUser && renderUsageRow(msg)}
           {!isUser && (
             <div className="chat-msg-actions">
               <span
@@ -280,11 +271,7 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
             renderContent(lastContent, true)
           )}
         </div>
-        {renderStreamMeta({
-          usage: lastUsage,
-          toolCalls: lastToolCalls,
-          toolResults: lastToolResults,
-        })}
+        {renderUsageRow({usage: lastUsage})}
       </div>
     )
   }, [
@@ -293,8 +280,6 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
     assistantName,
     waitingWithSpin,
     lastUsage,
-    lastToolCalls,
-    lastToolResults,
   ])
 
   const containerStyle = useMemo(() => ({height, width}), [height, width])
