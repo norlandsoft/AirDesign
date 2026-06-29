@@ -85,7 +85,7 @@
   color: var(--color-foreground);
 }
 
-/* 发送按钮：主色圆形 */
+/* 发送按钮：默认透明背景，hover 浅灰背景 */
 .chat-input-submit {
   display: flex;
   align-items: center;
@@ -94,19 +94,20 @@
   height: 32px;
   border-radius: 50%;
   cursor: pointer;
-  color: var(--color-primary-foreground);
-  background: var(--color-primary);
-  transition: opacity 0.2s;
+  color: var(--color-primary);
+  background: transparent;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .chat-input-submit:hover {
-  opacity: 0.9;
+  background: var(--color-accent);
 }
 
 .chat-input-submit.chat-input-disabled {
-  opacity: 0.3;
+  opacity: 0.4;
   cursor: not-allowed;
-  background: var(--color-muted-foreground);
+  color: var(--color-muted-foreground);
+  background: transparent;
 }
 
 /* 隐藏的文件选择框 */
