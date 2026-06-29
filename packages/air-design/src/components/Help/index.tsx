@@ -1,32 +1,63 @@
 /**
  * Help 帮助提示
  *
- * 在图标上悬浮显示文字说明，底层基于 primitives/tooltip。
+ * 展示 help 小图标，鼠标 hover 时以 Tooltip 显示说明文字；
+ * 适用于表单标签旁、列表项说明等场景。基于 primitives/tooltip。
  *
- * @author ChaiMingXu, 2026/06/19
+ * @author ChaiMingXu, 2026/06/29
  */
 import React from 'react'
 import Icon from '@/components/Icon'
-import {Tooltip, TooltipTrigger, TooltipContent, TooltipProvider} from '@/primitives/tooltip'
+import {cn} from '@/lib/cn'
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/primitives/tooltip'
+import './index.css'
 
-interface HelpProps {
+export interface HelpProps {
+  /** 提示文案（与 children 二选一，优先 text） */
+  text?: React.ReactNode
+  /** Tooltip 自定义内容（text 未传时使用） */
+  children?: React.ReactNode
+  /** 图标名，默认 help */
   icon?: string
+  /** 图标尺寸，默认 14 */
   size?: number
-  text?: string
+  /** Tooltip 弹出方位，默认 top */
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  /** 触发器外层 className */
+  className?: string
 }
 
 const Help: React.FC<HelpProps> = (props) => {
-  const {icon = 'help', size = 14, text = ''} = props
+  const {
+    text,
+    children,
+    icon = 'help',
+    size = 14,
+    side = 'top',
+    className,
+  } = props
+
+  const content = text ?? children
+  if (content == null || content === '') {
+    return null
+  }
 
   return (
-    <TooltipProvider delayDuration={300}>
+    <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="inline-flex cursor-help" style={{width: size, height: size}}>
-            <Icon name={icon} size={size}/>
-          </span>
+          <button
+            type="button"
+            className={cn('air-help-trigger', className)}
+            style={{width: size, height: size}}
+            aria-label="帮助说明"
+          >
+            <Icon name={icon} size={size} color="currentColor"/>
+          </button>
         </TooltipTrigger>
-        <TooltipContent side="top">{text}</TooltipContent>
+        <TooltipContent side={side} sideOffset={6} className="air-help-tooltip">
+          {content}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )

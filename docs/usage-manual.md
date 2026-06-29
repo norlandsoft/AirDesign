@@ -373,6 +373,23 @@ import { Splitter, GroupSplitter, EditableLabel, Help, List, MenuBar, NavMenu, P
 <GroupSplitter title="基础信息" />
 ```
 
+### Help（帮助提示）
+
+小 help 图标，鼠标 hover 时以 Tooltip 展示说明文字。
+
+```tsx
+import { Help } from 'air-design'
+
+<span className="inline-flex items-center gap-1.5">
+  用户名
+  <Help text="登录名创建后不可修改" />
+</span>
+
+<Help side="right" size={16} text="较长说明会自动换行" />
+```
+
+`text` 为提示文案；`side`：`top` | `right` | `bottom` | `left`（默认 `top`）；`icon` 默认 `help`，`size` 默认 `14`。
+
 ---
 
 ## 三、复合业务组件

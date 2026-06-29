@@ -49,6 +49,7 @@ npm run build        # 重新构建 air-design + air-kit
 | Splitter | 可拖拽分割面板 |
 | Spin/Loading | 加载动画 / 骨架屏 / 全屏加载 |
 | InfoPage | 全页信息展示（对齐 antd Result） |
+| Help | 帮助图标 + hover Tooltip |
 | NavMenu / MenuBar | 左侧模块导航 / 流程步骤 MenuBar |
 | PropertiesNaviBar | 属性页左侧导航栏（分组 / 平铺） |
 

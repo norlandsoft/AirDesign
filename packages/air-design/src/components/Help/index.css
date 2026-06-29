@@ -1,0 +1,34 @@
+/*
+ * Help 帮助提示样式
+ *
+ * 小图标触发器，hover 时通过 Tooltip 展示说明文字。
+ *
+ * @author ChaiMingXu, 2026/06/29
+ */
+
+.air-help-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: help;
+  color: var(--color-muted-foreground);
+  transition: color 0.15s ease;
+}
+
+.air-help-trigger:hover,
+.air-help-trigger:focus-visible {
+  color: var(--color-primary);
+  outline: none;
+}
+
+.air-help-tooltip {
+  max-width: 280px;
+  line-height: 1.5;
+  white-space: normal;
+  word-break: break-word;
+}

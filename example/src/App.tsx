@@ -35,6 +35,7 @@ import ChatPage from './pages/ChatPage'
 import NavMenuPage from './pages/NavMenuPage'
 import PropertiesNaviBarPage from './pages/PropertiesNaviBarPage'
 import InfoPagePage from './pages/InfoPagePage'
+import HelpPage from './pages/HelpPage'
 
 const NAV: NavMenuItem[] = [
   {key: 'button', icon: 'add', label: 'Button 按钮', shortLabel: '按钮'},
@@ -51,6 +52,7 @@ const NAV: NavMenuItem[] = [
   {key: 'splitter', icon: 'back', label: 'Splitter 分割', shortLabel: '分割'},
   {key: 'feedback', icon: 'refresh', label: 'Spin/Loading', shortLabel: '加载'},
   {key: 'infopage', icon: 'sign_info', label: 'InfoPage 信息页', shortLabel: '信息'},
+  {key: 'help', icon: 'help', label: 'Help 帮助', shortLabel: '帮助'},
   {key: 'tag', icon: 'tag', label: 'Tag 标签', shortLabel: '标签'},
   {key: 'avatar', icon: 'user', label: 'Avatar 头像', shortLabel: '头像'},
   {key: 'grid', icon: 'columns_2', label: 'Grid 栅格', shortLabel: '栅格'},
@@ -147,6 +149,7 @@ const App: React.FC = () => {
             <Route path="splitter" element={<SplitterPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>
             <Route path="infopage" element={<InfoPagePage/>}/>
+            <Route path="help" element={<HelpPage/>}/>
             <Route path="tag" element={<TagPage/>}/>
             <Route path="avatar" element={<AvatarPage/>}/>
             <Route path="grid" element={<GridPage/>}/>
