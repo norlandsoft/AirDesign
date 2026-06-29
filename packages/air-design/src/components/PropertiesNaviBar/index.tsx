@@ -2,7 +2,7 @@
  * PropertiesNaviBar 属性导航栏
  *
  * 属性页左侧导航，支持分组（type:'group'）与平铺项，选中态高亮；所有可选项上下间距统一 4px，分组标题略大且不可选中。
- * 已无 UI 库依赖，样式改为 Tailwind。
+ * 可通过 width / height 设置尺寸；内容区垂直滚动（overflow-y: auto），禁用水平滚动。
  *
  * @author ChaiMingXu, 2026/06/19
  */
@@ -18,8 +18,11 @@ interface NavItem {
 }
 
 interface PropertiesNaviBarProps {
+  /** 导航栏宽度 */
   width?: number | string
+  /** 导航栏高度 */
   height?: number | string
+  /** 内边距 */
   padding?: number | string
   data: NavItem[]
   activeKey: string
@@ -33,19 +36,22 @@ const PropertiesNaviBar: React.FC<PropertiesNaviBarProps> = (props) => {
     <div
       key={item.key}
       className={cn(
-        'flex h-9 cursor-pointer items-center gap-2 rounded px-3 text-sm',
+        'flex h-9 min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded px-3 text-sm',
         item.key === activeKey ? 'bg-primary/10 font-semibold text-primary' : 'hover:bg-accent'
       )}
       onClick={() => onChange(item.key)}
     >
-      <Icon name="write" size={16}/>
-      {item.label}
+      <Icon name="write" size={16} className="shrink-0"/>
+      <span className="truncate">{item.label}</span>
     </div>
   )
 
   return (
-    <div className="overflow-auto" style={{width, height, padding}}>
-      <div className="flex flex-col gap-[4px]">
+    <div
+      className="min-w-0 overflow-x-hidden overflow-y-auto"
+      style={{width, height, padding}}
+    >
+      <div className="flex min-w-0 flex-col gap-[4px]">
         {data.map((sub) =>
           sub.type === 'group' ? (
             <div key={sub.key} className="flex flex-col gap-[4px]">
