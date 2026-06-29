@@ -71,6 +71,12 @@ export type {ActionProps, ActionStatus} from './components/Kanban/KanbanProps'
 
 export {default as Markdown} from './components/Markdown'
 
+export {default as ChatView} from './components/ChatView'
+export type {ChatViewProps, ChatMessage, ChatUsage} from './components/ChatView'
+
+export {default as ChatInput} from './components/ChatInput'
+export type {ChatInputProps} from './components/ChatInput'
+
 export {default as MenuBar} from './components/MenuBar'
 
 export {default as NavMenu} from './components/NavMenu'
