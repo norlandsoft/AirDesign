@@ -31,6 +31,7 @@ import UploadPage from './pages/UploadPage'
 import LoginPage from './pages/LoginPage'
 import CodeEditorPage from './pages/CodeEditorPage'
 import RichEditorPage from './pages/RichEditorPage'
+import ChatPage from './pages/ChatPage'
 import NavMenuPage from './pages/NavMenuPage'
 import PropertiesNaviBarPage from './pages/PropertiesNaviBarPage'
 import InfoPagePage from './pages/InfoPagePage'
@@ -59,6 +60,7 @@ const NAV: NavMenuItem[] = [
   {key: 'propertiesnav', icon: 'project_settings', label: 'PropertiesNaviBar', shortLabel: '属性'},
   {key: 'codeeditor', icon: 'document', label: 'CodeEditor', shortLabel: '代码'},
   {key: 'richeditor', icon: 'edit', label: 'RichEditor', shortLabel: '富文本'},
+  {key: 'chat', icon: 'chat', label: 'Chat 聊天', shortLabel: '聊天'},
 ]
 
 const App: React.FC = () => {
@@ -154,6 +156,7 @@ const App: React.FC = () => {
             <Route path="propertiesnav" element={<PropertiesNaviBarPage/>}/>
             <Route path="codeeditor" element={<CodeEditorPage/>}/>
             <Route path="richeditor" element={<RichEditorPage/>}/>
+            <Route path="chat" element={<ChatPage/>}/>
           </Routes>
         </main>
       </div>

@@ -49,7 +49,9 @@ packages/air-design/src/
     ├── Markdown/                   # Markdown 渲染（react-markdown + mermaid）
     ├── Kanban/                     # 看板（dnd-kit）
     ├── MindPanel/                  # 思维导图（@xyflow/react）
-    └── WebClient/                  # WebSocket 客户端
+    ├── WebClient/                  # WebSocket 客户端
+    ├── ChatView/                   # 聊天消息显示（Markdown + Claude Code 标签折叠）
+    └── ChatInput/                  # 聊天输入框（自适应高度、回车发送）
 ```
 
 ## 构建
@@ -315,6 +317,8 @@ import { SecurityLayout, defineSdkConfig } from 'air-kit'
 | MenuBar | `MenuBar` | 菜单栏 | -- |
 | PropertiesNaviBar | `PropertiesNaviBar` | 属性导航栏 | -- |
 | WebClient | `WebClient` | Web 客户端 | -- |
+| ChatView | `ChatView` | 聊天消息显示（Markdown 渲染 + Claude Code 标签折叠） | react-markdown |
+| ChatInput | `ChatInput` | 聊天输入框（自适应高度、回车发送）+ 下方工具栏（附件上传 `onFileUpload`） | -- |
 
 ## 对等依赖
 
@@ -334,6 +338,7 @@ import { SecurityLayout, defineSdkConfig } from 'air-kit'
 | CodeEditor | `@monaco-editor/react`（Monaco 从 CDN 自动加载，无需额外配置） |
 | RichEditor | `@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/pm` 等 TipTap 扩展 |
 | Markdown | `react-markdown`, `react-syntax-highlighter`, `remark-gfm`, `rehype-katex` |
+| ChatView | 同 Markdown（正文渲染复用 Markdown 组件） |
 | Kanban | `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` |
 | MindPanel | `@xyflow/react` |
 
