@@ -1,7 +1,7 @@
 /**
  * MenuBar 菜单栏
  *
- * 窄宽垂直侧栏（60px），与 NavMenu icon-label 模式一致：项内 48×48 背景块、设计 Token 配色；
+ * 窄宽垂直侧栏（60px），与 NavMenu icon-label 模式一致：项内 48×48 背景块、图标 20px、设计 Token 配色；
  * 上图标下文字，底部可选「返回」按钮（与主菜单项同尺寸）。
  *
  * @author ChaiMingXu, 2026/06/25
@@ -10,6 +10,9 @@ import React, {useEffect, useState} from 'react'
 import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
 import './index.css'
+
+/** MenuBar 菜单项图标尺寸（与 NavMenu icon-label 一致） */
+const MENU_BAR_ICON_SIZE = 20
 
 interface MenuItemData {
   id: string
@@ -43,7 +46,12 @@ const MenuBarItemButton: React.FC<{
     onClick={onClick}
   >
     <span className="air-menu-bar-item-inner">
-      <Icon name={icon} size={20} color="var(--color-primary)"/>
+      <Icon
+        name={icon}
+        size={MENU_BAR_ICON_SIZE}
+        color="var(--color-primary)"
+        className="air-menu-bar-item-icon"
+      />
       <span className="air-menu-bar-item-label">{label}</span>
     </span>
   </button>

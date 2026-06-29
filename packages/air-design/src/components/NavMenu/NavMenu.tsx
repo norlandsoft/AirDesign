@@ -2,8 +2,8 @@
  * NavMenu 左侧导航菜单
  *
  * 用于全局页面模块切换，固定在页面左侧。支持两种展示模式：
- * - icon：仅图标，栏宽 40px，悬停右侧显示深色 Tooltip
- * icon-label：图标 + 文字纵向排列，栏宽 60px，背景块 48×48（1:1）。
+ * - icon：仅图标，栏宽 40px，图标 20px，悬停右侧显示深色 Tooltip
+ * icon-label：图标 + 文字纵向排列，栏宽 60px，图标 20px，背景块 48×48（1:1）。
  *
  * icon-label 选中/悬停以圆角背景块高亮；icon 模式保留左侧竖线指示。
  *
@@ -14,6 +14,9 @@ import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/primitives/tooltip'
 import './NavMenu.css'
+
+/** NavMenu 菜单项图标尺寸（icon / icon-label 模式统一） */
+const NAV_MENU_ICON_SIZE = 20
 
 /** 导航展示模式 */
 export type NavMenuMode = 'icon' | 'icon-label'
@@ -77,8 +80,9 @@ const NavMenu: React.FC<NavMenuProps> = ({
       <span className="air-nav-menu-item-inner">
         <Icon
           name={item.icon}
-          size={mode === 'icon' ? 18 : 20}
+          size={NAV_MENU_ICON_SIZE}
           color={mode === 'icon-label' ? 'var(--color-primary)' : active ? 'var(--color-primary)' : 'currentColor'}
+          className="air-nav-menu-item-icon"
         />
         {mode === 'icon-label' ? (
           <span className="air-nav-menu-item-label">{item.shortLabel ?? item.label}</span>

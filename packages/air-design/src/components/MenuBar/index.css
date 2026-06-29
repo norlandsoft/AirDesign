@@ -1,7 +1,7 @@
 /*
  * MenuBar 垂直菜单栏样式
  *
- * 与 NavMenu icon-label 模式一致：栏宽 60px，项内背景块 48×48，设计 Token 配色。
+ * 与 NavMenu icon-label 模式一致：栏宽 60px，项内背景块 48×48，图标 20px，设计 Token 配色。
  *
  * @author ChaiMingXu, 2026/06/25
  */
@@ -53,6 +53,13 @@
   border-radius: 8px;
   box-sizing: border-box;
   transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* 图标固定 20×20，避免 flex 压缩 */
+.air-menu-bar-item-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .air-menu-bar-item:hover:not(:disabled) .air-menu-bar-item-inner {
