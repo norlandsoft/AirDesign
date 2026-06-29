@@ -28,13 +28,18 @@
 
 .air-help-tooltip {
   display: block;
-  width: max-content;
-  max-width: min(280px, calc(100vw - 32px));
-  height: auto;
+  width: auto;
+  max-width: 280px;
+  height: auto !important;
   line-height: 1.5;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-align: left;
+}
+
+.air-help-tooltip-text {
+  display: block;
   white-space: normal;
-  overflow: visible;
   overflow-wrap: break-word;
   word-break: break-word;
-  text-align: left;
 }

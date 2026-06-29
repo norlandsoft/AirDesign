@@ -80,7 +80,6 @@ const RichEditorPage: React.FC = () => {
           hasTitle
           showUndo
           simpleMode={simpleMode}
-          onChange={() => {}}
         />
       </div>
 

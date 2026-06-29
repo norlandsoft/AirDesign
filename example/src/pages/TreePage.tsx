@@ -12,10 +12,6 @@ import {
   Switch,
   Input,
   Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
   GroupSplitter,
 } from 'air-design'
 import type {TreeNode} from 'air-design'
@@ -193,28 +189,20 @@ const TreePage: React.FC = () => {
 
             <GroupSplitter title="图标"/>
             <OptionRow label="folderIcon">
-              <Select value={folderIcon} onValueChange={setFolderIcon}>
-                <SelectTrigger className="h-8 w-28">
-                  <SelectValue/>
-                </SelectTrigger>
-                <SelectContent>
-                  {ICON_OPTIONS.map((o) => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Select
+                value={folderIcon}
+                onChange={(v) => setFolderIcon(String(v))}
+                options={ICON_OPTIONS}
+                className="h-8 w-28"
+              />
             </OptionRow>
             <OptionRow label="itemIcon">
-              <Select value={itemIcon} onValueChange={setItemIcon}>
-                <SelectTrigger className="h-8 w-28">
-                  <SelectValue/>
-                </SelectTrigger>
-                <SelectContent>
-                  {ICON_OPTIONS.map((o) => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Select
+                value={itemIcon}
+                onChange={(v) => setItemIcon(String(v))}
+                options={ICON_OPTIONS}
+                className="h-8 w-28"
+              />
             </OptionRow>
 
             <GroupSplitter title="操作"/>

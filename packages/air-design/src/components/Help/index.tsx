@@ -58,11 +58,15 @@ const Help: React.FC<HelpProps> = (props) => {
         <TooltipContent
           side={side}
           sideOffset={6}
-          className={cn(
-            'air-help-tooltip h-auto max-w-[280px] overflow-visible whitespace-normal',
-          )}
+          className="air-help-tooltip"
+          style={{
+            maxWidth: 280,
+            whiteSpace: 'normal',
+            overflow: 'visible',
+            height: 'auto',
+          }}
         >
-          {content}
+          <div className="air-help-tooltip-text">{content}</div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
