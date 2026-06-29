@@ -1,0 +1,14 @@
+/**
+ * air-kit 全局基础样式
+ *
+ * 与 air-design theme 一致：全元素 border-box。
+ * 消费方须同时引入 air-design/style.css；本文件覆盖 air-kit 业务组件场景。
+ *
+ * @author ChaiMingXu, 2026/06/29
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

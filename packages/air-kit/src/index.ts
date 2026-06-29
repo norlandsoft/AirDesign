@@ -8,6 +8,8 @@
  * @author ChaiMingXu, 2026/06/24
  */
 
+import './styles/base.css'
+
 // 配置
 export {defineSdkConfig, getSdkConfig, storageKey} from './config'
 

@@ -1,5 +1,7 @@
-/* Demo 全局样式 */
-* {
+/* Demo 全局样式（与 air-design theme 一致；引入 style.css 后由 theme 覆盖亦可） */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 

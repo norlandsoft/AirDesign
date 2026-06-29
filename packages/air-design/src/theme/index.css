@@ -3,7 +3,7 @@
  *
  * 设计 Token 单一来源：所有视觉属性（颜色/圆角/字号/字体）经 CSS 变量 + Tailwind 表达，
  * 暗色模式通过 .dark 选择器切换同一组变量。组件一律引用语义 Token（如 bg-primary），
- * 禁止硬编码颜色值。
+ * 禁止硬编码颜色值。全局 box-sizing 为 border-box（见文件末尾未分层规则）。
  *
  * 主色体系沿用既有品牌色 #123F68，映射到 shadcn 语义槽（primary / background / border 等）。
  *
@@ -143,13 +143,7 @@
 }
 
 @layer base {
-  /* 全局 border-box，含伪元素，避免 padding/border 撑大布局 */
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
+  /* border-box 见文件末尾全局规则（未分层，覆盖所有组件样式） */
   * {
     border-color: var(--color-border);
   }
@@ -323,4 +317,14 @@
   to {
     transform: translateY(100%);
   }
+}
+
+/*
+ * 全局 box-model（未分层，优先级高于 @layer base 与各组件 CSS）
+ * 所有元素及伪元素统一 border-box，避免 padding/border 撑大宽高。
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

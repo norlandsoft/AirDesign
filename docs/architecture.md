@@ -57,7 +57,7 @@ AirDesign 是**全平台统一的 UI 组件库 + 业务前端脚手架**，为 J
 
 - **primitives**：直接基于 Radix UI，提供一致的开箱即用样式与无障碍能力（焦点管理、键盘导航、ARIA）。消费方一般不直接使用。
 - **components**：业务级组件，组合 primitives 实现。`Message` / `Notice` / `Dialog` 等命令式组件在此层。
-- **theme**：设计 Token 单一来源（颜色 / 间距 / 圆角 / 字号 / 字体），全平台共享。暗色模式经 Token 切换，组件无需特殊处理。
+- **theme**：设计 Token 单一来源（颜色 / 间距 / 圆角 / 字号 / 字体），全平台共享；全局 `box-sizing: border-box`（含伪元素）。暗色模式经 Token 切换，组件无需特殊处理。
 - **lib/cn.ts**：`clsx` + `tailwind-merge`，合并外部 className 并解决 Tailwind class 冲突。
 
 > 单一底层栈：AirDesign 内部**只允许一套底层**（Radix + Tailwind）。若 shadcn 组件能力不足，优先基于 Radix 原语自建，而非引入第二个 UI 库。
