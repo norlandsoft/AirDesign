@@ -27,8 +27,14 @@
 }
 
 .air-help-tooltip {
-  max-width: 280px;
+  display: block;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 32px));
+  height: auto;
   line-height: 1.5;
   white-space: normal;
+  overflow: visible;
+  overflow-wrap: break-word;
   word-break: break-word;
+  text-align: left;
 }

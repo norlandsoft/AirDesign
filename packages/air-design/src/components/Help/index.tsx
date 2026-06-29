@@ -1,7 +1,7 @@
 /**
  * Help 帮助提示
  *
- * 展示 help 小图标，鼠标 hover 时以 Tooltip 显示说明文字；
+ * 展示 help 小图标，鼠标 hover 时以 Tooltip 显示说明文字（过长自动换行）；
  * 适用于表单标签旁、列表项说明等场景。基于 primitives/tooltip。
  *
  * @author ChaiMingXu, 2026/06/29
@@ -55,7 +55,13 @@ const Help: React.FC<HelpProps> = (props) => {
             <Icon name={icon} size={size} color="currentColor"/>
           </button>
         </TooltipTrigger>
-        <TooltipContent side={side} sideOffset={6} className="air-help-tooltip">
+        <TooltipContent
+          side={side}
+          sideOffset={6}
+          className={cn(
+            'air-help-tooltip h-auto max-w-[280px] overflow-visible whitespace-normal',
+          )}
+        >
           {content}
         </TooltipContent>
       </Tooltip>
