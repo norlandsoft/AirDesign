@@ -65,6 +65,20 @@ const ChatPage: React.FC = () => {
     Message.success(`已添加 ${files.length} 个附件：${files.map((f) => f.name).join('、')}`)
   }
 
+  /** 终止流式输出：清理定时器并保留已输出片段 */
+  const handleStop = () => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = null
+    if (lastContent) {
+      setChatList((list) => [
+        ...list,
+        {id: `a-${idSeq++}`, role: 'assistant', content: lastContent},
+      ])
+    }
+    setLastContent('')
+    setLoading(false)
+  }
+
   /** 发送：追加用户消息，模拟流式回复后落库 */
   const handleSend = (value: string) => {
     if (timerRef.current) clearInterval(timerRef.current)
@@ -117,7 +131,13 @@ const ChatPage: React.FC = () => {
           />
         </div>
         <div className="mt-3">
-          <ChatInput onSend={handleSend} onFileUpload={handleFileUpload} finished={!loading} width={820}/>
+          <ChatInput
+            onSend={handleSend}
+            onStop={handleStop}
+            onFileUpload={handleFileUpload}
+            finished={!loading}
+            width={820}
+          />
         </div>
       </div>
     </PageContainer>

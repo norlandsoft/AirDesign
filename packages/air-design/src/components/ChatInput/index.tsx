@@ -31,6 +31,8 @@ export interface ChatInputProps {
   onHeightChange?: (height: number) => void
   /** 发送消息回调 */
   onSend: (value: string) => void
+  /** 终止流式输出回调（finished=false 时点击停止按钮触发） */
+  onStop?: () => void
   /** 占位符 */
   placeholder?: string
   /** 是否显示发送按钮 */
@@ -65,6 +67,7 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     width,
     onHeightChange,
     onSend,
+    onStop,
     finished = true,
     placeholder = '请输入问题...',
     showSendButton = true,
@@ -120,6 +123,14 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     }
   }, [value, finished, disabled, onSend, onHeightChange, minHeight])
 
+  /** 终止流式输出（loading 时输入框 disabled，停止按钮仍可用） */
+  const handleStop = useCallback((): void => {
+    if (finished || !onStop) {
+      return
+    }
+    onStop()
+  }, [finished, onStop])
+
   /** 点击附件按钮：触发隐藏的文件选择框 */
   const handleAttachClick = useCallback(() => {
     fileInputRef.current?.click()
@@ -140,6 +151,11 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
 
   // 工具栏只要存在附件或发送按钮即渲染
   const showToolbar = showAttachment || showSendButton
+
+  /** 流式输出中展示停止按钮；空闲时展示发送按钮 */
+  const isStreaming = !finished
+  const canSend = finished && !disabled
+  const canStop = isStreaming && !!onStop
 
   return (
     <div className={cn('chat-input-wrapper', className)} style={{width}} ref={wrapperRef}>
@@ -189,11 +205,13 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
             <div
               className={cn(
                 'chat-input-submit',
-                !(finished && !disabled) && 'chat-input-disabled',
+                isStreaming ? 'chat-input-stop' : undefined,
+                (isStreaming ? !canStop : !canSend) && 'chat-input-disabled',
               )}
-              onClick={finished && !disabled ? handleSendMessage : undefined}
+              title={isStreaming ? '停止' : '发送'}
+              onClick={isStreaming ? (canStop ? handleStop : undefined) : (canSend ? handleSendMessage : undefined)}
             >
-              <Icon name={finished && !disabled ? sendIcon : 'stop'} size={18}/>
+              <Icon name={isStreaming ? 'stop' : sendIcon} size={18}/>
             </div>
           )}
         </div>

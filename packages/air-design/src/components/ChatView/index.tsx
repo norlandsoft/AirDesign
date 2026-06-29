@@ -87,7 +87,7 @@ export interface ChatViewProps {
   assistantName?: string
   /** 列表区域内边距（px）；传 0 取消内边距 */
   contentPadding?: number
-  /** 流式等待且无正文时展示 Spin */
+  /** @deprecated 已废弃：loading 时默认展示 Spin，无需再传此 prop */
   waitingWithSpin?: boolean
   /** 自定义类名 */
   className?: string
@@ -180,7 +180,6 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
     lastUsage,
     assistantName = 'MACHINE',
     contentPadding,
-    waitingWithSpin = false,
     className,
   } = props
 
@@ -246,9 +245,11 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
     [assistantName],
   )
 
-  /** 渲染流式中的临时消息 */
+  /** 渲染流式中的临时消息；无可见正文时展示 Spin */
   const renderLoadingMessage = useMemo(() => {
     if (!loading) return null
+    const streamed =
+      lastContent.length > 0 ? renderContent(lastContent, true) : null
     return (
       <div className={cn('chat-msg', 'chat-msg-assistant')} key="__streaming__">
         <div className="chat-msg-header">
@@ -258,17 +259,10 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
           <span className="chat-msg-name">{assistantName}</span>
         </div>
         <div className="chat-msg-content chat-msg-ai">
-          {lastContent.length === 0 ? (
-            waitingWithSpin ? (
-              <div className="chat-loading-spin">
-                <Spin size="small"/>
-                <span>等待中...</span>
-              </div>
-            ) : (
-              <div className="chat-loading-text">正在思考...</div>
-            )
-          ) : (
-            renderContent(lastContent, true)
+          {streamed ?? (
+            <div className="chat-loading-spin">
+              <Spin size="small"/>
+            </div>
           )}
         </div>
         {renderUsageRow({usage: lastUsage})}
@@ -278,7 +272,6 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
     loading,
     lastContent,
     assistantName,
-    waitingWithSpin,
     lastUsage,
   ])
 
@@ -322,7 +315,6 @@ const ChatView: React.FC<ChatViewProps> = React.memo((props) => {
   prev.lastToolResults === next.lastToolResults &&
   prev.assistantName === next.assistantName &&
   prev.contentPadding === next.contentPadding &&
-  prev.waitingWithSpin === next.waitingWithSpin &&
   prev.className === next.className
 ))
 
