@@ -6,7 +6,9 @@
  * - <task-notification ...>...</task-notification>   -> task-notification（可带属性）
  * - <tool_use name="X">{json}</tool_use>             -> tool-use
  * - <tool_result>...</tool_result>                   -> tool-result
- * 其余文本 -> markdown（其中 <think>/<antThinking> 仍由 Markdown 组件处理）
+ * - <think>...</think> / <antThinking> / <thinking> / <redacted_reasoning>
+ *   -> thinking（独立思考片段，交专用 ThinkingBlock 渲染）
+ * 其余文本 -> markdown
  *
  * 流式（streaming=true）时，未闭合的开始标签视为普通文本，待闭合后再分段，
  * 避免解析抖动（与 Markdown 围栏修复同思路）。标签不做嵌套假设，采用非贪婪匹配。
@@ -19,13 +21,22 @@
 /** 内容片段类型 */
 export type ClaudeSegment =
   | { type: 'markdown'; content: string }
+  | { type: 'thinking'; content: string }
   | { type: 'system-reminder'; content: string }
   | { type: 'task-notification'; content: string; attrs: Record<string, string> }
   | { type: 'tool-use'; name?: string; raw: string }
   | { type: 'tool-result'; raw: string }
 
-/** 需要提取的结构化标签配置：open 为开始标签前缀，close 为结束标签 */
+/**
+ * 需要提取的结构化标签配置：open 为开始标签前缀，close 为结束标签
+ * thinking 标签按长前缀优先排列，避免 <think 与 <thinking/<antThinking 冲突
+ * （短前缀即便先命中，也会因 close 找不到而 continue 兜底，但长前缀优先更清晰）
+ */
 const TAG_SPECS = [
+  { segType: 'thinking', open: '<antThinking', close: '</antThinking>' },
+  { segType: 'thinking', open: '<thinking', close: '</thinking>' },
+  { segType: 'thinking', open: '<think', close: '</think>' },
+  { segType: 'thinking', open: '<redacted_reasoning', close: '</redacted_reasoning>' },
   { segType: 'system-reminder', open: '<system-reminder>', close: '</system-reminder>' },
   { segType: 'task-notification', open: '<task-notification', close: '</task-notification>' },
   { segType: 'tool-use', open: '<tool_use', close: '</tool_use>' },
@@ -101,6 +112,9 @@ export function segmentClaudeContent(
         flushText()
         const inner = content.slice(openInfo.contentStart, closeIdx)
         switch (spec.segType) {
+          case 'thinking':
+            segments.push({type: 'thinking', content: inner})
+            break
           case 'system-reminder':
             segments.push({ type: 'system-reminder', content: inner })
             break
@@ -129,4 +143,52 @@ export function segmentClaudeContent(
   void streaming
 
   return segments.length > 0 ? segments : [{ type: 'markdown', content: '' }]
+}
+
+/**
+ * 配对后的渲染片段
+ * 设计思路：tool-use 与 tool-result 合并为同一 tool-call 片段（input/output 集中展示）；
+ * 其余原子片段原样保留，由调用方按类型分发渲染。
+ */
+export type RenderSegment =
+  | { type: 'markdown'; content: string }
+  | { type: 'thinking'; content: string }
+  | { type: 'system-reminder'; content: string }
+  | { type: 'task-notification'; content: string; attrs: Record<string, string> }
+  | { type: 'tool-call'; name?: string; input?: string; output?: string }
+
+/**
+ * 将原子片段中的 tool-use 与紧随其后的 tool-result 合并为同一 tool-call 片段
+ * 配对规则（相邻配对，因 tool_result 不带 id，只能按出现顺序）：
+ * - tool-use 后紧跟 tool-result：合并 {input, output}，跳过下一段
+ * - tool-use 后非 tool-result：tool-call {input}（流式中尚未出结果）
+ * - 落单 tool-result（前面无 use）：tool-call {output}
+ * - 其余片段原样保留，中间穿插的 markdown 原位渲染
+ * @param segs segmentClaudeContent 产出的原子片段
+ */
+export function pairToolCalls(segs: ClaudeSegment[]): RenderSegment[] {
+  const out: RenderSegment[] = []
+  for (let i = 0; i < segs.length; i++) {
+    const s = segs[i]
+    if (s.type === 'tool-use') {
+      const next = segs[i + 1]
+      if (next && next.type === 'tool-result') {
+        out.push({type: 'tool-call', name: s.name, input: s.raw, output: next.raw})
+        i++
+      } else {
+        out.push({type: 'tool-call', name: s.name, input: s.raw})
+      }
+    } else if (s.type === 'tool-result') {
+      out.push({type: 'tool-call', output: s.raw})
+    } else if (s.type === 'markdown') {
+      out.push({type: 'markdown', content: s.content})
+    } else if (s.type === 'thinking') {
+      out.push({type: 'thinking', content: s.content})
+    } else if (s.type === 'system-reminder') {
+      out.push({type: 'system-reminder', content: s.content})
+    } else if (s.type === 'task-notification') {
+      out.push({type: 'task-notification', content: s.content, attrs: s.attrs})
+    }
+  }
+  return out
 }

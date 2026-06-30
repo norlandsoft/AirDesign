@@ -19,12 +19,12 @@ import Message from '@/components/Message'
 import Markdown from '@/components/Markdown'
 import Spin from '@/components/Spin'
 import {cn} from '@/lib/cn'
-import {segmentClaudeContent, type ClaudeSegment} from './claudeSegments'
+import {segmentClaudeContent, pairToolCalls, type RenderSegment} from './claudeSegments'
 import {
   SystemReminderBlock,
   TaskNotificationBlock,
-  ToolUseBlock,
-  ToolResultBlock,
+  ThinkingBlock,
+  ToolCallBlock,
 } from './TagBlock'
 import './index.css'
 
@@ -118,27 +118,28 @@ function safeJsonParse(raw: string): any {
   }
 }
 
-/** 渲染单个片段 */
-function renderSegment(seg: ClaudeSegment, key: number, streaming: boolean) {
+/** 渲染单个片段（配对后的渲染片段） */
+function renderSegment(seg: RenderSegment, key: number, streaming: boolean) {
   switch (seg.type) {
     case 'markdown':
       return <Markdown key={key} content={seg.content} streaming={streaming} onCopyCode={copyToClipboard} />
+    case 'thinking':
+      return <ThinkingBlock key={key} content={seg.content} />
     case 'system-reminder':
       return <SystemReminderBlock key={key} content={seg.content} />
     case 'task-notification':
       return <TaskNotificationBlock key={key} content={seg.content} attrs={seg.attrs} />
-    case 'tool-use':
-      return <ToolUseBlock key={key} name={seg.name} raw={seg.raw} />
-    case 'tool-result':
-      return <ToolResultBlock key={key} raw={seg.raw} />
+    case 'tool-call':
+      return <ToolCallBlock key={key} name={seg.name} input={seg.input} output={seg.output} />
     default:
       return null
   }
 }
 
-/** 正文分段后逐段渲染；纯空内容返回 null */
+/** 正文先分段再配对工具调用，逐段渲染；纯空内容返回 null */
 function renderContent(content: string, streaming: boolean) {
-  const segments = segmentClaudeContent(content, {streaming})
+  const atomics = segmentClaudeContent(content, {streaming})
+  const segments = pairToolCalls(atomics)
   if (
     segments.length === 1 &&
     segments[0].type === 'markdown' &&

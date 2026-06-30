@@ -17,6 +17,7 @@
 import React, {useState} from 'react'
 import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
+import Markdown from '@/components/Markdown'
 
 /** 工具名 -> 图标名（Claude Code 常见工具） */
 function getToolIcon(name?: string): string {
@@ -40,13 +41,29 @@ function safeJsonParse(raw: string): any {
   }
 }
 
-/** 色调：info=系统提醒/任务通知，tool=工具调用，success=工具结果 */
-type Tone = 'info' | 'tool' | 'success'
+/**
+ * 格式化工具调用输入：解析 raw(json)，取 arguments/args/parameters 美化为可读文本
+ * 解析失败或无参数时返回空串
+ */
+function formatToolInput(raw?: string): string {
+  if (!raw) return ''
+  const data = safeJsonParse(raw)
+  const args =
+    data?.arguments ?? data?.args ?? data?.parameters ?? (typeof data === 'object' ? data : null)
+  if (typeof args === 'string') return args
+  if (args == null) return ''
+  return JSON.stringify(args, null, 2)
+}
+
+/** 色调：info=系统提醒/任务通知，tool=工具调用，success=工具结果，thinking=思考过程 */
+type Tone = 'info' | 'tool' | 'success' | 'thinking'
 
 interface CollapsibleBlockProps {
   icon: string
   title: string
   badge?: string
+  /** 徽标额外类名（用于运行中等特殊配色） */
+  badgeClassName?: string
   defaultOpen?: boolean
   tone?: Tone
   children: React.ReactNode
@@ -57,6 +74,7 @@ const CollapsibleBlock: React.FC<CollapsibleBlockProps> = ({
   icon,
   title,
   badge,
+  badgeClassName,
   defaultOpen = false,
   tone = 'info',
   children,
@@ -70,12 +88,21 @@ const CollapsibleBlock: React.FC<CollapsibleBlockProps> = ({
           <Icon name={icon} size={14}/>
         </span>
         <span className="chat-tag-title">{title}</span>
-        {badge && <span className="chat-tag-badge">{badge}</span>}
+        {badge && <span className={cn('chat-tag-badge', badgeClassName)}>{badge}</span>}
       </div>
       {open && <div className="chat-tag-body">{children}</div>}
     </div>
   )
 }
+
+/** 思考过程块：折叠展示模型/智能体的 thinking 内容，默认收起，琥珀色调 */
+export const ThinkingBlock: React.FC<{ content: string }> = ({content}) => (
+  <CollapsibleBlock icon="insight" title="思考过程" tone="thinking">
+    <div className="chat-tag-md">
+      <Markdown content={content} />
+    </div>
+  </CollapsibleBlock>
+)
 
 /** 系统提醒块 */
 export const SystemReminderBlock: React.FC<{ content: string }> = ({content}) => (
@@ -94,7 +121,11 @@ export const TaskNotificationBlock: React.FC<{
   </CollapsibleBlock>
 )
 
-/** 工具调用块：接受内联 raw(json) 或已解析 obj */
+/**
+ * 工具调用块：接受内联 raw(json) 或已解析 obj
+ * @deprecated 已被 ToolCallBlock 取代。工具调用与结果由分段器 pairToolCalls
+ * 配对后交 ToolCallBlock 合并渲染。保留以兼容潜在旧数据，后续将移除。
+ */
 export const ToolUseBlock: React.FC<{ name?: string; raw?: string; obj?: any }> = ({
   name,
   raw,
@@ -113,9 +144,48 @@ export const ToolUseBlock: React.FC<{ name?: string; raw?: string; obj?: any }> 
   )
 }
 
-/** 工具结果块 */
+/**
+ * 工具结果块
+ * @deprecated 已被 ToolCallBlock 取代。工具结果现与对应工具调用合并展示。
+ */
 export const ToolResultBlock: React.FC<{ raw: string }> = ({raw}) => (
   <CollapsibleBlock icon="ok" title="工具结果" tone="success">
     <pre className="chat-tag-code">{raw}</pre>
   </CollapsibleBlock>
 )
+
+/**
+ * 工具调用合并块：输入参数与输出结果集中展示于同一折叠块
+ * - 有 input 无 output：流式中尚未返回结果，标题加"运行中"琥珀徽标
+ * - 工具名缺失时标题回退为"工具调用"
+ */
+export const ToolCallBlock: React.FC<{
+  name?: string
+  input?: string
+  output?: string
+}> = ({name, input, output}) => {
+  const toolName = name || '工具调用'
+  const running = input !== undefined && output === undefined
+  return (
+    <CollapsibleBlock
+      icon={getToolIcon(toolName)}
+      title={toolName}
+      badge={running ? '运行中' : undefined}
+      badgeClassName={running ? 'chat-tool-badge-running' : undefined}
+      tone="tool"
+    >
+      {input !== undefined && (
+        <div className="chat-tool-section">
+          <div className="chat-tool-section-title">输入参数</div>
+          <pre className="chat-tag-code">{formatToolInput(input)}</pre>
+        </div>
+      )}
+      {output !== undefined && (
+        <div className="chat-tool-section">
+          <div className="chat-tool-section-title">输出结果</div>
+          <pre className="chat-tag-code">{output}</pre>
+        </div>
+      )}
+    </CollapsibleBlock>
+  )
+}
