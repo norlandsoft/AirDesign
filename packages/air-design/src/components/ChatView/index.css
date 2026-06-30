@@ -154,6 +154,9 @@
 .chat-tag-block.chat-tag-success {
   border-left: 0.1875rem solid #3fa66a;
 }
+.chat-tag-block.chat-tag-thinking {
+  border-left: 0.1875rem solid #d5924a;
+}
 
 .chat-tag-header {
   display: flex;
@@ -208,4 +211,30 @@
   white-space: pre-wrap;
   word-break: break-word;
   color: var(--color-foreground);
+}
+
+/* 工具调用合并块：输入/输出小节 */
+.chat-tool-section {
+  margin: 0;
+}
+.chat-tool-section + .chat-tool-section {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 0.0625rem solid var(--color-border);
+}
+.chat-tool-section-title {
+  font-size: var(--font-size-caption);
+  color: var(--color-muted-foreground);
+  margin-bottom: 0.25rem;
+  user-select: none;
+}
+/* 思考内容容器：与正文一致的行距 */
+.chat-tag-md {
+  line-height: 1.6;
+  color: var(--color-foreground);
+}
+/* 运行中徽标：琥珀配色，呼应 thinking 色调 */
+.chat-tool-badge-running {
+  color: #b9741a;
+  background: rgba(213, 146, 74, 0.12);
 }
