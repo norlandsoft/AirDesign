@@ -12,6 +12,7 @@ import {Notice} from 'air-design'
 import {SHA} from '../utils/CryptoUtils'
 import type {UserLoginRequest, UserResponse} from '../types/user'
 import {storageKey} from '../config'
+import {applyDisplaySettingsFromUserSettings} from '../utils/displaySettings'
 
 /** SSO 登录接口 */
 const SSO_LOGIN_URL = '/api/v1/auth/login'
@@ -142,6 +143,8 @@ export const useUserStore = create<UserState>((set, get) => ({
       const resp = await POST('/api/v1/user/settings/get', {userId: payload.userId})
       if (resp?.success) {
         set({userSettings: resp.data})
+        // 远端设置写入 sessionStorage 并应用到 --base-font-size
+        applyDisplaySettingsFromUserSettings(resp.data?.settings)
       }
     } finally {
       set({userSettingsLoading: false})
@@ -153,6 +156,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     callback?.(resp)
     if (resp?.success) {
       set({userSettings: resp.data})
+      applyDisplaySettingsFromUserSettings(resp.data?.settings ?? payload.settings)
     }
   },
 

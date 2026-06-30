@@ -5,6 +5,7 @@
  * 登录页由各业务服务自行实现（air-kit 不再内置 Login 组件）。
  * 增强功能：检测 URL 中的 transferToken 参数，自动兑换为正式 Token 实现免登录跳转。
  * transferToken 兑换失败时不阻断，降级为正常登录流程。
+ * 已认证时自动拉取用户显示设置（字号等），由 air-kit 统一应用并缓存在 sessionStorage。
  *
  * 基于 Zustand useUserStore（已去 DVA）。
  *
@@ -31,6 +32,8 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = ({children, login}) => {
   const setUser = useUserStore((s) => s.setUser)
   const clearUser = useUserStore((s) => s.clearUser)
   const validateToken = useUserStore((s) => s.validateToken)
+  const currentUser = useUserStore((s) => s.currentUser)
+  const fetchUserSettings = useUserStore((s) => s.fetchUserSettings)
 
   // 处理 URL 中的 transferToken（跨应用免登录跳转）
   useEffect(() => {
@@ -97,6 +100,13 @@ const SecurityLayout: React.FC<SecurityLayoutProps> = ({children, login}) => {
     window.addEventListener('auth-state-changed', handleAuthChange)
     return () => window.removeEventListener('auth-state-changed', handleAuthChange)
   }, [clearUser])
+
+  // 已认证时拉取用户设置（含字号偏好），覆盖 SSO 登录、Token 校验、transferToken 等入口
+  useEffect(() => {
+    if (isAuthenticated && currentUser?.id) {
+      fetchUserSettings({userId: currentUser.id})
+    }
+  }, [isAuthenticated, currentUser?.id, fetchUserSettings])
 
   // 监听 storage 变化（跨标签页同步 token）
   useEffect(() => {

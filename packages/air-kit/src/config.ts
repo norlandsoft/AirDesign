@@ -6,6 +6,7 @@
  * @author ChaiMingXu, 2026/06/24
  */
 import type {SdkConfig} from './types/auth'
+import {bootstrapDisplaySettings} from './utils/displaySettings'
 
 let _config: SdkConfig | null = null
 
@@ -17,6 +18,8 @@ const DEFAULT_CONFIG: SdkConfig = {
 /** 定义 air-kit 全局配置，应在应用入口最早调用 */
 export function defineSdkConfig(config: SdkConfig): SdkConfig {
   _config = config
+  // 配置就绪后从 sessionStorage 恢复用户字号偏好，减少首屏闪烁
+  bootstrapDisplaySettings()
   return config
 }
 

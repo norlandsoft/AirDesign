@@ -34,6 +34,17 @@ export {SHA} from './utils/CryptoUtils'
 export {getIconUrl, getAvatarUrl, getAgentIconUrl, extractAvatarId, AGENT_ICON_DEFAULT, AGENT_ICON_OPTIONS} from './utils/IconUtils'
 export {randomString, UUID, shortId, equalJsonArray} from './utils/StringUtils'
 export {formatFileSize} from './utils/FormatUtils'
+export {
+  applyAndCacheFontSize,
+  applyBaseFontSize,
+  applyDisplaySettingsFromUserSettings,
+  bootstrapDisplaySettings,
+  DEFAULT_FONT_SIZE,
+  FONT_SIZE_OPTIONS,
+  FONT_SIZE_PRESETS,
+  normalizeFontSize,
+  parseFontSizeFromSettings,
+} from './utils/displaySettings'
 
 // 类型导出
 export type {SdkConfig} from './types/auth'

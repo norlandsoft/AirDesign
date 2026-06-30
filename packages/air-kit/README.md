@@ -110,7 +110,7 @@ useUserStore.getState().logout()
 | `validateToken` | 校验当前 Token |
 | `changePassword` | 修改密码 |
 | `updateUserInfo` | 更新用户信息 |
-| `fetchUserSettings` / `updateUserSettings` | 获取 / 更新用户设置 |
+| `fetchUserSettings` / `updateUserSettings` | 获取 / 更新用户设置（AirFramework 持久化，字号等写入 sessionStorage 并应用 `--base-font-size`） |
 
 ### 3. 布局
 
@@ -129,8 +129,10 @@ export default function Layout({ children }) {
 
 - 无 Token → 渲染 `Login` 页
 - URL 含 `transferToken` → 自动兑换 SSO Token 后进入
-- 有 Token → 校验通过后渲染 `children`
+- 有 Token → 校验通过后渲染 `children`，并拉取用户显示设置（字号偏好）
 - 校验中 → 全屏 `Spin`
+
+应用入口调用 `defineSdkConfig` 时会从 sessionStorage 恢复字号，减少刷新闪烁。显示设置在 `UserSettings` 面板中修改，所有 SSO 应用共享同一套逻辑。
 
 ### 4. 业务组件
 

@@ -12,6 +12,11 @@ import type {FormInstance} from 'air-design'
 import type {UserResponse} from '../../types/user'
 import type {DisplaySettings as DisplaySettingsType, UserSettingsResponse} from '../../types/userSettings'
 import {useUserStore} from '../../models/user'
+import {
+  DEFAULT_FONT_SIZE,
+  FONT_SIZE_OPTIONS,
+  normalizeFontSize,
+} from '../../utils/displaySettings'
 
 export interface DisplaySettingsRef {
   handleSave: () => Promise<void>
@@ -25,12 +30,6 @@ interface DisplaySettingsProps {
 interface DisplaySettingsForm extends Record<string, unknown> {
   fontSize: number
 }
-
-const FONT_OPTIONS = [
-  {value: 13, label: '小'},
-  {value: 15, label: '中'},
-  {value: 17, label: '大'},
-]
 
 const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((props, ref) => {
   const {currentUser} = props
@@ -58,7 +57,7 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
           displaySettings = {}
         }
       }
-      form.setFieldsValue({fontSize: displaySettings.fontSize || 15})
+      form.setFieldsValue({fontSize: normalizeFontSize(displaySettings.fontSize)})
     }
   }, [userSettings, userSettingsLoading, form])
 
@@ -116,11 +115,11 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
         labelCol={{span: 6}}
         wrapperCol={{span: 18}}
         labelAlign="left"
-        initialValues={{fontSize: 15}}
+        initialValues={{fontSize: DEFAULT_FONT_SIZE}}
         className="user-settings-form"
       >
         <Form.Item name="fontSize" label="字体大小" rules={[{required: true, message: '请选择字体大小'}]}>
-          <Radio.Group optionType="button" options={FONT_OPTIONS}/>
+          <Radio.Group optionType="button" options={[...FONT_SIZE_OPTIONS]}/>
         </Form.Item>
       </Form>
     </div>
