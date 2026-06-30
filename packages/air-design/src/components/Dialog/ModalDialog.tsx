@@ -12,6 +12,7 @@ import {createPortal} from 'react-dom'
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import Spin from '@/components/Spin'
+import {toRem} from '@/lib/rem'
 
 export interface ModalDialogProps {
   visible?: boolean
@@ -186,7 +187,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     : {}
 
   const contentPaddingStyle =
-    typeof contentPadding === 'number' ? `${contentPadding}px` : contentPadding
+    typeof contentPadding === 'number' ? toRem(contentPadding) : contentPadding
 
   const alignJustify =
     contentAlign === 'top' ? 'flex-start' : contentAlign === 'bottom' ? 'flex-end' : 'center'
@@ -197,7 +198,7 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     <>
       {mask && (
         <div
-          className="fixed inset-0 z-[1000] bg-black/50 backdrop-blur-[1px]"
+          className="fixed inset-0 z-[1000] bg-black/50 backdrop-blur-[0.0625rem]"
           style={{pointerEvents: 'auto'}}
           aria-hidden
         />
@@ -212,15 +213,15 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           ref={windowRef}
           className="relative flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card shadow-2xl pointer-events-auto"
           style={{
-            width: width ?? 'min(560px, 90vw)',
+            width: width ?? 'min(35rem, 90vw)',
             height: height ?? undefined,
             ...winStyle,
           }}
         >
-        {/* 标题栏（可拖拽，高度 36px） */}
+        {/* 标题栏（可拖拽，高度 2.25rem） */}
         <div
           className="flex shrink-0 items-center justify-between border-b border-border pl-4 select-none"
-          style={{height: 40, backgroundColor: headerBgColor, color: headerColor}}
+          style={{height: toRem(40), backgroundColor: headerBgColor, color: headerColor}}
         >
           <div
             className="flex-1 cursor-move truncate text-sm font-semibold"
@@ -252,9 +253,9 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
           {children}
         </div>
 
-        {/* 页脚：固定 60px 高度，按钮靠右 */}
+        {/* 页脚：固定 3.75rem 高度，按钮靠右 */}
         {showFooter && (
-          <div className="flex h-[60px] w-full shrink-0 items-center justify-end gap-2 px-6">
+          <div className="flex h-[3.75rem] w-full shrink-0 items-center justify-end gap-2 px-6">
             {confirmable && (
               <Button type="primary" loading={isBusy} disabled={isBusy} onClick={handleOk}>
                 {okText ?? '确定'}

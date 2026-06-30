@@ -20,8 +20,8 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  min-height: 520px;
-  padding: 32px 24px;
+  min-height: 32.5rem;
+  padding: 2rem 1.5rem;
   overflow: hidden;
   font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: linear-gradient(145deg, var(--login-accent) 0%, var(--login-base) 55%, var(--login-base) 100%);
@@ -44,45 +44,45 @@
 .air-login-bg-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 0.0625rem solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.04);
 }
 
 .air-login-bg-ring-1 {
-  width: 420px;
-  height: 420px;
-  left: -120px;
-  top: -100px;
+  width: 26.25rem;
+  height: 26.25rem;
+  left: -7.5rem;
+  top: -6.25rem;
 }
 
 .air-login-bg-ring-2 {
-  width: 320px;
-  height: 320px;
+  width: 20rem;
+  height: 20rem;
   right: 8%;
-  top: -80px;
+  top: -5rem;
   background: rgba(255, 255, 255, 0.06);
 }
 
 .air-login-bg-ring-3 {
-  width: 260px;
-  height: 260px;
+  width: 16.25rem;
+  height: 16.25rem;
   left: 22%;
-  bottom: -60px;
+  bottom: -3.75rem;
   border-style: dashed;
   background: transparent;
 }
 
 .air-login-bg-ring-4 {
-  width: 500px;
-  height: 500px;
-  right: -180px;
-  bottom: -200px;
+  width: 31.25rem;
+  height: 31.25rem;
+  right: -11.25rem;
+  bottom: -12.5rem;
   background: rgba(255, 255, 255, 0.05);
 }
 
 .air-login-bg-ring-5 {
-  width: 180px;
-  height: 180px;
+  width: 11.25rem;
+  height: 11.25rem;
   left: 45%;
   top: 42%;
   background: rgba(255, 255, 255, 0.07);
@@ -94,14 +94,14 @@
   z-index: 1;
   display: flex;
   width: 100%;
-  max-width: 920px;
-  min-height: 520px;
-  border-radius: 24px;
+  max-width: 57.5rem;
+  min-height: 32.5rem;
+  border-radius: 1.5rem;
   overflow: hidden;
   background: #fff;
   box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.18),
-    0 8px 16px rgba(0, 0, 0, 0.08);
+    0 1.5rem 3rem rgba(0, 0, 0, 0.18),
+    0 0.5rem 1rem rgba(0, 0, 0, 0.08);
 }
 
 /* ===== 左侧欢迎区（约 40%） ===== */
@@ -112,7 +112,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 36px;
+  padding: 3rem 2.25rem;
   color: #fff;
   overflow: hidden;
   background: linear-gradient(160deg, var(--login-accent) 0%, var(--login-base) 100%);
@@ -129,28 +129,28 @@
 .air-login-panel-circle {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 0.0625rem solid rgba(255, 255, 255, 0.28);
   background: rgba(255, 255, 255, 0.1);
 }
 
 .air-login-panel-circle-1 {
-  width: 88px;
-  height: 88px;
-  left: -24px;
+  width: 5.5rem;
+  height: 5.5rem;
+  left: -1.5rem;
   top: 14%;
 }
 
 .air-login-panel-circle-2 {
-  width: 52px;
-  height: 52px;
+  width: 3.25rem;
+  height: 3.25rem;
   right: 10%;
   top: 22%;
   background: rgba(255, 255, 255, 0.14);
 }
 
 .air-login-panel-circle-3 {
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
   left: 18%;
   bottom: 16%;
   border-style: dashed;
@@ -168,21 +168,21 @@
 .air-login-brand-content {
   position: relative;
   z-index: 1;
-  max-width: 280px;
+  max-width: 17.5rem;
   text-align: center;
 }
 
 .air-login-brand-name {
-  margin: 0 0 12px;
-  font-size: clamp(20px, 2.8vw, 24px);
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.25rem, 2.8vw, 1.5rem);
   font-weight: 700;
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.92);
 }
 
 .air-login-headline {
-  margin: 0 0 16px;
-  font-size: clamp(26px, 3.5vw, 34px);
+  margin: 0 0 1rem;
+  font-size: clamp(1.625rem, 3.5vw, 2.125rem);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.02em;
@@ -190,7 +190,7 @@
 
 .air-login-desc {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.82);
 }
@@ -201,7 +201,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 28px 40px 20px;
+  padding: 1.75rem 2.5rem 1.25rem;
   background: #fff;
 }
 
@@ -211,22 +211,22 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  max-width: 380px;
+  max-width: 23.75rem;
   margin: 0 auto;
-  padding: 16px 0;
+  padding: 1rem 0;
 }
 
 .air-login-form-title {
-  margin: 0 0 8px;
-  font-size: 28px;
+  margin: 0 0 0.5rem;
+  font-size: var(--font-size-3xl);
   font-weight: 700;
   color: var(--color-foreground);
   letter-spacing: 0.01em;
 }
 
 .air-login-form-sub {
-  margin: 0 0 28px;
-  font-size: 13px;
+  margin: 0 0 1.75rem;
+  font-size: var(--font-size-compact);
   line-height: 1.6;
   color: var(--color-muted-foreground);
 }
@@ -237,22 +237,22 @@
 }
 
 .air-login-field .air-form-item-label > label {
-  font-size: 13px;
+  font-size: var(--font-size-compact);
   font-weight: 500;
   color: var(--color-foreground);
 }
 
 .air-login-field {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
-/* 圆角浅灰底输入框：4px 圆角、40px 高度、浅灰边框，聚焦时主题色边框 */
+/* 圆角浅灰底输入框：0.25rem 圆角、2.5rem 高度、浅灰边框，聚焦时主题色边框 */
 .air-login-form .air-login-field-input {
-  height: 40px !important;
-  min-height: 40px !important;
-  max-height: 40px !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 4px !important;
+  height: 2.5rem !important;
+  min-height: 2.5rem !important;
+  max-height: 2.5rem !important;
+  border: 0.0625rem solid #e5e7eb !important;
+  border-radius: 0.25rem !important;
   background: #f3f4f6 !important;
   box-shadow: none !important;
   font-family: inherit !important;
@@ -263,10 +263,10 @@
 .air-login-form input.air-login-field-input {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  line-height: 38px !important;
+  line-height: var(--control-height) !important;
 }
 
-/* 密码：AffixWrapper 内层 input 撑满 40px 外框 */
+/* 密码：AffixWrapper 内层 input 撑满 2.5rem 外框 */
 .air-login-form .air-login-field-input input {
   height: 100% !important;
   min-height: 0 !important;
@@ -285,21 +285,21 @@
 }
 
 .air-login-error {
-  margin: -4px 0 12px;
-  font-size: 13px;
+  margin: -0.25rem 0 0.75rem;
+  font-size: var(--font-size-compact);
   color: var(--color-destructive);
 }
 
 .air-login-submit {
-  height: 44px !important;
-  min-height: 44px !important;
-  margin-top: 12px;
+  height: 2.75rem !important;
+  min-height: 2.75rem !important;
+  margin-top: 0.75rem;
   border: none !important;
-  border-radius: 4px !important;
+  border-radius: 0.25rem !important;
   background: linear-gradient(90deg, var(--login-accent) 0%, var(--login-base) 100%) !important;
   color: #fff !important;
   font-family: inherit !important;
-  font-size: 14px !important;
+  font-size: var(--font-size-sm) !important;
   font-weight: 600 !important;
   letter-spacing: 0.04em;
   box-shadow: none !important;
@@ -314,30 +314,30 @@
 
 .air-login-form-footer {
   flex-shrink: 0;
-  padding-top: 16px;
-  margin-top: 8px;
-  border-top: 1px solid #e5e7eb;
-  font-size: 12px;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 0.0625rem solid #e5e7eb;
+  font-size: var(--font-size-xs);
   text-align: center;
   color: var(--color-muted-foreground);
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .air-login-page {
-    padding: 16px;
+    padding: 1rem;
     align-items: flex-start;
   }
 
   .air-login-card {
     flex-direction: column;
     min-height: auto;
-    max-width: 440px;
+    max-width: 27.5rem;
   }
 
   .air-login-brand {
     flex: none;
-    padding: 32px 24px;
+    padding: 2rem 1.5rem;
   }
 
   .air-login-brand-content {
@@ -345,24 +345,24 @@
   }
 
   .air-login-headline {
-    font-size: 24px;
+    font-size: var(--font-size-2xl);
   }
 
   .air-login-form-side {
-    padding: 24px 24px 16px;
+    padding: 1.5rem 1.5rem 1rem;
   }
 
   .air-login-form-body {
-    padding: 8px 0;
+    padding: 0.5rem 0;
   }
 
   .air-login-bg-ring-1 {
-    width: 280px;
-    height: 280px;
+    width: 17.5rem;
+    height: 17.5rem;
   }
 
   .air-login-bg-ring-4 {
-    width: 360px;
-    height: 360px;
+    width: 22.5rem;
+    height: 22.5rem;
   }
 }

@@ -152,7 +152,7 @@ const FieldsSection: React.FC = () => (
   <div className="demo-block">
     <GroupSplitter title="字段组件（Input / Select / Checkbox / Radio / Switch 等）"/>
     <p className="mb-4 text-sm text-muted-foreground">
-      以下控件可单独使用，也可放入 Form.Item；默认高度 38px（--control-height）。
+      以下控件可单独使用，也可放入 Form.Item；默认高度 40px（--control-height）。
     </p>
     <div className="demo-form-fields-grid">
       <div className="demo-form-field-cell">
@@ -354,7 +354,7 @@ const ListSection: React.FC = () => {
                       name="name"
                       label={`联系人 ${index + 1}`}
                       rules={[{required: true, message: '请输入姓名'}]}
-                      className="mb-0 min-w-[160px] flex-1"
+                      className="mb-0 min-w-[10rem] flex-1"
                     >
                       <Input placeholder="姓名"/>
                     </Form.Item>
@@ -365,7 +365,7 @@ const ListSection: React.FC = () => {
                         {required: true, message: '请输入电话'},
                         {pattern: /^1\d{10}$/, message: '手机号格式不正确'},
                       ]}
-                      className="mb-0 min-w-[180px] flex-1"
+                      className="mb-0 min-w-[11.25rem] flex-1"
                     >
                       <Input placeholder="手机号"/>
                     </Form.Item>
@@ -568,7 +568,7 @@ const FormPage: React.FC = () => (
   <PageContainer
     className="max-w-6xl"
     title="表单组件"
-    description="Form / Form.Item / Form.List 与 Input、Select、NumberInput、Checkbox、Radio、Switch 等字段组件，API 对齐 antd，控件默认高度 38px。"
+    description="Form / Form.Item / Form.List 与 Input、Select、NumberInput、Checkbox、Radio、Switch 等字段组件，API 对齐 antd，控件默认高度 40px。"
   >
     <LayoutSection/>
     <FieldsSection/>

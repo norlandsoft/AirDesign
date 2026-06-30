@@ -2,7 +2,7 @@
  * Select 下拉选择（antd 兼容）
  *
  * 单选基于 Radix Select；多选基于 Popover + Checkbox 列表。
- * 支持 options、allowClear、placeholder，默认高度 38px。
+ * 支持 options、allowClear、placeholder，默认高度 40px。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -166,7 +166,7 @@ const SelectMultiple: React.FC<SelectProps> = (props) => {
           return (
             <label
               key={normalizeValue(opt.value)}
-              className="flex cursor-pointer items-center gap-2 rounded-[4px] px-2 py-1.5 text-sm hover:bg-accent"
+              className="flex cursor-pointer items-center gap-2 rounded-[0.25rem] px-2 py-1.5 text-sm hover:bg-accent"
             >
               <Checkbox
                 checked={checked}

@@ -1,7 +1,7 @@
 /*
  * Tree 树样式（迁移 JettoAuthor Semi Tree 视觉）
  *
- * 节点行 32px，图标 18px，字号 0.95rem；搜索栏 60px；
+ * 节点行 2rem，图标 1.125rem，字号 0.95rem；搜索栏 3.75rem；
  * 菜单按钮默认隐藏、hover 显示；文字超长省略，无水平滚动条。
  *
  * @author ChaiMingXu, 2026/06/19
@@ -16,10 +16,10 @@
 /* 根节点新增按钮（搜索栏左侧，32×32，无边框，hover 灰色背景） */
 .air-tree-root-button {
   position: absolute;
-  top: 14px;
-  left: 8px;
-  width: 32px;
-  height: 32px;
+  top: 0.875rem;
+  left: 0.5rem;
+  width: 2rem;
+  height: 2rem;
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -27,7 +27,7 @@
   border: none;
   outline: none;
   box-shadow: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background: transparent;
   cursor: pointer;
   z-index: 2;
@@ -43,23 +43,23 @@
 .air-tree-search {
   display: flex;
   align-items: center;
-  height: 60px;
-  padding-right: 12px;
+  height: 3.75rem;
+  padding-right: 0.75rem;
   box-sizing: border-box;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .air-tree-search-input {
   flex: 1;
-  height: 38px;
+  height: var(--control-height);
 }
 
 /* 节点行 */
 .air-tree-row {
   display: flex;
   align-items: center;
-  height: 32px;
-  line-height: 32px;
+  height: 2rem;
+  line-height: 2rem;
   user-select: none;
   cursor: pointer;
 }
@@ -79,23 +79,23 @@
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  margin-right: 4px;
-  margin-left: 2px;
+  margin-right: 0.25rem;
+  margin-left: 0.125rem;
 }
 
 /* 展开/折叠箭头（16×16 容器，hover 灰色背景 + 深灰边框） */
 .air-tree-toggle {
-  width: 16px;
-  height: 16px;
-  margin: 0 4px;
+  width: 1rem;
+  height: 1rem;
+  margin: 0 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   color: var(--color-muted-foreground);
   cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.25rem;
   box-sizing: border-box;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
@@ -124,15 +124,15 @@
   align-items: center;
   flex: 1;
   min-width: 0;
-  height: 32px;
-  line-height: 32px;
+  height: 2rem;
+  line-height: 2rem;
   user-select: none;
 }
 
 /* 节点图标 */
 .air-tree-node-icon {
-  width: 22px;
-  height: 18px;
+  width: 1.375rem;
+  height: 1.125rem;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -146,13 +146,13 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-sans);
-  font-size: 0.95rem;
+  font-size: var(--font-size-base);
 }
 
 /* 菜单按钮：默认隐藏，hover 显示 */
 .air-tree-menu-button {
   width: 0;
-  height: 20px;
+  height: 1.25rem;
   visibility: hidden;
   border: none;
   background-color: transparent;
@@ -168,13 +168,13 @@
 .air-tree-label-with-button:hover .air-tree-node-label,
 .air-tree-label-with-button:has(.air-tree-menu-button[data-state='open']) .air-tree-node-label {
   /* hover 或菜单展开时为菜单按钮留出空间 */
-  max-width: calc(100% - 50px);
+  max-width: calc(100% - 3.125rem);
 }
 
 .air-tree-label-with-button:hover .air-tree-menu-button,
 .air-tree-menu-button[data-state='open'] {
   visibility: visible;
-  width: 20px;
+  width: 1.25rem;
   background: var(--color-accent);
   color: var(--color-muted-foreground);
 }

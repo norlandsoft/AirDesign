@@ -19,7 +19,7 @@ const AVATAR_ICON_COLOR = '#123F68'
 
 /** 根据 shape 返回容器外形 class */
 function resolveShapeClass(shape: 'circle' | 'square'): string {
-  return shape === 'circle' ? 'rounded-full' : 'rounded-[4px]'
+  return shape === 'circle' ? 'rounded-full' : 'rounded-[0.25rem]'
 }
 
 /** 渲染 icon 属性：string 走 Icon 组件，否则直接渲染 ReactNode */

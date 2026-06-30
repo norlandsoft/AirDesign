@@ -238,7 +238,9 @@ import { ColorPicker } from 'air-design'
 
 ### Form 表单体系（antd 兼容）
 
-单行控件（Input / Select / NumberInput 等）默认高度 **38px**（`--control-height`）。
+单行控件（Input / Select / NumberInput 等）默认高度 **2.5rem**（`--control-height`，中号基准约 40px）。
+
+用户可在「显示设置」中选择字号 **小(14px) / 中(16px) / 大(18px)**，通过 `--font-scale` 整体缩放 rem 体系。
 
 ```tsx
 import {

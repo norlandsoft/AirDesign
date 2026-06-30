@@ -2,10 +2,10 @@
 
 .air-mind-topic-node {
   padding: 0;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   text-align: center;
-  min-width: 60px;
-  max-width: 300px;
+  min-width: 3.75rem;
+  max-width: 18.75rem;
   cursor: pointer;
   position: relative;
   background: var(--color-muted);
@@ -26,8 +26,8 @@
   left: 0;
   font-family: var(--font-mono);
   resize: none;
-  border: 1px solid #5cb85c !important;
-  border-radius: 4px;
+  border: 0.0625rem solid #5cb85c !important;
+  border-radius: 0.25rem;
   overflow: hidden;
   box-sizing: border-box;
   word-break: break-word;
@@ -45,7 +45,7 @@
   position: relative;
   user-select: none;
   font-family: var(--font-mono);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   box-sizing: border-box;
   word-break: break-word;
   overflow-wrap: break-word;
@@ -55,8 +55,8 @@
 }
 
 .air-mind-topic-node-handler {
-  width: 1px;
-  height: 1px;
+  width: 0.0625rem;
+  height: 0.0625rem;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
@@ -66,18 +66,18 @@
 
 .air-mind-topic-node-child-count {
   position: absolute;
-  right: -18px;
+  right: -1.125rem;
   top: 50%;
   transform: translateY(-50%);
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  border-radius: 10px;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.25rem;
+  border-radius: 0.625rem;
   background: var(--color-card);
-  border: 1px solid var(--color-border);
+  border: 0.0625rem solid var(--color-border);
   color: var(--color-muted-foreground);
-  font-size: 0.625rem;
-  line-height: 16px;
+  font-size: var(--font-size-2xs);
+  line-height: 1rem;
   text-align: center;
   box-sizing: border-box;
   user-select: none;
@@ -87,18 +87,18 @@
 /* 右侧折叠/展开控件（模仿 xmind） */
 .air-mind-topic-node-collapse-toggle {
   position: absolute;
-  right: -18px;
+  right: -1.125rem;
   top: 50%;
   transform: translateY(-50%);
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  border-radius: 10px;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.25rem;
+  border-radius: 0.625rem;
   background: var(--color-card);
-  border: 1px solid var(--color-border);
+  border: 0.0625rem solid var(--color-border);
   color: var(--color-muted-foreground);
-  font-size: 0.625rem;
-  line-height: 16px;
+  font-size: var(--font-size-2xs);
+  line-height: 1rem;
   text-align: center;
   box-sizing: border-box;
   user-select: none;
@@ -117,8 +117,8 @@
 }
 
 .air-mind-topic-node-collapse-toggle.is-icon {
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 700;
   padding: 0;
-  width: 16px;
+  width: 1rem;
 }

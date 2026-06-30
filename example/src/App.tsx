@@ -8,7 +8,7 @@
 import React from 'react'
 import {Routes, Route, Navigate, useLocation, useNavigate} from 'react-router-dom'
 import {Icon, NavMenu, SlidePanel, Avatar, type NavMenuItem, type NavMenuMode} from 'air-design'
-import {UserSettings, useUserStore, getAvatarUrl} from 'air-kit'
+import {UserSettings, useUserStore, getAvatarUrl, FONT_SIZE_PRESETS, applyBaseFontSize} from 'air-kit'
 import './sdk'  // air-kit 初始化（配置 + Mock + 用户状态）
 
 import ButtonPage from './pages/ButtonPage'
@@ -70,11 +70,11 @@ const App: React.FC = () => {
   const navigate = useNavigate()
   const selectedKey = location.pathname.replace(/^\//, '') || 'button'
 
-  const [baseSize, setBaseSize] = React.useState(16)
+  const [baseSize, setBaseSize] = React.useState<number>(FONT_SIZE_PRESETS.medium)
   const [navMode, setNavMode] = React.useState<NavMenuMode>('icon-label')
 
   React.useEffect(() => {
-    document.documentElement.style.setProperty('--base-font-size', `${baseSize}px`)
+    applyBaseFontSize(baseSize)
   }, [baseSize])
 
   const [userPanelOpen, setUserPanelOpen] = React.useState(false)
@@ -106,14 +106,24 @@ const App: React.FC = () => {
               图标+文字
             </button>
           </div>
-          <span className="text-xs text-muted-foreground">字号 {baseSize}px</span>
-          <button onClick={() => setBaseSize((s) => Math.max(12, s - 1))} className="size-6 rounded bg-muted text-xs hover:bg-accent">−</button>
-          <input
-            type="range" min={12} max={20} value={baseSize}
-            onChange={(e) => setBaseSize(Number(e.target.value))}
-            className="w-20"
-          />
-          <button onClick={() => setBaseSize((s) => Math.min(20, s + 1))} className="size-6 rounded bg-muted text-xs hover:bg-accent">+</button>
+          <div className="flex items-center gap-1 rounded-md border border-border p-0.5 text-xs">
+            {(
+              [
+                {value: FONT_SIZE_PRESETS.small, label: '小'},
+                {value: FONT_SIZE_PRESETS.medium, label: '中'},
+                {value: FONT_SIZE_PRESETS.large, label: '大'},
+              ] as const
+            ).map(({value, label}) => (
+              <button
+                key={value}
+                type="button"
+                className={`rounded px-2 py-0.5 ${baseSize === value ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}
+                onClick={() => setBaseSize(value)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
           <Avatar
             src={getAvatarUrl(currentUser?.avatar)}
             size={28}
@@ -132,7 +142,7 @@ const App: React.FC = () => {
           onSelect={(key) => navigate(`/${key}`)}
         />
 
-        <main className="min-w-0 flex-1 overflow-auto" style={{padding: 24}}>
+        <main className="min-w-0 flex-1 overflow-auto p-6">
           <Routes>
             <Route path="/" element={<Navigate to="/button" replace/>}/>
             <Route path="button" element={<ButtonPage/>}/>

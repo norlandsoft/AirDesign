@@ -65,7 +65,7 @@ const List: React.FC<ListProps> = (props) => {
   return (
     <div className="flex flex-col" style={{width, height}}>
       {hasHeader && (
-        <div className="flex h-[50px] shrink-0 items-center justify-between border-b px-3">
+        <div className="flex h-[3.125rem] shrink-0 items-center justify-between border-b px-3">
           {title && <span className="text-sm font-medium">{title}</span>}
           {buttonPanel}
         </div>

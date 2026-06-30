@@ -1,8 +1,8 @@
 /**
  * 显示偏好工具：字号解析、应用与 sessionStorage 缓存
  *
- * 与 UserSettings/DisplaySettings 的字号档位一致（13/15/17 px），
- * 通过 air-design CSS 变量 --base-font-size 驱动全站 rem 缩放。
+ * 字号档位：小 14px / 中 16px / 大 18px（设计基准 16px = 1rem）。
+ * 通过 air-design CSS 变量 --font-scale 驱动全站 rem 缩放，不使用固定 px。
  * 登录后从 AirFramework 拉取用户设置并写入 sessionStorage，供同会话内快速恢复。
  *
  * @author ChaiMingXu, 2026/06/30
@@ -10,12 +10,15 @@
 import {storageKey} from '../config'
 import type {UserSettingsResponse} from '../types/userSettings'
 
-/** 字号档位（px），与 DisplaySettings FONT_OPTIONS 对齐 */
+/** 字号档位（px，仅用于存储与展示），与 DisplaySettings 选项对齐 */
 export const FONT_SIZE_PRESETS = {
-  small: 13,
-  medium: 15,
-  large: 17,
+  small: 14,
+  medium: 16,
+  large: 18,
 } as const
+
+/** 设计基准字号（px），与 theme 1rem 对应 */
+export const FONT_SIZE_BASE = FONT_SIZE_PRESETS.medium
 
 /** 合法字号集合，用于校验远端设置与本地缓存 */
 export const VALID_FONT_SIZES: readonly number[] = [
@@ -24,7 +27,16 @@ export const VALID_FONT_SIZES: readonly number[] = [
   FONT_SIZE_PRESETS.large,
 ]
 
-/** 无用户设置时的默认字号（中号） */
+/** 旧版档位映射到新档位（13/15/17 等） */
+const LEGACY_FONT_SIZE_MAP: Record<number, number> = {
+  12: FONT_SIZE_PRESETS.small,
+  13: FONT_SIZE_PRESETS.small,
+  15: FONT_SIZE_PRESETS.medium,
+  17: FONT_SIZE_PRESETS.large,
+  20: FONT_SIZE_PRESETS.large,
+}
+
+/** 无用户设置时的默认字号（中号 16px） */
 export const DEFAULT_FONT_SIZE = FONT_SIZE_PRESETS.medium
 
 /** 字号选项，供 DisplaySettings 表单复用 */
@@ -38,23 +50,34 @@ export const FONT_SIZE_OPTIONS = [
 const FONT_SIZE_STORAGE_SUFFIX = 'font-size'
 
 /**
- * 将字号应用到 document 根节点，驱动 air-design rem 体系整体缩放
+ * 将字号应用到 document 根节点：写入 --font-scale，驱动 rem 体系整体缩放
  */
 export function applyBaseFontSize(px: number): void {
-  document.documentElement.style.setProperty('--base-font-size', `${px}px`)
+  const normalized = normalizeFontSize(px)
+  const scale = normalized / FONT_SIZE_BASE
+  document.documentElement.style.setProperty('--font-scale', String(scale))
+  document.documentElement.dataset.fontSize =
+    normalized === FONT_SIZE_PRESETS.small
+      ? 'small'
+      : normalized === FONT_SIZE_PRESETS.large
+        ? 'large'
+        : 'medium'
 }
 
 /**
  * 校验并规范化字号，非法值回落到 DEFAULT_FONT_SIZE
  */
 export function normalizeFontSize(value: unknown): number {
-  if (typeof value === 'number' && VALID_FONT_SIZES.includes(value)) {
-    return value
+  let parsed: number | null = null
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    parsed = value
+  } else if (typeof value === 'string' && value.trim()) {
+    const n = Number(value)
+    if (Number.isFinite(n)) parsed = n
   }
-  if (typeof value === 'string' && value.trim()) {
-    const parsed = Number(value)
-    if (VALID_FONT_SIZES.includes(parsed)) return parsed
-  }
+  if (parsed == null) return DEFAULT_FONT_SIZE
+  if (VALID_FONT_SIZES.includes(parsed)) return parsed
+  if (LEGACY_FONT_SIZE_MAP[parsed] != null) return LEGACY_FONT_SIZE_MAP[parsed]
   return DEFAULT_FONT_SIZE
 }
 
@@ -85,7 +108,8 @@ export function readCachedFontSize(): number | null {
     const raw = sessionStorage.getItem(storageKey(FONT_SIZE_STORAGE_SUFFIX))
     if (raw == null) return null
     const px = Number(raw)
-    return VALID_FONT_SIZES.includes(px) ? px : null
+    const normalized = normalizeFontSize(px)
+    return VALID_FONT_SIZES.includes(normalized) ? normalized : null
   } catch {
     return null
   }

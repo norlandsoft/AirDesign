@@ -223,7 +223,7 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
     <label
       className={cn(
         'air-form-item-label text-sm text-foreground',
-        layout === 'horizontal' && 'pt-[9px]',
+        layout === 'horizontal' && 'pt-[0.5625rem]',
         labelAlign === 'right' && 'text-right'
       )}
       htmlFor={fullName ? pathKey(fullName) : undefined}

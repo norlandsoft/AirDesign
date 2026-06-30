@@ -1,7 +1,7 @@
 /**
  * Splitter 样式
  *
- * 全长 1px 浅色轨道；中段 36px × 3px 稍深把手。操作热区 8px。
+ * 全长 0.0625rem 浅色轨道；中段 2.25rem × 0.1875rem 稍深把手。操作热区 0.5rem。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -13,10 +13,10 @@
   overflow: hidden;
   outline: none;
 
-  --air-splitter-hit-size: 8px;
-  --air-splitter-track-size: 1px;
-  --air-splitter-track-thumb-size: 3px;
-  --air-splitter-thumb-length: 36px;
+  --air-splitter-hit-size: 0.5rem;
+  --air-splitter-track-size: 0.0625rem;
+  --air-splitter-track-thumb-size: 0.1875rem;
+  --air-splitter-thumb-length: 2.25rem;
   --air-splitter-track-bg: color-mix(in srgb, var(--color-foreground) 16%, var(--color-muted));
   --air-splitter-track-thumb-bg: color-mix(in srgb, var(--color-foreground) 40%, var(--color-muted));
 }
@@ -71,7 +71,7 @@
   inset: 0;
 }
 
-/* 垂直轨道（左右分栏）：全长 1px 竖线 */
+/* 垂直轨道（左右分栏）：全长 0.0625rem 竖线 */
 .air-splitter-bar-horizontal .air-splitter-dragger::before {
   content: '';
   position: absolute;
@@ -84,7 +84,7 @@
   transition: background-color 0.2s;
 }
 
-/* 垂直轨道：中段 36px 更宽、更深 */
+/* 垂直轨道：中段 2.25rem 更宽、更深 */
 .air-splitter-bar-horizontal .air-splitter-dragger::after {
   content: '';
   position: absolute;
@@ -94,11 +94,11 @@
   height: var(--air-splitter-thumb-length);
   transform: translate(-50%, -50%);
   background: var(--air-splitter-track-thumb-bg);
-  border-radius: 1px;
+  border-radius: 0.0625rem;
   transition: background-color 0.2s;
 }
 
-/* 水平轨道（上下分栏）：全长 1px 横线 */
+/* 水平轨道（上下分栏）：全长 0.0625rem 横线 */
 .air-splitter-bar-vertical .air-splitter-dragger::before {
   content: '';
   position: absolute;
@@ -111,7 +111,7 @@
   transition: background-color 0.2s;
 }
 
-/* 水平轨道：中段 36px 更宽、更深 */
+/* 水平轨道：中段 2.25rem 更宽、更深 */
 .air-splitter-bar-vertical .air-splitter-dragger::after {
   content: '';
   position: absolute;
@@ -121,7 +121,7 @@
   height: var(--air-splitter-track-thumb-size);
   transform: translate(-50%, -50%);
   background: var(--air-splitter-track-thumb-bg);
-  border-radius: 1px;
+  border-radius: 0.0625rem;
   transition: background-color 0.2s;
 }
 

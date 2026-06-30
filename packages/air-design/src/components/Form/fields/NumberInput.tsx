@@ -1,7 +1,7 @@
 /**
  * NumberInput 数字输入框（antd InputNumber 兼容子集）
  *
- * 支持 min/max/step/precision/controls，默认高度 38px。
+ * 支持 min/max/step/precision/controls，默认高度 40px。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -41,7 +41,7 @@ function clampValue(value: number, min?: number, max?: number, precision?: numbe
   return formatNumber(next, precision)
 }
 
-/** 步进按钮用的小号 chevron（约 8px，适配 38px 控件） */
+/** 步进按钮用的小号 chevron（约 8px，适配 40px 控件） */
 function StepChevron({direction}: {direction: 'up' | 'down'}) {
   const path = direction === 'up' ? 'M6 15L12 9L18 15' : 'M6 9L12 15L18 9'
   return (
@@ -112,7 +112,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>((props, ref) 
   const controlButtons = useMemo(() => {
     if (!controls) return null
     return (
-      <span className="flex h-full w-[22px] shrink-0 flex-col border-l border-input">
+      <span className="flex h-full w-[1.375rem] shrink-0 flex-col border-l border-input">
         <button
           type="button"
           tabIndex={-1}
@@ -138,7 +138,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>((props, ref) 
   return (
     <span
       className={cn(
-        'air-number-input inline-flex w-full overflow-hidden rounded-[4px] border border-input bg-background',
+        'air-number-input inline-flex w-full overflow-hidden rounded-[0.25rem] border border-input bg-background',
         controlStatusClass(status),
         disabled && 'opacity-50',
         className

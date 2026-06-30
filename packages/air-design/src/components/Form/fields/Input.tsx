@@ -2,7 +2,7 @@
  * Input 文本输入框（antd 兼容）
  *
  * 基于 primitives/input，提供 prefix/suffix、allowClear、status 等能力，
- * 默认高度 38px，样式与 air-design Token 一致。
+ * 默认高度 40px，样式与 air-design Token 一致。
  *
  * @author ChaiMingXu, 2026/06/24
  */
@@ -21,7 +21,7 @@ export interface InputProps extends Omit<PrimitiveInputProps, 'size' | 'prefix'>
   suffix?: React.ReactNode
   /** 是否展示清除按钮 */
   allowClear?: boolean
-  /** 尺寸：middle 为默认 38px */
+  /** 尺寸：middle 为默认 40px */
   size?: 'small' | 'middle' | 'large'
 }
 
@@ -101,7 +101,7 @@ const AffixWrapper = forwardRef<
   return (
     <span
       className={cn(
-        'air-input-affix-wrapper inline-flex w-full items-center gap-2 rounded-[4px] border border-input bg-background px-3 transition-colors focus-within:ring-1 focus-within:ring-ring',
+        'air-input-affix-wrapper inline-flex w-full items-center gap-2 rounded-[0.25rem] border border-input bg-background px-3 transition-colors focus-within:ring-1 focus-within:ring-ring',
         sizeClassMap[size],
         controlStatusClass(status),
         disabled && 'cursor-not-allowed opacity-50',

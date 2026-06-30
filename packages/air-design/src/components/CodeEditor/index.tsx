@@ -6,8 +6,9 @@
  *
  * @author ChaiMingXu, 2026/06/19
  */
-import React, {forwardRef, useEffect, useImperativeHandle, useRef} from 'react'
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import MonacoEditor from '@monaco-editor/react'
+import {REM_BASE, toRem} from '@/lib/rem'
 
 export interface CodeEditorRef {
   getContent: () => string
@@ -29,6 +30,23 @@ const CodeEditor = forwardRef<CodeEditorRef, any>((props, ref) => {
   } = props
 
   const editorRef = useRef<any>(null)
+  /** 跟随根字号缩放，Monaco 选项仅接受 px 数值 */
+  const [rootPx, setRootPx] = useState(REM_BASE)
+
+  useEffect(() => {
+    const readRootPx = () =>
+      parseFloat(getComputedStyle(document.documentElement).fontSize) || REM_BASE
+    setRootPx(readRootPx())
+    const observer = new MutationObserver(readRootPx)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['style', 'data-font-size'],
+    })
+    return () => observer.disconnect()
+  }, [])
+
+  const monacoFontSize = Math.round((15 / REM_BASE) * rootPx)
+  const monacoLineHeight = Math.round((24 / REM_BASE) * rootPx)
 
   useImperativeHandle(ref, () => ({
     getContent: () => editorRef.current?.getValue() ?? content,
@@ -79,8 +97,8 @@ const CodeEditor = forwardRef<CodeEditorRef, any>((props, ref) => {
         </div>
       )}
       <MonacoEditor
-        width={width}
-        height={height}
+        width={typeof width === 'number' ? toRem(width) : width}
+        height={typeof height === 'number' ? toRem(height) : height}
         language={language}
         theme="light"
         value={content}
@@ -95,16 +113,16 @@ const CodeEditor = forwardRef<CodeEditorRef, any>((props, ref) => {
           minimap: {enabled: false},
           unicodeHighlight: {ambiguousCharacters: false},
           colorDecorators: false,
-          fontSize: 14,
+          fontSize: monacoFontSize,
           fontWeight: 'normal',
           fontFamily: 'var(--font-mono)',
           tabSize: 2,
           occurrencesHighlight: autoHighlight,
           lineNumbers: lineNumbers ? 'on' : 'off',
-          lineDecorationsWidth: lineNumbers ? 18 : 2,
+          lineDecorationsWidth: lineNumbers ? Math.round((18 / REM_BASE) * rootPx) : Math.round((2 / REM_BASE) * rootPx),
           lineNumbersMinChars: 6,
           folding: false,
-          lineHeight: 24,
+          lineHeight: monacoLineHeight,
           scrollBeyondLastLine: false,
           quickSuggestions: false,
           parameterHints: {enabled: false},

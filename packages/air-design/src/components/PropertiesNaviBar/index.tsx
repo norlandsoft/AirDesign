@@ -51,10 +51,10 @@ const PropertiesNaviBar: React.FC<PropertiesNaviBarProps> = (props) => {
       className="min-w-0 overflow-x-hidden overflow-y-auto"
       style={{width, height, padding}}
     >
-      <div className="flex min-w-0 flex-col gap-[4px]">
+      <div className="flex min-w-0 flex-col gap-[0.25rem]">
         {data.map((sub) =>
           sub.type === 'group' ? (
-            <div key={sub.key} className="flex flex-col gap-[4px]">
+            <div key={sub.key} className="flex flex-col gap-[0.25rem]">
               <div className="select-none px-3 py-2 text-sm font-medium text-muted-foreground">{sub.label}</div>
               {sub.children?.map((item) => renderItem(item))}
             </div>

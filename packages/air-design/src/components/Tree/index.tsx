@@ -485,7 +485,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
                   <Icon name="more" size={14}/>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="min-w-[100px]">
+              <DropdownMenuContent align="end" className="min-w-[6.25rem]">
                 {menu.map((item, i) =>
                   item.type === 'divider' ? (
                     <DropdownMenuSeparator key={item.key ?? `d-${i}`}/>

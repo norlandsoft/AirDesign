@@ -80,7 +80,7 @@ const render = () => {
         <div
           key={msg.key}
           className={`flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 text-sm transition-all duration-200 ${
-            msg.closing ? 'translate-y-[-8px] opacity-0' : 'translate-y-0 opacity-100'
+            msg.closing ? 'translate-y-[-0.5rem] opacity-0' : 'translate-y-0 opacity-100'
           }`}
         >
           <span className={TYPE_COLOR[msg.type]}>{ICONS[msg.type]}</span>

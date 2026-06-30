@@ -13,14 +13,14 @@
   justify-content: center;
   width: 100%;
   min-height: 100%;
-  padding: 48px 24px;
+  padding: 3rem 1.5rem;
   box-sizing: border-box;
   background: var(--color-background);
   text-align: center;
 }
 
 .air-info-page-body {
-  max-width: 560px;
+  max-width: 35rem;
 }
 
 .air-info-page-icon {
@@ -34,8 +34,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 72px;
-  height: 72px;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 50%;
 }
 
@@ -56,7 +56,7 @@
 }
 
 .air-info-page-status-code {
-  font-size: 56px;
+  font-size: var(--font-size-display);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -75,16 +75,16 @@
 }
 
 .air-info-page-title {
-  margin: 24px 0 0;
-  font-size: 24px;
+  margin: 1.5rem 0 0;
+  font-size: var(--font-size-2xl);
   font-weight: 600;
   line-height: 1.35;
   color: var(--color-foreground);
 }
 
 .air-info-page-subtitle {
-  margin: 8px 0 0;
-  font-size: 14px;
+  margin: 0.5rem 0 0;
+  font-size: var(--font-size-sm);
   line-height: 1.6;
   color: var(--color-muted-foreground);
 }
@@ -94,13 +94,13 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-top: 24px;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .air-info-page-content {
-  margin-top: 16px;
-  font-size: 14px;
+  margin-top: 1rem;
+  font-size: var(--font-size-sm);
   line-height: 1.6;
   color: var(--color-foreground);
 }

@@ -18,6 +18,7 @@ import {Sheet, SheetContent, SheetHeader, SheetTitle} from '@/primitives/sheet'
 import Button from '@/components/Button'
 import IconButton from '@/components/Button/IconButton'
 import {cn} from '@/lib/cn'
+import {toRem} from '@/lib/rem'
 
 type PanelSize = 'small' | 'default' | 'large' | 'huge' | 'full' | 'custom'
 type Side = 'top' | 'right' | 'left' | 'bottom'
@@ -67,11 +68,11 @@ function resolveLayout(type: PanelSize, placement: Side, width: number) {
     style = {}
   } else if (type === 'custom') {
     className = ''
-    style = {width: `${width}px`, maxWidth: '100vw'}
+    style = {width: toRem(width), maxWidth: '100vw'}
   } else {
     const w = SIZE_WIDTH[type] ?? width
     className = ''
-    style = {width: `${w}px`, maxWidth: '100vw'}
+    style = {width: toRem(w), maxWidth: '100vw'}
   }
   return {side, className, style, isFull}
 }
@@ -154,15 +155,15 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
         )}
 
         {/* 内容区 */}
-        <div className="min-h-0 flex-1 overflow-auto" style={{padding: `${bodyPadding}px`, background: bodyBackgroundColor}}>
+        <div className="min-h-0 flex-1 overflow-auto" style={{padding: toRem(bodyPadding), background: bodyBackgroundColor}}>
           {children}
         </div>
 
-        {/* 页脚按钮栏：固定 50px；非 full 靠左 gap 8px，full 靠右 */}
+        {/* 页脚按钮栏：固定 3.125rem；非 full 靠左 gap 0.5rem，full 靠右 */}
         {hasButtonBar && (
           <div
             className={cn(
-              'flex h-[50px] shrink-0 flex-row items-center gap-[8px] border-t px-6',
+              'flex h-[3.125rem] shrink-0 flex-row items-center gap-[0.5rem] border-t px-6',
               locked.isFull ? 'justify-end' : 'justify-start',
             )}
           >
@@ -179,7 +180,7 @@ const SlidePanel: React.FC<SlidePanelProps> = (props) => {
         {/* 内嵌抽屉（独立 Sheet 叠加，side 与主面板一致） */}
         {innerDrawer && (
           <Sheet open={showInnerDrawer} onOpenChange={(o) => !o && onInnerClose?.()}>
-            <SheetContent side={locked.side} hideClose className="flex flex-col p-0" style={{width: `${innerDrawerWidth}px`, maxWidth: '100vw'}}>
+            <SheetContent side={locked.side} hideClose className="flex flex-col p-0" style={{width: toRem(innerDrawerWidth), maxWidth: '100vw'}}>
               <div className="h-full overflow-auto p-4">{innerDrawer}</div>
             </SheetContent>
           </Sheet>

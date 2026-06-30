@@ -36,6 +36,7 @@ export {randomString, UUID, shortId, equalJsonArray} from './utils/StringUtils'
 export {formatFileSize} from './utils/FormatUtils'
 export {
   applyAndCacheFontSize,
+  applyBaseFontSize,
   applyDisplaySettingsFromResponse,
   applyDisplaySettingsFromUserSettings,
   bootstrapDisplaySettings,

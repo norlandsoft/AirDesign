@@ -17,54 +17,54 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  height: 12.5rem;
   color: var(--color-muted-foreground);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 /* 左侧导航栏 */
 .user-settings-sidebar {
-  width: 240px;
-  min-width: 240px;
+  width: 15rem;
+  min-width: 15rem;
   height: 100%;
   background-color: var(--color-muted);
-  border-right: 1px solid var(--color-border);
+  border-right: 0.0625rem solid var(--color-border);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
 .user-settings-sidebar-header {
-  padding: 20px 16px 16px;
-  border-bottom: 1px solid var(--color-border);
+  padding: 1.25rem 1rem 1rem;
+  border-bottom: 0.0625rem solid var(--color-border);
   text-align: center;
 }
 
 .user-settings-sidebar-user-name {
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--color-foreground);
-  margin-top: 8px;
-  margin-bottom: 4px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .user-settings-sidebar-user-id {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-muted-foreground);
 }
 
 .user-settings-sidebar-account {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 1rem;
+  border-bottom: 0.0625rem solid var(--color-border);
   background-color: var(--color-card);
 }
 
 .user-settings-account-item {
   display: flex;
   align-items: center;
-  font-size: 12px;
-  line-height: 20px;
-  margin-bottom: 4px;
+  font-size: var(--font-size-xs);
+  line-height: 1.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .user-settings-account-item:last-child {
@@ -73,7 +73,7 @@
 
 .user-settings-account-label {
   color: var(--color-muted-foreground);
-  margin-right: 6px;
+  margin-right: 0.375rem;
   flex-shrink: 0;
 }
 
@@ -84,16 +84,16 @@
 
 .user-settings-sidebar-nav {
   flex: 1;
-  padding: 8px 0;
+  padding: 0.5rem 0;
 }
 
 .user-settings-nav-section {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .user-settings-nav-item {
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-sm);
   color: var(--color-foreground);
   cursor: pointer;
   transition: background-color 0.2s;
@@ -116,7 +116,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
+  width: 0.1875rem;
   background-color: var(--color-primary);
 }
 
@@ -135,45 +135,45 @@
 }
 
 .user-settings-button-bar {
-  padding: 16px 32px;
-  border-top: 1px solid var(--color-border);
+  padding: 1rem 2rem;
+  border-top: 0.0625rem solid var(--color-border);
   background-color: var(--color-card);
   display: flex;
   align-items: center;
 }
 
 .user-settings-content {
-  max-width: 800px;
-  padding: 32px;
+  max-width: 50rem;
+  padding: 2rem;
 }
 
 .user-settings-content-header {
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.0625rem solid var(--color-border);
 }
 
 .user-settings-content-title {
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   font-weight: 600;
   color: var(--color-foreground);
-  margin: 0 0 8px 0;
+  margin: 0 0 0.5rem 0;
 }
 
 .user-settings-content-description {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-muted-foreground);
   margin: 0;
 }
 
 /* 用户设置表单（air-design Form） */
 .user-settings-form {
-  margin-top: 8px;
-  max-width: 600px;
+  margin-top: 0.5rem;
+  max-width: 37.5rem;
 }
 
 .user-settings-form .air-form-item-control {
-  max-width: 400px;
+  max-width: 25rem;
 }
 
 /* 头像选择（Radio.Group 横向排列，使用原生单选圆点） */
@@ -181,7 +181,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 12px 16px;
+  gap: 0.75rem 1rem;
 }
 
 .user-settings-form .avatar-radio-item {
@@ -191,8 +191,8 @@
 /* 字体大小等表单项由 air-design Radio.Group 渲染，无需本地 radio 样式 */
 
 .user-settings-hint {
-  margin-top: 16px;
-  font-size: 12px;
+  margin-top: 1rem;
+  font-size: var(--font-size-xs);
   color: var(--color-muted-foreground);
   line-height: 1.6;
 }

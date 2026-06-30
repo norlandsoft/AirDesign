@@ -15,8 +15,8 @@
 .air-table-shell--bordered {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-border);
-  border-radius: 2px;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.125rem;
   overflow: hidden;
   background: var(--color-card);
 }
@@ -30,23 +30,23 @@
 .air-table-grid {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 /* bordered：外框由 shell 承担；仅表头底线与行间横线，无列边框 */
 .air-table-shell--bordered .air-table-grid th,
 .air-table-shell--bordered .air-table-grid td {
   border: none;
-  padding: 10px 12px;
+  padding: 0.625rem 0.75rem;
   vertical-align: middle;
 }
 
 .air-table-shell--bordered .air-table-grid thead th {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 0.0625rem solid var(--color-border);
 }
 
 .air-table-shell--bordered .air-table-grid tbody tr {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 0.0625rem solid var(--color-border);
   background: #fff;
 }
 
@@ -62,17 +62,17 @@
 
 /* 默认模式：仅底部分割线 */
 .air-table-shell--plain .air-table-grid th {
-  border-bottom: 1px solid var(--color-border);
-  padding: 0 12px;
+  border-bottom: 0.0625rem solid var(--color-border);
+  padding: 0 0.75rem;
   font-weight: 500;
 }
 
 .air-table-shell--plain .air-table-grid td {
-  padding: 0 12px;
+  padding: 0 0.75rem;
 }
 
 .air-table-shell--plain .air-table-grid tbody tr {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 0.0625rem solid var(--color-border);
 }
 
 .air-table-shell--plain .air-table-grid tbody tr:hover {
@@ -98,24 +98,24 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 0.25rem;
   flex-shrink: 0;
-  height: 40px;
-  padding: 0 12px;
-  font-size: 13px;
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  font-size: var(--font-size-compact);
 }
 
 .air-table-pagination--bordered {
-  border-top: 1px solid var(--color-border);
+  border-top: 0.0625rem solid var(--color-border);
   background: #fff;
 }
 
 .air-table-pagination--plain {
-  border-top: 1px solid var(--color-border);
+  border-top: 0.0625rem solid var(--color-border);
 }
 
 .air-table-pagination-total {
-  margin-right: 8px;
+  margin-right: 0.5rem;
   color: var(--color-muted-foreground);
   white-space: nowrap;
 }
@@ -124,11 +124,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
-  height: 28px;
-  padding: 0 6px;
-  border: 1px solid transparent;
-  border-radius: 2px;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 0.375rem;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.125rem;
   background: transparent;
   color: var(--color-foreground);
   cursor: pointer;
@@ -155,7 +155,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 128px;
-  font-size: 14px;
+  height: 8rem;
+  font-size: var(--font-size-sm);
   color: var(--color-muted-foreground);
 }

@@ -31,7 +31,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
       <PrimitiveTextarea
         ref={ref}
         className={cn(
-          'min-h-[80px] w-full rounded-[4px] border border-input bg-background px-3 py-2 text-sm',
+          'min-h-[5rem] w-full rounded-[0.25rem] border border-input bg-background px-3 py-2 text-sm',
           'placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
           'disabled:cursor-not-allowed disabled:opacity-50',
           controlStatusClass(status),

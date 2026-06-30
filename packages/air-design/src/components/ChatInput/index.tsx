@@ -19,6 +19,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Icon from '@/components/Icon'
 import {cn} from '@/lib/cn'
+import {toRem} from '@/lib/rem'
 import './index.css'
 
 /**
@@ -57,7 +58,7 @@ export interface ChatInputProps {
   multiple?: boolean
 }
 
-/** 单行高度（line-height 1.5rem ≈ 24px） */
+/** 单行高度（line-height 1.5rem ≈ 1.5rem） */
 const ROW_HEIGHT = 24
 /** textarea 最大高度上限 */
 const MAX_HEIGHT = 180
@@ -98,9 +99,9 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
   useEffect(() => {
     const textarea = textareaRef.current
     if (textarea) {
-      textarea.style.height = '20px'
+      textarea.style.height = toRem(20)
       const height = Math.max(minHeight, Math.min(MAX_HEIGHT, textarea.scrollHeight))
-      textarea.style.height = height + 'px'
+      textarea.style.height = toRem(height)
     }
     // 测量 wrapper（含工具栏）的真实高度，兼容工具栏有无
     if (onHeightChange) {
@@ -118,7 +119,7 @@ const ChatInput: React.FC<ChatInputProps> = (props) => {
     onSend(value)
     setValue('')
     if (textareaRef.current) {
-      textareaRef.current.style.height = minHeight + 'px'
+      textareaRef.current.style.height = toRem(minHeight)
       onHeightChange?.(wrapperRef.current?.offsetHeight ?? minHeight + 20)
     }
   }, [value, finished, disabled, onSend, onHeightChange, minHeight])

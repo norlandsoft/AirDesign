@@ -78,7 +78,7 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
                 >
                   <div className="inline-flex h-full cursor-pointer items-center gap-1.5 outline-none focus-visible:ring-2 focus-visible:ring-ring">
                     {tab.icon && <Icon name={tab.icon} size={16}/>}
-                    <span className="max-w-[180px] truncate">{display}</span>
+                    <span className="max-w-[11.25rem] truncate">{display}</span>
                     {tab.closable && (
                       <span
                         role="button"

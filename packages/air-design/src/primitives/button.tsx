@@ -13,7 +13,7 @@ import {cva, type VariantProps} from 'class-variance-authority'
 import {cn} from '../lib/cn'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded text-[0.75rem] font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-default [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-default [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -27,8 +27,8 @@ const buttonVariants = cva(
       },
       size: {
         default: 'h-8 px-4 py-0',
-        sm: 'h-7 rounded px-3 py-0 text-[0.7rem]',
-        lg: 'h-9 rounded px-5 py-0 text-[0.8rem]',
+        sm: 'h-7 rounded px-3 py-0 text-xs',
+        lg: 'h-9 rounded px-5 py-0 text-sm',
         icon: 'h-8 w-8 p-0',
       },
     },

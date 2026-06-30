@@ -12,12 +12,12 @@ import PageContainer from '../components/PageContainer'
 type PanelType = 'small' | 'default' | 'large' | 'huge' | 'full' | 'custom'
 
 const SIZES: {type: PanelType; label: string; width: number; desc: string}[] = [
-  {type: 'small', label: 'small', width: 290, desc: '290px · 轻量设置/筛选'},
-  {type: 'default', label: 'default', width: 378, desc: '378px · 标准面板'},
-  {type: 'large', label: 'large', width: 850, desc: '850px · 详情/表单'},
-  {type: 'huge', label: 'huge', width: 1280, desc: '1280px · 全功能编辑'},
+  {type: 'small', label: 'small', width: 290, desc: '18.125rem · 轻量设置/筛选'},
+  {type: 'default', label: 'default', width: 378, desc: '23.625rem · 标准面板'},
+  {type: 'large', label: 'large', width: 850, desc: '53.125rem · 详情/表单'},
+  {type: 'huge', label: 'huge', width: 1280, desc: '80rem · 全功能编辑'},
   {type: 'full', label: 'full', width: 0, desc: '100% · 全屏'},
-  {type: 'custom', label: 'custom', width: 480, desc: '自定义宽度 480px'},
+  {type: 'custom', label: 'custom', width: 480, desc: '自定义宽度 30rem'},
 ]
 
 const SlidePanelPage: React.FC = () => {

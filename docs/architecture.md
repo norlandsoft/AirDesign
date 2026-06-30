@@ -88,6 +88,15 @@ Token 定义在 `packages/air-design/src/theme/index.css`，经 Tailwind v4 `@th
 - `--font-mono`：JetBrains Mono（代码）
 - 字体文件内置于 `theme/fonts/`（woff2），无需 HTTP 请求
 
+### 字号
+
+- `--font-scale`：根字号缩放倍率（小 0.875 / 中 1 / 大 1.125），对应 14px / 16px / 18px 三档
+- 设计基准 **16px = 1rem**；组件尺寸、间距、字号一律使用 **rem**，禁止硬编码 px
+- 语义字号 Token：`--font-size-xs` ~ `--font-size-display`，与 Tailwind `text-*` 阶梯一致
+- 用户字号偏好由 air-kit `displaySettings` 写入 `--font-scale` 并缓存至 sessionStorage
+- 单行表单控件高度 `--control-height`：`2.5rem`
+- 内联动态尺寸使用 `lib/rem.ts` 的 `toRem()` 换算
+
 ### 暗色模式
 
 在根元素添加 `.dark` 类即可切换。所有语义变量在 `.dark` 选择器下重新赋值，组件自动适配，无需为暗色写额外样式。
@@ -156,7 +165,7 @@ AirDesign/
 | Table / TableRowMenu | @tanstack/react-table | 排序/分页/行菜单 |
 | Tree | react-arborist | 搜索/图标/菜单/拖拽/受控展开选中/checkable/disabled |
 | Message / Notice | 自建 createRoot | 命令式轻提示/通知 |
-| Form / Input / Select / NumberInput / DatePicker / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 38px |
+| Form / Input / Select / NumberInput / DatePicker / Checkbox / Radio | primitives + 自建校验 | antd 兼容 API，控件高度 40px |
 | Avatar | 自建 img 容器 + Radix 原语 | antd 兼容 API，图片原比例展示 + 字符/图标 + Group |
 | Grid / Row / Col | Flex + 24 栅格 | gutter / 响应式 / useBreakpoint |
 | ColorPicker | react-colorful + primitives/popover | 取色 + 预设 |

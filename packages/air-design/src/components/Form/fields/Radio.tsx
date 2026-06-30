@@ -46,7 +46,7 @@ const RadioBase = forwardRef<HTMLInputElement, RadioProps>(
       return (
         <label
           className={cn(
-            'inline-flex cursor-pointer items-center justify-center border border-input px-3 text-sm transition-colors first:rounded-l-[4px] last:rounded-r-[4px]',
+            'inline-flex cursor-pointer items-center justify-center border border-input px-3 text-sm transition-colors first:rounded-l-[0.25rem] last:rounded-r-[0.25rem]',
             controlHeightClass,
             isChecked ? 'border-primary bg-primary text-primary-foreground' : 'bg-background hover:bg-accent',
             isDisabled && 'cursor-not-allowed opacity-50',
@@ -134,7 +134,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
     <RadioGroupContext.Provider value={ctx}>
       <div
         className={cn(
-          optionType === 'button' ? 'inline-flex overflow-hidden rounded-[4px]' : 'flex flex-col gap-2',
+          optionType === 'button' ? 'inline-flex overflow-hidden rounded-[0.25rem]' : 'flex flex-col gap-2',
           className
         )}
         style={style}

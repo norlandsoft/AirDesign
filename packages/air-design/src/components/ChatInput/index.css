@@ -11,9 +11,9 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 10px 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
+  padding: 0.625rem 0.75rem;
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.625rem;
   background: transparent;
   box-sizing: border-box;
 }
@@ -24,7 +24,7 @@
   border: none;
   outline: none;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: var(--font-size-base);
   line-height: 1.5rem;
   background: transparent;
   color: var(--color-foreground);
@@ -36,12 +36,12 @@
 }
 
 .chat-input::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 0.375rem;
+  height: 0.375rem;
 }
 
 .chat-input::-webkit-scrollbar-thumb {
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -55,15 +55,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 8px;
-  min-height: 32px;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  min-height: 2rem;
 }
 
 .chat-input-toolbar-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 /* 工具按钮（附件等）：透明图标按钮 */
@@ -71,9 +71,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 0.375rem;
   cursor: pointer;
   color: var(--color-muted-foreground);
   transition: background-color 0.2s, color 0.2s;
@@ -90,8 +90,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   cursor: pointer;
   color: var(--color-primary);
