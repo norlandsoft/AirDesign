@@ -108,7 +108,17 @@ export function segmentClaudeContent(
         const openInfo = matchOpenTag(content, i, spec.open)
         if (!openInfo) continue
         const closeIdx = content.indexOf(spec.close, openInfo.contentStart)
-        if (closeIdx === -1) continue // 未闭合（流式中）：交给后续作为普通文本
+        if (closeIdx === -1) {
+          // 未闭合（流式中）
+          if (streaming && spec.segType === 'thinking') {
+            // 流式中 thinking 开始标签尚未闭合：把已到达内容作为 thinking 片段，
+            // 避免 <antThinking> 等被当作未知 HTML 标签交给 Markdown 渲染（产生 console 警告）
+            flushText()
+            segments.push({type: 'thinking', content: content.slice(openInfo.contentStart).trim()})
+            return segments
+          }
+          continue // 其它标签未闭合：交给后续作为普通文本
+        }
         flushText()
         const inner = content.slice(openInfo.contentStart, closeIdx)
         switch (spec.segType) {
@@ -158,28 +168,32 @@ export type RenderSegment =
   | { type: 'tool-call'; name?: string; input?: string; output?: string }
 
 /**
- * 将原子片段中的 tool-use 与紧随其后的 tool-result 合并为同一 tool-call 片段
- * 配对规则（相邻配对，因 tool_result 不带 id，只能按出现顺序）：
- * - tool-use 后紧跟 tool-result：合并 {input, output}，跳过下一段
- * - tool-use 后非 tool-result：tool-call {input}（流式中尚未出结果）
- * - 落单 tool-result（前面无 use）：tool-call {output}
- * - 其余片段原样保留，中间穿插的 markdown 原位渲染
+ * 将原子片段中的 tool-use 与其后出现的 tool-result 合并为同一 tool-call 片段
+ * 配对规则（按出现顺序，跨中间文本；因 tool_result 不带 id 只能顺序配对）：
+ * - 维护待配对 tool-use（pendingUse）；遇到 tool-result 则与之合并为 {input, output}
+ * - 连续多个 tool-use：前一个尚未配上结果时先单独输出 {input}
+ * - 落单 tool-result（前面无 use）：{output}
+ * - tool-use 与 tool-result 之间的 markdown/其它片段原样原位输出（不打断配对）
+ * - 末尾仍有未配对 tool-use（流式中结果尚未到达）：输出 {input}
  * @param segs segmentClaudeContent 产出的原子片段
  */
 export function pairToolCalls(segs: ClaudeSegment[]): RenderSegment[] {
   const out: RenderSegment[] = []
-  for (let i = 0; i < segs.length; i++) {
-    const s = segs[i]
+  let pendingUse: { name?: string; raw: string } | null = null
+  for (const s of segs) {
     if (s.type === 'tool-use') {
-      const next = segs[i + 1]
-      if (next && next.type === 'tool-result') {
-        out.push({type: 'tool-call', name: s.name, input: s.raw, output: next.raw})
-        i++
-      } else {
-        out.push({type: 'tool-call', name: s.name, input: s.raw})
+      // 连续多个 tool-use：前一个尚未配上结果，先单独输出
+      if (pendingUse) {
+        out.push({type: 'tool-call', name: pendingUse.name, input: pendingUse.raw})
       }
+      pendingUse = {name: s.name, raw: s.raw}
     } else if (s.type === 'tool-result') {
-      out.push({type: 'tool-call', output: s.raw})
+      if (pendingUse) {
+        out.push({type: 'tool-call', name: pendingUse.name, input: pendingUse.raw, output: s.raw})
+        pendingUse = null
+      } else {
+        out.push({type: 'tool-call', output: s.raw})
+      }
     } else if (s.type === 'markdown') {
       out.push({type: 'markdown', content: s.content})
     } else if (s.type === 'thinking') {
@@ -189,6 +203,9 @@ export function pairToolCalls(segs: ClaudeSegment[]): RenderSegment[] {
     } else if (s.type === 'task-notification') {
       out.push({type: 'task-notification', content: s.content, attrs: s.attrs})
     }
+  }
+  if (pendingUse) {
+    out.push({type: 'tool-call', name: pendingUse.name, input: pendingUse.raw})
   }
   return out
 }

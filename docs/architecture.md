@@ -186,7 +186,7 @@ AirDesign/
 ### ChatView / ChatInput 聊天组件
 
 - **ChatInput**：自适应高度输入框，回车发送、Ctrl/Cmd+Enter 换行、IME 合成期不误触发、发送/停止两态（`finished=false` 时展示停止按钮，经 `onStop` 终止流式输出）；输入框下方工具栏左侧含附件按钮（点击触发 `<input type="file">`，经 `onFileUpload(files: File[])` 上抛，消费方自行上传/预览）。
-- **ChatView**：消息列表 + 流式输出 + 自动滚动。assistant 正文统一渲染（不区分模型/智能体来源）：经 `segmentClaudeContent` 纯函数分段器切分为原子片段（markdown / thinking / 系统提醒 / 任务通知 / 工具调用 / 工具结果），再经 `pairToolCalls` 将相邻的 `<tool_use>` 与其后的 `<tool_result>` 合并为同一 `tool-call` 片段；逐段渲染——markdown 用 Markdown 组件、thinking 用 `ThinkingBlock`（默认收起、琥珀色调）、tool-call 用 `ToolCallBlock`（标题=工具名，展开后分输入参数/输出结果两小节）、其余标签用专用折叠块（`TagBlock`）。结构化 `toolCalls`/`toolResults` props 已 `@deprecated`，工具信息统一以正文内联标签承载。
+- **ChatView**：消息列表 + 流式输出 + 自动滚动。assistant 正文统一渲染（不区分模型/智能体来源）：经 `segmentClaudeContent` 纯函数分段器切分为原子片段（markdown / thinking / 系统提醒 / 任务通知 / 工具调用 / 工具结果），再经 `pairToolCalls` 按出现顺序将 `<tool_use>` 与其后的 `<tool_result>` 合并为同一 `tool-call` 片段（中间穿插文本原位渲染、不打断配对）；逐段渲染——markdown 用 Markdown 组件、thinking 用 `ThinkingBlock`（默认收起、琥珀色调）、tool-call 用 `ToolCallBlock`（标题=工具名，展开后分输入参数/输出结果两小节）、其余标签用专用折叠块（`TagBlock`）。结构化 `toolCalls`/`toolResults` props 已 `@deprecated`，工具信息统一以正文内联标签承载。
 - **Claude Code 标签规格**：`<system-reminder>`、`<task-notification state="...">`、`<tool_use name="X">{json}</tool_use>`、`<tool_result>`，以及思考标签 `<think>`/`<antThinking>`/`<thinking>`/`<redacted_reasoning>`（均识别为 thinking 片段）；工具调用与结果按相邻顺序合并为同一折叠块；流式中未闭合的开始标签按普通文本处理，待闭合后再分段。
 
 ---
