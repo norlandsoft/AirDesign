@@ -2,7 +2,7 @@
  * 用户设置类型定义
  *
  * 定义用户个性化设置的数据结构，包括显示偏好等配置。
- * settings 字段为 JSON 字符串，持久化在 AirFramework 平台，登录后由 air-kit 拉取并缓存在 sessionStorage。
+ * AirFramework /api/v1/user/settings 接口使用 settings 字段（JSON 字符串）。
  *
  * Author: ChaiMingXu, 2026/05/28
  */
@@ -15,6 +15,9 @@ export interface DisplaySettings {
 /** 用户设置更新请求 */
 export interface UserSettingsUpdateRequest {
   userId?: string;
+  /** 显示设置 JSON，AirFramework 必填 */
+  settings?: string;
+  /** 部分旧版平台接口字段，仅作兼容读取 */
   displaySettings?: string;
 }
 
@@ -22,5 +25,8 @@ export interface UserSettingsUpdateRequest {
 export interface UserSettingsResponse {
   id?: string;
   userId?: string;
+  /** 显示设置 JSON，AirFramework 标准字段 */
   settings?: string;
+  /** 部分旧版平台接口字段，仅作兼容读取 */
+  displaySettings?: string;
 }

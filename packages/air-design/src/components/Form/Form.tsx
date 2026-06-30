@@ -5,7 +5,7 @@
  *
  * @author ChaiMingXu, 2026/06/24
  */
-import React, {useEffect, useLayoutEffect, useMemo} from 'react'
+import React, {useEffect, useLayoutEffect, useMemo, useRef} from 'react'
 import {cn} from '@/lib/cn'
 import {FormContext} from './context'
 import FormItem from './FormItem'
@@ -44,11 +44,18 @@ function FormRoot<T extends Record<string, unknown> = Record<string, unknown>>(p
 
   const [fallbackForm] = useForm<T>()
   const form = (propForm ?? fallbackForm) as InternalFormInstance<T>
+  /** initialValues 仅在挂载时写入一次，避免内联对象导致每次 render 重置表单值 */
+  const initialValuesAppliedRef = useRef(false)
+
+  useLayoutEffect(() => {
+    initialValuesAppliedRef.current = false
+  }, [form])
 
   // useLayoutEffect 在首屏绘制前写入 initialValues，早于 useEffect
   useLayoutEffect(() => {
-    if (initialValues) {
+    if (initialValues && !initialValuesAppliedRef.current) {
       form._setInitialValues(initialValues)
+      initialValuesAppliedRef.current = true
     }
   }, [form, initialValues])
 

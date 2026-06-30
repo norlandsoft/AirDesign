@@ -6,16 +6,19 @@
  *
  * @author ChaiMingXu, 2026/06/24
  */
-import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react'
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import {Form, Radio, Notice} from 'air-design'
 import type {FormInstance} from 'air-design'
 import type {UserResponse} from '../../types/user'
-import type {DisplaySettings as DisplaySettingsType, UserSettingsResponse} from '../../types/userSettings'
+import type {UserSettingsResponse} from '../../types/userSettings'
 import {useUserStore} from '../../models/user'
 import {
-  DEFAULT_FONT_SIZE,
+  applyAndCacheFontSize,
+  buildSettingsPayload,
+  extractDisplaySettingsJson,
   FONT_SIZE_OPTIONS,
   normalizeFontSize,
+  parseDisplaySettings,
 } from '../../utils/displaySettings'
 
 export interface DisplaySettingsRef {
@@ -35,30 +38,19 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
   const {currentUser} = props
   const userSettings: UserSettingsResponse | null = useUserStore((s) => s.userSettings)
   const userSettingsLoading: boolean = useUserStore((s) => s.userSettingsLoading)
-  const fetchUserSettings = useUserStore((s) => s.fetchUserSettings)
   const updateUserSettings = useUserStore((s) => s.updateUserSettings)
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm<DisplaySettingsForm>()
+  /** 已同步到表单的 settings JSON，避免重复 fetch 或对象引用变化时覆盖用户未保存的编辑 */
+  const syncedSettingsRef = useRef<string | null>(null)
 
   useEffect(() => {
-    if (currentUser?.id) {
-      fetchUserSettings({userId: currentUser.id})
-    }
-  }, [currentUser?.id, fetchUserSettings])
-
-  useEffect(() => {
-    if (userSettings && !userSettingsLoading) {
-      let displaySettings: DisplaySettingsType = {}
-      if (userSettings.settings) {
-        try {
-          displaySettings = JSON.parse(userSettings.settings)
-        } catch (e) {
-          console.error('解析用户设置失败:', e)
-          displaySettings = {}
-        }
-      }
-      form.setFieldsValue({fontSize: normalizeFontSize(displaySettings.fontSize)})
-    }
+    if (userSettingsLoading) return
+    const settingsJson = extractDisplaySettingsJson(userSettings) ?? ''
+    if (syncedSettingsRef.current === settingsJson) return
+    syncedSettingsRef.current = settingsJson
+    const parsed = parseDisplaySettings(settingsJson)
+    form.setFieldsValue({fontSize: normalizeFontSize(parsed.fontSize)})
   }, [userSettings, userSettingsLoading, form])
 
   const handleSaveSettings = async (): Promise<void> => {
@@ -69,15 +61,19 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
     try {
       const values = await form.validateFields()
       setLoading(true)
-      const displaySettings: DisplaySettingsType = {fontSize: values.fontSize}
+      const settingsJson = buildSettingsPayload(extractDisplaySettingsJson(userSettings), {
+        fontSize: values.fontSize,
+      })
+      applyAndCacheFontSize(values.fontSize)
       await updateUserSettings(
         {
-          userId: currentUser.id,
-          settings: JSON.stringify(displaySettings),
+          userId: String(currentUser.id),
+          settings: settingsJson,
         },
         (resp: {success?: boolean; message?: string}) => {
           setLoading(false)
           if (resp.success) {
+            syncedSettingsRef.current = settingsJson
             Notice.success('保存成功')
           } else {
             Notice.error(resp.message || '保存显示设置失败')
@@ -115,10 +111,14 @@ const DisplaySettings = forwardRef<DisplaySettingsRef, DisplaySettingsProps>((pr
         labelCol={{span: 6}}
         wrapperCol={{span: 18}}
         labelAlign="left"
-        initialValues={{fontSize: DEFAULT_FONT_SIZE}}
         className="user-settings-form"
       >
-        <Form.Item name="fontSize" label="字体大小" rules={[{required: true, message: '请选择字体大小'}]}>
+        <Form.Item
+          name="fontSize"
+          label="字体大小"
+          rules={[{required: true, message: '请选择字体大小'}]}
+          getValueFromEvent={(value) => normalizeFontSize(value)}
+        >
           <Radio.Group optionType="button" options={[...FONT_SIZE_OPTIONS]}/>
         </Form.Item>
       </Form>

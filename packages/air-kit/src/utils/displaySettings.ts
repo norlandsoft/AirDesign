@@ -8,6 +8,7 @@
  * @author ChaiMingXu, 2026/06/30
  */
 import {storageKey} from '../config'
+import type {UserSettingsResponse} from '../types/userSettings'
 
 /** 字号档位（px），与 DisplaySettings FONT_OPTIONS 对齐 */
 export const FONT_SIZE_PRESETS = {
@@ -50,20 +51,30 @@ export function normalizeFontSize(value: unknown): number {
   if (typeof value === 'number' && VALID_FONT_SIZES.includes(value)) {
     return value
   }
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value)
+    if (VALID_FONT_SIZES.includes(parsed)) return parsed
+  }
   return DEFAULT_FONT_SIZE
 }
 
 /**
- * 从用户 settings JSON 字符串解析 fontSize
+ * 解析 displaySettings JSON 为 DisplaySettings 对象
+ */
+export function parseDisplaySettings(settingsJson?: string | null): {fontSize?: unknown} {
+  if (!settingsJson?.trim()) return {}
+  try {
+    return JSON.parse(settingsJson) as {fontSize?: unknown}
+  } catch {
+    return {}
+  }
+}
+
+/**
+ * 从 displaySettings JSON 字符串解析 fontSize
  */
 export function parseFontSizeFromSettings(settingsJson?: string | null): number {
-  if (!settingsJson?.trim()) return DEFAULT_FONT_SIZE
-  try {
-    const parsed = JSON.parse(settingsJson) as {fontSize?: unknown}
-    return normalizeFontSize(parsed.fontSize)
-  } catch {
-    return DEFAULT_FONT_SIZE
-  }
+  return normalizeFontSize(parseDisplaySettings(settingsJson).fontSize)
 }
 
 /**
@@ -101,10 +112,38 @@ export function applyAndCacheFontSize(px: number): void {
 }
 
 /**
- * 根据远端 userSettings.settings 字段应用并缓存字号
+ * 从 UserSettingsResponse 提取显示设置 JSON（兼容 settings / displaySettings 两种字段名）
+ */
+export function extractDisplaySettingsJson(userSettings?: UserSettingsResponse | null): string | null | undefined {
+  return userSettings?.settings ?? userSettings?.displaySettings
+}
+
+/**
+ * 合并已有设置并序列化为 API 请求体 settings 字段值
+ */
+export function buildSettingsPayload(
+  existingJson: string | null | undefined,
+  patch: {fontSize: unknown},
+): string {
+  const merged = {
+    ...parseDisplaySettings(existingJson),
+    fontSize: normalizeFontSize(patch.fontSize),
+  }
+  return JSON.stringify(merged)
+}
+
+/**
+ * 根据远端 settings JSON 应用并缓存字号
  */
 export function applyDisplaySettingsFromUserSettings(settingsJson?: string | null): void {
   applyAndCacheFontSize(parseFontSizeFromSettings(settingsJson))
+}
+
+/**
+ * 根据 UserSettingsResponse 应用并缓存字号
+ */
+export function applyDisplaySettingsFromResponse(userSettings?: UserSettingsResponse | null): void {
+  applyDisplaySettingsFromUserSettings(extractDisplaySettingsJson(userSettings))
 }
 
 /**
