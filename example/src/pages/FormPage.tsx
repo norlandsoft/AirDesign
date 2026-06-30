@@ -18,7 +18,6 @@ import {
   Checkbox,
   Radio,
   Switch,
-  GroupSplitter,
   Separator,
 } from 'air-design'
 import PageContainer from '../components/PageContainer'
@@ -136,7 +135,7 @@ const LayoutFormDemo: React.FC<{
 
 const LayoutSection: React.FC = () => (
   <div className="demo-block">
-    <GroupSplitter title="Form 布局（vertical / horizontal / inline）"/>
+    <Separator title="Form 布局（vertical / horizontal / inline）"/>
     <p className="mb-4 text-sm text-muted-foreground">
       同一组字段分别采用垂直、水平（labelCol 6 / wrapperCol 18）与行内三种布局。
     </p>
@@ -151,7 +150,7 @@ const LayoutSection: React.FC = () => (
 /** 二、字段组件独立展示（非 Form 绑定） */
 const FieldsSection: React.FC = () => (
   <div className="demo-block">
-    <GroupSplitter title="字段组件（Input / Select / Checkbox / Radio / Switch 等）"/>
+    <Separator title="字段组件（Input / Select / Checkbox / Radio / Switch 等）"/>
     <p className="mb-4 text-sm text-muted-foreground">
       以下控件可单独使用，也可放入 Form.Item；默认高度 40px（--control-height）。
     </p>
@@ -215,7 +214,7 @@ const FieldsSection: React.FC = () => (
 /** 三、Form.Item 元信息（help / extra / requiredMark） */
 const ItemMetaSection: React.FC = () => (
   <div className="demo-block">
-    <GroupSplitter title="Form.Item 元信息（help / extra / requiredMark）"/>
+    <Separator title="Form.Item 元信息（help / extra / requiredMark）"/>
     <Form
       layout="vertical"
       requiredMark="optional"
@@ -246,7 +245,7 @@ const ValidationSection: React.FC = () => {
 
   return (
     <div className="demo-block">
-      <GroupSplitter title="校验规则（rules / validator / onFinishFailed）"/>
+      <Separator title="校验规则（rules / validator / onFinishFailed）"/>
       <Form<ValidateFormValues>
         form={form}
         layout="vertical"
@@ -337,7 +336,7 @@ const ListSection: React.FC = () => {
 
   return (
     <div className="demo-block">
-      <GroupSplitter title="Form.List 动态列表"/>
+      <Separator title="Form.List 动态列表"/>
       <Form<ListFormValues>
         form={form}
         layout="vertical"
@@ -423,7 +422,7 @@ const InstanceSection: React.FC = () => {
 
   return (
     <div className="demo-block">
-      <GroupSplitter title="FormInstance 方法（getFieldsValue / setFieldsValue / validateFields / resetFields）"/>
+      <Separator title="FormInstance 方法（getFieldsValue / setFieldsValue / validateFields / resetFields）"/>
       <Form<InstanceFormValues>
         form={form}
         layout="vertical"
@@ -482,7 +481,7 @@ const ComprehensiveSection: React.FC = () => {
 
   return (
     <div className="demo-block">
-      <GroupSplitter title="综合表单（全部字段 + form.submit / resetFields）"/>
+      <Separator title="综合表单（全部字段 + form.submit / resetFields）"/>
       <Form<RegisterFormValues>
         form={form}
         layout="vertical"
@@ -568,7 +567,7 @@ const ComprehensiveSection: React.FC = () => {
 /** Separator 分割线演示：纯线条、带标题（left/center）、垂直方向 */
 const SeparatorSection: React.FC = () => (
   <div className="demo-block">
-    <GroupSplitter title="Separator 分割线（纯线条 / 带标题 / 垂直）"/>
+    <Separator title="Separator 分割线（纯线条 / 带标题 / 垂直）"/>
     <div className="max-w-lg space-y-4 py-2">
       <Separator/>
       <Separator title="基本信息"/>
