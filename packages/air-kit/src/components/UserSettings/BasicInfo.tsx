@@ -6,7 +6,7 @@
  *
  * @author ChaiMingXu, 2026/06/24
  */
-import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react'
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react'
 import {Avatar, Form, Input, Notice, Radio} from 'air-design'
 import type {FormInstance} from 'air-design'
 import type {UserResponse} from '../../types/user'
@@ -62,17 +62,28 @@ const BasicInfo = forwardRef<BasicInfoRef, BasicInfoProps>((props, ref) => {
   const updateUserInfo = useUserStore((s) => s.updateUserInfo)
   const [loading, setLoading] = useState(false)
   const [form] = Form.useForm<BasicInfoForm>()
+  /** 已同步的用户资料快照，避免 currentUser 引用变化时覆盖未保存编辑 */
+  const syncedProfileRef = useRef('')
 
   useEffect(() => {
-    if (currentUser) {
-      form.setFieldsValue({
-        id: currentUser.loginId || currentUser.id,
-        name: currentUser.name || '',
-        email: currentUser.email || '',
-        phone: currentUser.phone || '',
-        avatar: extractAvatarId(currentUser.avatar),
-      })
-    }
+    if (!currentUser?.id) return
+    const profileKey = [
+      currentUser.id,
+      currentUser.loginId ?? '',
+      currentUser.name ?? '',
+      currentUser.email ?? '',
+      currentUser.phone ?? '',
+      extractAvatarId(currentUser.avatar),
+    ].join('|')
+    if (syncedProfileRef.current === profileKey) return
+    syncedProfileRef.current = profileKey
+    form.setFieldsValue({
+      id: currentUser.loginId || currentUser.id,
+      name: currentUser.name || '',
+      email: currentUser.email || '',
+      phone: currentUser.phone || '',
+      avatar: extractAvatarId(currentUser.avatar),
+    })
   }, [currentUser, form])
 
   const handleSaveInfo = async (): Promise<void> => {
@@ -93,6 +104,14 @@ const BasicInfo = forwardRef<BasicInfoRef, BasicInfoProps>((props, ref) => {
         (resp: {success?: boolean; message?: string}) => {
           setLoading(false)
           if (resp?.success) {
+            syncedProfileRef.current = [
+              currentUser.id,
+              currentUser.loginId ?? '',
+              currentUser.name ?? '',
+              values.email || '',
+              values.phone || '',
+              values.avatar || 'u01',
+            ].join('|')
             Notice.success('保存成功')
           } else {
             Notice.error(resp?.message || '保存失败')
