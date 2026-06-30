@@ -172,3 +172,71 @@ type ClaudeSegment =
 - 流式过程中未闭合标签不破坏渲染。
 - `example` 演示页可独立运行展示上述能力。
 - 通过 `npm run build -w air-design` 构建。
+
+## 10. 消息渲染重构（2026/06/30）
+
+### 10.1 背景与问题
+
+ChatView 同时承载来自大模型与 Claude Code 智能体的消息。原实现存在两点不足：
+
+1. thinking 处理不统一且不完整：`<think>` 由 Markdown 内部 `ThinkBlock` 渲染，但 Claude Code 智能体的 `<antThinking>` 标签未被识别（分段器注释声称支持，实际 Markdown 正则仅覆盖 `think`/`redacted_reasoning`），导致智能体思考内容无法以独立样式呈现。
+2. 工具调用割裂：`<tool_use>` 与 `<tool_result>` 渲染为两个独立折叠块，调用输入与执行结果分离，阅读体验差。
+
+### 10.2 设计决策
+
+1. **统一渲染管线，不区分消息来源**：模型消息仅是"不含工具标签"的特例，复用同一条流水线，无需为 `ChatMessage` 增加来源字段（保持 API 兼容）。
+2. **thinking 抽离为独立片段**：在分段器层面识别所有思考标签变体，从 markdown 段剥离，交由专用 `ThinkingBlock` 渲染（统一视觉、修复 `antThinking` 不显示）。
+3. **工具调用相邻配对合并**：`<tool_use>` 与紧随其后的 `<tool_result>` 合并为同一折叠块 `ToolCallBlock`；配对依据为出现顺序（`tool_result` 不带 id）。
+
+### 10.3 渲染管线
+
+```
+content
+  → segmentClaudeContent()   切原子片段（新增 thinking 片段）
+  → pairToolCalls()          相邻 tool-use + tool-result 合并为 tool-call
+  → renderSegment()          逐段渲染
+```
+
+### 10.4 分段器改动（claudeSegments.ts）
+
+- 新增原子片段类型 `thinking`：`{ type: 'thinking'; content: string }`。
+- 识别标签：`<think>`、`<antThinking>`、`<thinking>`、`<redacted_reasoning>`（含带属性变体）。
+- 按"长前缀优先 + close 标签校验兜底"解决 `<think>` / `<thinking>` 前缀冲突（与现有 `<tool_use` 同机制）；流式未闭合仍当普通文本。
+- 新增导出 `pairToolCalls(segs): RenderSegment[]`（纯函数）。新增 `RenderSegment` 类型，含复合片段 `tool-call`：`{ type: 'tool-call'; name?: string; input?: string; output?: string }`。
+
+### 10.5 配对规则（pairToolCalls）
+
+- `tool-use` 后紧跟 `tool-result` → 合并为 `tool-call { input, output }`，跳过下一段。
+- `tool-use` 后非 `tool-result` → `tool-call { input }`（流式中尚未出结果）。
+- 落单 `tool-result`（前面无 use）→ `tool-call { output }`。
+- 其余片段原样保留，中间穿插的 markdown 原位渲染。
+
+### 10.6 标签块改动（TagBlock.tsx）
+
+- 新增 `ThinkingBlock`：折叠块，默认收起，标题"思考过程"，`insight` 图标，新色调 `thinking`（琥珀金 `#d5924a`，区别于 info 蓝 / tool 蓝紫 / success 绿）；内容用 `<Markdown>` 渲染。
+- 新增 `ToolCallBlock`：折叠块，`tone=tool`，标题=工具名（无则"工具调用"），工具图标；展开后分"输入参数""输出结果"两小节；只输入无输出时标题加"运行中" badge。
+- `ToolUseBlock` / `ToolResultBlock` 标记 `@deprecated`（JSDoc），不再被 ChatView 使用；二者未对外导出，不影响外部。
+
+### 10.7 主体改动（index.tsx）
+
+- `renderContent`：`segmentClaudeContent` → `pairToolCalls` → `map(renderSegment)`。
+- `renderSegment`：新增 `thinking` → `<ThinkingBlock>`、`tool-call` → `<ToolCallBlock>`；移除 `tool-use` / `tool-result` 两个旧分支。
+
+### 10.8 样式改动（index.css）
+
+新增 `.chat-tag-thinking`（琥珀左边框 `#d5924a`）、`.chat-tool-section` / `.chat-tool-section-title`（输入/输出小节）、`.chat-tool-badge-running`（运行中徽标）。
+
+### 10.9 范围与兼容
+
+- 不改 `ChatInput`、不改 `Markdown` 通用逻辑、不动主应用调用方；`ChatMessage` 无字段变更，API 兼容。
+- 同步更新 `docs/architecture.md` 标签规格段。
+
+### 10.10 验收标准
+
+- 模型消息的 `<think>` 以独立折叠块（`ThinkingBlock`）显示。
+- 智能体消息的 `<antThinking>` 正确识别并独立显示（修复原 bug）。
+- 工具调用输入与输出合并为同一折叠块，展开后分两小节；落单的单独成块。
+- thinking 默认收起、琥珀色调；工具块蓝紫色调保持。
+- 中间穿插的 markdown 正文原位渲染不受影响。
+- 流式中 `tool_use` 已出但 `tool_result` 未到时单独显示，结果到达后自动合并。
+- 通过 `npm run build -w air-design` 构建。
