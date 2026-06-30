@@ -19,6 +19,7 @@ import {
   Radio,
   Switch,
   GroupSplitter,
+  Separator,
 } from 'air-design'
 import PageContainer from '../components/PageContainer'
 
@@ -564,6 +565,23 @@ const ComprehensiveSection: React.FC = () => {
   )
 }
 
+/** Separator 分割线演示：纯线条、带标题（left/center）、垂直方向 */
+const SeparatorSection: React.FC = () => (
+  <div className="demo-block">
+    <GroupSplitter title="Separator 分割线（纯线条 / 带标题 / 垂直）"/>
+    <div className="max-w-lg space-y-4 py-2">
+      <Separator/>
+      <Separator title="基本信息"/>
+      <Separator title="联系方式" titleAlign="center"/>
+      <div className="flex h-10 items-center gap-4">
+        <span>左侧</span>
+        <Separator orientation="vertical"/>
+        <span>右侧</span>
+      </div>
+    </div>
+  </div>
+)
+
 const FormPage: React.FC = () => (
   <PageContainer
     className="max-w-6xl"
@@ -571,6 +589,7 @@ const FormPage: React.FC = () => (
     description="Form / Form.Item / Form.List 与 Input、Select、NumberInput、Checkbox、Radio、Switch 等字段组件，API 对齐 antd，控件默认高度 40px。"
   >
     <LayoutSection/>
+    <SeparatorSection/>
     <FieldsSection/>
     <ItemMetaSection/>
     <ValidationSection/>
