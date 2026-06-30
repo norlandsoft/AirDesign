@@ -6,7 +6,7 @@
  * @author ChaiMingXu, 2026/06/24
  */
 import React from 'react'
-import {Col, getActiveBreakpoint, Grid, GroupSplitter, Row, useViewportWidth} from 'air-design'
+import {Col, getActiveBreakpoint, Grid, Separator, Row, useViewportWidth} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 const {useBreakpoint} = Grid
@@ -42,7 +42,7 @@ const GridPage: React.FC = () => (
     description="24 栅格 Row / Col 布局，支持 gutter、offset、justify、align、order、flex 与 xs–xxxl 响应式，API 对齐 antd。"
   >
     <div className="demo-block">
-      <GroupSplitter title="基础栅格"/>
+      <Separator title="基础栅格"/>
       <Row gutter={[0, 16]}>
         <Col span={24}><DemoBox>col-24</DemoBox></Col>
       </Row>
@@ -64,7 +64,7 @@ const GridPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="区块间隔 gutter"/>
+      <Separator title="区块间隔 gutter"/>
       <Row gutter={16}>
         <Col span={6}><DemoBox>gutter=16</DemoBox></Col>
         <Col span={6}><DemoBox>col-6</DemoBox></Col>
@@ -80,7 +80,7 @@ const GridPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="左右偏移 offset"/>
+      <Separator title="左右偏移 offset"/>
       <Row>
         <Col span={8}><DemoBox>col-8</DemoBox></Col>
         <Col span={8} offset={8}><DemoBox>offset=8</DemoBox></Col>
@@ -92,7 +92,7 @@ const GridPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="排版 justify / 对齐 align"/>
+      <Separator title="排版 justify / 对齐 align"/>
       <Row justify="center" className="mb-4">
         <Col span={4}><DemoBox>center</DemoBox></Col>
         <Col span={4}><DemoBox>col-4</DemoBox></Col>
@@ -106,7 +106,7 @@ const GridPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="排序 order"/>
+      <Separator title="排序 order"/>
       <Row>
         <Col span={6} order={4}><DemoBox>1 order=4</DemoBox></Col>
         <Col span={6} order={3}><DemoBox>2 order=3</DemoBox></Col>
@@ -116,7 +116,7 @@ const GridPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="Flex 填充"/>
+      <Separator title="Flex 填充"/>
       <Row>
         <Col flex={2}><DemoBox>flex=2</DemoBox></Col>
         <Col flex={3}><DemoBox>flex=3</DemoBox></Col>
@@ -128,7 +128,7 @@ const GridPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="响应式布局"/>
+      <Separator title="响应式布局"/>
       <BreakpointIndicator/>
       <Row>
         <Col xs={24} sm={12} md={8} lg={6} xl={4}>

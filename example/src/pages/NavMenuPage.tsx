@@ -4,7 +4,7 @@
  * @author ChaiMingXu, 2026/06/25
  */
 import React, {useState} from 'react'
-import {GroupSplitter, MenuBar, NavMenu, type NavMenuItem, type NavMenuMode} from 'air-design'
+import {Separator, MenuBar, NavMenu, type NavMenuItem, type NavMenuMode} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 const DEMO_ITEMS: NavMenuItem[] = [
@@ -37,7 +37,7 @@ const NavMenuPage: React.FC = () => {
       description="NavMenu：左侧模块切换（icon 40px / icon-label 60px）。MenuBar：流程步骤导航，栏宽 60px，底部返回。"
     >
       <div className="demo-block">
-        <GroupSplitter title="NavMenu 模块导航"/>
+        <Separator title="NavMenu 模块导航"/>
         <div className="mb-3 flex flex-wrap gap-2">
           <button
             type="button"
@@ -76,7 +76,7 @@ const NavMenuPage: React.FC = () => {
       </div>
 
       <div className="demo-block">
-        <GroupSplitter title="MenuBar 流程导航"/>
+        <Separator title="MenuBar 流程导航"/>
         <div
           className="flex overflow-hidden rounded-lg border border-border"
           style={{height: 420}}

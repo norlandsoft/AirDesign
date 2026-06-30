@@ -34,7 +34,7 @@ const Separator = React.forwardRef<
         <div
           ref={ref}
           role={decorative ? undefined : 'separator'}
-          className={cn('flex items-center gap-2', className)}
+          className={cn('flex items-center gap-2 my-4', className)}
           {...props}
         >
           {titleAlign === 'center' && (

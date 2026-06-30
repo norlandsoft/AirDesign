@@ -6,7 +6,7 @@
  * @author ChaiMingXu, 2026/06/25
  */
 import React, {useMemo, useState} from 'react'
-import {GroupSplitter, PropertiesNaviBar} from 'air-design'
+import {Separator, PropertiesNaviBar} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 type NavItem = {
@@ -77,7 +77,7 @@ const PropertiesLayoutPreview: React.FC<{
 
   return (
     <div className="demo-block">
-      <GroupSplitter title={title}/>
+      <Separator title={title}/>
       <div
         className="flex overflow-hidden rounded-lg border border-border bg-card"
         style={{height: 420}}

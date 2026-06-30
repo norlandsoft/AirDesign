@@ -6,7 +6,7 @@
  * @author ChaiMingXu, 2026/06/24
  */
 import React from 'react'
-import {Avatar, GroupSplitter} from 'air-design'
+import {Avatar, Separator} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 const DEMO_IMG =
@@ -18,7 +18,7 @@ const DEMO_IMG =
 const AvatarPage: React.FC = () => (
   <PageContainer title="Avatar 头像" description="图片 / 字符 / 图标头像，支持 size、shape 与 Avatar.Group 堆叠，API 对齐 antd。">
     <div className="demo-block">
-      <GroupSplitter title="图片头像（/icons/avatar）"/>
+      <Separator title="图片头像（/icons/avatar）"/>
       <div className="demo-row items-end">
         {['u01', 'u02', 'u03', 'u04', 'u05', 'u06'].map((id) => (
           <div key={id} className="flex flex-col items-center gap-2">
@@ -30,7 +30,7 @@ const AvatarPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="基础类型"/>
+      <Separator title="基础类型"/>
       <div className="demo-row items-end">
         <div className="flex flex-col items-center gap-2">
           <Avatar src={DEMO_IMG} alt="图片头像" onClick={() => alert('点击头像')}/>
@@ -52,7 +52,7 @@ const AvatarPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="尺寸 size"/>
+      <Separator title="尺寸 size"/>
       <div className="demo-row items-end">
         <Avatar size="small">S</Avatar>
         <Avatar size="default">M</Avatar>
@@ -62,7 +62,7 @@ const AvatarPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="形状 shape"/>
+      <Separator title="形状 shape"/>
       <div className="demo-row items-end">
         <Avatar shape="circle" src={DEMO_IMG}/>
         <Avatar shape="square" src={DEMO_IMG}/>
@@ -71,7 +71,7 @@ const AvatarPage: React.FC = () => (
     </div>
 
     <div className="demo-block">
-      <GroupSplitter title="Avatar.Group 堆叠"/>
+      <Separator title="Avatar.Group 堆叠"/>
       <Avatar.Group max={{count: 3}}>
         <Avatar>张三</Avatar>
         <Avatar>李四</Avatar>

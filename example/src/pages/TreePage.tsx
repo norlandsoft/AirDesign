@@ -12,7 +12,7 @@ import {
   Switch,
   Input,
   Select,
-  GroupSplitter,
+  Separator,
 } from 'air-design'
 import type {TreeNode} from 'air-design'
 import PageContainer from '../components/PageContainer'
@@ -128,7 +128,7 @@ const TreePage: React.FC = () => {
             className="shrink-0 rounded-lg border border-border bg-card p-4"
             style={{width: 280}}
           >
-            <GroupSplitter title="尺寸"/>
+            <Separator title="尺寸"/>
             <OptionRow label="高度">
               <Input
                 type="number"
@@ -150,7 +150,7 @@ const TreePage: React.FC = () => {
               />
             </OptionRow>
 
-            <GroupSplitter title="搜索"/>
+            <Separator title="搜索"/>
             <OptionRow label="showFilter">
               <Switch checked={showFilter} onCheckedChange={(v) => setShowFilter(!!v)}/>
             </OptionRow>
@@ -162,7 +162,7 @@ const TreePage: React.FC = () => {
               />
             </OptionRow>
 
-            <GroupSplitter title="交互"/>
+            <Separator title="交互"/>
             <OptionRow label="draggable">
               <Switch checked={draggable} onCheckedChange={(v) => setDraggable(!!v)}/>
             </OptionRow>
@@ -179,7 +179,7 @@ const TreePage: React.FC = () => {
               <Switch checked={autoExpandParent} onCheckedChange={(v) => setAutoExpandParent(!!v)}/>
             </OptionRow>
 
-            <GroupSplitter title="菜单"/>
+            <Separator title="菜单"/>
             <OptionRow label="groupMenu">
               <Switch checked={showGroupMenu} onCheckedChange={(v) => setShowGroupMenu(!!v)}/>
             </OptionRow>
@@ -187,7 +187,7 @@ const TreePage: React.FC = () => {
               <Switch checked={showItemMenu} onCheckedChange={(v) => setShowItemMenu(!!v)}/>
             </OptionRow>
 
-            <GroupSplitter title="图标"/>
+            <Separator title="图标"/>
             <OptionRow label="folderIcon">
               <Select
                 value={folderIcon}
@@ -205,7 +205,7 @@ const TreePage: React.FC = () => {
               />
             </OptionRow>
 
-            <GroupSplitter title="操作"/>
+            <Separator title="操作"/>
             <button
               type="button"
               className="mt-1 w-full rounded border border-border px-3 py-1.5 text-sm hover:bg-accent"

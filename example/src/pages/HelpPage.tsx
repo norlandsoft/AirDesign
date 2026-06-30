@@ -4,7 +4,7 @@
  * @author ChaiMingXu, 2026/06/29
  */
 import React from 'react'
-import {GroupSplitter, Help} from 'air-design'
+import {Separator, Help} from 'air-design'
 import PageContainer from '../components/PageContainer'
 
 const HelpPage: React.FC = () => {
@@ -14,7 +14,7 @@ const HelpPage: React.FC = () => {
       description="小 help 图标，鼠标悬停以 Tooltip 展示说明文字，常用于表单标签、配置项旁。"
     >
       <div className="demo-block">
-        <GroupSplitter title="基础用法"/>
+        <Separator title="基础用法"/>
         <div className="flex flex-wrap items-center gap-6 text-sm">
           <span className="inline-flex items-center gap-1.5">
             用户名
@@ -28,7 +28,7 @@ const HelpPage: React.FC = () => {
       </div>
 
       <div className="demo-block">
-        <GroupSplitter title="弹出方位"/>
+        <Separator title="弹出方位"/>
         <div className="flex flex-wrap items-center gap-8 text-sm">
           <span className="inline-flex items-center gap-1.5">
             上方
@@ -50,7 +50,7 @@ const HelpPage: React.FC = () => {
       </div>
 
       <div className="demo-block">
-        <GroupSplitter title="长文本 / 自定义图标"/>
+        <Separator title="长文本 / 自定义图标"/>
         <div className="flex flex-wrap items-center gap-6 text-sm">
           <span className="inline-flex items-center gap-1.5">
             数据保留策略
