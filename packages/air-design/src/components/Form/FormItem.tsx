@@ -228,10 +228,10 @@ const FormItem: React.FC<FormItemExtendedProps> = (props) => {
       )}
       htmlFor={fullName ? pathKey(fullName) : undefined}
     >
-      {showRequired && requiredMark !== 'optional' && (
-        <span className="mr-1 text-destructive">*</span>
-      )}
       {label}
+      {showRequired && requiredMark !== 'optional' && (
+        <span className="ml-1 text-destructive">*</span>
+      )}
       {layout === 'horizontal' && colon && label ? '：' : null}
       {showRequired && requiredMark === 'optional' && (
         <span className="ml-1 text-xs text-muted-foreground">（可选）</span>
