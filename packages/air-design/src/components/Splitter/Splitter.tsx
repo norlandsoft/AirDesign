@@ -28,6 +28,7 @@ import {
   parseSizeValue,
   resolveSplitterLayout,
   clampPanelSize,
+  resizeAdjacentPanels,
   SPLIT_BAR_SIZE,
 } from './utils'
 import {cn} from '../../lib/cn'
@@ -178,29 +179,22 @@ const SplitterRoot = forwardRef<SplitterRef, SplitterProps>((props, ref) => {
       const leftIndex = drag.barIndex
       const rightIndex = drag.barIndex + 1
 
-      let leftSize = next[leftIndex] + delta
-      let rightSize = next[rightIndex] - delta
-
       const leftPanel = panels[leftIndex]
       const rightPanel = panels[rightIndex]
 
-      leftSize = clampPanelSize(leftSize, leftPanel.minRaw, leftPanel.maxRaw, containerSize)
-      rightSize = clampPanelSize(rightSize, rightPanel.minRaw, rightPanel.maxRaw, containerSize)
+      const [leftSize, rightSize] = resizeAdjacentPanels(
+        drag.startSizes[leftIndex],
+        drag.startSizes[rightIndex],
+        delta,
+        leftPanel.minRaw,
+        leftPanel.maxRaw,
+        rightPanel.minRaw,
+        rightPanel.maxRaw,
+        containerSize
+      )
 
-      const total = drag.startSizes[leftIndex] + drag.startSizes[rightIndex]
-      if (leftSize + rightSize !== total) {
-        const overflow = leftSize + rightSize - total
-        if (overflow > 0) {
-          if (leftSize > drag.startSizes[leftIndex]) {
-            leftSize -= overflow
-          } else {
-            rightSize -= overflow
-          }
-        }
-      }
-
-      next[leftIndex] = Math.max(0, leftSize)
-      next[rightIndex] = Math.max(0, rightSize)
+      next[leftIndex] = leftSize
+      next[rightIndex] = rightSize
       applySizes(next, {lazyOnly: lazy})
     },
     [panels, containerSize, applySizes, lazy]

@@ -49,6 +49,48 @@ export function clampPanelSize(
   return Math.max(0, next)
 }
 
+/**
+ * 拖拽相邻两面板时调整尺寸，始终保证 left + right === startLeft + startRight
+ */
+export function resizeAdjacentPanels(
+  startLeft: number,
+  startRight: number,
+  delta: number,
+  leftMinRaw?: number | string,
+  leftMaxRaw?: number | string,
+  rightMinRaw?: number | string,
+  rightMaxRaw?: number | string,
+  containerSize = 0
+): [number, number] {
+  const total = startLeft + startRight
+  let leftSize = clampPanelSize(startLeft + delta, leftMinRaw, leftMaxRaw, containerSize)
+  let rightSize = total - leftSize
+
+  if (rightSize < 0) {
+    rightSize = 0
+    leftSize = total
+    leftSize = clampPanelSize(leftSize, leftMinRaw, leftMaxRaw, containerSize)
+    rightSize = total - leftSize
+  }
+
+  const minRight = resolvePanelLimit(rightMinRaw, containerSize)
+  const maxRight = resolvePanelLimit(rightMaxRaw, containerSize)
+
+  if (minRight != null && rightSize < minRight) {
+    rightSize = minRight
+    leftSize = total - rightSize
+    leftSize = clampPanelSize(leftSize, leftMinRaw, leftMaxRaw, containerSize)
+    rightSize = total - leftSize
+  } else if (maxRight != null && rightSize > maxRight) {
+    rightSize = maxRight
+    leftSize = total - rightSize
+    leftSize = clampPanelSize(leftSize, leftMinRaw, leftMaxRaw, containerSize)
+    rightSize = total - leftSize
+  }
+
+  return [Math.max(0, leftSize), Math.max(0, rightSize)]
+}
+
 /** 解析 Splitter 布局方向 */
 export function resolveSplitterLayout(props: SplitterProps): SplitterLayout {
   if (props.layout) return props.layout
