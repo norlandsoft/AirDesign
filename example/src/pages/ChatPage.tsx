@@ -42,6 +42,15 @@ drwxr-xr-x 12 root root 40 Jun 29 08:00 ..</tool_result>
 1. Markdown 渲染（图片、代码、公式、Mermaid、表格）
 2. Claude Code 标签折叠渲染（系统提醒 / 任务通知 / 工具调用 / 工具结果）
 3. 流式输出与自动滚动、整条/代码块复制`,
+  `<antThinking>用户想看智能体的工具调用流程。我先调用 Bash 查看当前目录，再把输入和结果合并在同一个折叠块里展示。</antThinking>
+
+我来执行一次工具调用：
+
+<tool_use name="Bash">{"command":"pwd","description":"查看当前工作目录"}</tool_use>
+
+<tool_result>/opt/AirDesign</tool_result>
+
+当前工作目录是 \`/opt/AirDesign\`。可以看到工具调用的**输入参数**与**输出结果**已合并在同一个折叠块中。`,
 ]
 
 /** 自增 id 计数器 */
