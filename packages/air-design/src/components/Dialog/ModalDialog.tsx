@@ -185,28 +185,38 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
     ? {transform: `translate(${offset.x}px, ${offset.y}px)`}
     : {}
 
-  const maskStyle: React.CSSProperties = mask
-    ? {background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(1px)'}
-    : {background: 'transparent', pointerEvents: 'none'}
-
   const contentPaddingStyle =
     typeof contentPadding === 'number' ? `${contentPadding}px` : contentPadding
 
   const alignJustify =
     contentAlign === 'top' ? 'flex-start' : contentAlign === 'bottom' ? 'flex-end' : 'center'
 
+  // Radix Dialog（SlidePanel 等）打开时会把 body 设为 pointer-events:none，仅 Radix 层可点。
+  // ModalDialog 独立 portal 到 body，必须显式恢复 pointer-events，否则遮罩可见但点击穿透。
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={maskStyle}>
-      {/* 窗口：点击遮罩不关闭，仅标题栏关闭按钮与页脚取消按钮可关闭 */}
+    <>
+      {mask && (
+        <div
+          className="fixed inset-0 z-[1000] bg-black/50 backdrop-blur-[1px]"
+          style={{pointerEvents: 'auto'}}
+          aria-hidden
+        />
+      )}
       <div
-        ref={windowRef}
-        className="absolute flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card shadow-2xl"
-        style={{
-          width: width ?? 'min(560px, 90vw)',
-          height: height ?? undefined,
-          ...winStyle,
-        }}
+        className="fixed inset-0 z-[1001] flex items-center justify-center pointer-events-none"
+        role="dialog"
+        aria-modal={mask}
       >
+        {/* 窗口：relative 参与 flex 居中；pointer-events-auto 保证在 Radix 抽屉之上可交互 */}
+        <div
+          ref={windowRef}
+          className="relative flex max-h-[90vh] flex-col overflow-hidden rounded border border-muted-foreground/40 bg-card shadow-2xl pointer-events-auto"
+          style={{
+            width: width ?? 'min(560px, 90vw)',
+            height: height ?? undefined,
+            ...winStyle,
+          }}
+        >
         {/* 标题栏（可拖拽，高度 36px） */}
         <div
           className="flex shrink-0 items-center justify-between border-b border-border pl-4 select-none"
@@ -257,8 +267,9 @@ const ModalDialog = React.forwardRef<ModalDialogHandle, ModalDialogProps>((props
             )}
           </div>
         )}
+        </div>
       </div>
-    </div>,
+    </>,
     document.body
   )
 })
