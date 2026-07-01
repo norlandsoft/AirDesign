@@ -111,6 +111,14 @@
   /* 单行表单控件默认高度 */
   --control-height: 2.5rem;
 
+  /*
+   * 导航栏布局宽度（固定 px，不随 --font-scale 缩放，便于工作区定位）
+   */
+  --nav-menu-width-icon: 40px;
+  --nav-menu-width-icon-label: 60px;
+  --nav-menu-item-size-icon: 32px;
+  --nav-menu-item-size-icon-label: 48px;
+
   --background: oklch(0.99 0.002 240);
   --foreground: oklch(0.22 0.04 250);
 

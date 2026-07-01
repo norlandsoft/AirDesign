@@ -96,6 +96,7 @@ Token 定义在 `packages/air-design/src/theme/index.css`，经 Tailwind v4 `@th
 - 用户字号偏好由 air-kit `displaySettings` 写入 `--font-scale` 并缓存至 sessionStorage
 - 单行表单控件高度 `--control-height`：`2.5rem`
 - 内联动态尺寸使用 `lib/rem.ts` 的 `toRem()` 换算
+- 导航栏布局宽度 `--nav-menu-width-icon`（40px）/ `--nav-menu-width-icon-label`（60px）：固定不随字号档位缩放
 
 ### 暗色模式
 
