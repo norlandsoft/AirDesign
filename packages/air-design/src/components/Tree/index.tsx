@@ -30,6 +30,7 @@ import {
 } from '@/primitives/dropdown-menu'
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from '@/primitives/tooltip'
 import {cn} from '@/lib/cn'
+import {useScaledRemPx} from '@/lib/useScaledRemPx'
 import './index.css'
 
 export interface TreeNode {
@@ -116,8 +117,9 @@ function collectInternalKeys(nodes: TreeNode[]): string[] {
   return keys
 }
 
-const SEARCH_BAR_HEIGHT = 60
-const ROW_HEIGHT = 32
+/** 行高 / 搜索栏高度（rem），与 index.css 中 --tree-row-height 等变量一致 */
+const TREE_ROW_HEIGHT_REM = 2
+const TREE_SEARCH_BAR_HEIGHT_REM = 3.75
 
 /** 判断节点是否允许选中（group 默认不可选，disabled 不可选） */
 function isNodeSelectable(node: TreeNode, groupSelectable: boolean): boolean {
@@ -171,6 +173,9 @@ const AirTree: React.FC<TreeProps> = (props) => {
     groupSelectable = false,
   } = props
 
+  const rowHeight = useScaledRemPx(TREE_ROW_HEIGHT_REM)
+  const searchBarHeight = useScaledRemPx(TREE_SEARCH_BAR_HEIGHT_REM)
+
   const apiRef = useRef<TreeApi<TreeNode> | null>(null)
   const prevValueRef = useRef<string | undefined>(undefined)
   /** patchExpandedKey 期间跳过 onToggle 触发的 sync，避免与受控 expandedKeys 冲突 */
@@ -220,7 +225,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
     setLocalData(data)
   }, [data])
 
-  const listHeight = showFilter ? height - SEARCH_BAR_HEIGHT : height
+  const listHeight = showFilter ? height - searchBarHeight : height
 
   // 初始展开映射（react-arborist 初始化用）
   const initialOpen = useMemo(() => {
@@ -543,7 +548,7 @@ const AirTree: React.FC<TreeProps> = (props) => {
           data={localData as any}
           idAccessor="key"
           initialOpenState={initialOpen}
-          rowHeight={ROW_HEIGHT}
+          rowHeight={rowHeight}
           width="100%"
           height={listHeight}
           indent={16}

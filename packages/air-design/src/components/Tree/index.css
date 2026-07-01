@@ -1,7 +1,7 @@
 /*
  * Tree 树样式（迁移 JettoAuthor Semi Tree 视觉）
  *
- * 节点行 2rem，图标 1.125rem，字号 0.95rem；搜索栏 3.75rem；
+ * 节点行高 2rem，图标 1.125rem；搜索栏 3.75rem（随字号档位缩放，与 react-arborist rowHeight 同步）；
  * 菜单按钮默认隐藏、hover 显示；文字超长省略，无水平滚动条。
  *
  * @author ChaiMingXu, 2026/06/19
@@ -11,6 +11,9 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  /* 与 index.tsx 中 useScaledRemPx 常量保持一致 */
+  --tree-row-height: 2rem;
+  --tree-search-bar-height: 3.75rem;
 }
 
 /* 根节点新增按钮（搜索栏左侧，32×32，无边框，hover 灰色背景） */
@@ -43,7 +46,7 @@
 .air-tree-search {
   display: flex;
   align-items: center;
-  height: 3.75rem;
+  height: var(--tree-search-bar-height);
   padding-right: 0.75rem;
   box-sizing: border-box;
   gap: 0.5rem;
@@ -58,10 +61,12 @@
 .air-tree-row {
   display: flex;
   align-items: center;
-  height: 2rem;
-  line-height: 2rem;
+  height: var(--tree-row-height);
+  min-height: var(--tree-row-height);
+  line-height: var(--tree-row-height);
   user-select: none;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .air-tree-row-disabled {
@@ -124,9 +129,10 @@
   align-items: center;
   flex: 1;
   min-width: 0;
-  height: 2rem;
-  line-height: 2rem;
+  height: var(--tree-row-height);
+  line-height: var(--tree-row-height);
   user-select: none;
+  box-sizing: border-box;
 }
 
 /* 节点图标 */
@@ -187,7 +193,7 @@
 .air-tree-wrapper .air-tree-list,
 .air-tree-wrapper .air-tree-list > div,
 .air-tree-wrapper [role="treeitem"] {
-  overflow-x: hidden !important;
+  overflow: hidden !important;
 }
 
 .air-tree-wrapper .air-tree-list {
