@@ -91,7 +91,7 @@ export const LOGIN_THEMES = {
 } as const
 
 interface LoginProps {
-  /** 登录成功后回调（默认跳转到根路径） */
+  /** 登录成功后回调；默认不做跳转（由 SecurityLayout 依据认证状态自动切换到主内容），仅在需要额外处理时传入 */
   onSuccess?: () => void
   /** 覆盖 defineSdkConfig.theme，便于演示多套配色 */
   theme?: LoginTheme
@@ -163,7 +163,11 @@ const Login: React.FC<LoginProps> = ({onSuccess, theme: themeProp}) => {
     })
     const authed = useUserStore.getState().isAuthenticated
     if (authed) {
-      onSuccess ? onSuccess() : (window.location.href = '/')
+      // 登录成功：login() 已写入认证状态（isAuthenticated=true），SecurityLayout 会据此
+      // 自动从登录页切换到主内容，无需整页硬刷新。整页刷新会丢弃已就绪的客户端状态，
+      // 迫使 SecurityLayout 重新走 token 校验（全屏 Spin + 二次网络请求），
+      // 造成登录后“两次刷新”的闪烁。onSuccess 留给需要额外处理（如客户端路由跳转）的消费方。
+      onSuccess?.()
     } else {
       setLoginError('登录失败，请检查用户名和密码')
     }
